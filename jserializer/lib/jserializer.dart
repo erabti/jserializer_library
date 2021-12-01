@@ -1,8 +1,9 @@
 library jserializer;
 
+export 'src/src.dart';
 export 'src/type_plus/type_plus.dart' show typeOf;
 
-export 'src/src.dart';
+enum FieldNameCase { camel, pascal, snake, none }
 
 class JSerializable {
   const JSerializable({
@@ -10,8 +11,10 @@ class JSerializable {
     this.toJson = true,
     this.deepToJson = true,
     this.filterToJsonNulls = false,
+    this.fieldNameCase = FieldNameCase.none,
   });
 
+  final FieldNameCase fieldNameCase;
   final bool fromJson;
   final bool toJson;
   final bool deepToJson;
