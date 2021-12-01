@@ -1,6 +1,5 @@
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element.dart'
-    show ClassElement, TypeParameterElement;
+import 'package:analyzer/dart/element/element.dart' show ClassElement;
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:fpdart/fpdart.dart';
@@ -50,31 +49,15 @@ Reference listRefer(Reference itemRefer) => TypeReference(
 
 class ClassGenerator extends ElementGenerator<Class> {
   ClassGenerator(
-    this.globalOptions,
+    this.config,
     this.modelConfig,
   );
 
-  final JSerializable globalOptions;
+  final JSerializable config;
 
   ClassElement get classElement => modelConfig.classElement;
 
   final ModelConfig modelConfig;
-
-  JSerializable get config {
-    final _a = TypeChecker.fromRuntime(JSerializable).firstAnnotationOf(
-      classElement,
-    );
-
-    if (_a == null) return globalOptions;
-
-    return JSerializable(
-      toJson: _a.getField('toJson')?.toBoolValue() ?? true,
-      fromJson: _a.getField('fromJson')?.toBoolValue() ?? true,
-      deepToJson: _a.getField('deepToJson')?.toBoolValue() ?? true,
-      filterToJsonNulls:
-          _a.getField('filterToJsonNulls')?.toBoolValue() ?? false,
-    );
-  }
 
   String get className => classElement.name;
 

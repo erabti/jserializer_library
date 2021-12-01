@@ -26,3 +26,4 @@ dependencies:
   analyzer: ^2.7.0
   dart_style: ^2.2.0
   fpdart: ^0.0.12
+  change_case: ^1.0.1

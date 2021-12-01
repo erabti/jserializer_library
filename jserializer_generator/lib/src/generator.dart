@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
+import 'package:change_case/change_case.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
@@ -85,11 +86,10 @@ class JSerializerGenerator
   FutureOr<String> generateMergedContent(Stream<ModelConfig> stream) async {
     try {
       final models = await stream.toList();
-
       final classes = models
           .map(
             (e) => ClassGenerator(
-              globalOptions,
+              getConfig(e.classElement),
               e,
             ).onGenerate(),
           )
@@ -194,6 +194,29 @@ class JSerializerGenerator
     }
   }
 
+  JSerializable getConfig(ClassElement clazz) {
+    final _a = TypeChecker.fromRuntime(JSerializable).firstAnnotationOf(
+      clazz,
+    );
+
+    if (_a == null) return globalOptions;
+    final i =
+        _a.getField('filterToJsonNulls')?.getField('index')?.toIntValue() ??
+            globalOptions.fieldNameCase.index;
+    final fieldNameCase = FieldNameCase.values[i];
+
+    return JSerializable(
+      toJson: _a.getField('toJson')?.toBoolValue() ?? globalOptions.toJson,
+      fromJson:
+          _a.getField('fromJson')?.toBoolValue() ?? globalOptions.fromJson,
+      deepToJson:
+          _a.getField('deepToJson')?.toBoolValue() ?? globalOptions.deepToJson,
+      fieldNameCase: fieldNameCase,
+      filterToJsonNulls: _a.getField('filterToJsonNulls')?.toBoolValue() ??
+          globalOptions.filterToJsonNulls,
+    );
+  }
+
   @override
   ModelConfig generateStreamItemForAnnotatedElement(
     Element element,
@@ -204,7 +227,10 @@ class JSerializerGenerator
     assert(element is ClassElement);
     assert(resolver is TypeResolver);
     final clazz = element as ClassElement;
-    final fields = resolveFields(resolver!, clazz);
+
+    final config = getConfig(clazz);
+
+    final fields = resolveFields(resolver!, clazz, config);
     final type = resolver.resolveType(clazz.thisType);
 
     final fieldTypes = fields.map(
@@ -253,6 +279,7 @@ class JSerializerGenerator
   List<JFieldConfig> resolveFields(
     TypeResolver typeResolver,
     ClassElement classElement,
+    JSerializable config,
   ) {
     final sortedFields = classElement.unnamedConstructor!.parameters;
     final className = classElement.name;
@@ -312,6 +339,25 @@ class JSerializerGenerator
               );
             }
 
+            final String jsonName;
+            if (jKey?.name != null) {
+              jsonName = jKey!.name!;
+            } else {
+              switch (config.fieldNameCase) {
+                case FieldNameCase.camel:
+                  jsonName = param.name.toCamelCase();
+                  break;
+                case FieldNameCase.pascal:
+                  jsonName = param.name.toPascalCase();
+                  break;
+                case FieldNameCase.snake:
+                  jsonName = param.name.toSnakeCase();
+                  break;
+                default:
+                  jsonName = param.name;
+              }
+            }
+
             return JFieldConfig(
               neededSubSerializers: serializableClasses
                   .map(
@@ -331,7 +377,7 @@ class JSerializerGenerator
               isSerializableModel: isSerializable,
               keyConfig: jKey ?? JKey(),
               type: typeResolver.resolveType(param.type),
-              jsonName: jKey?.name ?? param.name,
+              jsonName: jsonName,
               fieldName: param.name,
               isNamed: param.isNamed,
             );
