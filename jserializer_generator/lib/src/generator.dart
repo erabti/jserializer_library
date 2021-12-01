@@ -201,7 +201,7 @@ class JSerializerGenerator
 
     if (_a == null) return globalOptions;
     final i =
-        _a.getField('filterToJsonNulls')?.getField('index')?.toIntValue() ??
+        _a.getField('fieldNameCase')?.getField('index')?.toIntValue() ??
             globalOptions.fieldNameCase.index;
     final fieldNameCase = FieldNameCase.values[i];
 

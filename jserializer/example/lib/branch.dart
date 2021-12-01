@@ -1,6 +1,9 @@
 import 'package:jserializer/jserializer.dart';
 
-@JSerializable(filterToJsonNulls: true)
+@JSerializable(
+  filterToJsonNulls: true,
+  fieldNameCase: FieldNameCase.snake,
+)
 class Model2<T, R> {
   Model2(
     this.value, {

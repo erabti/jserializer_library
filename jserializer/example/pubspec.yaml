@@ -10,7 +10,9 @@ dev_dependencies:
   build_web_compilers: any
   build_runner:
   jserializer_generator:
-    path: ../../jserializer_generator
+    git:
+      url: git@github.com:erabti/jserializer_library.git
+      path: jserializer_generator/
 dependencies:
   flutter:
     sdk: flutter
