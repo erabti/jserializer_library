@@ -25,4 +25,23 @@ Builder jSerializerBuilder(BuilderOptions options) {
   );
 }
 
-JSerializable _getJSerializable(Map<String, dynamic> json) => JSerializable();
+JSerializable _getJSerializable(Map<String, dynamic> json) {
+  final String fieldNameCaseString = json['fieldNameCase'] ?? 'none';
+  final FieldNameCase fieldNameCase;
+  if (fieldNameCaseString == 'camel') {
+    fieldNameCase = FieldNameCase.camel;
+  } else if (fieldNameCaseString == 'snake') {
+    fieldNameCase = FieldNameCase.snake;
+  } else if (fieldNameCaseString == 'pascal') {
+    fieldNameCase = FieldNameCase.pascal;
+  } else {
+    fieldNameCase = FieldNameCase.none;
+  }
+  return JSerializable(
+    deepToJson: json['deep_to_json'] ?? true,
+    filterToJsonNulls: json['filterToJsonNulls'] ?? false,
+    fromJson: json['fromJson'] ?? true,
+    toJson: json['toJson'] ?? true,
+    fieldNameCase: fieldNameCase,
+  );
+}

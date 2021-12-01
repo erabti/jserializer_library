@@ -63,7 +63,7 @@ class Model2Serializer extends js.GenericModelSerializer2<Model2> {
     final String name$Value = json['name'];
     final location$Json = json['location'];
     final Location location$Value = _LocationSerializer.fromJson(location$Json);
-    final bool isRight$Value = json['isRight'];
+    final bool isRight$Value = json['is_right'];
     final city$Json = json['city'];
     final City city$Value = _CitySerializer.fromJson(city$Json);
     final value2$Json = json['value2'];
@@ -109,7 +109,7 @@ class Model2Serializer extends js.GenericModelSerializer2<Model2> {
                 .toJson(model.wrapper),
         'name': model.name,
         'location': _LocationSerializer.toJson(model.location),
-        'isRight': model.isRight,
+        'is_right': model.isRight,
         'city': _CitySerializer.toJson(model.city),
         'value2': _Wrapper_List_intSerializer.toJson(model.value2),
         'hi': model.hi,
@@ -257,11 +257,14 @@ class WrapperSerializer extends js.GenericModelSerializer<Wrapper> {
     final value$Json = json['value'];
     final List<T> value$Value = List<T>.from(
         (value$Json as List).map((e) => getGenericValue<T>(e, serializer)));
-    return (Wrapper<T>(value$Value) as M);
+    final int somethingFunny$Value = json['somethingFunny'];
+    return (Wrapper<T>(value$Value, somethingFunny$Value) as M);
   }
 
-  Map<String, dynamic> toJson(Wrapper model) =>
-      {'value': model.value.map((e) => getGenericValueToJson(e, serializer))};
+  Map<String, dynamic> toJson(Wrapper model) => {
+        'value': model.value.map((e) => getGenericValueToJson(e, serializer)),
+        'somethingFunny': model.somethingFunny
+      };
 }
 
 class BranchSerializer extends js.ModelSerializer<Branch> {

@@ -89,7 +89,8 @@ class Wrapper2<A, B> {
 
 @JSerializable(filterToJsonNulls: true)
 class Wrapper<T> {
-  Wrapper(this.value);
+  Wrapper(this.value, this.somethingFunny);
+  final int somethingFunny;
 
   final List<T> value;
 }
