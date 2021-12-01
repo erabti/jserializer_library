@@ -1,6 +1,6 @@
 library jserializer;
 
-export 'package:type_plus/type_plus.dart' show typeOf;
+export 'src/type_plus/type_plus.dart' show typeOf;
 
 export 'src/src.dart';
 

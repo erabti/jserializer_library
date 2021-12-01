@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:jserializer/src/core/jserializer/jserializer.dart';
 import 'package:jserializer/src/core/model_serializer/model_serializer_base.dart';
-import 'package:type_plus/type_plus.dart';
+import 'package:jserializer/src/type_plus/type_plus.dart';
 
 typedef BaseTypesSerializersMap = HashMap<Type, JSerializerFactory>;
 typedef CachedBaseTypesSerializersMap = HashMap<Type, Serializer>;

@@ -1,5 +1,5 @@
 import 'package:jserializer/jserializer.dart';
-import 'package:type_plus/type_plus.dart';
+import 'package:jserializer/src/type_plus/type_plus.dart';
 
 abstract class JSerializableBase<Model> {
   toJson(Model model) => throw UnimplementedError();
