@@ -257,13 +257,13 @@ class WrapperSerializer extends js.GenericModelSerializer<Wrapper> {
     final value$Json = json['value'];
     final List<T> value$Value = List<T>.from(
         (value$Json as List).map((e) => getGenericValue<T>(e, serializer)));
-    final int somethingFunny$Value = json['somethingFunny'];
-    return (Wrapper<T>(value$Value, somethingFunny$Value) as M);
+    final int somethingFunnyy$Value = json['somethingFunnyy'];
+    return (Wrapper<T>(value$Value, somethingFunnyy$Value) as M);
   }
 
   Map<String, dynamic> toJson(Wrapper model) => {
         'value': model.value.map((e) => getGenericValueToJson(e, serializer)),
-        'somethingFunny': model.somethingFunny
+        'somethingFunnyy': model.somethingFunnyy
       };
 }
 
