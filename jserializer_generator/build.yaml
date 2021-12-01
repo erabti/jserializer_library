@@ -1,0 +1,7 @@
+builders:
+  jserializer:
+    import: "package:jserializer_generator/builder.dart"
+    builder_factories: [ "jSerializerBuilder" ]
+    build_extensions: { "lib/$lib$": [ "**.dart" ] }
+    auto_apply: root_package
+    build_to: source

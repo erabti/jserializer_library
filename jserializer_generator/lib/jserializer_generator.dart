@@ -1,0 +1,1 @@
+library jserializer_generator;
