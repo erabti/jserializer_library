@@ -415,14 +415,14 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/git/jserializer_library-e5f014f99aedc9f693416d0555fde5cf184a1096/jserializer/lib" />
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-7963f4cb267214ae2de081617fa38c88952e31aa/jserializer/lib" />
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-b45396fac8f8c070ce56b3f8ac6e323135689f5d/jserializer/lib" />
             </list>
           </value>
         </entry>
         <entry key="jserializer_generator">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-7963f4cb267214ae2de081617fa38c88952e31aa/jserializer_generator/lib" />
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-b45396fac8f8c070ce56b3f8ac6e323135689f5d/jserializer_generator/lib" />
             </list>
           </value>
         </entry>
@@ -876,8 +876,8 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-7963f4cb267214ae2de081617fa38c88952e31aa/jserializer/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-7963f4cb267214ae2de081617fa38c88952e31aa/jserializer_generator/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-b45396fac8f8c070ce56b3f8ac6e323135689f5d/jserializer/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-b45396fac8f8c070ce56b3f8ac6e323135689f5d/jserializer_generator/lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-e5f014f99aedc9f693416d0555fde5cf184a1096/jserializer/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-23.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-31.0.0/lib" />

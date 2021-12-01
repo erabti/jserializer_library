@@ -271,7 +271,7 @@ class ClassGenerator extends ElementGenerator<Class> {
     final json = <Expression, Expression>{};
     for (final f in modelConfig.fields) {
       final value = refer('model').property(f.fieldName);
-      final filterNulls = f.type.isNullable && config.filterToJsonNulls;
+      final filterNulls = f.type.isNullable && config.filterToJsonNulls!;
 
       final key = filterNulls
           ? CodeExpression(
@@ -280,8 +280,8 @@ class ClassGenerator extends ElementGenerator<Class> {
           : literalString(f.jsonName);
 
       if ((f.isSerializableModel || f.hasSerializableGenerics) &&
-          config.deepToJson) {
-        if (f.type.isNullable && !config.filterToJsonNulls) {
+          config.deepToJson!) {
+        if (f.type.isNullable && !config.filterToJsonNulls!) {
           json[key] = value.equalTo(literalNull).conditional(
                 literalNull,
                 resolveToJson(f, f.type, value.nullChecked),
@@ -596,8 +596,8 @@ class ClassGenerator extends ElementGenerator<Class> {
           ])
           ..methods.addAll(
             [
-              if (config.fromJson) getModelFromJson(),
-              if (config.toJson) getModelToJson(),
+              if (config.fromJson!) getModelFromJson(),
+              if (config.toJson!) getModelToJson(),
             ],
           );
       },
