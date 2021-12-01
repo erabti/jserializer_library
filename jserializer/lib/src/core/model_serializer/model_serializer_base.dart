@@ -12,6 +12,11 @@ abstract class Serializer<Model> {
 
   Function get decoder => throw UnimplementedError();
 
+  M decode<M extends Model>(json) {
+    if (this is GenericModelSerializerBase) return decoder<M>(json);
+    return decoder(json) as M;
+  }
+
   const Serializer();
 
   toJson(Model model);
