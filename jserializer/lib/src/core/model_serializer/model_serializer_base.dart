@@ -22,6 +22,18 @@ abstract class Serializer<Model> {
   toJson(Model model);
 }
 
+abstract class CustomSerializer<T> extends Serializer<T> {
+  const CustomSerializer();
+
+  @override
+  Function get decoder => fromJson;
+
+  T fromJson(json) => throw UnimplementedError();
+
+  @override
+  toJson(T model) => throw UnimplementedError();
+}
+
 abstract class ModelSerializer<Model> extends Serializer<Model> {
   const ModelSerializer();
 

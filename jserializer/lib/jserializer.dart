@@ -1,5 +1,7 @@
 library jserializer;
 
+import 'package:jserializer/src/core/core.dart';
+
 export 'src/src.dart';
 export 'src/type_plus/type_plus.dart' show typeOf;
 
@@ -24,9 +26,11 @@ class JSerializable {
 class JKey {
   const JKey({
     this.name,
+    this.adapter,
     this.ignore = false,
   });
 
   final bool ignore;
+  final CustomSerializer? adapter;
   final String? name;
 }

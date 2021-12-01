@@ -414,15 +414,14 @@
         <entry key="jserializer">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-b45396fac8f8c070ce56b3f8ac6e323135689f5d/jserializer/lib" />
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-35584c8bc82594019e6ab4b1cdd5a4d658f57af6/jserializer/lib" />
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-866d226da4d264d7f542616cd6b2e342f4af4b79/jserializer/lib" />
             </list>
           </value>
         </entry>
         <entry key="jserializer_generator">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-35584c8bc82594019e6ab4b1cdd5a4d658f57af6/jserializer_generator/lib" />
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-866d226da4d264d7f542616cd6b2e342f4af4b79/jserializer_generator/lib" />
             </list>
           </value>
         </entry>
@@ -876,9 +875,8 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-35584c8bc82594019e6ab4b1cdd5a4d658f57af6/jserializer/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-35584c8bc82594019e6ab4b1cdd5a4d658f57af6/jserializer_generator/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-b45396fac8f8c070ce56b3f8ac6e323135689f5d/jserializer/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-866d226da4d264d7f542616cd6b2e342f4af4b79/jserializer/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-866d226da4d264d7f542616cd6b2e342f4af4b79/jserializer_generator/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-23.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-31.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-2.0.0/lib" />

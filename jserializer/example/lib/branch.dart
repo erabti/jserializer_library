@@ -90,6 +90,7 @@ class Wrapper2<A, B> {
 @JSerializable(filterToJsonNulls: true)
 class Wrapper<T> {
   Wrapper(this.value, this.somethingFunnyy);
+
   final int somethingFunnyy;
 
   final List<T> value;
@@ -172,6 +173,7 @@ class Location {
 
 @JSerializable()
 class City {
+  @NameAdapter()
   final int id;
 
   final String name;
@@ -182,6 +184,16 @@ class City {
   });
 
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+}
+
+class NameAdapter extends Serializer<int> {
+  const NameAdapter();
+
+  @override
+  toJson(int model) => model;
+
+  @override
+  Function get decoder => (j) => j + 3;
 }
 
 Branch2<T> _$Branch2FromJson<T>(
