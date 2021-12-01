@@ -404,6 +404,13 @@
             </list>
           </value>
         </entry>
+        <entry key="jserializer">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-901fda8b9aa5c052b58ef4cc51e3fa2f06327bf0/jserializer/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="json_annotation">
           <value>
             <list>
@@ -854,6 +861,7 @@
       </option>
     </properties>
     <CLASSES>
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-901fda8b9aa5c052b58ef4cc51e3fa2f06327bf0/jserializer/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-23.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-30.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-2.0.0/lib" />
