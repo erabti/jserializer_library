@@ -7,7 +7,7 @@ environment:
   sdk: '>=2.14.2 <3.0.0'
 
 dev_dependencies:
-  build_web_compilers: any
+  flutter_lints: ^1.0.4
   build_runner:
 #  jserializer_generator:
 #    path: ../../jserializer_generator

@@ -104,6 +104,7 @@ class JSerializerGenerator
         (b) => b
           ..body.addAll(
             [
+              Code(_ignores),
               ...classes,
               // getRegisterTypesMethod(models),
               getInitializerMethod(models),
@@ -158,7 +159,11 @@ class JSerializerGenerator
                   e.genericConfigs.map((e) => e.type.refer),
                 )
                 ..requiredParameters.add(
-                  Parameter((b) => b.name = 'f'),
+                  Parameter(
+                    (b) => b
+                      ..name = 'f'
+                      ..type = refer('Function'),
+                  ),
                 )
                 ..body = refer('f').call([], {}, [e.type.refer]).code,
             ).genericClosure,
@@ -448,3 +453,6 @@ class CustomAdapterConfig {
     this.type,
   );
 }
+
+const _ignores =
+    "// ignore_for_file:lines_longer_than_80_chars, non_constant_identifier_names, constant_identifier_names, prefer_const_constructors, strict_raw_type, omit_local_variable_types, avoid_dynamic_calls, unnecessary_parenthesis, unnecessary_nullable_for_final_variable_declarations, annotate_overrides,type_annotate_public_apis";

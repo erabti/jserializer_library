@@ -300,7 +300,8 @@ class ClassGenerator extends ElementGenerator<Class> {
               );
           continue;
         } else if (f.type.isNullable) {
-          json[key] = resolveToJson(f, f.type, value.nullChecked);
+          json[key] =
+              resolveToJson(f, f.type, filterNulls ? value : value.nullChecked);
           continue;
         }
 
@@ -314,6 +315,7 @@ class ClassGenerator extends ElementGenerator<Class> {
     return Method(
       (b) => b
         ..name = 'toJson'
+        ..annotations.add(overrideAnnotation)
         ..returns = jsonTypeRefer
         ..lambda = true
         ..body = literalMap(json).code
@@ -464,6 +466,7 @@ class ClassGenerator extends ElementGenerator<Class> {
 
     return Method(
       (b) => b
+        ..annotations.add(overrideAnnotation)
         ..name = isGeneric ? 'fromJsonGeneric' : 'fromJson'
         ..types.addAll([
           if (isGeneric) ...[
@@ -539,8 +542,9 @@ class ClassGenerator extends ElementGenerator<Class> {
         final f = Field(
           (b) => b
             ..name = adapter.adapterFieldName
+            ..modifier = FieldModifier.constant
             ..static = true
-            ..assignment = adapter.type.refer.constInstance(
+            ..assignment = adapter.type.refer.newInstance(
               [
                 for (final x in adapter.revivable.positionalArguments)
                   literal(ConstantReader(x).literalValue),
@@ -552,8 +556,7 @@ class ClassGenerator extends ElementGenerator<Class> {
                 ),
               },
               [],
-            ).code
-            ..type = adapter.type.refer,
+            ).code,
         );
         fields.add(f);
       }

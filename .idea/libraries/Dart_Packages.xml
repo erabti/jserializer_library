@@ -325,6 +325,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_lints">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_template_images">
           <value>
             <list>
@@ -408,6 +415,20 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/js-0.6.3/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="jserializer">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="jserializer_generator">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer_generator/lib" />
             </list>
           </value>
         </entry>
@@ -861,6 +882,8 @@
       </option>
     </properties>
     <CLASSES>
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer_generator/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-23.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-31.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-2.0.0/lib" />
@@ -913,6 +936,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/file-6.1.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/file_testing-3.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/fixnum-1.0.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_template_images-4.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/fpdart-0.0.12/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/frontend_server_client-2.1.0/lib" />
