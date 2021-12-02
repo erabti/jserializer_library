@@ -22,16 +22,17 @@ abstract class Serializer<Model> {
   toJson(Model model);
 }
 
-abstract class CustomSerializer<T> extends Serializer<T> {
-  const CustomSerializer();
+mixin FromJsonAdapter<T> {
+  T fromJson(json);
+}
 
-  @override
-  Function get decoder => fromJson;
+mixin ToJsonAdapter<T> {
+  T toJson(json);
+}
 
-  T fromJson(json) => throw UnimplementedError();
-
-  @override
-  toJson(T model) => throw UnimplementedError();
+abstract class CustomAdapter<Model, Json>
+    with FromJsonAdapter<Model>, ToJsonAdapter<Json> {
+  const CustomAdapter();
 }
 
 abstract class ModelSerializer<Model> extends Serializer<Model> {

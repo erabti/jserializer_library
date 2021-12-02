@@ -26,11 +26,9 @@ class JSerializable {
 class JKey {
   const JKey({
     this.name,
-    this.adapter,
     this.ignore = false,
   });
 
   final bool ignore;
-  final CustomSerializer? adapter;
   final String? name;
 }

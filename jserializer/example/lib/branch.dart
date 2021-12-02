@@ -173,7 +173,9 @@ class Location {
 
 @JSerializable()
 class City {
-  @NameAdapter()
+  @IntAdapter2()
+  @IntAdapter()
+  @JKey()
   final int id;
 
   final String name;
@@ -186,14 +188,24 @@ class City {
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
 }
 
-class NameAdapter extends Serializer<int> {
-  const NameAdapter();
+class IntAdapter2 extends CustomAdapter<int, dynamic> {
+  const IntAdapter2();
 
   @override
-  toJson(int model) => model;
+  toJson(model) => model;
 
   @override
-  Function get decoder => (j) => j + 3;
+  int fromJson(json) => json + 3;
+}
+
+class IntAdapter extends CustomAdapter<int, dynamic> {
+  const IntAdapter();
+
+  @override
+  toJson(model) => model;
+
+  @override
+  int fromJson(json) => json + 3;
 }
 
 Branch2<T> _$Branch2FromJson<T>(

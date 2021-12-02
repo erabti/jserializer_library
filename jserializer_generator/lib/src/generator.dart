@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
@@ -13,6 +14,10 @@ import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/type_resolver.dart';
 import 'package:merging_builder/merging_builder.dart';
 import 'package:source_gen/source_gen.dart';
+
+const fromJsonAdapterChecker = TypeChecker.fromRuntime(FromJsonAdapter);
+const customAdapterChecker = TypeChecker.fromRuntime(CustomAdapter);
+const toJsonAdapterChecker = TypeChecker.fromRuntime(ToJsonAdapter);
 
 class NoPrefixAllocator implements Allocator {
   final _imports = <String>{};
@@ -275,6 +280,35 @@ class JSerializerGenerator
         (element) => element.toString() == type.toString(),
       );
 
+  List<CustomAdapterConfig> getAdapterOf({
+    required TypeChecker typeChecker,
+    required Element element,
+    required TypeResolver typeResolver,
+  }) {
+    return element.metadata
+        .map(
+          (element) => element.computeConstantValue(),
+        )
+        .where(
+          (element) =>
+              element?.type?.element != null &&
+              typeChecker.isAssignableFrom(element!.type!.element!),
+        )
+        .whereType<DartObject>()
+        .map(
+          (e) => ConstantReader(e),
+        )
+        .where((e) => !e.revive().isPrivate)
+        .map(
+          (e) => CustomAdapterConfig(
+            e,
+            e.revive(),
+            typeResolver.resolveType(e.objectValue.type!),
+          ),
+        )
+        .toList();
+  }
+
   List<JFieldConfig> resolveFields(
     TypeResolver typeResolver,
     ClassElement classElement,
@@ -329,6 +363,18 @@ class JSerializerGenerator
             final annotation = TypeChecker.fromRuntime(JKey)
                 .firstAnnotationOf(classField ?? param);
 
+            final fromJsonAdapters = getAdapterOf(
+              typeChecker: fromJsonAdapterChecker,
+              element: (classField ?? param),
+              typeResolver: typeResolver,
+            );
+
+            final toJsonAdapters = getAdapterOf(
+              typeChecker: toJsonAdapterChecker,
+              element: (classField ?? param),
+              typeResolver: typeResolver,
+            );
+
             final jKey =
                 annotation == null ? null : jKeyFromDartObj(annotation);
 
@@ -358,6 +404,8 @@ class JSerializerGenerator
             }
 
             return JFieldConfig(
+              fromJsonAdapters: fromJsonAdapters,
+              toJsonAdapters: toJsonAdapters,
               neededSubSerializers: serializableClasses
                   .map(
                     (e) => typeResolver.resolveType(e.thisType),
@@ -385,4 +433,18 @@ class JSerializerGenerator
         .where((element) => !(element as dynamic).keyConfig.ignore)
         .toList();
   }
+}
+
+class CustomAdapterConfig {
+  final ConstantReader reader;
+  final Revivable revivable;
+  final ResolvedType type;
+
+  String get adapterFieldName => '_\$${type.fullName}';
+
+  const CustomAdapterConfig(
+    this.reader,
+    this.revivable,
+    this.type,
+  );
 }

@@ -345,14 +345,21 @@ class LocationSerializer extends js.ModelSerializer<Location> {
 class CitySerializer extends js.ModelSerializer<City> {
   const CitySerializer();
 
+  static IntAdapter2 _$IntAdapter2 = const IntAdapter2();
+
+  static IntAdapter _$IntAdapter = const IntAdapter();
+
   City fromJson(json) {
-    final int id$Value = json['id'];
+    final int id$Value =
+        _$IntAdapter.fromJson(_$IntAdapter2.fromJson(json['id']));
     final String name$Value = json['name'];
     return City(id: id$Value, name: name$Value);
   }
 
-  Map<String, dynamic> toJson(City model) =>
-      {'id': model.id, 'name': model.name};
+  Map<String, dynamic> toJson(City model) => {
+        'id': _$IntAdapter.toJson(_$IntAdapter2.toJson(model.id)),
+        'name': model.name
+      };
 }
 
 void initializeJSerializer() {

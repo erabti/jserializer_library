@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element.dart' show ClassElement;
+import 'package:analyzer/dart/element/element.dart'
+    show ClassElement, ExecutableElement;
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:fpdart/fpdart.dart';
@@ -279,6 +280,17 @@ class ClassGenerator extends ElementGenerator<Class> {
             )
           : literalString(f.jsonName);
 
+      if (f.hasToJsonAdapters) {
+        var exp = value;
+
+        for (final adapter in f.toJsonAdapters) {
+          exp = refer(adapter.adapterFieldName).property('toJson').call([
+            exp,
+          ]);
+        }
+        json[key] = exp;
+        continue;
+      }
       if ((f.isSerializableModel || f.hasSerializableGenerics) &&
           config.deepToJson!) {
         if (f.type.isNullable && !config.filterToJsonNulls!) {
@@ -374,7 +386,25 @@ class ClassGenerator extends ElementGenerator<Class> {
         literalString(field.jsonName),
       );
 
-      if (field.type.isPrimitive) {
+      if (field.hasFromJsonAdapters) {
+        var exp = jsonExp;
+        if (hasDefaultValue) {
+          exp = exp.ifNullThen(defaultValueCode);
+        }
+        for (final adapter in field.fromJsonAdapters) {
+          exp = refer(adapter.adapterFieldName).property('fromJson').call([
+            exp,
+          ]);
+        }
+        final s = exp
+            .assignFinal(
+              field.fieldNameValueSuffixed,
+              field.type.refer,
+            )
+            .statement;
+
+        statements.add(s);
+      } else if (field.type.isPrimitive) {
         var exp = jsonExp;
         if (hasDefaultValue) {
           exp = exp.ifNullThen(defaultValueCode);
@@ -502,6 +532,36 @@ class ClassGenerator extends ElementGenerator<Class> {
     return _getDistinctTypesWithDisplayNameOf(result.toSet().toList());
   }
 
+  List<Field> getCustomAdapters() {
+    final fields = <Field>[];
+    for (final field in modelConfig.fields) {
+      for (final adapter in field.allAdapters) {
+        final f = Field(
+          (b) => b
+            ..name = adapter.adapterFieldName
+            ..static = true
+            ..assignment = adapter.type.refer.constInstance(
+              [
+                for (final x in adapter.revivable.positionalArguments)
+                  literal(ConstantReader(x).literalValue),
+              ],
+              {
+                ...adapter.revivable.namedArguments.map(
+                  (key, value) => MapEntry(
+                      key, literal(ConstantReader(value).literalValue)),
+                ),
+              },
+              [],
+            ).code
+            ..type = adapter.type.refer,
+        );
+        fields.add(f);
+      }
+    }
+
+    return fields;
+  }
+
   List<Field> getSubModelsSerializersFields() {
     final typesToBeSerialized = _getDistinctTypesWithDisplayNameOf(
       [
@@ -593,6 +653,7 @@ class ClassGenerator extends ElementGenerator<Class> {
         return b
           ..fields.addAll([
             ...getSubModelsSerializersFields(),
+            ...getCustomAdapters(),
           ])
           ..methods.addAll(
             [
@@ -690,7 +751,28 @@ class JFieldConfig {
     this.isSerializableModel = false,
     this.defaultValueCode,
     required this.neededSubSerializers,
+    required this.fromJsonAdapters,
+    required this.toJsonAdapters,
   });
+
+  final List<CustomAdapterConfig> fromJsonAdapters;
+  final List<CustomAdapterConfig> toJsonAdapters;
+
+  List<CustomAdapterConfig> get allAdapters {
+    final id = <String>{};
+    final List<CustomAdapterConfig> result = [];
+    final list = [...fromJsonAdapters, ...toJsonAdapters];
+    for (final i in list) {
+      if (id.add(i.adapterFieldName)) result.add(i);
+    }
+    return result;
+  }
+
+  bool get hasFromJsonAdapters => fromJsonAdapters.isNotEmpty;
+
+  bool get hasToJsonAdapters => toJsonAdapters.isNotEmpty;
+
+  bool get hasCustomAdapters => hasFromJsonAdapters || hasToJsonAdapters;
 
   final List<ResolvedType> neededSubSerializers;
   final ModelGenericConfig? genericConfig;
