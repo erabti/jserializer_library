@@ -104,9 +104,7 @@ class JSerializerGenerator
         (b) => b
           ..body.addAll(
             [
-              Code(_ignores),
               ...classes,
-              // getRegisterTypesMethod(models),
               getInitializerMethod(models),
             ],
           ),
@@ -116,10 +114,11 @@ class JSerializerGenerator
         useNullSafetySyntax: true,
         allocator: NoPrefixAllocator(),
       );
-
-      return DartFormatter().format(
+      final code = DartFormatter().format(
         lib.accept(emitter).toString(),
       );
+
+      return '$_header\n$code';
     } catch (e, s) {
       print('$e: $s');
       rethrow;
@@ -454,5 +453,31 @@ class CustomAdapterConfig {
   );
 }
 
-const _ignores =
-    "// ignore_for_file:lines_longer_than_80_chars, non_constant_identifier_names, constant_identifier_names, prefer_const_constructors, strict_raw_type, omit_local_variable_types, avoid_dynamic_calls, unnecessary_parenthesis, unnecessary_nullable_for_final_variable_declarations, annotate_overrides,type_annotate_public_apis";
+final _header = '$_ignores\n\n$_welcome\n\n';
+
+const _welcome = '''
+// **************************************************************************
+// JSerializer: Serialization Done Right
+// **************************************************************************
+''';
+
+const _rules = <String>[
+  'lines_longer_than_80_chars',
+  'non_constant_identifier_names',
+  'constant_identifier_names',
+  'prefer_const_constructors',
+  'strict_raw_type',
+  'omit_local_variable_types',
+  'avoid_dynamic_calls',
+  'unnecessary_parenthesis',
+  'unnecessary_nullable_for_final_variable_declarations',
+  'annotate_overrides',
+  'type_annotate_public_apis',
+  'newline-before-return',
+  'prefer-trailing-comma',
+  'directives_ordering',
+  'long-method',
+  'use_named_constants',
+];
+
+final _ignores = '// ignore_for_file: ${_rules.join(',')}';

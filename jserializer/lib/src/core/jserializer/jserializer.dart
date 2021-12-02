@@ -45,7 +45,7 @@ abstract class JSerializer {
   static T fromJsonGeneric3<T, A, B, C>(dynamic json) =>
       i.fromJsonGeneric3<T, A, B, C>(json);
 
-  static T fromJson<T>(Object json) => i.fromJson<T>(json);
+  static T fromJson<T>(json) => i.fromJson<T>(json);
 
   static toJson(model) => i.toJson(model);
 

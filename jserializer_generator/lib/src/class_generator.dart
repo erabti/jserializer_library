@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart'
-    show ClassElement, ExecutableElement;
+    show ClassElement;
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:fpdart/fpdart.dart';
@@ -401,7 +401,8 @@ class ClassGenerator extends ElementGenerator<Class> {
         final s = exp
             .assignFinal(
               field.fieldNameValueSuffixed,
-              field.type.refer,
+              refer(
+                  field.type.dartType.getDisplayString(withNullability: true)),
             )
             .statement;
 
@@ -414,7 +415,8 @@ class ClassGenerator extends ElementGenerator<Class> {
         final s = exp
             .assignFinal(
               field.fieldNameValueSuffixed,
-              field.type.refer,
+              refer(
+                  field.type.dartType.getDisplayString(withNullability: true)),
             )
             .statement;
         statements.add(s);
@@ -430,7 +432,7 @@ class ClassGenerator extends ElementGenerator<Class> {
 
         var s = resolveFromJson(field, field.type, jsonExpRefer);
 
-        if (field.type.isNullable) {
+        if (field.type.isNullable || hasDefaultValue) {
           s = jsonExpRefer.equalTo(literalNull).conditional(
                 defaultValueCode,
                 s,

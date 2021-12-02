@@ -23,11 +23,11 @@ abstract class Serializer<Model> {
 }
 
 mixin FromJsonAdapter<T> {
-  T fromJson(json);
+  T fromJson(dynamic json);
 }
 
 mixin ToJsonAdapter<T> {
-  T toJson(json);
+  T toJson(dynamic json);
 }
 
 abstract class CustomAdapter<Model, Json>
@@ -99,15 +99,14 @@ abstract class GenericModelSerializerBase<Model> extends Serializer<Model> {
 
 abstract class GenericModelSerializer<Model>
     extends GenericModelSerializerBase<Model> {
-  const GenericModelSerializer(
-    JSerializerInterface jSerializer,
-  ) : super(jSerializer: jSerializer);
+  const GenericModelSerializer(JSerializerInterface jSerializer,)
+      : super(jSerializer: jSerializer);
 
   const GenericModelSerializer.from({
     required Serializer serializer,
   }) : super(
-          serializer: serializer,
-        );
+    serializer: serializer,
+  );
 
   @override
   Map<String, dynamic> toJson(Model model) => throw UnimplementedError();
@@ -128,15 +127,15 @@ abstract class GenericModelSerializer<Model>
 
 abstract class GenericModelSerializer2<Model>
     extends GenericModelSerializerBase<Model> {
-  const GenericModelSerializer2(
-    JSerializerInterface jSerializer,
-  )   : serializer2 = null,
+  const GenericModelSerializer2(JSerializerInterface jSerializer,)
+      : serializer2 = null,
         super(jSerializer: jSerializer);
 
   const GenericModelSerializer2.from({
     required Serializer serializer,
     required Serializer serializer2,
-  })  : serializer2 = serializer2,
+  })
+      : serializer2 = serializer2,
         super(serializer: serializer);
 
   final Serializer? serializer2;
@@ -160,9 +159,8 @@ abstract class GenericModelSerializer2<Model>
 
 abstract class GenericModelSerializer3<Model>
     extends GenericModelSerializerBase<Model> {
-  const GenericModelSerializer3(
-    JSerializerInterface jSerializer,
-  )   : serializer2 = null,
+  const GenericModelSerializer3(JSerializerInterface jSerializer,)
+      : serializer2 = null,
         serializer3 = null,
         super(jSerializer: jSerializer);
 
@@ -170,7 +168,8 @@ abstract class GenericModelSerializer3<Model>
     required Serializer serializer,
     required Serializer serializer2,
     required Serializer serializer3,
-  })  : serializer2 = serializer2,
+  })
+      : serializer2 = serializer2,
         serializer3 = serializer3,
         super(serializer: serializer);
 
@@ -197,9 +196,8 @@ abstract class GenericModelSerializer3<Model>
 
 abstract class GenericModelSerializer4<Model>
     extends GenericModelSerializerBase<Model> {
-  const GenericModelSerializer4(
-    JSerializerInterface jSerializer,
-  )   : serializer2 = null,
+  const GenericModelSerializer4(JSerializerInterface jSerializer,)
+      : serializer2 = null,
         serializer3 = null,
         serializer4 = null,
         super(jSerializer: jSerializer);
@@ -209,7 +207,8 @@ abstract class GenericModelSerializer4<Model>
     required Serializer serializer2,
     required Serializer serializer3,
     required Serializer serializer4,
-  })  : serializer2 = serializer2,
+  })
+      : serializer2 = serializer2,
         serializer3 = serializer3,
         serializer4 = serializer4,
         super(serializer: serializer);
@@ -259,11 +258,12 @@ class ListSerializer<M> extends Serializer<List<M>> {
   @override
   toJson(List<M> model) => model.map((e) => serializer.toJson(e));
 
-  List<M> fromJson(json) => (json as List)
-      .map(
-        (e) => serializer.decoder(e) as M,
+  List<M> fromJson(json) =>
+      (json as List)
+          .map(
+            (e) => serializer.decoder(e) as M,
       )
-      .toList();
+          .toList();
 }
 
 class MapSerializer<K, V> extends Serializer<Map<K, V>> {
@@ -275,14 +275,17 @@ class MapSerializer<K, V> extends Serializer<Map<K, V>> {
   Function get decoder => fromJson;
 
   @override
-  toJson(Map<K, V> model) => model.map(
-        (k, v) => MapEntry(
-          k,
-          serializer.toJson(v),
-        ),
+  toJson(Map<K, V> model) =>
+      model.map(
+            (k, v) =>
+            MapEntry(
+              k,
+              serializer.toJson(v),
+            ),
       );
 
-  Map<K, V> fromJson(json) => (json as Map).map(
-        (k, v) => MapEntry(k, serializer.decoder(v) as V),
+  Map<K, V> fromJson(json) =>
+      (json as Map).map(
+            (k, v) => MapEntry(k, serializer.decoder(v) as V),
       );
 }
