@@ -22,7 +22,7 @@ dependencies:
 #    path: ../jserializer/
   jserializer:
     git:
-      url: git@github.com:erabti/jserializer_library.git
+      url: https://github.com/erabti/jserializer_library.git
       path: jserializer/
   build: ^2.1.1
   analyzer: ^2.7.0
