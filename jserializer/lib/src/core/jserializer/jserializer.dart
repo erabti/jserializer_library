@@ -23,6 +23,8 @@ abstract class JSerializerInterface {
 
   Serializer serializerOf<T>([Type? t]);
 
+  bool hasSerializerOf<T>([Type? t]);
+
   ModelSerializer<T> modelSerializerOf<T>([Type? t]);
 }
 
@@ -50,6 +52,8 @@ abstract class JSerializer {
   static toJson(model) => i.toJson(model);
 
   static Serializer serializerOf<T>([Type? t]) => i.serializerOf<T>(t);
+
+  bool hasSerializerOf<T>([Type? t]) => i.hasSerializerOf<T>(t);
 
   static ModelSerializer<T> modelSerializerOf<T>([Type? t]) =>
       i.modelSerializerOf<T>(t);

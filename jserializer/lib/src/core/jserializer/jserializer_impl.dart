@@ -22,6 +22,9 @@ class JSerializerImpl extends JSerializerInterface {
   late final CachedBaseTypesSerializersMap _serializers = HashMap();
 
   @override
+  bool hasSerializerOf<T>([Type? t]) => serializers[(t ?? T).base] != null;
+
+  @override
   ModelSerializer<T> modelSerializerOf<T>([Type? t]) {
     var serializerType = (t ?? T).base;
 
