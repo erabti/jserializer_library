@@ -11,6 +11,7 @@ class JSerializerImpl extends JSerializerInterface {
   late final BaseTypesSerializersMap serializers = HashMap()
     ..addAll(
       {
+        typeOf<void>(): (_) => PrimitiveSerializer<void>(),
         Null: (_) => PrimitiveSerializer<void>(),
         dynamic: (_) => PrimitiveSerializer<dynamic>(),
         int: (_) => PrimitiveSerializer<int>(),
@@ -170,8 +171,23 @@ class JSerializerImpl extends JSerializerInterface {
   }
 }
 
+List<Type> x<T>() {
+  return T.args;
+}
+
+void r<T>() {
+  x<T>();
+}
+
+void main() {
+  final t = x<List<void>>().first;
+  print(t == typeOf<void>());
+  print(t == null);
+}
+
 class SuperTypeResolver {
   static final _types = <Type, dynamic>{
+    typeOf<void>(): (f) => f<void>(),
     Null: (f) => f<void>(),
     dynamic: (f) => f<dynamic>(),
     int: (f) => f<int>(),
@@ -189,6 +205,7 @@ class SuperTypeResolver {
   }
 
   static T genericCall<T>(Function fn, Type type) {
+    if (type == Null) return fn<void>();
     final base = type.base;
     final _fn = _types[base];
     if (_fn == null) {
@@ -216,10 +233,12 @@ class SuperTypeResolver {
               <A, B, C, D>() => _types[base].call<A, B, C, D>(fn), args);
       }
     }
+    final base = type.base;
+
     try {
-      return _types[type.base]!.call(fn);
+      return _types[base]!.call(fn);
     } catch (e, s) {
-      throw Exception('Error resolving type of $type: $e\n$s');
+      throw Exception('Error resolving type of $type of base $base: $e\n$s');
     }
   }
 
