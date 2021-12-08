@@ -421,7 +421,7 @@
         <entry key="jserializer">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-f72b2a20a129f28f3b4ee1a3ca6b3a7e6cbcef51/jserializer/lib" />
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-7c9a9f5982138fedd381a1b1e516af94b94b7654/jserializer/lib" />
               <option value="$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer/lib" />
             </list>
           </value>
@@ -603,8 +603,9 @@
         <entry key="pubspec_parse">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pubspec_parse-1.1.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pubspec_parse-1.2.0/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pubspec_parse-1.0.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pubspec_parse-1.1.0/lib" />
             </list>
           </value>
         </entry>
@@ -883,9 +884,9 @@
       </option>
     </properties>
     <CLASSES>
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-7c9a9f5982138fedd381a1b1e516af94b94b7654/jserializer/lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer/lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer_generator/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-f72b2a20a129f28f3b4ee1a3ca6b3a7e6cbcef51/jserializer/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-23.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-31.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-2.0.0/lib" />
@@ -984,6 +985,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pub_semver-2.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pubspec_parse-1.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pubspec_parse-1.1.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pubspec_parse-1.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pure-0.1.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/quote_buffer-0.2.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/reflectable-3.0.4/lib" />

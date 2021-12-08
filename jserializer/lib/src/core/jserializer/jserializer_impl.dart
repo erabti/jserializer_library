@@ -11,6 +11,8 @@ class JSerializerImpl extends JSerializerInterface {
   late final BaseTypesSerializersMap serializers = HashMap()
     ..addAll(
       {
+        Null: (_) => PrimitiveSerializer<void>(),
+        dynamic: (_) => PrimitiveSerializer<dynamic>(),
         int: (_) => PrimitiveSerializer<int>(),
         String: (_) => PrimitiveSerializer<String>(),
         bool: (_) => PrimitiveSerializer<bool>(),
@@ -170,6 +172,7 @@ class JSerializerImpl extends JSerializerInterface {
 
 class SuperTypeResolver {
   static final _types = <Type, dynamic>{
+    Null: (f) => f<void>(),
     dynamic: (f) => f<dynamic>(),
     int: (f) => f<int>(),
     Object: (f) => f<Object>(),
