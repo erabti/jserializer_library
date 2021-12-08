@@ -179,12 +179,6 @@ void r<T>() {
   x<T>();
 }
 
-void main() {
-  final t = x<List<void>>().first;
-  print(t == typeOf<void>());
-  print(t == null);
-}
-
 class SuperTypeResolver {
   static final _types = <Type, dynamic>{
     typeOf<void>(): (f) => f<void>(),
