@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:barbecue/barbecue.dart';
 import 'package:build/build.dart';
 import 'package:change_case/change_case.dart';
 import 'package:code_builder/code_builder.dart';
@@ -15,7 +16,6 @@ import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/type_resolver.dart';
 import 'package:merging_builder/merging_builder.dart';
 import 'package:source_gen/source_gen.dart';
-import 'package:text_table/text_table.dart';
 
 const fromJsonAdapterChecker = TypeChecker.fromRuntime(FromJsonAdapter);
 const customAdapterChecker = TypeChecker.fromRuntime(CustomAdapter);
@@ -118,27 +118,46 @@ class JSerializerGenerator
 
       if (shouldAddAnalysisOptions) {
         final result = <String>[];
+
         for (final model in models) {
-          final tab = table(
-            ['field', 'type', 'default'],
-            width: 220,
-            border: Border.doubleLines2,
-            globalAlign: Align.left,
-            globalMultiline: true,
+          final table = Table(
+            tableStyle: TableStyle(border: true),
+            cellStyle: CellStyle(
+              paddingRight: 2,
+              paddingLeft: 2,
+              borderBottom: true,
+              borderTop: true,
+              borderLeft: true,
+              borderRight: true,
+              alignment: TextAlignment.MiddleLeft,
+            ),
+            header: TableSection(
+              rows: [
+                Row(
+                  cells: [Cell(model.type.name)],
+                ),
+                Row(
+                  cells: [Cell("Field"), Cell("Type"), Cell("Default")],
+                ),
+              ],
+            ),
+            body: TableSection(
+              rows: [
+                for (final field in model.fields)
+                  Row(
+                    cells: [
+                      Cell(field.jsonName),
+                      Cell(field.type.name),
+                      Cell(field.defaultValueCode ?? '-')
+                    ],
+                  ),
+              ],
+            ),
           );
-
-          for (final field in model.fields) {
-            tab.row(
-              [field.jsonName, field.type.name, field.defaultValueCode ?? '-'],
-            );
-          }
-
-          result.add(
-            '${model.type.name}\n$table\n\n',
-          );
+          result.add(table.render());
         }
 
-        File('./models_analysis').writeAsStringSync(result.join('\n'));
+        File('./models_analysis').writeAsStringSync(result.join('\n\n'));
       }
 
       final emitter = DartEmitter(
