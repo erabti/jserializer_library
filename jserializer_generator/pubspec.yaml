@@ -30,3 +30,4 @@ dependencies:
   fpdart: ^0.0.12
   change_case: ^1.0.1
   print_table: ^1.0.1
+  text_table: ^2.6.0

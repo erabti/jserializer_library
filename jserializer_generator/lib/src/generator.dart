@@ -14,8 +14,8 @@ import 'package:jserializer_generator/src/class_generator.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/type_resolver.dart';
 import 'package:merging_builder/merging_builder.dart';
-import 'package:print_table/print_table.dart';
 import 'package:source_gen/source_gen.dart';
+import 'package:text_table/text_table.dart';
 
 const fromJsonAdapterChecker = TypeChecker.fromRuntime(FromJsonAdapter);
 const customAdapterChecker = TypeChecker.fromRuntime(CustomAdapter);
@@ -119,22 +119,22 @@ class JSerializerGenerator
       if (shouldAddAnalysisOptions) {
         final result = <String>[];
         for (final model in models) {
-          final List<List<String>> data = [];
+          final tab = table(
+            ['field', 'type', 'default'],
+            width: 220,
+            border: Border.doubleLines2,
+            globalAlign: Align.left,
+            globalMultiline: true,
+          );
 
           for (final field in model.fields) {
-            data.add([
-              field.jsonName,
-              field.type.name,
-              field.defaultValueCode ?? '-'
-            ]);
+            tab.row(
+              [field.jsonName, field.type.name, field.defaultValueCode ?? '-'],
+            );
           }
 
           result.add(
-            '${model.type.name}\n${tabulate(
-              data,
-              ['name', 'type', 'default'],
-
-            )}',
+            '${model.type.name}\n$table\n\n',
           );
         }
 
