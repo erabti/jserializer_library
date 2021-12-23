@@ -118,14 +118,14 @@ class JSerializerGenerator
       if (shouldAddAnalysisOptions) {
         String result = '';
         for (final model in models) {
-          const line = '\n_____________________________\n';
-          result += line;
+          const line = '_____________________________\n';
           result += line;
           result += line;
           result += model.type.name;
           result += line;
           for (final field in model.fields) {
-            result += '${field.jsonName}: ${field.type.name}';
+            result +=
+                '${field.jsonName}${field.defaultValueCode == null ? '' : '(default: ${field.defaultValueCode})'}: ${field.type.name}\n';
             result += line;
           }
           result += line;
