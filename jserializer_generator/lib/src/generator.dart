@@ -130,10 +130,11 @@ class JSerializerGenerator
           }
 
           result.add(
-            tabulate(
+            '${model.type.name}\n${tabulate(
               data,
               ['name', 'type', 'default'],
-            ),
+
+            )}',
           );
         }
 
