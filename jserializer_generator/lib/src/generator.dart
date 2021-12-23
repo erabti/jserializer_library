@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
@@ -83,9 +84,13 @@ class ModelConfig {
 
 class JSerializerGenerator
     extends MergingGenerator<ModelConfig, JSerializable> {
-  JSerializerGenerator(this.globalOptions);
+  JSerializerGenerator(
+    this.globalOptions, {
+    this.shouldAddAnalysisOptions = false,
+  });
 
   final JSerializable globalOptions;
+  final bool shouldAddAnalysisOptions;
 
   @override
   FutureOr<String> generateMergedContent(Stream<ModelConfig> stream) async {
@@ -109,6 +114,24 @@ class JSerializerGenerator
             ],
           ),
       );
+
+      if (shouldAddAnalysisOptions) {
+        String result = '';
+        for (final model in models) {
+          const line = '\n_____________________________\n';
+          result += line;
+          result += line;
+          result += line;
+          result += model.type.name;
+          result += line;
+          for (final field in model.fields) {
+            result += '${field.jsonName}: ${field.type.name}';
+            result += line;
+          }
+          result += line;
+        }
+        File('./models_analysis').writeAsStringSync(result);
+      }
 
       final emitter = DartEmitter(
         useNullSafetySyntax: true,

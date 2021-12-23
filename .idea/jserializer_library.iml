@@ -228,6 +228,15 @@
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/release_smoke_test/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/release_smoke_test/build" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/release_smoke_test/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/deferred_components_test/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/deferred_components_test/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/deferred_components_test/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/examples/api/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/examples/api/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/examples/api/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/conductor/core/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/conductor/core/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/conductor/core/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
