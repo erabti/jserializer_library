@@ -29,3 +29,4 @@ dependencies:
   dart_style: ^2.2.0
   fpdart: ^0.0.12
   change_case: ^1.0.1
+  print_table: ^1.0.1

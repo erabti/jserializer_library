@@ -14,6 +14,7 @@ import 'package:jserializer_generator/src/class_generator.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/type_resolver.dart';
 import 'package:merging_builder/merging_builder.dart';
+import 'package:print_table/print_table.dart';
 import 'package:source_gen/source_gen.dart';
 
 const fromJsonAdapterChecker = TypeChecker.fromRuntime(FromJsonAdapter);
@@ -116,21 +117,27 @@ class JSerializerGenerator
       );
 
       if (shouldAddAnalysisOptions) {
-        String result = '';
+        final result = <String>[];
         for (final model in models) {
-          const line = '_____________________________\n';
-          result += line;
-          result += line;
-          result += model.type.name;
-          result += line;
+          final List<List<String>> data = [];
+
           for (final field in model.fields) {
-            result +=
-                '${field.jsonName}${field.defaultValueCode == null ? '' : '(default: ${field.defaultValueCode})'}: ${field.type.name}\n';
-            result += line;
+            data.add([
+              field.jsonName,
+              field.type.name,
+              field.defaultValueCode ?? '-'
+            ]);
           }
-          result += line;
+
+          result.add(
+            tabulate(
+              data,
+              ['name', 'type', 'default'],
+            ),
+          );
         }
-        File('./models_analysis').writeAsStringSync(result);
+
+        File('./models_analysis').writeAsStringSync(result.join('\n'));
       }
 
       final emitter = DartEmitter(
