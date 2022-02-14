@@ -7,13 +7,17 @@ class Model1 {
     required this.intField2,
     required this.stringField,
     required this.stringFieldList,
+    this.x = false,
   });
 
   @JAdapters.intNullable()
-  final int? intField;
+  final int intField;
   final int? intField2;
   final String stringField;
   final List<String>? stringFieldList;
+
+  @JAdapters.numToBoolNullable()
+  final bool x;
 }
 
 @JSerializable()

@@ -14,10 +14,12 @@ class Model1Serializer extends js.ModelSerializer<Model1> {
 
   static const _$JIntNullableAdapter = js.JIntNullableAdapter();
 
+  static const _$JNumToBoolNullableAdapter = js.JNumToBoolNullableAdapter();
+
   @override
   Model1 fromJson(json) {
-    final int? intField$Value = safe<int?>(
-        call: () => _$JIntNullableAdapter.fromJson(json['intField'] ?? 2),
+    final int intField$Value = safe<int>(
+        call: () => _$JIntNullableAdapter.fromJson(json['intField']) ?? 2,
         jsonName: 'intField');
     final int? intField2$Value = mapLookup(jsonName: 'intField2', json: json);
     final String stringField$Value =
@@ -28,11 +30,15 @@ class Model1Serializer extends js.ModelSerializer<Model1> {
             ? null
             : List<String>.from((stringFieldList$Json as List)),
         jsonName: 'stringFieldList');
+    final bool x$Value = safe<bool>(
+        call: () => _$JNumToBoolNullableAdapter.fromJson(json['x']) ?? false,
+        jsonName: 'x');
     return Model1(
         intField: intField$Value,
         intField2: intField2$Value,
         stringField: stringField$Value,
-        stringFieldList: stringFieldList$Value);
+        stringFieldList: stringFieldList$Value,
+        x: x$Value);
   }
 
   @override
@@ -40,7 +46,8 @@ class Model1Serializer extends js.ModelSerializer<Model1> {
         'intField': _$JIntNullableAdapter.toJson(model.intField),
         'intField2': model.intField2,
         'stringField': model.stringField,
-        'stringFieldList': model.stringFieldList
+        'stringFieldList': model.stringFieldList,
+        'x': _$JNumToBoolNullableAdapter.toJson(model.x)
       };
 }
 

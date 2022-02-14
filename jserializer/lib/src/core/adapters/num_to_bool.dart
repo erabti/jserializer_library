@@ -1,18 +1,18 @@
 import 'package:jserializer/jserializer.dart';
 
-class JNumToBoolAdapter extends CustomAdapter<bool, num> implements JAdapters {
+class JNumToBoolAdapter extends CustomAdapter<bool, num?> implements JAdapters {
   const JNumToBoolAdapter({this.fallback});
 
   final bool? fallback;
 
   @override
-  bool fromJson(num json) {
-    final n = json.toDouble();
+  bool fromJson(num? json) {
+    final n = json?.toDouble();
     if (n == 0.0) return false;
     if (n == 1.0) return true;
     if (fallback != null) return fallback!;
 
-    throw FormatException('Cannot convert num ($json) to bool');
+    throw FormatException('Cannot convert num value of ($json) to bool');
   }
 
   @override
