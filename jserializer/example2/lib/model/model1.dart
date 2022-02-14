@@ -9,12 +9,11 @@ class Model1 {
     required this.stringFieldList,
   });
 
-  @JAdapters.int()
-  final int intField;
-  @JAdapters.int()
-  final int intField2;
+  @JAdapters.intNullable()
+  final int? intField;
+  final int? intField2;
   final String stringField;
-  final List<String> stringFieldList;
+  final List<String>? stringFieldList;
 }
 
 @JSerializable()

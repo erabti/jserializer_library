@@ -12,21 +12,21 @@ import 'package:example2/model/model1.dart';
 class Model1Serializer extends js.ModelSerializer<Model1> {
   const Model1Serializer();
 
-  static const _$JIntAdapter = js.JIntAdapter();
+  static const _$JIntNullableAdapter = js.JIntNullableAdapter();
 
   @override
   Model1 fromJson(json) {
-    final int intField$Value = safe<int>(
-        call: () => _$JIntAdapter.fromJson(json['intField'] ?? 2),
+    final int? intField$Value = safe<int?>(
+        call: () => _$JIntNullableAdapter.fromJson(json['intField'] ?? 2),
         jsonName: 'intField');
-    final int intField2$Value = safe<int>(
-        call: () => _$JIntAdapter.fromJson(json['intField2']),
-        jsonName: 'intField2');
+    final int? intField2$Value = mapLookup(jsonName: 'intField2', json: json);
     final String stringField$Value =
-        mapLookup<String>(jsonName: 'stringField', json: json);
+        mapLookup(jsonName: 'stringField', json: json);
     final stringFieldList$Json = json['stringFieldList'];
-    final List<String> stringFieldList$Value = safe<List<String>>(
-        call: () => List<String>.from((stringFieldList$Json as List)),
+    final List<String>? stringFieldList$Value = safe<List<String>?>(
+        call: () => stringFieldList$Json == null
+            ? null
+            : List<String>.from((stringFieldList$Json as List)),
         jsonName: 'stringFieldList');
     return Model1(
         intField: intField$Value,
@@ -37,8 +37,8 @@ class Model1Serializer extends js.ModelSerializer<Model1> {
 
   @override
   Map<String, dynamic> toJson(Model1 model) => {
-        'intField': _$JIntAdapter.toJson(model.intField),
-        'intField2': _$JIntAdapter.toJson(model.intField2),
+        'intField': _$JIntNullableAdapter.toJson(model.intField),
+        'intField2': model.intField2,
         'stringField': model.stringField,
         'stringFieldList': model.stringFieldList
       };
@@ -78,7 +78,7 @@ class Model4Serializer extends js.ModelSerializer<Model4> {
   @override
   Model4 fromJson(json) {
     final String someText$Value =
-        mapLookup<String?>(jsonName: 'someText', json: json) ?? 'Hey';
+        mapLookup(jsonName: 'someText', json: json) ?? 'Hey';
     final listText$Json = json['listText'];
     final List<String> listText$Value = safe<List<String>>(
         call: () => listText$Json == null
