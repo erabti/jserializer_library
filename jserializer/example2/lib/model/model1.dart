@@ -16,7 +16,7 @@ class Model1 {
   final String stringField;
   final List<String>? stringFieldList;
 
-  @JAdapters.numToBoolNullable()
+  @JAdapters.numToBool()
   final bool x;
 }
 

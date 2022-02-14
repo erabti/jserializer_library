@@ -14,7 +14,7 @@ class Model1Serializer extends js.ModelSerializer<Model1> {
 
   static const _$JIntNullableAdapter = js.JIntNullableAdapter();
 
-  static const _$JNumToBoolNullableAdapter = js.JNumToBoolNullableAdapter();
+  static const _$JNumToBoolAdapter = js.JNumToBoolAdapter();
 
   @override
   Model1 fromJson(json) {
@@ -31,8 +31,7 @@ class Model1Serializer extends js.ModelSerializer<Model1> {
             : List<String>.from((stringFieldList$Json as List)),
         jsonName: 'stringFieldList');
     final bool x$Value = safe<bool>(
-        call: () => _$JNumToBoolNullableAdapter.fromJson(json['x']) ?? false,
-        jsonName: 'x');
+        call: () => _$JNumToBoolAdapter.fromJson(json['x']), jsonName: 'x');
     return Model1(
         intField: intField$Value,
         intField2: intField2$Value,
@@ -47,7 +46,7 @@ class Model1Serializer extends js.ModelSerializer<Model1> {
         'intField2': model.intField2,
         'stringField': model.stringField,
         'stringFieldList': model.stringFieldList,
-        'x': _$JNumToBoolNullableAdapter.toJson(model.x)
+        'x': _$JNumToBoolAdapter.toJson(model.x)
       };
 }
 
