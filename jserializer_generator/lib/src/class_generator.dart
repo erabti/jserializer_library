@@ -399,7 +399,10 @@ class ClassGenerator extends ElementGenerator<Class> {
           ]);
         }
 
-        if (hasDefaultValue) {
+        final firstAdapterIsNullable =
+            field.fromJsonAdapters.firstOrNull?.modelType.isNullable ?? true;
+
+        if (hasDefaultValue && firstAdapterIsNullable) {
           exp = exp.ifNullThen(defaultValueCode);
         }
 
@@ -608,6 +611,7 @@ class ClassGenerator extends ElementGenerator<Class> {
 
     for (final field in modelConfig.fields) {
       for (final adapter in field.allAdapters) {
+        adapter.adapterFieldName;
         if (ids.contains(adapter.adapterFieldName)) continue;
 
         final f = Field(
