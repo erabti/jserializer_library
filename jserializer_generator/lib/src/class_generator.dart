@@ -439,12 +439,12 @@ class ClassGenerator extends ElementGenerator<Class> {
                 'fieldName': literalString(field.fieldName),
               'json': refer('json'),
             },
-            [
-              field.type.referNullAware.rebuild(
-                (b) =>
-                    b..isNullable = hasDefaultValue || (b.isNullable ?? false),
-              ),
-            ],
+            // [
+            //   field.type.referNullAware.rebuild(
+            //     (b) =>
+            //         b..isNullable = hasDefaultValue || (b.isNullable ?? false),
+            //   ),
+            // ],
           );
         }
 
