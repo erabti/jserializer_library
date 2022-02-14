@@ -30,7 +30,7 @@ class JNumToBoolNullableAdapter extends CustomAdapter<bool?, num?>
     final n = json?.toDouble();
     if (n == 0.0) return false;
     if (n == 1.0) return true;
-    return fallback!;
+    return fallback;
   }
 
   @override
