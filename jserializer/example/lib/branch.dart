@@ -98,6 +98,18 @@ class Wrapper<T> {
 
 @JSerializable(filterToJsonNulls: true)
 class Branch {
+  const Branch({
+    this.id = -1,
+    this.name = 'Ali',
+    required this.description,
+    this.location = const Location(longitude: 'sdf', latitude: 'sdfdsf'),
+    this.city = const [],
+    this.phones = const [],
+    this.emails = const [],
+  });
+
+  factory Branch.fromJson(Map<String, dynamic> json) => _$BranchFromJson(json);
+
   final int? id;
 
   final String name;
@@ -111,18 +123,6 @@ class Branch {
   final List<String>? emails;
   final List<City>? city;
   final Location? location;
-
-  Branch({
-    this.id = -1,
-    this.name = 'Ali',
-    required this.description,
-    this.location = const Location(longitude: 'sdf', latitude: 'sdfdsf'),
-    this.city = const [],
-    this.phones = const [],
-    this.emails = const [],
-  });
-
-  factory Branch.fromJson(Map<String, dynamic> json) => _$BranchFromJson(json);
 }
 
 @JSerializable()
@@ -133,6 +133,22 @@ class Model {
 }
 
 class Branch2<T> {
+  const Branch2({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.location,
+    this.city,
+    this.phones,
+    this.emails,
+  });
+
+  factory Branch2.fromJson(
+    Map<String, dynamic> json,
+    T Function(dynamic json) fromJsonT,
+  ) =>
+      _$Branch2FromJson(json, fromJsonT);
+
   final int id;
 
   final List<String>? phones;
@@ -145,72 +161,59 @@ class Branch2<T> {
   final String description;
 
   final T location;
-
-  Branch2({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.location,
-    this.city,
-    this.phones,
-    this.emails,
-  });
-
-  factory Branch2.fromJson(Map<String, dynamic> json, T fromJsonT(json)) =>
-      _$Branch2FromJson<T>(json, fromJsonT);
 }
 
 @JSerializable()
 class Location {
-  final String longitude;
-  final String latitude;
-
   const Location({required this.longitude, required this.latitude});
 
   factory Location.fromJson(Map<String, dynamic> json) =>
       _$LocationFromJson(json);
+
+  final String longitude;
+  final String latitude;
 }
 
 @JSerializable()
 class City {
+  const City({
+    required this.id,
+    required this.name,
+  });
+
+  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+
   @IntAdapter2()
   @IntAdapter()
   @JKey()
   final int id;
 
   final String name;
-
-  City({
-    required this.id,
-    required this.name,
-  });
-
-  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
 }
 
 class IntAdapter2 extends CustomAdapter<int, dynamic> {
   const IntAdapter2();
 
   @override
-  toJson(model) => model;
+  dynamic toJson(dynamic json) => json;
 
   @override
-  int fromJson(json) => json + 3;
+  int fromJson(dynamic json) => (json as int) + 3;
 }
 
 class IntAdapter extends CustomAdapter<int, dynamic> {
   const IntAdapter();
 
   @override
-  toJson(model) => model;
+  dynamic toJson(dynamic json) => json;
 
   @override
-  int fromJson(json) => json + 3;
+  int fromJson(dynamic json) => (json as int) + 3;
 }
 
 Branch2<T> _$Branch2FromJson<T>(
   Map<String, dynamic> json,
-  T fromJsonT(json),
+  T Function(dynamic json) fromJsonT,
 ) =>
     Branch2<T>(
       emails: (json['emails'] as List<dynamic>?)

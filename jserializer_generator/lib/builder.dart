@@ -43,10 +43,11 @@ JSerializable _getJSerializable(Map<String, dynamic> json) {
     fieldNameCase = FieldNameCase.none;
   }
   return JSerializable(
-    deepToJson: json['deep_to_json'] ?? true,
+    deepToJson: json['deepToJson'] ?? true,
     filterToJsonNulls: json['filterToJsonNulls'] ?? false,
     fromJson: json['fromJson'] ?? true,
     toJson: json['toJson'] ?? true,
+    guardedLookup: json['guardedLookup'] ?? true,
     fieldNameCase: fieldNameCase,
   );
 }

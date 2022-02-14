@@ -60,6 +60,7 @@ class ModelConfig {
     this.fields = const [],
     required this.hasGenericValue,
     required this.genericConfigs,
+    // this.isCustomSerializer = false,
   });
 
   String get baseSerializeName {
@@ -69,6 +70,8 @@ class ModelConfig {
   }
 
   final bool hasGenericValue;
+
+  // final bool isCustomSerializer;
 
   final ClassElement classElement;
   final List<ModelGenericConfig> genericConfigs;
@@ -84,7 +87,7 @@ class ModelConfig {
 }
 
 class JSerializerGenerator
-    extends MergingGenerator<ModelConfig, JSerializable> {
+    extends MergingGenerator<ModelConfig, JSerializableBase> {
   JSerializerGenerator(
     this.globalOptions, {
     this.shouldAddAnalysisOptions = false,
@@ -97,6 +100,7 @@ class JSerializerGenerator
   FutureOr<String> generateMergedContent(Stream<ModelConfig> stream) async {
     try {
       final models = await stream.toList();
+
       final classes = models
           .map(
             (e) => ClassGenerator(
@@ -254,9 +258,7 @@ class JSerializerGenerator
   }
 
   JSerializable getConfig(ClassElement clazz) {
-    final _a = TypeChecker.fromRuntime(JSerializable).firstAnnotationOf(
-      clazz,
-    );
+    final _a = jSerializableChecker.firstAnnotationOf(clazz);
 
     if (_a == null) return globalOptions;
     final i = _a.getField('fieldNameCase')?.getField('index')?.toIntValue() ??
@@ -269,6 +271,8 @@ class JSerializerGenerator
           _a.getField('fromJson')?.toBoolValue() ?? globalOptions.fromJson,
       deepToJson:
           _a.getField('deepToJson')?.toBoolValue() ?? globalOptions.deepToJson,
+      guardedLookup: _a.getField('guardedLookup')?.toBoolValue() ??
+          globalOptions.deepToJson,
       fieldNameCase: fieldNameCase,
       filterToJsonNulls: _a.getField('filterToJsonNulls')?.toBoolValue() ??
           globalOptions.filterToJsonNulls,
@@ -321,6 +325,7 @@ class JSerializerGenerator
         .toList();
 
     return ModelConfig(
+      // isCustomSerializer: customModelSerializerChecker.hasAnnotationOf(clazz),
       genericConfigs: genericConfigs,
       hasGenericValue: genericConfigs.isNotEmpty,
       fields: fields,
@@ -354,13 +359,51 @@ class JSerializerGenerator
         )
         .where((e) => !e.revive().isPrivate)
         .map(
-          (e) => CustomAdapterConfig(
-            e,
-            e.revive(),
-            typeResolver.resolveType(e.objectValue.type!),
-          ),
-        )
-        .toList();
+      (e) {
+        final canFromJson =
+            fromJsonAdapterChecker.isAssignableFromType(e.objectValue.type!);
+        final canToJson =
+            toJsonAdapterChecker.isAssignableFromType(e.objectValue.type!);
+        final isCustomAdapter =
+            customAdapterChecker.isAssignableFromType(e.objectValue.type!);
+
+        final resolvedType = typeResolver.resolveType(e.objectValue.type!);
+        final clazz = e.objectValue.type!.element! as ClassElement;
+        final superType = clazz.supertype;
+        final superName = superType?.element.displayName;
+
+        InterfaceType? mixedWith(String name) => clazz.mixins
+            .firstWhereOrNull((element) => element.element.displayName == name);
+
+        InterfaceType? implementedWith(String name) => clazz.interfaces
+            .firstWhereOrNull((element) => element.element.displayName == name);
+
+        InterfaceType? extendsWith(String name) =>
+            (superName == name ? superType : null) ??
+            mixedWith(name) ??
+            implementedWith(name);
+
+        final isFromJsonAdapterType = extendsWith('FromJsonAdapter');
+        final isToJsonAdapterType = extendsWith('ToJsonAdapter');
+        final isCustomAdapterType = extendsWith('CustomAdapter');
+
+        final adapterType = isFromJsonAdapterType ??
+            isToJsonAdapterType ??
+            isCustomAdapterType!;
+
+        final resolvedAdapter = typeResolver.resolveType(adapterType);
+
+        return CustomAdapterConfig(
+          reader: e,
+          revivable: e.revive(),
+          type: resolvedType,
+          canFromJson: canFromJson,
+          canToJson: canToJson,
+          jsonType: resolvedAdapter.typeArguments[1],
+          modelType: resolvedAdapter.typeArguments[0],
+        );
+      },
+    ).toList();
   }
 
   List<JFieldConfig> resolveFields(
@@ -376,6 +419,27 @@ class JSerializerGenerator
           (lib) => LibraryReader(lib).annotatedWith(typeChecker),
         )
         .flattened;
+    //
+    // final customSerializers = allAnnotatedClasses.where(
+    //   (e) => customModelSerializerChecker.hasAnnotationOf(e.element),
+    // );
+
+    // final customSerializersClasses =
+    //     customSerializers.map((e) => e.element as ClassElement);
+
+    // final customSerializableModels = customSerializersClasses
+    //     .map((e) => e.supertype)
+    //     .whereType<InterfaceType>()
+    //     .where(
+    //       (element) =>
+    //           TypeChecker.fromRuntime(Serializer).isAssignableFromType(element),
+    //     )
+    //     .map((e) => e.typeArguments.firstOrNull)
+    //     .whereType<DartType>();
+
+    // final resolvedCustomSerializableModels = customSerializableModels.map(
+    //   (e) => typeResolver.resolveType(e),
+    // );
 
     return sortedFields
         .map(
@@ -385,7 +449,7 @@ class JSerializerGenerator
             final type = (classField ?? param).type;
             final resolvedType = typeResolver.resolveType(type);
 
-            final genericType = classType.typeArguments.firstWhereOrNull(
+            var genericType = classType.typeArguments.firstWhereOrNull(
               (e) {
                 return e.dartType.getDisplayString(withNullability: false) ==
                         type.getDisplayString(withNullability: false) ||
@@ -400,18 +464,32 @@ class JSerializerGenerator
                     classType.typeArguments.indexOf(genericType),
                   );
 
-            var serializableClasses = allAnnotatedClasses.where(
-              (c) {
-                final clazz = c.element as ClassElement;
-                final classType = typeResolver.resolveType(clazz.thisType);
-                return classType.name == resolvedType.name ||
-                    resolvedType.hasDeepGenericOf(
-                      clazz.thisType,
-                    );
-              },
-            ).map((e) => e.element as ClassElement);
+            var serializableClasses = allAnnotatedClasses
+                .where(
+                  (c) {
+                    final clazz = c.element as ClassElement;
+                    final classType = typeResolver.resolveType(clazz.thisType);
+
+                    return classType.name == resolvedType.name ||
+                        resolvedType.hasDeepGenericOf(
+                          clazz.thisType,
+                        );
+                  },
+                )
+                .map((e) => e.element as ClassElement)
+                .toList();
+            // ..addAll(
+            //   resolvedCustomSerializableModels
+            //       .map((e) => e.dartType.element! as ClassElement),
+            // );
+
+            // final isCustomSerialized =
+            //     resolvedCustomSerializableModels.firstWhereOrNull(
+            //             (element) => element.name == resolvedType.name) !=
+            //         null;
 
             final isSerializable = serializableClasses.isNotEmpty;
+
             final serializableClass = serializableClasses.firstOrNull;
             serializableClasses = serializableClasses.skip(1).toList();
             final annotation = TypeChecker.fromRuntime(JKey)
@@ -460,11 +538,6 @@ class JSerializerGenerator
             return JFieldConfig(
               fromJsonAdapters: fromJsonAdapters,
               toJsonAdapters: toJsonAdapters,
-              neededSubSerializers: serializableClasses
-                  .map(
-                    (e) => typeResolver.resolveType(e.thisType),
-                  )
-                  .toList(),
               genericConfig: genericConfig,
               hasSerializableGenerics: genericType != null,
               genericType: genericType,
@@ -490,17 +563,27 @@ class JSerializerGenerator
 }
 
 class CustomAdapterConfig {
+  const CustomAdapterConfig({
+    required this.reader,
+    required this.revivable,
+    required this.type,
+    required this.canFromJson,
+    required this.canToJson,
+    required this.modelType,
+    required this.jsonType,
+  });
+
+  final bool canFromJson;
+  final bool canToJson;
+
   final ConstantReader reader;
   final Revivable revivable;
   final ResolvedType type;
 
-  String get adapterFieldName => '_\$${type.fullName}';
+  final ResolvedType jsonType;
+  final ResolvedType modelType;
 
-  const CustomAdapterConfig(
-    this.reader,
-    this.revivable,
-    this.type,
-  );
+  String get adapterFieldName => '_\$${type.fullName}';
 }
 
 final _header = '$_ignores\n\n$_welcome\n\n';

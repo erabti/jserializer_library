@@ -7,13 +7,14 @@ export 'src/type_plus/type_plus.dart' show typeOf;
 
 enum FieldNameCase { camel, pascal, snake, none }
 
-class JSerializable {
+class JSerializable implements JSerializableBase {
   const JSerializable({
     this.fromJson,
     this.toJson,
     this.deepToJson,
     this.filterToJsonNulls,
     this.fieldNameCase,
+    this.guardedLookup,
   });
 
   final FieldNameCase? fieldNameCase;
@@ -21,6 +22,7 @@ class JSerializable {
   final bool? toJson;
   final bool? deepToJson;
   final bool? filterToJsonNulls;
+  final bool? guardedLookup;
 }
 
 class JKey {

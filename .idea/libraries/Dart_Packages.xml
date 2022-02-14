@@ -85,6 +85,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build-2.1.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build-2.2.1/lib" />
             </list>
           </value>
         </entry>
@@ -113,6 +114,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_resolvers-2.0.5/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_resolvers-2.0.6/lib" />
             </list>
           </value>
         </entry>
@@ -120,6 +122,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner-2.1.5/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner-2.1.7/lib" />
             </list>
           </value>
         </entry>
@@ -127,6 +130,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner_core-7.2.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner_core-7.2.3/lib" />
             </list>
           </value>
         </entry>
@@ -148,6 +152,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/built_value-8.1.3/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/built_value-8.1.4/lib" />
             </list>
           </value>
         </entry>
@@ -162,7 +167,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/characters-1.2.0/lib" />
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
             </list>
           </value>
         </entry>
@@ -254,6 +258,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_style-2.2.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_style-2.2.1/lib" />
             </list>
           </value>
         </entry>
@@ -341,10 +346,18 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_test">
+          <value>
+            <list>
+              <option value="$USER_HOME$/fvm/versions/stable/packages/flutter_test/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="fpdart">
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/fpdart-0.0.12/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/fpdart-0.0.14/lib" />
             </list>
           </value>
         </entry>
@@ -387,6 +400,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/http_multi_server-3.0.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/http_multi_server-3.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -415,21 +429,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/js-0.6.3/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="jserializer">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-7c9a9f5982138fedd381a1b1e516af94b94b7654/jserializer/lib" />
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="jserializer_generator">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer_generator/lib" />
             </list>
           </value>
         </entry>
@@ -574,13 +573,6 @@
             </list>
           </value>
         </entry>
-        <entry key="print_table">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/print_table-1.0.1/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="process">
           <value>
             <list>
@@ -685,6 +677,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_gen-1.2.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_gen-1.2.1/lib" />
             </list>
           </value>
         </entry>
@@ -796,13 +789,6 @@
             </list>
           </value>
         </entry>
-        <entry key="text_table">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/text_table-2.6.0/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="timing">
           <value>
             <list>
@@ -834,7 +820,7 @@
         <entry key="vector_math">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -898,9 +884,6 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-7c9a9f5982138fedd381a1b1e516af94b94b7654/jserializer/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-cc0cd4c6d126766522940b9bbf4800b3d553140b/jserializer_generator/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-30.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-31.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-2.7.0/lib" />
@@ -915,17 +898,21 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/browser_launcher-1.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build-2.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build-2.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_config-1.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_daemon-3.0.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_modules-4.0.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_resolvers-2.0.5/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_resolvers-2.0.6/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner-2.1.5/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner-2.1.7/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner_core-7.2.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner_core-7.2.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_web_compilers-3.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/built_collection-5.1.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/built_value-8.1.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/built_value-8.1.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/change_case-1.0.1/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/characters-1.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/charcode-1.3.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/checked_yaml-2.0.1/lib" />
@@ -940,6 +927,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/csslib-0.17.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_json_mapper-2.1.17/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_style-2.2.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_style-2.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dds-2.1.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/devtools_shared-2.7.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/directed_graph-0.3.6/lib" />
@@ -952,12 +940,14 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_template_images-4.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/fpdart-0.0.12/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/fpdart-0.0.14/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/frontend_server_client-2.1.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/glob-2.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/graphs-2.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/html-0.15.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/http-0.13.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/http_multi_server-3.0.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/http_multi_server-3.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/io-1.0.3/lib" />
@@ -983,7 +973,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/petitparser-4.4.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/platform-3.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pool-1.5.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/print_table-1.0.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/process-4.2.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/protobuf-2.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pub_semver-2.1.0/lib" />
@@ -1000,6 +989,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/shelf_static-1.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/shelf_web_socket-1.0.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_gen-1.2.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_gen-1.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_helper-1.3.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_map_stack_trace-2.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_maps-0.10.10/lib" />
@@ -1018,12 +1008,11 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.8/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_core-0.4.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_core-0.4.9/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/text_table-2.6.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/timing-1.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/usage-4.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/uuid-3.0.5/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vm_service-7.3.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vm_service-7.5.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vm_snapshot_analysis-0.7.0/lib" />
@@ -1035,6 +1024,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/yaml-3.1.0/lib" />
       <root url="file://$USER_HOME$/fvm/versions/stable/bin/cache/pkg/sky_engine/lib" />
       <root url="file://$USER_HOME$/fvm/versions/stable/packages/flutter/lib" />
+      <root url="file://$USER_HOME$/fvm/versions/stable/packages/flutter_test/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

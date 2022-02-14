@@ -237,6 +237,9 @@
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/conductor/core/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/conductor/core/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/conductor/core/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/.dart_tool" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

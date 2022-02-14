@@ -56,7 +56,6 @@ class JSerializerImpl extends JSerializerInterface {
     final serializer = serializers[serializerType];
 
     if (serializer == null) {
-      print(serializers);
       throw Exception(
         'Cannot find serializer for type of '
         '${serializerType == UnresolvedType ? '$serializerType of ${t ?? T}' : serializerType}',
@@ -231,6 +230,8 @@ class SuperTypeResolver {
 
     try {
       return _types[base]!.call(fn);
+    } on JSerializationError {
+      rethrow;
     } catch (e, s) {
       throw Exception('Error resolving type of $type of base $base: $e\n$s');
     }

@@ -1,6 +1,5 @@
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element.dart'
-    show ClassElement;
+import 'package:analyzer/dart/element/element.dart' show ClassElement;
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:fpdart/fpdart.dart';
@@ -182,7 +181,9 @@ class ClassGenerator extends ElementGenerator<Class> {
       );
     }
 
-    if (type.isPrimitive) return ref;
+    if (type.isPrimitive) {
+      return ref;
+    }
 
     if (field.hasSerializableGenerics && !type.isListOrMap) {
       final String methodName;
@@ -383,8 +384,9 @@ class ClassGenerator extends ElementGenerator<Class> {
       final defaultValueCode = !hasDefaultValue
           ? literalNull
           : CodeExpression(Code(field.defaultValueCode!));
+      final guardedLookup = config.guardedLookup == true;
 
-      final jsonExp = refer('json').index(
+      final Expression jsonExp = refer('json').index(
         literalString(field.jsonName),
       );
 
@@ -393,25 +395,63 @@ class ClassGenerator extends ElementGenerator<Class> {
         if (hasDefaultValue) {
           exp = exp.ifNullThen(defaultValueCode);
         }
+
         for (final adapter in field.fromJsonAdapters) {
           exp = refer(adapter.adapterFieldName).property('fromJson').call([
             exp,
           ]);
         }
-        final s = exp
-            .assignFinal(
-              field.fieldNameValueSuffixed,
-              refer(
-                  field.type.dartType.getDisplayString(withNullability: true)),
-            )
-            .statement;
+
+        final type =
+            field.type.dartType.getDisplayString(withNullability: true);
+        final typeRefer = refer(type);
+
+        if (guardedLookup) {
+          exp = refer('safe').call(
+            [],
+            {
+              'call': Method(
+                (b) => b
+                  ..lambda = true
+                  ..body = exp.code,
+              ).closure,
+              'jsonName': literalString(field.jsonName),
+              if (field.jsonName != field.fieldName)
+                'fieldName': literalString(field.fieldName),
+            },
+            [typeRefer],
+          );
+        }
+
+        final s =
+            exp.assignFinal(field.fieldNameValueSuffixed, typeRefer).statement;
 
         statements.add(s);
       } else if (field.type.isPrimitive) {
         var exp = jsonExp;
+
+        if (guardedLookup) {
+          exp = refer('mapLookup').call(
+            [],
+            {
+              'jsonName': literalString(field.jsonName),
+              if (field.jsonName != field.fieldName)
+                'fieldName': literalString(field.fieldName),
+              'json': refer('json'),
+            },
+            [
+              field.type.referNullAware.rebuild(
+                (b) =>
+                    b..isNullable = hasDefaultValue || (b.isNullable ?? false),
+              ),
+            ],
+          );
+        }
+
         if (hasDefaultValue) {
           exp = exp.ifNullThen(defaultValueCode);
         }
+
         final s = exp
             .assignFinal(
               field.fieldNameValueSuffixed,
@@ -422,11 +462,13 @@ class ClassGenerator extends ElementGenerator<Class> {
         statements.add(s);
       } else {
         final type = field.type.dartType;
+
         var jsonExp = refer('json')
             .index(
               literalString(field.jsonName),
             )
             .assignFinal(field.fieldNameJsonSuffixed);
+
         statements.add(jsonExp.statement);
         final jsonExpRefer = refer(field.fieldNameJsonSuffixed);
 
@@ -437,6 +479,28 @@ class ClassGenerator extends ElementGenerator<Class> {
                 defaultValueCode,
                 s,
               );
+        }
+
+        if (guardedLookup) {
+          final type =
+              field.type.dartType.getDisplayString(withNullability: true);
+          final typeRefer = refer(type);
+
+          s = refer('safe').call(
+            [],
+            {
+              'call': Method(
+                (b) => b
+                  ..lambda = true
+                  ..body = s.code,
+              ).closure,
+              'jsonName': literalString(field.jsonName),
+              if (isGeneric) 'modelType': refer('M'),
+              if (field.jsonName != field.fieldName)
+                'fieldName': literalString(field.fieldName),
+            },
+            [typeRefer],
+          );
         }
 
         s = s.assignFinal(
@@ -539,8 +603,12 @@ class ClassGenerator extends ElementGenerator<Class> {
 
   List<Field> getCustomAdapters() {
     final fields = <Field>[];
+    final ids = <String>{};
+
     for (final field in modelConfig.fields) {
       for (final adapter in field.allAdapters) {
+        if (ids.contains(adapter.adapterFieldName)) continue;
+
         final f = Field(
           (b) => b
             ..name = adapter.adapterFieldName
@@ -561,6 +629,7 @@ class ClassGenerator extends ElementGenerator<Class> {
             ).code,
         );
         fields.add(f);
+        ids.add(adapter.adapterFieldName);
       }
     }
 
@@ -598,7 +667,13 @@ class ClassGenerator extends ElementGenerator<Class> {
       final fieldName = e.fullNameAsSerializer;
       final isGeneric = e.typeArguments.isNotEmpty;
       final clazz = e.dartType.element!;
+
+      //
+      // final fieldConfig = modelConfig.fields
+      //     .firstWhereOrNull((element) => element.fieldName == e.name);
+
       final isSerializable = jSerializableChecker.hasAnnotationOf(clazz);
+
       final Code instance;
 
       if (isSerializable && isGeneric) {
@@ -755,10 +830,12 @@ class JFieldConfig {
     required this.serializableClassType,
     this.isSerializableModel = false,
     this.defaultValueCode,
-    required this.neededSubSerializers,
     required this.fromJsonAdapters,
     required this.toJsonAdapters,
+    // required this.hasCustomSerializer,
   });
+
+  // final bool hasCustomSerializer;
 
   final List<CustomAdapterConfig> fromJsonAdapters;
   final List<CustomAdapterConfig> toJsonAdapters;
@@ -779,7 +856,6 @@ class JFieldConfig {
 
   bool get hasCustomAdapters => hasFromJsonAdapters || hasToJsonAdapters;
 
-  final List<ResolvedType> neededSubSerializers;
   final ModelGenericConfig? genericConfig;
   final bool hasSerializableGenerics;
   final ResolvedType? genericType;
@@ -809,14 +885,14 @@ class JFieldConfig {
   Reference get serializableClassTypeRefer =>
       serializableClassTypeReferNullable!;
 
-  String get fieldNameJsonSuffixed => '${fieldName}\$Json';
+  String get fieldNameJsonSuffixed => '$fieldName\$Json';
 
   String get serializableClassName => serializableClassElement!.name;
 
   String get serializableClassNameLowerCase =>
       serializableClassName.firstLowerCase();
 
-  String get fieldNameValueSuffixed => '${fieldName}\$Value';
+  String get fieldNameValueSuffixed => '$fieldName\$Value';
 
   String get fieldNameSerializerSuffixed {
     return type.isListOrMap
