@@ -392,14 +392,15 @@ class ClassGenerator extends ElementGenerator<Class> {
 
       if (field.hasFromJsonAdapters) {
         var exp = jsonExp;
-        if (hasDefaultValue) {
-          exp = exp.ifNullThen(defaultValueCode);
-        }
 
         for (final adapter in field.fromJsonAdapters) {
           exp = refer(adapter.adapterFieldName).property('fromJson').call([
             exp,
           ]);
+        }
+
+        if (hasDefaultValue) {
+          exp = exp.ifNullThen(defaultValueCode);
         }
 
         final type =
