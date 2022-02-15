@@ -20,10 +20,6 @@ mixin _NumAdapterBase<T extends num?, Json> on CustomAdapter<T, Json> {
 
     if (json == null) return fallback ?? _throwError();
 
-    if (json is String) {
-      return (num.tryParse(json) as T?) ?? fallback ?? _throwError();
-    }
-
     if (handleBool && json is bool) {
       final isNum = _isEqual<T, num>();
       final isInt = !isNum && _isEqual<T, int>();
@@ -32,7 +28,7 @@ mixin _NumAdapterBase<T extends num?, Json> on CustomAdapter<T, Json> {
       if (isDouble) return (json ? 1.0 : 0.0) as T;
     }
 
-    _throwError();
+    return (num.tryParse(json.toString()) as T?) ?? fallback ?? _throwError();
   }
 
   @override

@@ -143,7 +143,7 @@ abstract class ModelSerializer<Model> extends Serializer<Model> {
   @override
   Function get decoder => fromJson;
 
-  Model fromJson(Map<String, dynamic> json) => throw UnimplementedError();
+  Model fromJson(json) => throw UnimplementedError();
 }
 
 abstract class GenericModelSerializerBase<Model> extends Serializer<Model> {
@@ -155,7 +155,7 @@ abstract class GenericModelSerializerBase<Model> extends Serializer<Model> {
   final JSerializerInterface? jSerializer;
   final Serializer? serializer;
 
-  M fromJson<M extends Model>(Map<String, dynamic> json);
+  M fromJson<M extends Model>(json);
 
   getGenericValueToJson(model, Serializer? serializer) {
     if (serializer == null) return jSerializer!.toJson(model);
