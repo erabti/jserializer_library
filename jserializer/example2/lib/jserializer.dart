@@ -7,166 +7,29 @@
 // **************************************************************************
 
 import 'package:jserializer/jserializer.dart' as js;
-import 'package:example2/model/model1.dart';
+import 'package:example2/model/model.dart';
 
-class Model1Serializer extends js.ModelSerializer<Model1> {
-  const Model1Serializer();
+class ModelSerializer extends js.ModelSerializer<Model> {
+  const ModelSerializer();
 
-  static const _$JIntNullableAdapter = js.JIntNullableAdapter();
-
-  static const _$JNumToBoolAdapter = js.JNumToBoolAdapter();
+  static const jsonKeys = {'field1', 'field2'};
 
   @override
-  Model1 fromJson(json) {
-    final int intField$Value = safe<int>(
-        call: () => _$JIntNullableAdapter.fromJson(json['intField']) ?? 2,
-        jsonName: 'intField');
-    final int? intField2$Value = mapLookup(jsonName: 'intField2', json: json);
-    final String stringField$Value =
-        mapLookup(jsonName: 'stringField', json: json);
-    final stringFieldList$Json = json['stringFieldList'];
-    final List<String>? stringFieldList$Value = safe<List<String>?>(
-        call: () => stringFieldList$Json == null
-            ? null
-            : List<String>.from((stringFieldList$Json as List)),
-        jsonName: 'stringFieldList');
-    final bool x$Value = safe<bool>(
-        call: () => _$JNumToBoolAdapter.fromJson(json['x']), jsonName: 'x');
-    return Model1(
-        intField: intField$Value,
-        intField2: intField2$Value,
-        stringField: stringField$Value,
-        stringFieldList: stringFieldList$Value,
-        x: x$Value);
+  Model fromJson(json) {
+    final String field1$Value = mapLookup(jsonName: 'field1', json: json);
+    final String field2$Value = mapLookup(jsonName: 'field2', json: json);
+    final extras$Value = Map<String, dynamic>.from(json)
+      ..removeWhere((key, _) => jsonKeys.contains(key));
+    return Model(
+        field1: field1$Value, field2: field2$Value, extras: extras$Value);
   }
 
   @override
-  Map<String, dynamic> toJson(Model1 model) => {
-        'intField': _$JIntNullableAdapter.toJson(model.intField),
-        'intField2': model.intField2,
-        'stringField': model.stringField,
-        'stringFieldList': model.stringFieldList,
-        'x': _$JNumToBoolAdapter.toJson(model.x)
-      };
-}
-
-class Model2Serializer extends js.ModelSerializer<Model2> {
-  const Model2Serializer();
-
-  static const _Model1Serializer = Model1Serializer();
-
-  @override
-  Model2 fromJson(json) {
-    final model1$Json = json['model1'];
-    final Model1 model1$Value = safe<Model1>(
-        call: () => _Model1Serializer.fromJson(model1$Json),
-        jsonName: 'model1');
-    final models1$Json = json['models1'];
-    final List<Model1> models1$Value = safe<List<Model1>>(
-        call: () => List<Model1>.from(
-            (models1$Json as List).map((e) => _Model1Serializer.fromJson(e))),
-        jsonName: 'models1');
-    return Model2(model1: model1$Value, models1: models1$Value);
-  }
-
-  @override
-  Map<String, dynamic> toJson(Model2 model) => {
-        'model1': _Model1Serializer.toJson(model.model1),
-        'models1': model.models1.map((e) => _Model1Serializer.toJson(e))
-      };
-}
-
-class Model4Serializer extends js.ModelSerializer<Model4> {
-  const Model4Serializer();
-
-  static const _Model1Serializer = Model1Serializer();
-
-  @override
-  Model4 fromJson(json) {
-    final String someText$Value =
-        mapLookup(jsonName: 'someText', json: json) ?? 'Hey';
-    final listText$Json = json['listText'];
-    final List<String> listText$Value = safe<List<String>>(
-        call: () => listText$Json == null
-            ? const []
-            : List<String>.from((listText$Json as List)),
-        jsonName: 'listText');
-    final listListText$Json = json['listListText'];
-    final List<List<String>> listListText$Value = safe<List<List<String>>>(
-        call: () => listListText$Json == null
-            ? const []
-            : List<List<String>>.from((listListText$Json as List)
-                .map((e) => List<String>.from((e as List)))),
-        jsonName: 'listListText');
-    final models$Json = json['models'];
-    final List<List<Model1>> models$Value = safe<List<List<Model1>>>(
-        call: () => models$Json == null
-            ? const []
-            : List<List<Model1>>.from((models$Json as List).map((e) =>
-                List<Model1>.from(
-                    (e as List).map((e) => _Model1Serializer.fromJson(e))))),
-        jsonName: 'models');
-    return Model4(
-        someText: someText$Value,
-        listText: listText$Value,
-        listListText: listListText$Value,
-        models: models$Value);
-  }
-
-  @override
-  Map<String, dynamic> toJson(Model4 model) => {
-        'someText': model.someText,
-        'listText': model.listText,
-        'listListText': model.listListText,
-        'models':
-            model.models.map((e) => e.map((e) => _Model1Serializer.toJson(e)))
-      };
-}
-
-class Model3Serializer extends js.GenericModelSerializer<Model3> {
-  Model3Serializer(js.JSerializerInterface jSerializer) : super(jSerializer);
-
-  Model3Serializer.from({required js.Serializer serializer})
-      : super.from(serializer: serializer);
-
-  static const _Model2Serializer = Model2Serializer();
-
-  @override
-  M fromJsonGeneric<M extends Model3, T>(json) {
-    final model1$Json = json['model1'];
-    final Model2 model1$Value = safe<Model2>(
-        call: () => _Model2Serializer.fromJson(model1$Json),
-        jsonName: 'model1',
-        modelType: M);
-    final value$Json = json['value'];
-    final T value$Value = safe<T>(
-        call: () => getGenericValue<T>(value$Json, serializer),
-        jsonName: 'value',
-        modelType: M);
-    final extras$Json = json['extras'];
-    final Map<String, dynamic> extras$Value = safe<Map<String, dynamic>>(
-        call: () => Map<String, dynamic>.from((extras$Json as Map)),
-        jsonName: 'extras',
-        modelType: M);
-    return (Model3<T>(
-        model1: model1$Value, value: value$Value, extras: extras$Value) as M);
-  }
-
-  @override
-  Map<String, dynamic> toJson(Model3 model) => {
-        'model1': _Model2Serializer.toJson(model.model1),
-        'value': getGenericValueToJson(model.value, serializer),
-        'extras': model.extras
-      };
+  Map<String, dynamic> toJson(Model model) =>
+      {'field1': model.field1, 'field2': model.field2}..addAll(model.extras);
 }
 
 void initializeJSerializer() {
-  js.JSerializer.register<Model1>(
-      (_) => const Model1Serializer(), (Function f) => f<Model1>());
-  js.JSerializer.register<Model2>(
-      (_) => const Model2Serializer(), (Function f) => f<Model2>());
-  js.JSerializer.register<Model4>(
-      (_) => const Model4Serializer(), (Function f) => f<Model4>());
-  js.JSerializer.register<Model3>(
-      (s) => Model3Serializer(s), <T>(Function f) => f<Model3<T>>());
+  js.JSerializer.register<Model>(
+      (_) => const ModelSerializer(), (Function f) => f<Model>());
 }
