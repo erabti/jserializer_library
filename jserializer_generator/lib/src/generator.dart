@@ -61,7 +61,10 @@ class ModelConfig {
     required this.hasGenericValue,
     required this.genericConfigs,
     // this.isCustomSerializer = false,
+    this.extrasField,
   });
+
+  final JFieldConfig? extrasField;
 
   String get baseSerializeName {
     if (genericConfigs.isEmpty) return 'ModelSerializer';
@@ -292,7 +295,20 @@ class JSerializerGenerator
 
     final config = getConfig(clazz);
 
-    final fields = resolveFields(resolver!, clazz, config);
+    final _fields = resolveFields(resolver!, clazz, config);
+    final extraFields = _fields
+        .where(
+          (e) => e.keyConfig.isExtras,
+        )
+        .toList();
+    if (extraFields.length > 1) {
+      throw Exception(
+        'Error parsing ${clazz.name}: You have declared more than one field as extras field.',
+      );
+    }
+    final extraField = extraFields.firstOrNull;
+    final fields = _fields.where((e) => !e.keyConfig.isExtras).toList();
+
     final type = resolver.resolveType(clazz.thisType);
 
     final fieldTypes = fields.map(
@@ -327,6 +343,7 @@ class JSerializerGenerator
     return ModelConfig(
       // isCustomSerializer: customModelSerializerChecker.hasAnnotationOf(clazz),
       genericConfigs: genericConfigs,
+      extrasField: extraField,
       hasGenericValue: genericConfigs.isNotEmpty,
       fields: fields,
       classElement: clazz,
@@ -492,6 +509,7 @@ class JSerializerGenerator
 
             final serializableClass = serializableClasses.firstOrNull;
             serializableClasses = serializableClasses.skip(1).toList();
+
             final annotation = TypeChecker.fromRuntime(JKey)
                 .firstAnnotationOf(classField ?? param);
 
@@ -510,9 +528,25 @@ class JSerializerGenerator
             final jKey =
                 annotation == null ? null : jKeyFromDartObj(annotation);
 
+            if (jKey?.isExtras == true) {
+              if (!resolvedType.isJson) {
+                throw Exception(
+                  'Error generating ${className}Serializer: '
+                  'Extras field of [$className.${param.type} ${param.name}] is not Map<String, dynamic>',
+                );
+              }
+              if (param.isNotOptional) {
+                throw Exception(
+                  'Error generating ${className}Serializer: '
+                  'Extras field of [$className.${param.type} ${param.name}] is not optional',
+                );
+              }
+            }
+
             if (jKey?.ignore == true && param.isNotOptional) {
               throw Exception(
-                'Error generating ${className}Serializer: [${param.type} ${param.name}] is  required and marked as ignored',
+                'Error generating ${className}Serializer: '
+                '[$className.${param.type} ${param.name}] is required and marked as ignored',
               );
             }
 
@@ -557,7 +591,9 @@ class JSerializerGenerator
             );
           },
         )
-        .where((element) => !(element as dynamic).keyConfig.ignore)
+        .where(
+          (element) => !element.keyConfig.ignore || element.keyConfig.isExtras,
+        )
         .toList();
   }
 }

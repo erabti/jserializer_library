@@ -270,7 +270,7 @@ class ClassGenerator extends ElementGenerator<Class> {
   }
 
   Method getModelToJson() {
-    final json = <Expression, Expression>{};
+    final json = <Object?, Object?>{};
     for (final f in modelConfig.fields) {
       final value = refer('model').property(f.fieldName);
       final filterNulls = f.type.isNullable && config.filterToJsonNulls!;
@@ -313,13 +313,34 @@ class ClassGenerator extends ElementGenerator<Class> {
       json[key] = value;
     }
 
+    Expression body = literalMap(json);
+
+    if (modelConfig.extrasField != null) {
+      if (modelConfig.extrasField!.keyConfig.overridesFields) {
+        body = body.cascade('addAll').call(
+          [
+            refer('model').property(modelConfig.extrasField!.fieldName),
+          ],
+        );
+      } else {
+        body = refer('model')
+            .property(modelConfig.extrasField!.fieldName)
+            .cascade('addAll')
+            .call(
+          [
+            body,
+          ],
+        );
+      }
+    }
+
     return Method(
       (b) => b
         ..name = 'toJson'
         ..annotations.add(overrideAnnotation)
         ..returns = jsonTypeRefer
         ..lambda = true
-        ..body = literalMap(json).code
+        ..body = body.code
         ..requiredParameters.add(
           Parameter(
             (b) => b
@@ -384,6 +405,7 @@ class ClassGenerator extends ElementGenerator<Class> {
       final defaultValueCode = !hasDefaultValue
           ? literalNull
           : CodeExpression(Code(field.defaultValueCode!));
+
       final guardedLookup = config.guardedLookup == true;
 
       final Expression jsonExp = refer('json').index(
@@ -519,15 +541,49 @@ class ClassGenerator extends ElementGenerator<Class> {
     final positionalFields = fields.where((e) => !e.isNamed).toList();
     final namedFields = fields.where((e) => e.isNamed).toList();
 
+    if (modelConfig.extrasField != null) {
+      final jsonKeyRefer = refer('jsonKeys');
+      final extrasBody = TypeReference((b) => b
+            ..symbol = 'Map'
+            ..types.addAll(
+              [refer('String'), refer('dynamic')],
+            ))
+          .property('from')
+          .call([refer('json')])
+          .cascade('removeWhere')
+          .call([
+            Method(
+              (b) => b
+                ..lambda = true
+                ..requiredParameters.addAll(
+                  [
+                    Parameter((b) => b..name = 'key'),
+                    Parameter((b) => b..name = '_'),
+                  ],
+                )
+                ..body = jsonKeyRefer.property('contains').call(
+                  [refer('key')],
+                ).code,
+            ).closure,
+          ])
+          .assignFinal(modelConfig.extrasField!.fieldNameValueSuffixed);
+      statements.add(extrasBody.statement);
+    }
+
     final returnedModel = thisRefer.newInstance(
       [
         ...positionalFields.map(
           (e) => refer(e.fieldNameValueSuffixed),
-        )
+        ),
+        if (modelConfig.extrasField?.isNamed == false)
+          refer(modelConfig.extrasField!.fieldNameValueSuffixed),
       ],
       {
         for (final f in namedFields)
           f.fieldName: refer(f.fieldNameValueSuffixed),
+        if (modelConfig.extrasField?.isNamed == true)
+          modelConfig.extrasField!.fieldName:
+              refer(modelConfig.extrasField!.fieldNameValueSuffixed),
       },
       [
         ...modelConfig.genericConfigs.map((e) => e.type.refer),
@@ -732,6 +788,16 @@ class ClassGenerator extends ElementGenerator<Class> {
     return fields;
   }
 
+  Field getJsonKeysField() => Field(
+        (b) => b
+          ..name = 'jsonKeys'
+          ..static = true
+          ..modifier = FieldModifier.constant
+          ..assignment = literalSet(
+            modelConfig.fields.map((e) => literalString(e.jsonName)),
+          ).code,
+      );
+
   Reader<ClassBuilder, ClassBuilder> _implement() {
     return Reader(
       (ClassBuilder b) {
@@ -739,6 +805,7 @@ class ClassGenerator extends ElementGenerator<Class> {
           ..fields.addAll([
             ...getSubModelsSerializersFields(),
             ...getCustomAdapters(),
+            getJsonKeysField(),
           ])
           ..methods.addAll(
             [
@@ -816,10 +883,33 @@ class ClassGenerator extends ElementGenerator<Class> {
       );
 }
 
-JKey jKeyFromDartObj(DartObject obj) => JKey(
+JKeyConfig jKeyFromDartObj(DartObject obj) => JKeyConfig(
       ignore: obj.getField('ignore')?.toBoolValue() ?? false,
       name: obj.getField('name')?.toStringValue(),
+      isExtras: obj.getField('isExtras')?.toBoolValue() ?? false,
+      overridesFields: obj.getField('overridesFields')?.toBoolValue() ?? false,
     );
+
+class JKeyConfig implements JKey {
+  const JKeyConfig({
+    required this.ignore,
+    required this.isExtras,
+    this.name,
+    required this.overridesFields,
+  });
+
+  @override
+  final bool ignore;
+
+  @override
+  final bool isExtras;
+
+  @override
+  final String? name;
+
+  @override
+  final bool overridesFields;
+}
 
 class JFieldConfig {
   const JFieldConfig({

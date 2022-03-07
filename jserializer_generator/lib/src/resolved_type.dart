@@ -22,6 +22,11 @@ class ResolvedType {
     return dartType.isDartCoreMap;
   }
 
+  bool get isJson =>
+      isMap &&
+      typeArguments[0].dartType.isDartCoreString &&
+      typeArguments[1].dartType.isDynamic == true;
+
   bool get isListOrMap {
     return isList || isMap;
   }
