@@ -113,6 +113,7 @@ class ClassGenerator extends ElementGenerator<Class> {
 
       if (!isFromJson) {
         return mapList(ref).property('toList').call([]);
+
       }
 
       return listFromRef(type: typeArg.refer).call(
