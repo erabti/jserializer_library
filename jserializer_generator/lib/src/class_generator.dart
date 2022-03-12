@@ -120,7 +120,7 @@ class ClassGenerator extends ElementGenerator<Class> {
           if (!typeArg.isPrimitive)
             mapList(
               ref.asA(
-                refer('List'),
+                refer('Iterable'),
               ),
             )
           else
