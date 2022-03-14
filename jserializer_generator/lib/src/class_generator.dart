@@ -112,6 +112,7 @@ class ClassGenerator extends ElementGenerator<Class> {
           );
 
       if (!isFromJson) {
+        typeArg.isPrimitive;
         return mapList(ref).property('toList').call([]);
 
       }
@@ -189,7 +190,7 @@ class ClassGenerator extends ElementGenerator<Class> {
     if (field.hasSerializableGenerics && !type.isListOrMap) {
       final String methodName;
       final length = type.typeArguments.length;
-      final shouldSuffix = length > 0 && length < 5;
+      final shouldSuffix = length > 0 && length < 5 && !field.type.isListOrMap;
       if (isFromJson) {
         methodName = 'getGenericValue${shouldSuffix ? length : ''}';
       } else {
