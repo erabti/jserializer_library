@@ -240,6 +240,15 @@
       <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/build" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher/build" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/build" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher_builder/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher_builder/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher_builder/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
