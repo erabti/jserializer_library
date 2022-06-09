@@ -721,6 +721,7 @@ const _welcome = '''
 ''';
 
 const _rules = <String>[
+  'unnecessary_null_checks',
   'prefer-match-file-name',
   'depend_on_referenced_packages',
   'lines_longer_than_80_chars',
