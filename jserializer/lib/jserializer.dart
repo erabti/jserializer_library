@@ -7,6 +7,8 @@ export 'src/type_plus/type_plus.dart' show typeOf;
 
 enum FieldNameCase { camel, pascal, snake, none }
 
+const jSerializable = JSerializable();
+
 class JSerializable implements JSerializableBase {
   const JSerializable({
     this.fromJson,

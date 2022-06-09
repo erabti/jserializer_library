@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:jserializer/jserializer.dart';
 
 @JSerializable(
@@ -18,8 +19,10 @@ class Model2<T, R> {
     required this.locations,
     required this.v,
     required this.value3,
+    this.color,
   });
 
+  final Color? color;
   final T v;
   final Location location;
   final City city;

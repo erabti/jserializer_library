@@ -17,6 +17,7 @@ Builder jSerializerBuilder(BuilderOptions options) {
   final shouldAddAnalysisFile =
       options.config['export_models_analysis'] ?? false;
 
+
   return MergingBuilder<ModelConfig, LibDir>(
     generator: JSerializerGenerator(
       config,

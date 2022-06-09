@@ -35,12 +35,67 @@ class ResolvedType {
     return dartType.isDartCoreList;
   }
 
+  List<ResolvedType> _getDistinctTypesWithDisplayNameOf(
+    List<ResolvedType> types,
+  ) {
+    final typeNames = <String>{};
+    final typeNamesDistinct = <ResolvedType>[];
+
+    for (final f in types) {
+      if (typeNames.add(
+        f.dartType.getDisplayString(withNullability: false),
+      )) typeNamesDistinct.add(f);
+    }
+
+    return typeNamesDistinct;
+  }
+
+  List<ResolvedType> distinctFlatTypes({
+    bool Function(ResolvedType type) skip = _flatTypesSkip,
+  }) =>
+      _getDistinctTypesWithDisplayNameOf(flatTypes().toSet().toList());
+
+  static bool _flatTypesSkip(ResolvedType type) => false;
+
+  List<ResolvedType> flatTypes({
+    bool Function(ResolvedType type) skip = _flatTypesSkip,
+  }) {
+    List<ResolvedType> _flatTypes(ResolvedType type) {
+      final result = <ResolvedType>[if (!skip(type)) type];
+
+      for (final t in type.typeArguments) {
+        if (skip(t)) continue;
+        if (t.typeArguments.isEmpty) result.add(t);
+        final inners = _flatTypes(t);
+        result.addAll(inners);
+      }
+
+      return result;
+    }
+
+    return _flatTypes(this);
+  }
+
+  bool isPrimitiveOrListOrMap({
+    bool Function(ResolvedType type) skip = _flatTypesSkip,
+  }) =>
+      flatTypes(skip: skip).every(
+        (e) => e.isList || e.isMap || e.isPrimitive,
+      );
+
   ResolvedType? get listTypeArgument => !isList ? null : typeArguments.first;
 
   bool get isPrimitiveList {
     return isList &&
         typeArguments.every(
           (t) => _isPrimitive(t.dartType),
+        );
+  }
+
+  bool get isPrimitiveNestedMapOrList {
+    return (isMap || isList) &&
+        typeArguments.every(
+          (t) => _isPrimitive(t.dartType) || t.isPrimitiveNestedMapOrList,
         );
   }
 

@@ -8,11 +8,7 @@ analyzer:
     STRICT_RAW_TYPE: error
   plugins:
     - dart_code_metrics
-  exclude:
-    - "test/**"
-    - "package/**/test/**"
-    - "**/*.g.dart"
-    - "**/*.freezed.dart"
+
 
 dart_code_metrics:
   metrics:

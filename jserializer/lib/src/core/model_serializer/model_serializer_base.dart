@@ -3,6 +3,12 @@ import 'package:jserializer/src/type_plus/type_plus.dart';
 
 abstract class JSerializableBase {}
 
+const customJSerializer = CustomJSerializer();
+
+class CustomJSerializer implements JSerializableBase {
+  const CustomJSerializer();
+}
+
 class JSerializationError<ExpectedType> {
   Type get expectedType => ExpectedType;
 

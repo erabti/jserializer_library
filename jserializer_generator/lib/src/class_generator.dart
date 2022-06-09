@@ -81,13 +81,12 @@ class ClassGenerator extends ElementGenerator<Class> {
         },
       );
 
-  Expression resolve(
+  Expression resolveFromJson(
     JFieldConfig field,
     ResolvedType type,
     Expression ref,
-    bool isFromJson,
   ) {
-    final serializerMethod = isFromJson ? 'fromJson' : 'toJson';
+    final serializerMethod = 'fromJson';
 
     if (type.isList) {
       final typeArg = type.typeArguments.first;
@@ -96,11 +95,10 @@ class ClassGenerator extends ElementGenerator<Class> {
             [
               Method(
                 (b) => b
-                  ..body = resolve(
+                  ..body = resolveFromJson(
                     field,
                     typeArg,
                     refer('e'),
-                    isFromJson,
                   ).code
                   ..requiredParameters.add(
                     Parameter(
@@ -110,12 +108,6 @@ class ClassGenerator extends ElementGenerator<Class> {
               ).closure
             ],
           );
-
-      if (!isFromJson) {
-        typeArg.isPrimitive;
-        return mapList(ref).property('toList').call([]);
-
-      }
 
       return listFromRef(type: typeArg.refer).call(
         [
@@ -143,11 +135,10 @@ class ClassGenerator extends ElementGenerator<Class> {
                   ..body = refer('MapEntry').newInstance(
                     [
                       refer('key'),
-                      resolve(
+                      resolveFromJson(
                         field,
                         typeArg,
                         refer('value'),
-                        isFromJson,
                       )
                     ],
                   ).code
@@ -162,10 +153,6 @@ class ClassGenerator extends ElementGenerator<Class> {
               ).closure
             ],
           );
-
-      if (!isFromJson) {
-        return mapMap(ref);
-      }
 
       return mapFromRef(types: type.refer.types.toList()).call(
         [
@@ -191,11 +178,7 @@ class ClassGenerator extends ElementGenerator<Class> {
       final String methodName;
       final length = type.typeArguments.length;
       final shouldSuffix = length > 0 && length < 5 && !field.type.isListOrMap;
-      if (isFromJson) {
-        methodName = 'getGenericValue${shouldSuffix ? length : ''}';
-      } else {
-        methodName = 'getGenericValueToJson';
-      }
+      methodName = 'getGenericValue${shouldSuffix ? length : ''}';
 
       final isDependantOnUndefinedGeneric = field.genericConfig != null;
       final _refer = refer(methodName).call([
@@ -207,8 +190,8 @@ class ClassGenerator extends ElementGenerator<Class> {
         else if (field.genericConfig != null)
           refer(field.genericConfig!.serializerName),
       ], {}, [
-        if (isFromJson && field.type.isListOrMap) field.genericType!.refer,
-        if (isFromJson && !field.type.isListOrMap) ...[
+        if (field.type.isListOrMap) field.genericType!.refer,
+        if (!field.type.isListOrMap) ...[
           type.refer,
           if (shouldSuffix) ...type.typeArguments.map((e) => e.refer),
         ]
@@ -231,12 +214,12 @@ class ClassGenerator extends ElementGenerator<Class> {
                       jSerializerImport,
                     ),
                   )
-                  .property(isFromJson ? 'fromJsonGeneric' : 'toJson')
+                  .property('fromJsonGeneric')
                   .call(
                     [ref],
                     {},
                     [
-                      if (isFromJson) ...[
+                      ...[
                         type.refer,
                         ...type.typeArguments.map((e) => e.refer),
                       ]
@@ -248,9 +231,7 @@ class ClassGenerator extends ElementGenerator<Class> {
       return _refer;
     }
 
-    if (field.isSerializableAndHasGenerics &&
-        isFromJson &&
-        !field.type.isListOrMap) {
+    if (field.isSerializableAndHasGenerics && !field.type.isListOrMap) {
       final methodName = 'fromJsonGeneric';
       return refer(field.fieldNameSerializerSuffixed).property(methodName).call(
         [ref],
@@ -271,11 +252,135 @@ class ClassGenerator extends ElementGenerator<Class> {
     return ref;
   }
 
+  Expression resolveToJson(
+    JFieldConfig field,
+    ResolvedType type,
+    Expression ref,
+  ) {
+    final serializerMethod = 'toJson';
+
+    if (type.isList) {
+      final typeArg = type.typeArguments.first;
+
+      Expression mapList(Expression e) => e.property('map').call(
+            [
+              Method(
+                (b) => b
+                  ..body = resolveToJson(
+                    field,
+                    typeArg,
+                    refer('e'),
+                  ).code
+                  ..requiredParameters.add(
+                    Parameter(
+                      (b) => b..name = 'e',
+                    ),
+                  ),
+              ).closure
+            ],
+          );
+
+      return mapList(ref).property('toList').call([]);
+    }
+
+    if (type.isMap) {
+      final typeArg = type.typeArguments[1];
+
+      Expression mapMap(Expression e) => e.property('map').call(
+            [
+              Method(
+                (b) => b
+                  ..body = refer('MapEntry').newInstance(
+                    [
+                      refer('key'),
+                      resolveToJson(
+                        field,
+                        typeArg,
+                        refer('value'),
+                      )
+                    ],
+                  ).code
+                  ..requiredParameters.addAll([
+                    Parameter(
+                      (b) => b..name = 'key',
+                    ),
+                    Parameter(
+                      (b) => b..name = 'value',
+                    ),
+                  ]),
+              ).closure
+            ],
+          );
+
+      return mapMap(ref);
+    }
+
+    if (type.isPrimitive) {
+      return ref;
+    }
+
+    if (field.hasSerializableGenerics && !type.isListOrMap) {
+      final String methodName = 'getGenericValueToJson';
+      final length = type.typeArguments.length;
+      final shouldSuffix = length > 0 && length < 5 && !field.type.isListOrMap;
+
+      final isDependantOnUndefinedGeneric = field.genericConfig != null;
+      final _refer = refer(methodName).call([
+        ref,
+        if (field.type.isListOrMap)
+          refer(field.genericConfig!.serializerName)
+        else if (field.isBaseSerializable)
+          refer(field.fieldNameSerializerSuffixed)
+        else if (field.genericConfig != null)
+          refer(field.genericConfig!.serializerName),
+      ], {});
+
+      if (isDependantOnUndefinedGeneric && type.typeArguments.isNotEmpty) {
+        final jSerializer = refer('jSerializer');
+        return jSerializer.equalTo(literalNull).conditional(
+              _refer,
+              jSerializer.nullChecked
+                  .property('serializerOf')
+                  .call(
+                    [],
+                    {},
+                    [type.baseRefer],
+                  )
+                  .asA(
+                    refer(
+                      'GenericModelSerializer${type.typeArguments.length == 1 ? '' : type.typeArguments.length}',
+                      jSerializerImport,
+                    ),
+                  )
+                  .property('toJson')
+                  .call(
+                    [ref],
+                    {},
+                    [],
+                  ),
+            );
+      }
+
+      return _refer;
+    }
+
+    if (field.isSerializableModel) {
+      return refer(field.fieldNameSerializerSuffixed)
+          .property(serializerMethod)
+          .call([ref]);
+    }
+
+    return ref;
+  }
+
   Method getModelToJson() {
     final json = <Object?, Object?>{};
     for (final f in modelConfig.fields) {
-      final value = refer('model').property(f.fieldName);
       final filterNulls = f.type.isNullable && config.filterToJsonNulls!;
+
+      final value = filterNulls
+          ? refer('model').property(f.fieldName).nullChecked
+          : refer('model').property(f.fieldName);
 
       final key = filterNulls
           ? CodeExpression(
@@ -373,30 +478,6 @@ class ClassGenerator extends ElementGenerator<Class> {
     ).property('from');
   }
 
-  Expression resolveToJson(
-    JFieldConfig field,
-    ResolvedType type,
-    Expression ref,
-  ) =>
-      resolve(
-        field,
-        type,
-        ref,
-        false,
-      );
-
-  Expression resolveFromJson(
-    JFieldConfig field,
-    ResolvedType type,
-    Expression ref,
-  ) =>
-      resolve(
-        field,
-        type,
-        ref,
-        true,
-      );
-
   Method getModelFromJson() {
     final statements = <Code>[];
     final fields = modelConfig.fields;
@@ -430,9 +511,7 @@ class ClassGenerator extends ElementGenerator<Class> {
           exp = exp.ifNullThen(defaultValueCode);
         }
 
-        final type =
-            field.type.dartType.getDisplayString(withNullability: true);
-        final typeRefer = refer(type);
+        final typeRefer = field.type.refer;
 
         if (guardedLookup) {
           exp = refer('safe').call(
@@ -451,8 +530,12 @@ class ClassGenerator extends ElementGenerator<Class> {
           );
         }
 
-        final s =
-            exp.assignFinal(field.fieldNameValueSuffixed, typeRefer).statement;
+        final s = exp
+            .assignFinal(
+              field.fieldNameValueSuffixed,
+              typeRefer,
+            )
+            .statement;
 
         statements.add(s);
       } else if (field.type.isPrimitive) {
@@ -652,15 +735,19 @@ class ClassGenerator extends ElementGenerator<Class> {
     return typeNamesDistinct;
   }
 
-  List<ResolvedType> _flatTypesOf(ResolvedType type) {
-    final result = <ResolvedType>[type];
-    for (final t in type.typeArguments) {
-      if (t.typeArguments.isEmpty) result.add(t);
-      final inners = _flatTypesOf(t);
-      result.addAll(inners);
+  List<JFieldConfig> _getDistinctFieldConfigs(
+    List<JFieldConfig> configs,
+  ) {
+    final typeNames = <String>{};
+    final typeNamesDistinct = <JFieldConfig>[];
+
+    for (final f in configs) {
+      if (typeNames.add(
+        f.type.dartType.getDisplayString(withNullability: false),
+      )) typeNamesDistinct.add(f);
     }
 
-    return _getDistinctTypesWithDisplayNameOf(result.toSet().toList());
+    return typeNamesDistinct;
   }
 
   List<Field> getCustomAdapters() {
@@ -700,40 +787,38 @@ class ClassGenerator extends ElementGenerator<Class> {
   }
 
   List<Field> getSubModelsSerializersFields() {
-    final typesToBeSerialized = _getDistinctTypesWithDisplayNameOf(
-      [
-        ...modelConfig.fields
-            .where(
-              (f) {
-                return f.isSerializableModel && !f.type.isListOrMap;
-              },
-            )
-            .map((e) => _flatTypesOf(e.type))
-            .expand((e) => e)
-            .where(
-              (t) => !modelConfig.genericConfigs
-                  .map((e) => e.type.name)
-                  .contains(t.name),
-            )
-            .toList(),
-        ...serializableFields
-            .where((element) => element.type.isListOrMap)
-            .map((e) => e.serializableClassType!),
-      ],
-    );
+    final types = [
+      ...modelConfig.fields
+          .where(
+            (f) => f.isSerializableModel && !f.type.isListOrMap,
+          )
+          .map((e) => e.type.distinctFlatTypes())
+          .expand((e) => e)
+          .where(
+            (t) => !modelConfig.genericConfigs
+                .map((e) => e.type.name)
+                .contains(t.name),
+          )
+          .toList(),
+      ...serializableFields
+          .where((element) => element.type.isListOrMap)
+          .map((e) => e.serializableClassType!),
+    ];
+
+    final typesToBeSerialized = _getDistinctTypesWithDisplayNameOf(types);
 
     final fields = <Field>[];
 
     for (final e in typesToBeSerialized) {
-      final serializerRefer = refer('${e.name}Serializer');
+      final serializableField = serializableFields.firstWhereOrNull(
+        (field) => field.serializableClassType?.name == e.name,
+      );
 
+      final serializerRefer = serializableField?.modelSerializerRefer ??
+          refer('${e.name}Serializer');
       final fieldName = e.fullNameAsSerializer;
       final isGeneric = e.typeArguments.isNotEmpty;
       final clazz = e.dartType.element!;
-
-      //
-      // final fieldConfig = modelConfig.fields
-      //     .firstWhereOrNull((element) => element.fieldName == e.name);
 
       final isSerializable = jSerializableChecker.hasAnnotationOf(clazz);
 
@@ -929,10 +1014,13 @@ class JFieldConfig {
     this.defaultValueCode,
     required this.fromJsonAdapters,
     required this.toJsonAdapters,
-    // required this.hasCustomSerializer,
+    required this.customSerializerClass,
+    required this.customSerializerClassType,
   });
 
   // final bool hasCustomSerializer;
+  final ClassElement? customSerializerClass;
+  final ResolvedType? customSerializerClassType;
 
   final List<CustomAdapterConfig> fromJsonAdapters;
   final List<CustomAdapterConfig> toJsonAdapters;
@@ -998,9 +1086,12 @@ class JFieldConfig {
   }
 
   String get modelSerializerName =>
+      customSerializerClass?.name ??
       '${serializableClassType?.name ?? type.name}Serializer';
 
-  Reference get modelSerializerRefer => refer(modelSerializerName);
+  Reference get modelSerializerRefer => refer(
+        modelSerializerName,
+      );
 }
 
 extension StringX on String {

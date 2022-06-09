@@ -1,99 +1,61 @@
-import 'package:example/jserializer.dart';
-import 'package:example/json.dart';
-import 'package:jserializer/jserializer.dart';
-
-import 'branch.dart';
-
-final j = <dynamic, dynamic>{
-  'v': 5, // T
-  'location': <dynamic, dynamic>{
-    "longitude": "13.126500258349715",
-    "latitude": "32.873047700852226"
-  },
-  'city': <dynamic, dynamic>{"id": 1004, "name": "طرابلس"},
-  'name': 'Whatever',
-  'isRight': false,
-  'value2': {
-    'value': [
-      [44444]
-    ],
-  },
-  'value3': {
-    'a': [55], // T,
-    'b': false, // R
-  },
-  'hi': <dynamic>[true, true, false, false],
-  'locations': [
-    {'something': 'another thing'}
-  ],
-  'wrapper': {
-    'a': [55], // T,
-    'b': 4.3,
-  },
-  'extras': {'hi': 4324, 'ok': 'hi'},
-  'value': //  Wrapper4<int, String, City, List<Branch>>
-      {
-    'location': <dynamic, dynamic>{
-      "longitude": "13.282149196406856",
-      "latitude": "32.852010010636796"
-    },
-    'a': [55, 33, 44],
-    'b': 'lksdjldksfj',
-    'c': {
-      'skdfj': <dynamic, dynamic>{"id": 1004, "name": "طرابلس"},
-    },
-    'aaa': {
-      "sdfkjo": <dynamic, dynamic>{"id": 1004, "name": "asdfsdf"},
-    },
-    'd': [
-      {
-        "id": 8658,
-        "name": "فرع طريق المشتل",
-        "description": "طريق المشتل بجوار جامع شبش",
-        "phones": ["0911408686"],
-        "emails": ["info@agartrading.com"],
-        "location": <String, dynamic>{
-          "longitude": "13.282149196406856",
-          "latitude": "32.852010010636796"
-        },
-        "city": [
-          <String, dynamic>{"id": 1004, "name": "طرابلس"}
-        ]
-      },
-      {
-        "id": 8658,
-        "name": "فرع طريق المشتل",
-        "description": "طريق المشتل بجوار جامع شبش",
-        "phones": ["0911408686"],
-        "emails": ["info@agartrading.com"],
-        "location": <String, dynamic>{
-          "longitude": "13.282149196406856",
-          "latitude": "32.852010010636796"
-        },
-        "city": [
-          <String, dynamic>{"id": 1004, "name": "طرابلس"}
-        ]
-      },
-    ],
-  },
-};
-
-void main() {
-  initializeJSerializer();
-  final serializer = Model2Serializer.from(
-    serializer: PrimitiveSerializer<int>(),
-    serializer2: PrimitiveSerializer<bool>(),
-  );
-
-  final branches = JSerializer.i.fromJson<List<Branch>>(json);
-  print(JSerializer.toJson(branches));
-  final model1 = serializer.fromJsonGeneric<Model2<int, bool>, int, bool>(j);
-  final model2 = serializer.fromJson<Model2<int, bool>>(j);
-
-  final model3 = JSerializer.fromJsonGeneric2<Model2<int, bool>, int, bool>(j);
-  print(model3);
-  print(JSerializer.toJson(model3));
-  print(JSerializer.toJson(model1));
-  print(JSerializer.toJson(model2));
-  print(serializer.toJson(model1));
-}
+// import 'package:jserializer/jserializer.dart';
+//
+// class GenericCustomModel<T> {
+//   const GenericCustomModel(this.a, {this.value});
+//
+//   final String a;
+//   final T? value;
+// }
+//
+//
+// @jSerializable
+// class Nested<T> {
+//   const Nested({
+//     this.a,
+//     this.b,
+//     required this.c,
+//   });
+//
+//   final int? a;
+//   final GenericCustomModel<int>? b;
+//   final GenericCustomModel<T?> c;
+// }
+//
+// @customJSerializer
+// class GenericCustomModelSerializer
+//     extends GenericModelSerializer<GenericCustomModel<dynamic>> {
+//   GenericCustomModelSerializer(JSerializerInterface jSerializer)
+//       : super(jSerializer);
+//
+//   GenericCustomModelSerializer.from({required Serializer<dynamic> serializer})
+//       : super.from(serializer: serializer);
+//
+//   static const jsonKeys = {'a', 'value'};
+//
+//   @override
+//   M fromJsonGeneric<M extends GenericCustomModel<dynamic>, T>(dynamic json) {
+//     if (json is! Map) throw Exception('Error');
+//
+//     final a$Value = mapLookup<String>(jsonName: 'a', json: json);
+//
+//     final value$Json = json['value'];
+//
+//     final value$Value = safe<T?>(
+//       call: () => value$Json == null
+//           ? null
+//           : getGenericValue<T?>(value$Json, serializer),
+//       jsonName: 'value',
+//       modelType: M,
+//     );
+//
+//     return GenericCustomModel<T>(a$Value, value: value$Value) as M;
+//   }
+//
+//   @override
+//   Map<String, dynamic> toJson(GenericCustomModel<dynamic> model) => {
+//         'a': model.a,
+//         'value': model.value == null
+//             ? null
+//             : getGenericValueToJson(model.value!, serializer)
+//       };
+// }
