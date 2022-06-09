@@ -721,6 +721,8 @@ const _welcome = '''
 ''';
 
 const _rules = <String>[
+  'prefer-match-file-name',
+  'depend_on_referenced_packages',
   'lines_longer_than_80_chars',
   'non_constant_identifier_names',
   'constant_identifier_names',
