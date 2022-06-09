@@ -653,7 +653,7 @@ class JSerializerGenerator
                 'of type ${resolvedType.name}\n'
                 'I do not know how to serialize that type, did you forget to annotate it with @JSerializable()?\n'
                 'In case you do not have access to the class (third-party type) you can create'
-                ' a custom serializer for it and annotate it with @CustomSerializer().\n',
+                ' a custom serializer for it and annotate it with @CustomJSerializer().\n',
               );
             }
 
