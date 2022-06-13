@@ -374,7 +374,7 @@ class ClassGenerator extends ElementGenerator<Class> {
   Method getModelToJson() {
     final json = <Object?, Object?>{};
     for (final f in modelConfig.fields) {
-      final filterNulls = f.paramType.isNullable && config.filterToJsonNulls!;
+      final filterNulls = f.fieldType.isNullable && config.filterToJsonNulls!;
 
       final value = filterNulls
           ? refer('model').property(f.fieldName).nullChecked
@@ -399,19 +399,19 @@ class ClassGenerator extends ElementGenerator<Class> {
       }
       if ((f.isSerializableModel || f.hasSerializableGenerics) &&
           config.deepToJson!) {
-        if (f.paramType.isNullable && !config.filterToJsonNulls!) {
+        if (f.fieldType.isNullable && !config.filterToJsonNulls!) {
           json[key] = value.equalTo(literalNull).conditional(
                 literalNull,
-                resolveToJson(f, f.paramType, value.nullChecked),
+                resolveToJson(f, f.fieldType, value.nullChecked),
               );
           continue;
-        } else if (f.paramType.isNullable) {
+        } else if (f.fieldType.isNullable) {
           json[key] =
-              resolveToJson(f, f.paramType, filterNulls ? value : value.nullChecked);
+              resolveToJson(f, f.fieldType, filterNulls ? value : value.nullChecked);
           continue;
         }
 
-        json[key] = resolveToJson(f, f.paramType, value);
+        json[key] = resolveToJson(f, f.fieldType, value);
         continue;
       }
 
@@ -728,20 +728,6 @@ class ClassGenerator extends ElementGenerator<Class> {
     return typeNamesDistinct;
   }
 
-  List<JFieldConfig> _getDistinctFieldConfigs(
-    List<JFieldConfig> configs,
-  ) {
-    final typeNames = <String>{};
-    final typeNamesDistinct = <JFieldConfig>[];
-
-    for (final f in configs) {
-      if (typeNames.add(
-        f.paramType.dartType.getDisplayString(withNullability: false),
-      )) typeNamesDistinct.add(f);
-    }
-
-    return typeNamesDistinct;
-  }
 
   List<Field> getCustomAdapters() {
     final fields = <Field>[];
