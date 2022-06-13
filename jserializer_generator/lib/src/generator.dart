@@ -504,8 +504,8 @@ class JSerializerGenerator
     return srotedParams
         .map(
           (param) {
-            final classField = classElement.fields
-                .firstWhereOrNull((element) => element.name == param.name);
+            final classField =
+                classElement.lookUpGetter(param.name, classElement.library);
 
             if (classField == null) {
               throw Exception(
