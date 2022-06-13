@@ -530,12 +530,7 @@ class ClassGenerator extends ElementGenerator<Class> {
           );
         }
 
-        final s = exp
-            .assignFinal(
-              field.fieldNameValueSuffixed,
-              typeRefer,
-            )
-            .statement;
+        final s = exp.assignFinal(field.fieldNameValueSuffixed).statement;
 
         statements.add(s);
       } else if (field.type.isPrimitive) {
