@@ -504,15 +504,40 @@ class JSerializerGenerator
     return srotedParams
         .map(
           (param) {
-            final classField = classElement.lookUpGetter(
-              param.name,
-              classElement.library,
+            final classFieldLib = typeResolver.libs.firstWhereOrNull(
+              (lib) =>
+                  classElement.lookUpGetter(
+                    param.name,
+                    lib,
+                  ) !=
+                  null,
             );
+
+            late final classFieldLib2 = classElement.library.parts
+                .map(
+                  (e) => e.library,
+                )
+                .firstWhereOrNull(
+                  (lib) =>
+                      classElement.lookUpGetter(
+                        param.name,
+                        lib,
+                      ) !=
+                      null,
+                );
+
+            late final fieldLib = classFieldLib ?? classFieldLib2;
+
+            final classField = fieldLib == null
+                ? null
+                : classElement.lookUpGetter(param.name, fieldLib);
 
             if (classField == null) {
               throw Exception(
                 'Error reading model ${classElement.name}!\n'
-                'Param ${param.name} has no matching field name}',
+                'Param ${param.name} has no matching field name!\n'
+                'All accessors: ${classElement.accessors.map((e) => e.name).join(',')}\n'
+                '',
               );
             }
 
