@@ -647,7 +647,8 @@ class JSerializerGenerator
                       .map((e) => e.name)
                       .contains(n.name),
                 ) &&
-                !isSerializable) {
+                !isSerializable &&
+                jKey?.ignore != true) {
               throw Exception(
                 '\nUnSerializable field type in the field ${classElement.name}.${param.name} '
                 'of type ${resolvedType.name}\n'
