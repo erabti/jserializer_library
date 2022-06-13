@@ -614,8 +614,12 @@ class JSerializerGenerator
                     },
                   );
 
-            final annotation = TypeChecker.fromRuntime(JKey)
-                .firstAnnotationOf(classField ?? param);
+            final annotation =
+                TypeChecker.fromRuntime(JKey).firstAnnotationOf(param) ??
+                    TypeChecker.fromRuntime(JKey).firstAnnotationOf(classField);
+
+            final jKey =
+                annotation == null ? null : jKeyFromDartObj(annotation);
 
             final fromJsonAdapters = [
               ...getAdapterOf(
@@ -642,9 +646,6 @@ class JSerializerGenerator
                 typeResolver: typeResolver,
               ),
             ];
-
-            final jKey =
-                annotation == null ? null : jKeyFromDartObj(annotation);
 
             if (jKey?.isExtras == true) {
               if (!resolvedType.isJson) {
