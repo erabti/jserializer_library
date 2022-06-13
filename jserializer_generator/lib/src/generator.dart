@@ -723,6 +723,7 @@ const _welcome = '''
 
 const _rules = <String>[
   'unnecessary_null_comparison',
+  'unnecessary_non_null_assertion',
   'unused_field',
   'unnecessary_null_checks',
   'prefer-match-file-name',
