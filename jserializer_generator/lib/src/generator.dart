@@ -504,8 +504,10 @@ class JSerializerGenerator
     return srotedParams
         .map(
           (param) {
-            final classField =
-                classElement.lookUpGetter(param.name, classElement.library);
+            final classField = classElement.lookUpGetter(
+              param.name,
+              classElement.library,
+            );
 
             if (classField == null) {
               throw Exception(
@@ -701,7 +703,7 @@ class JSerializerGenerator
               jsonName: jsonName,
               fieldName: param.name,
               isNamed: param.isNamed,
-              fieldType: typeResolver.resolveType(classField!.type),
+              fieldType: typeResolver.resolveType(classField.type.returnType),
             );
           },
         )

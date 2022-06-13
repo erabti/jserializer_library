@@ -441,21 +441,6 @@
             </list>
           </value>
         </entry>
-        <entry key="jserializer">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/jserializer/lib" />
-              <option value="$USER_HOME$/tools/flutter/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/jserializer/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="jserializer_generator">
-          <value>
-            <list>
-              <option value="$USER_HOME$/tools/flutter/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/jserializer_generator/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="json_annotation">
           <value>
             <list>
@@ -859,7 +844,6 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/jserializer/lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/merging_builder/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-31.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-40.0.0/lib" />
@@ -988,8 +972,6 @@
       <root url="file://$USER_HOME$/fvm/versions/stable/bin/cache/pkg/sky_engine/lib" />
       <root url="file://$USER_HOME$/fvm/versions/stable/packages/flutter/lib" />
       <root url="file://$USER_HOME$/fvm/versions/stable/packages/flutter_test/lib" />
-      <root url="file://$USER_HOME$/tools/flutter/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/jserializer/lib" />
-      <root url="file://$USER_HOME$/tools/flutter/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/jserializer_generator/lib" />
       <root url="file://$USER_HOME$/tools/flutter/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/merging_builder/lib" />
       <root url="file://$USER_HOME$/tools/flutter/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-38.0.0/lib" />
       <root url="file://$USER_HOME$/tools/flutter/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-40.0.0/lib" />
