@@ -160,7 +160,7 @@ class JSerializerGenerator
                   Row(
                     cells: [
                       Cell(field.jsonName),
-                      Cell(field.type.name),
+                      Cell(field.paramType.name),
                       Cell(field.defaultValueCode ?? '-')
                     ],
                   ),
@@ -346,7 +346,7 @@ class JSerializerGenerator
     final fields = _fields.where((e) => !e.keyConfig.isExtras).toList();
 
     final fieldTypes = fields.map(
-      (e) => e.type,
+      (e) => e.paramType,
     );
 
     for (final generic in type.typeArguments) {
@@ -476,7 +476,7 @@ class JSerializerGenerator
     ClassElement classElement,
     JSerializable config,
   ) {
-    final sortedFields = classElement.unnamedConstructor!.parameters;
+    final srotedParams = classElement.unnamedConstructor!.parameters;
     final className = classElement.name;
     final classType = typeResolver.resolveType(classElement.thisType);
 
@@ -501,19 +501,27 @@ class JSerializerGenerator
         .map(getSerializableTypeOfCustomSerializer)
         .whereType<ClassElement>();
 
-    return sortedFields
+    return srotedParams
         .map(
           (param) {
             final classField = classElement.fields
                 .firstWhereOrNull((element) => element.name == param.name);
-            final type = (classField ?? param).type;
 
-            final resolvedType = typeResolver.resolveType(type);
+            if (classField == null) {
+              throw Exception(
+                'Error reading model ${classElement.name}!\n'
+                'Param ${param.name} has no matching field name}',
+              );
+            }
+
+            final paramType = param.type;
+
+            final resolvedType = typeResolver.resolveType(paramType);
 
             var genericType = classType.typeArguments.firstWhereOrNull(
               (e) {
                 return e.dartType.getDisplayString(withNullability: false) ==
-                        type.getDisplayString(withNullability: false) ||
+                        paramType.getDisplayString(withNullability: false) ||
                     resolvedType.hasDeepGenericOf(e.dartType);
               },
             );
@@ -582,17 +590,31 @@ class JSerializerGenerator
             final annotation = TypeChecker.fromRuntime(JKey)
                 .firstAnnotationOf(classField ?? param);
 
-            final fromJsonAdapters = getAdapterOf(
-              typeChecker: fromJsonAdapterChecker,
-              element: (classField ?? param),
-              typeResolver: typeResolver,
-            );
+            final fromJsonAdapters = [
+              ...getAdapterOf(
+                typeChecker: fromJsonAdapterChecker,
+                element: param,
+                typeResolver: typeResolver,
+              ),
+              ...getAdapterOf(
+                typeChecker: fromJsonAdapterChecker,
+                element: classField,
+                typeResolver: typeResolver,
+              ),
+            ];
 
-            final toJsonAdapters = getAdapterOf(
-              typeChecker: toJsonAdapterChecker,
-              element: (classField ?? param),
-              typeResolver: typeResolver,
-            );
+            final toJsonAdapters = [
+              ...getAdapterOf(
+                typeChecker: toJsonAdapterChecker,
+                element: param,
+                typeResolver: typeResolver,
+              ),
+              ...getAdapterOf(
+                typeChecker: toJsonAdapterChecker,
+                element: classField,
+                typeResolver: typeResolver,
+              ),
+            ];
 
             final jKey =
                 annotation == null ? null : jKeyFromDartObj(annotation);
@@ -675,10 +697,11 @@ class JSerializerGenerator
               serializableClassElement: serializableClass,
               isSerializableModel: isSerializable,
               keyConfig: jKey ?? JKey(),
-              type: typeResolver.resolveType(param.type),
+              paramType: typeResolver.resolveType(param.type),
               jsonName: jsonName,
               fieldName: param.name,
               isNamed: param.isNamed,
+              fieldType: typeResolver.resolveType(classField!.type),
             );
           },
         )
