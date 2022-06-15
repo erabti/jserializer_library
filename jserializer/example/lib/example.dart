@@ -52,10 +52,30 @@ class TOption<T> {
 }
 
 @jSerializable
-class CoolUser {
-  const CoolUser(this.option);
+class CustomA {
+  const CustomA({
+    @AAAdapter() required this.aa,
+  });
 
-  final TOption<int> option;
+  final AA aa;
+}
+
+enum AA { a, b, c }
+
+class AAAdapter extends CustomAdapter<AA, String> {
+  const AAAdapter();
+
+  @override
+  AA fromJson(String json) {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
+
+  @override
+  String toJson(AA model) {
+    // TODO: implement toJson
+    throw UnimplementedError();
+  }
 }
 
 @customJSerializer

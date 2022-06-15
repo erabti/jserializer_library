@@ -92,28 +92,23 @@ class ProjectSerializer extends js.GenericModelSerializer<Project> {
       };
 }
 
-class CoolUserSerializer extends js.ModelSerializer<CoolUser> {
-  const CoolUserSerializer();
+class CustomASerializer extends js.ModelSerializer<CustomA> {
+  const CustomASerializer();
 
-  static late final _TOption_intSerializer = OptionSerializer();
+  static const _$AAAdapter = AAAdapter();
 
-  static const _intSerializer = js.PrimitiveSerializer<int>();
-
-  static const jsonKeys = {'option'};
+  static const jsonKeys = {'aa'};
 
   @override
-  CoolUser fromJson(json) {
-    final option$Json = json['option'];
-    final TOption<int> option$Value = safe<TOption<int>>(
-        call: () => _TOption_intSerializer.fromJsonGeneric<TOption<int>, int>(
-            option$Json),
-        jsonName: 'option');
-    return CoolUser(option$Value);
+  CustomA fromJson(json) {
+    final aa$Value =
+        safe<AA>(call: () => _$AAAdapter.fromJson(json['aa']), jsonName: 'aa');
+    return CustomA(aa: aa$Value);
   }
 
   @override
-  Map<String, dynamic> toJson(CoolUser model) =>
-      {'option': _TOption_intSerializer.toJson(model.option)};
+  Map<String, dynamic> toJson(CustomA model) =>
+      {'aa': _$AAAdapter.toJson(model.aa)};
 }
 
 class Model2Serializer extends js.GenericModelSerializer2<Model2> {
@@ -633,8 +628,8 @@ void initializeJSerializer() {
       (s) => UserSerializer(s), <T, R>(Function f) => f<User<T, R>>());
   js.JSerializer.register<Project>(
       (s) => ProjectSerializer(s), <T>(Function f) => f<Project<T>>());
-  js.JSerializer.register<CoolUser>(
-      (_) => const CoolUserSerializer(), (Function f) => f<CoolUser>());
+  js.JSerializer.register<CustomA>(
+      (_) => const CustomASerializer(), (Function f) => f<CustomA>());
   js.JSerializer.register<TOption>(
       (s) => OptionSerializer(s), <T>(Function f) => f<TOption<T>>());
   js.JSerializer.register<Model2>(
