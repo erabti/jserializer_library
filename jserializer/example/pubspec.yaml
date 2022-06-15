@@ -11,14 +11,15 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^1.0.4
   build_runner:
-#  jserializer_generator:
-#    path: ../../jserializer_generator
   jserializer_generator:
-    git:
-      url: git@github.com:erabti/jserializer_library.git
-      path: jserializer_generator/
+    path: ../../jserializer_generator
+#  jserializer_generator:
+#    git:
+#      url: git@github.com:erabti/jserializer_library.git
+#      path: jserializer_generator/
 
 dependencies:
+
   flutter:
     sdk: flutter
   benchmark_harness: ^2.0.0
@@ -28,3 +29,4 @@ dependencies:
   json_annotation: ^4.3.0
   json_serializable: ^6.0.1
   build_web_compilers: any
+  fpdart: ^0.0.14

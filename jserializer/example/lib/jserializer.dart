@@ -8,6 +8,7 @@
 
 import 'package:jserializer/jserializer.dart' as js;
 import 'package:example/custom_color_serializer.dart';
+import 'package:example/example.dart';
 import 'package:example/branch.dart';
 import 'package:flutter/material.dart';
 import 'package:example/custom_brightness_serializer.dart';
@@ -15,18 +16,80 @@ import 'package:example/custom_brightness_serializer.dart';
 class SomeClassSerializer extends js.ModelSerializer<SomeClass> {
   const SomeClassSerializer();
 
-  static const jsonKeys = {'value', 'a'};
+  static const jsonKeys = {'value', 'i'};
 
   @override
   SomeClass fromJson(json) {
     final String? value$Value = mapLookup(jsonName: 'value', json: json);
-    final int? a$Value = mapLookup(jsonName: 'a', json: json);
-    return SomeClass(value$Value, a: a$Value);
+    final int? i$Value = mapLookup(jsonName: 'i', json: json);
+    return SomeClass(value$Value, i$Value);
   }
 
   @override
   Map<String, dynamic> toJson(SomeClass model) =>
-      {'value': model.value, if (model.a != null) 'a': model.a!};
+      {'value': model.value, if (model.i != null) 'i': model.i!};
+}
+
+class UserSerializer extends js.GenericModelSerializer2<User> {
+  UserSerializer(js.JSerializerInterface jSerializer) : super(jSerializer);
+
+  UserSerializer.from(
+      {required js.Serializer serializer, required js.Serializer serializer2})
+      : super.from(serializer: serializer, serializer2: serializer2);
+
+  static const jsonKeys = {'name', 'email', 'a', 'b'};
+
+  @override
+  M fromJsonGeneric<M extends User, T, R>(json) {
+    final String name$Value = mapLookup(jsonName: 'name', json: json);
+    final String email$Value = mapLookup(jsonName: 'email', json: json);
+    final a$Json = json['a'];
+    final T a$Value = safe<T>(
+        call: () => getGenericValue<T>(a$Json, serializer),
+        jsonName: 'a',
+        modelType: M);
+    final b$Json = json['b'];
+    final R b$Value = safe<R>(
+        call: () => getGenericValue<R>(b$Json, serializer2),
+        jsonName: 'b',
+        modelType: M);
+    return (User<T, R>(
+        name: name$Value, email: email$Value, a: a$Value, b: b$Value) as M);
+  }
+
+  @override
+  Map<String, dynamic> toJson(User model) => {
+        'name': model.name,
+        'email': model.email,
+        'a': getGenericValueToJson(model.a, serializer),
+        'b': getGenericValueToJson(model.b, serializer2)
+      };
+}
+
+class ProjectSerializer extends js.GenericModelSerializer<Project> {
+  ProjectSerializer(js.JSerializerInterface jSerializer) : super(jSerializer);
+
+  ProjectSerializer.from({required js.Serializer serializer})
+      : super.from(serializer: serializer);
+
+  static const jsonKeys = {'field', 'name'};
+
+  @override
+  M fromJsonGeneric<M extends Project, T>(json) {
+    final field$Json = json['field'];
+    final T field$Value = safe<T>(
+        call: () => getGenericValue<T>(field$Json, serializer),
+        jsonName: 'field',
+        modelType: M);
+    final String name$Value = mapLookup(jsonName: 'name', json: json);
+    return (Project<T>(field: field$Value, name: name$Value) as M);
+  }
+
+  @override
+  Map<String, dynamic> toJson(Project model) => {
+        'field': getGenericValueToJson(model.field, serializer),
+        'name': model.name
+      };
 }
 
 class Model2Serializer extends js.GenericModelSerializer2<Model2> {
@@ -542,6 +605,12 @@ void initializeJSerializer() {
       (_) => const SomeClassSerializer(), (Function f) => f<SomeClass>());
   js.JSerializer.register<Brightness>((_) => const CustomBrightnessSerializer(),
       (Function f) => f<Brightness>());
+  js.JSerializer.register<User>(
+      (s) => UserSerializer(s), <T, R>(Function f) => f<User<T, R>>());
+  js.JSerializer.register<Project>(
+      (s) => ProjectSerializer(s), <T>(Function f) => f<Project<T>>());
+  js.JSerializer.register<TOption>(
+      (s) => OptionSerializer(s), <T>(Function f) => f<TOption<T>>());
   js.JSerializer.register<Model2>(
       (s) => Model2Serializer(s), <T, R>(Function f) => f<Model2<T, R>>());
   js.JSerializer.register<M2>(

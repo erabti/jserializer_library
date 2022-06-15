@@ -236,13 +236,13 @@ class JSerializerGenerator
                   ),
                 )
                 ..body = refer('f').call([], {}, [
-                  customType == null ? e.type.refer : customType.refer,
+                  (customType ?? e.type).refer,
                 ]).code,
             ).genericClosure,
           ],
           {},
           [
-            customType == null ? e.type.baseRefer : customType.refer,
+            (customType ?? e.type).baseRefer,
           ],
         ).statement;
       },
@@ -313,15 +313,15 @@ class JSerializerGenerator
     final isCustomSerializer =
         customModelSerializerChecker.hasAnnotationOf(clazz);
 
-    if (isCustomSerializer &&
-        clazz.allSupertypes.firstWhereOrNull((e) =>
-                TypeChecker.fromRuntime(GenericModelSerializerBase)
-                    .isAssignableFrom(e.element)) !=
-            null) {
-      throw Exception(
-        'Custom serializer ${clazz.name} cannot be a generic model serializer, this is not supported yet!\n',
-      );
-    }
+    // if (isCustomSerializer &&
+    //     clazz.allSupertypes.firstWhereOrNull((e) =>
+    //             TypeChecker.fromRuntime(GenericModelSerializerBase)
+    //                 .isAssignableFrom(e.element)) !=
+    //         null) {
+    //   throw Exception(
+    //     'Custom serializer ${clazz.name} cannot be a generic model serializer, this is not supported yet!\n',
+    //   );
+    // }
 
     final custom = getSerializableTypeOfCustomSerializer(clazz);
     final customType =
@@ -368,7 +368,8 @@ class JSerializerGenerator
       }
     }
 
-    final genericConfigs = type.typeArguments
+    final genericConfigs = (customType ?? type)
+        .typeArguments
         .mapIndexed(
           (i, e) => ModelGenericConfig(e, i),
         )
@@ -476,7 +477,12 @@ class JSerializerGenerator
     ClassElement classElement,
     JSerializable config,
   ) {
-    final srotedParams = classElement.unnamedConstructor!.parameters;
+    final isClassCustomSerializer =
+        customModelSerializerChecker.hasAnnotationOf(classElement);
+
+    if (isClassCustomSerializer) return [];
+
+    final sortedParams = classElement.unnamedConstructor!.parameters;
     final className = classElement.name;
     final classType = typeResolver.resolveType(classElement.thisType);
 
@@ -501,7 +507,7 @@ class JSerializerGenerator
         .map(getSerializableTypeOfCustomSerializer)
         .whereType<ClassElement>();
 
-    return srotedParams
+    return sortedParams
         .map(
           (param) {
             final classFieldLib = typeResolver.libs.firstWhereOrNull(
