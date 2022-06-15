@@ -177,7 +177,8 @@ class ClassGenerator extends ElementGenerator<Class> {
     if (field.hasSerializableGenerics && !type.isListOrMap) {
       final String methodName;
       final length = type.typeArguments.length;
-      final shouldSuffix = length > 0 && length < 5 && !field.paramType.isListOrMap;
+      final shouldSuffix =
+          length > 0 && length < 5 && !field.paramType.isListOrMap;
       methodName = 'getGenericValue${shouldSuffix ? length : ''}';
 
       final isDependantOnUndefinedGeneric = field.genericConfig != null;
@@ -406,8 +407,8 @@ class ClassGenerator extends ElementGenerator<Class> {
               );
           continue;
         } else if (f.fieldType.isNullable) {
-          json[key] =
-              resolveToJson(f, f.fieldType, filterNulls ? value : value.nullChecked);
+          json[key] = resolveToJson(
+              f, f.fieldType, filterNulls ? value : value.nullChecked);
           continue;
         }
 
@@ -559,8 +560,8 @@ class ClassGenerator extends ElementGenerator<Class> {
         final s = exp
             .assignFinal(
               field.fieldNameValueSuffixed,
-              refer(
-                  field.paramType.dartType.getDisplayString(withNullability: true)),
+              refer(field.paramType.dartType
+                  .getDisplayString(withNullability: true)),
             )
             .statement;
         statements.add(s);
@@ -728,7 +729,6 @@ class ClassGenerator extends ElementGenerator<Class> {
     return typeNamesDistinct;
   }
 
-
   List<Field> getCustomAdapters() {
     final fields = <Field>[];
     final ids = <String>{};
@@ -799,7 +799,8 @@ class ClassGenerator extends ElementGenerator<Class> {
       final isGeneric = e.typeArguments.isNotEmpty;
       final clazz = e.dartType.element!;
 
-      final isSerializable = jSerializableChecker.hasAnnotationOf(clazz);
+      final isSerializable = jSerializableChecker.hasAnnotationOf(clazz) ||
+          customModelSerializerChecker.hasAnnotationOf(clazz);
 
       final Code instance;
 
@@ -841,7 +842,7 @@ class ClassGenerator extends ElementGenerator<Class> {
 
       final f = Field(
         (b) => b
-          ..static = !isGeneric
+          ..static = !isGeneric || classElement.typeParameters.isEmpty
           ..modifier =
               !isGeneric ? FieldModifier.constant : FieldModifier.final$
           ..assignment = instance

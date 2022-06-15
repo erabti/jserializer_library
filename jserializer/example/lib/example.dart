@@ -51,6 +51,13 @@ class TOption<T> {
   }
 }
 
+@jSerializable
+class CoolUser {
+  const CoolUser(this.option);
+
+  final TOption<int> option;
+}
+
 @customJSerializer
 class OptionSerializer extends GenericModelSerializer<TOption<dynamic>> {
   OptionSerializer(JSerializerInterface jSerializer) : super(jSerializer);

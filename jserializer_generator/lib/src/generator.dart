@@ -331,7 +331,21 @@ class JSerializerGenerator
 
     final type = resolver!.resolveType(clazz.thisType);
 
-    final _fields = resolveFields(resolver, clazz, config);
+    final customSerializers = resolver.libs
+        .map((lib) =>
+            LibraryReader(lib).annotatedWith(customModelSerializerChecker))
+        .flattened
+        .map((e) => e.element)
+        .whereType<ClassElement>()
+        .where((e) =>
+            e.allSupertypes.firstWhereOrNull(
+              (element) => TypeChecker.fromRuntime(Serializer)
+                  .isExactly(element.element),
+            ) !=
+            null)
+        .toList();
+
+    final _fields = resolveFields(resolver, clazz, config, customSerializers);
     final extraFields = _fields
         .where(
           (e) => e.keyConfig.isExtras,
@@ -476,6 +490,7 @@ class JSerializerGenerator
     TypeResolver typeResolver,
     ClassElement classElement,
     JSerializable config,
+    List<ClassElement> customSerializers,
   ) {
     final isClassCustomSerializer =
         customModelSerializerChecker.hasAnnotationOf(classElement);
@@ -489,19 +504,6 @@ class JSerializerGenerator
     final allAnnotatedClasses = typeResolver.libs
         .map((lib) => LibraryReader(lib).annotatedWith(typeChecker))
         .flattened;
-
-    final customSerializers = typeResolver.libs
-        .map((lib) =>
-            LibraryReader(lib).annotatedWith(customModelSerializerChecker))
-        .flattened
-        .map((e) => e.element)
-        .whereType<ClassElement>()
-        .where((e) =>
-            e.allSupertypes.firstWhereOrNull(
-              (element) => TypeChecker.fromRuntime(Serializer)
-                  .isExactly(element.element),
-            ) !=
-            null);
 
     final customSerializableModels = customSerializers
         .map(getSerializableTypeOfCustomSerializer)
@@ -704,6 +706,8 @@ class JSerializerGenerator
                       .contains(n.name),
                 ) &&
                 !isSerializable &&
+                fromJsonAdapters.isEmpty &&
+                toJsonAdapters.isEmpty &&
                 jKey?.ignore != true) {
               throw Exception(
                 '\nUnSerializable field type in the field ${classElement.name}.${param.name} '
