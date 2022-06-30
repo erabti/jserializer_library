@@ -14,9 +14,9 @@ Builder jSerializerBuilder(BuilderOptions options) {
 
   options = defaultOptions.overrideWith(options);
   final config = _getJSerializable(options.config);
+
   final shouldAddAnalysisFile =
       options.config['export_models_analysis'] ?? false;
-
 
   return MergingBuilder<ModelConfig, LibDir>(
     generator: JSerializerGenerator(
@@ -43,6 +43,7 @@ JSerializable _getJSerializable(Map<String, dynamic> json) {
   } else {
     fieldNameCase = FieldNameCase.none;
   }
+
   return JSerializable(
     deepToJson: json['deepToJson'] ?? true,
     filterToJsonNulls: json['filterToJsonNulls'] ?? false,
@@ -50,5 +51,6 @@ JSerializable _getJSerializable(Map<String, dynamic> json) {
     toJson: json['toJson'] ?? true,
     guardedLookup: json['guardedLookup'] ?? true,
     fieldNameCase: fieldNameCase,
+    ignoreAll: (json['ignoreAll'] as List).cast<String>(),
   );
 }

@@ -151,8 +151,6 @@ class Model2Serializer extends js.GenericModelSerializer2<Model2> {
   late final _Wrapper2_T_RSerializer = Wrapper2Serializer.from(
       serializer: serializer!, serializer2: serializer2!);
 
-  static const _ColorSerializer = CustomColorSerializer();
-
   static const _M2Serializer = M2Serializer();
 
   static const jsonKeys = {
@@ -167,8 +165,7 @@ class Model2Serializer extends js.GenericModelSerializer2<Model2> {
     'extras',
     'locations',
     'v',
-    'value3',
-    'color'
+    'value3'
   };
 
   @override
@@ -245,12 +242,6 @@ class Model2Serializer extends js.GenericModelSerializer2<Model2> {
                 .fromJsonGeneric<Wrapper2<T, R>, T, R>(value3$Json),
         jsonName: 'value3',
         modelType: M);
-    final color$Json = json['color'];
-    final Color? color$Value = safe<Color?>(
-        call: () =>
-            color$Json == null ? null : _ColorSerializer.fromJson(color$Json),
-        jsonName: 'color',
-        modelType: M);
     return (Model2<T, R>(value$Value,
         wrapper: wrapper$Value,
         name: name$Value,
@@ -262,8 +253,7 @@ class Model2Serializer extends js.GenericModelSerializer2<Model2> {
         extras: extras$Value,
         locations: locations$Value,
         v: v$Value,
-        value3: value3$Value,
-        color: color$Value) as M);
+        value3: value3$Value) as M);
   }
 
   @override
@@ -289,8 +279,7 @@ class Model2Serializer extends js.GenericModelSerializer2<Model2> {
             ? getGenericValueToJson(model.value3, _Wrapper2_T_RSerializer)
             : (jSerializer!.serializerOf<Wrapper2>()
                     as js.GenericModelSerializer2)
-                .toJson(model.value3),
-        if (model.color != null) 'color': _ColorSerializer.toJson(model.color!)
+                .toJson(model.value3)
       };
 }
 

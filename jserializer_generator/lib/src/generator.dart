@@ -297,6 +297,13 @@ class JSerializerGenerator
       fieldNameCase: fieldNameCase,
       filterToJsonNulls: _a.getField('filterToJsonNulls')?.toBoolValue() ??
           globalOptions.filterToJsonNulls,
+      ignoreAll: _a
+              .getField('ignoreAll')
+              ?.toListValue()
+              ?.map((e) => e.toString())
+              .cast<String>()
+              .toList() ??
+          globalOptions.ignoreAll,
     );
   }
 
@@ -509,10 +516,22 @@ class JSerializerGenerator
         .map(getSerializableTypeOfCustomSerializer)
         .whereType<ClassElement>();
 
-    return sortedParams
-        .map(
-          (param) {
-            final classFieldLib = typeResolver.libs.firstWhereOrNull(
+    return sortedParams.map(
+      (param) {
+        final classFieldLib = typeResolver.libs.firstWhereOrNull(
+          (lib) =>
+              classElement.lookUpGetter(
+                param.name,
+                lib,
+              ) !=
+              null,
+        );
+
+        late final classFieldLib2 = classElement.library.parts
+            .map(
+              (e) => e.library,
+            )
+            .firstWhereOrNull(
               (lib) =>
                   classElement.lookUpGetter(
                     param.name,
@@ -521,232 +540,229 @@ class JSerializerGenerator
                   null,
             );
 
-            late final classFieldLib2 = classElement.library.parts
-                .map(
-                  (e) => e.library,
-                )
-                .firstWhereOrNull(
-                  (lib) =>
-                      classElement.lookUpGetter(
-                        param.name,
-                        lib,
-                      ) !=
-                      null,
-                );
+        late final fieldLib = classFieldLib ?? classFieldLib2;
 
-            late final fieldLib = classFieldLib ?? classFieldLib2;
+        final classField = fieldLib == null
+            ? null
+            : classElement.lookUpGetter(param.name, fieldLib);
 
-            final classField = fieldLib == null
-                ? null
-                : classElement.lookUpGetter(param.name, fieldLib);
+        if (classField == null) {
+          throw Exception(
+            'Error reading model ${classElement.name}!\n'
+            'Param ${param.name} has no matching field name!\n'
+            'All accessors: ${classElement.accessors.map((e) => e.name).join(',')}\n'
+            '',
+          );
+        }
 
-            if (classField == null) {
-              throw Exception(
-                'Error reading model ${classElement.name}!\n'
-                'Param ${param.name} has no matching field name!\n'
-                'All accessors: ${classElement.accessors.map((e) => e.name).join(',')}\n'
-                '',
-              );
-            }
+        final paramType = param.type;
 
-            final paramType = param.type;
+        final resolvedType = typeResolver.resolveType(paramType);
 
-            final resolvedType = typeResolver.resolveType(paramType);
-
-            var genericType = classType.typeArguments.firstWhereOrNull(
-              (e) {
-                return e.dartType.getDisplayString(withNullability: false) ==
-                        paramType.getDisplayString(withNullability: false) ||
-                    resolvedType.hasDeepGenericOf(e.dartType);
-              },
-            );
-
-            final genericConfig = genericType == null
-                ? null
-                : ModelGenericConfig(
-                    genericType,
-                    classType.typeArguments.indexOf(genericType),
-                  );
-
-            final customSerializableModelType =
-                customSerializableModels.firstWhereOrNull(
-              (element) {
-                final classType = typeResolver.resolveType(element.thisType);
-
-                return classType.name == resolvedType.name ||
-                    resolvedType.hasDeepGenericOf(element.thisType);
-              },
-            );
-
-            late final serializableClasses = [
-              ...allAnnotatedClasses
-                  .where(
-                    (c) {
-                      final clazz = c.element as ClassElement;
-                      final classType =
-                          typeResolver.resolveType(clazz.thisType);
-
-                      return classType.name == resolvedType.name ||
-                          resolvedType.hasDeepGenericOf(
-                            clazz.thisType,
-                          );
-                    },
-                  )
-                  .map((e) => e.element as ClassElement)
-                  .toList(),
-            ];
-
-            final isSerializable = customSerializableModelType != null ||
-                serializableClasses.isNotEmpty;
-
-            final serializableClass =
-                customSerializableModelType ?? serializableClasses.firstOrNull;
-
-            final customSerializerClass = serializableClass == null
-                ? null
-                : customSerializers.firstWhereOrNull(
-                    (c) {
-                      final serializer = c.allSupertypes.firstWhereOrNull(
-                        (e) =>
-                            TypeChecker.fromRuntime(Serializer)
-                                .isExactly(e.element) &&
-                            e.typeArguments.firstOrNull != null &&
-                            e.typeArguments.first.element is ClassElement &&
-                            (e.typeArguments.first.element as ClassElement)
-                                    .thisType ==
-                                serializableClass.thisType,
-                      );
-
-                      if (serializer == null) return false;
-                      return true;
-                    },
-                  );
-
-            final annotation =
-                TypeChecker.fromRuntime(JKey).firstAnnotationOf(param) ??
-                    TypeChecker.fromRuntime(JKey).firstAnnotationOf(classField);
-
-            final jKey =
-                annotation == null ? null : jKeyFromDartObj(annotation);
-
-            final fromJsonAdapters = [
-              ...getAdapterOf(
-                typeChecker: fromJsonAdapterChecker,
-                element: param,
-                typeResolver: typeResolver,
-              ),
-              ...getAdapterOf(
-                typeChecker: fromJsonAdapterChecker,
-                element: classField,
-                typeResolver: typeResolver,
-              ),
-            ];
-
-            final toJsonAdapters = [
-              ...getAdapterOf(
-                typeChecker: toJsonAdapterChecker,
-                element: param,
-                typeResolver: typeResolver,
-              ),
-              ...getAdapterOf(
-                typeChecker: toJsonAdapterChecker,
-                element: classField,
-                typeResolver: typeResolver,
-              ),
-            ];
-
-            if (jKey?.isExtras == true) {
-              if (!resolvedType.isJson) {
-                throw Exception(
-                  'Error generating ${className}Serializer:\n'
-                  'Extras field of [$className.${param.type} ${param.name}] is not Map<String, dynamic>\n',
-                );
-              }
-              if (param.isNotOptional) {
-                throw Exception(
-                  'Error generating ${className}Serializer:\n'
-                  'Extras field of [$className.${param.type} ${param.name}] is not optional\n',
-                );
-              }
-            }
-
-            if (jKey?.ignore == true && param.isNotOptional) {
-              throw Exception(
-                'Error generating ${className}Serializer:\n'
-                '[$className.${param.type} ${param.name}] is required and marked as ignored\n',
-              );
-            }
-
-            final String jsonName;
-            if (jKey?.name != null) {
-              jsonName = jKey!.name!;
-            } else {
-              switch (config.fieldNameCase) {
-                case FieldNameCase.camel:
-                  jsonName = param.name.toCamelCase();
-                  break;
-                case FieldNameCase.pascal:
-                  jsonName = param.name.toPascalCase();
-                  break;
-                case FieldNameCase.snake:
-                  jsonName = param.name.toSnakeCase();
-                  break;
-                default:
-                  jsonName = param.name;
-              }
-            }
-
-            final customSerializerClassType = customSerializerClass == null
-                ? null
-                : typeResolver.resolveType(customSerializerClass.thisType);
-
-            if (!resolvedType.isPrimitiveOrListOrMap(
-                  skip: (n) => classElement.typeParameters
-                      .map((e) => e.name)
-                      .contains(n.name),
-                ) &&
-                !isSerializable &&
-                fromJsonAdapters.isEmpty &&
-                toJsonAdapters.isEmpty &&
-                jKey?.ignore != true) {
-              throw Exception(
-                '\nUnSerializable field type in the field ${classElement.name}.${param.name} '
-                'of type ${resolvedType.name}\n'
-                'I do not know how to serialize that type, did you forget to annotate it with @JSerializable()?\n'
-                'In case you do not have access to the class (third-party type) you can create'
-                ' a custom serializer for it and annotate it with @CustomJSerializer().\n',
-              );
-            }
-
-            return JFieldConfig(
-              customSerializerClass: customSerializerClass,
-              customSerializerClassType: customSerializerClassType,
-              fromJsonAdapters: fromJsonAdapters,
-              toJsonAdapters: toJsonAdapters,
-              genericConfig: genericConfig,
-              hasSerializableGenerics: genericType != null,
-              genericType: genericType,
-              defaultValueCode: param.defaultValueCode,
-              serializableClassType: serializableClass == null
-                  ? null
-                  : typeResolver.resolveType(
-                      serializableClass.thisType,
-                    ),
-              serializableClassElement: serializableClass,
-              isSerializableModel: isSerializable,
-              keyConfig: jKey ?? JKey(),
-              paramType: typeResolver.resolveType(param.type),
-              jsonName: jsonName,
-              fieldName: param.name,
-              isNamed: param.isNamed,
-              fieldType: typeResolver.resolveType(classField.type.returnType),
-            );
+        var genericType = classType.typeArguments.firstWhereOrNull(
+          (e) {
+            return e.dartType.getDisplayString(withNullability: false) ==
+                    paramType.getDisplayString(withNullability: false) ||
+                resolvedType.hasDeepGenericOf(e.dartType);
           },
-        )
-        .where(
-          (element) => !element.keyConfig.ignore || element.keyConfig.isExtras,
-        )
-        .toList();
+        );
+
+        final genericConfig = genericType == null
+            ? null
+            : ModelGenericConfig(
+                genericType,
+                classType.typeArguments.indexOf(genericType),
+              );
+
+        final customSerializableModelType =
+            customSerializableModels.firstWhereOrNull(
+          (element) {
+            final classType = typeResolver.resolveType(element.thisType);
+
+            return classType.name == resolvedType.name ||
+                resolvedType.hasDeepGenericOf(element.thisType);
+          },
+        );
+
+        late final serializableClasses = [
+          ...allAnnotatedClasses
+              .where(
+                (c) {
+                  final clazz = c.element as ClassElement;
+                  final classType = typeResolver.resolveType(clazz.thisType);
+
+                  return classType.name == resolvedType.name ||
+                      resolvedType.hasDeepGenericOf(
+                        clazz.thisType,
+                      );
+                },
+              )
+              .map((e) => e.element as ClassElement)
+              .toList(),
+        ];
+
+        final isSerializable = customSerializableModelType != null ||
+            serializableClasses.isNotEmpty;
+
+        final serializableClass =
+            customSerializableModelType ?? serializableClasses.firstOrNull;
+
+        final customSerializerClass = serializableClass == null
+            ? null
+            : customSerializers.firstWhereOrNull(
+                (c) {
+                  final serializer = c.allSupertypes.firstWhereOrNull(
+                    (e) =>
+                        TypeChecker.fromRuntime(Serializer)
+                            .isExactly(e.element) &&
+                        e.typeArguments.firstOrNull != null &&
+                        e.typeArguments.first.element is ClassElement &&
+                        (e.typeArguments.first.element as ClassElement)
+                                .thisType ==
+                            serializableClass.thisType,
+                  );
+
+                  if (serializer == null) return false;
+                  return true;
+                },
+              );
+
+        final annotation =
+            TypeChecker.fromRuntime(JKey).firstAnnotationOf(param) ??
+                TypeChecker.fromRuntime(JKey).firstAnnotationOf(classField);
+
+        final jKey = annotation == null ? null : jKeyFromDartObj(annotation);
+
+        final fromJsonAdapters = [
+          ...getAdapterOf(
+            typeChecker: fromJsonAdapterChecker,
+            element: param,
+            typeResolver: typeResolver,
+          ),
+          ...getAdapterOf(
+            typeChecker: fromJsonAdapterChecker,
+            element: classField,
+            typeResolver: typeResolver,
+          ),
+        ];
+
+        final toJsonAdapters = [
+          ...getAdapterOf(
+            typeChecker: toJsonAdapterChecker,
+            element: param,
+            typeResolver: typeResolver,
+          ),
+          ...getAdapterOf(
+            typeChecker: toJsonAdapterChecker,
+            element: classField,
+            typeResolver: typeResolver,
+          ),
+        ];
+
+        if (jKey?.isExtras == true) {
+          if (!resolvedType.isJson) {
+            throw Exception(
+              'Error generating ${className}Serializer:\n'
+              'Extras field of [$className.${param.type} ${param.name}] is not Map<String, dynamic>\n',
+            );
+          }
+          if (param.isNotOptional) {
+            throw Exception(
+              'Error generating ${className}Serializer:\n'
+              'Extras field of [$className.${param.type} ${param.name}] is not optional\n',
+            );
+          }
+        }
+
+        if (jKey?.ignore == true && param.isNotOptional) {
+          throw Exception(
+            'Error generating ${className}Serializer:\n'
+            '[$className.${param.type} ${param.name}] is required and marked as ignored\n',
+          );
+        }
+
+        final ignoreAll = config.ignoreAll ?? [];
+        if (ignoreAll.contains(param.name) && param.isNotOptional) {
+          throw Exception(
+            'Error generating ${className}Serializer:\n'
+            '[$className.${param.type} ${param.name}] is required and marked as ignored\n'
+            'in ignoreAll',
+          );
+        }
+
+        final String jsonName;
+        if (jKey?.name != null) {
+          jsonName = jKey!.name!;
+        } else {
+          switch (config.fieldNameCase) {
+            case FieldNameCase.camel:
+              jsonName = param.name.toCamelCase();
+              break;
+            case FieldNameCase.pascal:
+              jsonName = param.name.toPascalCase();
+              break;
+            case FieldNameCase.snake:
+              jsonName = param.name.toSnakeCase();
+              break;
+            default:
+              jsonName = param.name;
+          }
+        }
+
+        final customSerializerClassType = customSerializerClass == null
+            ? null
+            : typeResolver.resolveType(customSerializerClass.thisType);
+
+        if (!resolvedType.isPrimitiveOrListOrMap(
+              skip: (n) => classElement.typeParameters
+                  .map((e) => e.name)
+                  .contains(n.name),
+            ) &&
+            !isSerializable &&
+            fromJsonAdapters.isEmpty &&
+            toJsonAdapters.isEmpty &&
+            jKey?.ignore != true &&
+            !ignoreAll.contains(param.name)) {
+          throw Exception(
+            '\nUnSerializable field type in the field ${classElement.name}.${param.name} '
+            'of type ${resolvedType.name}\n'
+            'I do not know how to serialize that type, did you forget to annotate it with @JSerializable()?\n'
+            'In case you do not have access to the class (third-party type) you can create'
+            ' a custom serializer for it and annotate it with @CustomJSerializer().\n',
+          );
+        }
+
+        return JFieldConfig(
+          customSerializerClass: customSerializerClass,
+          customSerializerClassType: customSerializerClassType,
+          fromJsonAdapters: fromJsonAdapters,
+          toJsonAdapters: toJsonAdapters,
+          genericConfig: genericConfig,
+          hasSerializableGenerics: genericType != null,
+          genericType: genericType,
+          defaultValueCode: param.defaultValueCode,
+          serializableClassType: serializableClass == null
+              ? null
+              : typeResolver.resolveType(
+                  serializableClass.thisType,
+                ),
+          serializableClassElement: serializableClass,
+          isSerializableModel: isSerializable,
+          keyConfig: jKey ?? JKey(),
+          paramType: typeResolver.resolveType(param.type),
+          jsonName: jsonName,
+          fieldName: param.name,
+          isNamed: param.isNamed,
+          fieldType: typeResolver.resolveType(classField.type.returnType),
+        );
+      },
+    ).where(
+      (element) {
+        return !(element.keyConfig.ignore ||
+                (config.ignoreAll ?? []).contains(element.fieldName)) ||
+            element.keyConfig.isExtras;
+      },
+    ).toList();
   }
 }
 

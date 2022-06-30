@@ -17,6 +17,7 @@ class JSerializable implements JSerializableBase {
     this.filterToJsonNulls,
     this.fieldNameCase,
     this.guardedLookup,
+    this.ignoreAll,
   });
 
   final FieldNameCase? fieldNameCase;
@@ -25,6 +26,7 @@ class JSerializable implements JSerializableBase {
   final bool? deepToJson;
   final bool? filterToJsonNulls;
   final bool? guardedLookup;
+  final List<String>? ignoreAll;
 }
 
 class JKey {

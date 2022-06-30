@@ -4,3 +4,6 @@ targets:
       jserializer_generator:jserializer:
         options:
           fieldNameCase: snake
+          ignoreAll:
+            - abc
+            - color
