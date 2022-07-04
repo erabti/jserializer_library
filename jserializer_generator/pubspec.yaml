@@ -20,13 +20,13 @@ dependencies:
   code_builder: ^4.1.0
   merging_builder:
     git:
-      url: https://github.com/mohn93/jserializer_library.git
+      url: https://github.com/erabti/jserializer_library.git
       path: merging_builder/
   source_gen: ^1.1.1
   jserializer:
 #    path: ../jserializer/
     git:
-      url: https://github.com/mohn93/jserializer_library.git
+      url: https://github.com/erabti/jserializer_library.git
       path: jserializer/
   build: ^2.1.1
   dart_style: ^2.2.0
