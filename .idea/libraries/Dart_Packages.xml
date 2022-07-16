@@ -467,7 +467,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/tools/flutter/.pub-cache/git/jserializer_library-d581da17f8f30025c0a3fd97a55a680be0b82a72/jserializer/lib" />
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-a7b5ea9dfcadf3910f33fc01fbc9dcfbdc253cbc/jserializer/lib" />
             </list>
           </value>
         </entry>
@@ -880,7 +879,6 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-a7b5ea9dfcadf3910f33fc01fbc9dcfbdc253cbc/jserializer/lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-ef9b8e2d6aff17c535fd6af2ad83264666012678/merging_builder/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-31.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-40.0.0/lib" />

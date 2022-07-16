@@ -250,8 +250,10 @@ class JSerializerGenerator
         final subTypes = <UnionValueConfig>[];
 
         for (final c in clazz.constructors) {
+          final jUnionValue = getJUnionValue(c);
+
           final redirect = c.redirectedConstructor;
-          if (redirect == null) {
+          if (redirect == null || jUnionValue.ignore) {
             continue;
           }
 
@@ -266,7 +268,6 @@ class JSerializerGenerator
           );
 
           yield config;
-          final jUnionValue = getJUnionValue(c);
 
           subTypes.add(
             UnionValueConfig(
@@ -386,7 +387,7 @@ class JSerializerGenerator
 
     return JUnionValue(
       name: a.getField('name')?.toStringValue(),
-      ignore:  a.getField('ignore')?.toBoolValue() ?? false,
+      ignore: a.getField('ignore')?.toBoolValue() ?? false,
     );
   }
 
