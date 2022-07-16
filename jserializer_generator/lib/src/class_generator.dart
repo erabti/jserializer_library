@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/core/element_generator.dart';
+import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/generator.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:source_gen/source_gen.dart';
@@ -61,7 +62,7 @@ class ClassGenerator extends ElementGenerator<Class> {
 
   String get className => classElement.name;
 
-  Reader<ClassBuilder, ClassBuilder> _appendSuffix() => Reader(
+  Reader<ClassBuilder, ClassBuilder> appendSuffix() => Reader(
         (ClassBuilder b) => b..name = className + modelSerializerSuffix,
       );
 
@@ -69,7 +70,7 @@ class ClassGenerator extends ElementGenerator<Class> {
 
   Reference get thisRefer => modelConfig.type.baseRefer;
 
-  Reader<ClassBuilder, ClassBuilder> _addExtends() => Reader(
+  Reader<ClassBuilder, ClassBuilder> addExtends() => Reader(
         (ClassBuilder b) {
           return b
             ..extend = TypeReference(
@@ -795,6 +796,7 @@ class ClassGenerator extends ElementGenerator<Class> {
 
       final serializerRefer = serializableField?.modelSerializerRefer ??
           refer('${e.name}Serializer');
+
       final fieldName = e.fullNameAsSerializer;
       final isGeneric = e.typeArguments.isNotEmpty;
       final clazz = e.dartType.element!;
@@ -865,7 +867,7 @@ class ClassGenerator extends ElementGenerator<Class> {
           ).code,
       );
 
-  Reader<ClassBuilder, ClassBuilder> _implement() {
+  Reader<ClassBuilder, ClassBuilder> implement() {
     return Reader(
       (ClassBuilder b) {
         return b
@@ -884,7 +886,7 @@ class ClassGenerator extends ElementGenerator<Class> {
     );
   }
 
-  Reader<ClassBuilder, ClassBuilder> _createConstructor() => Reader(
+  Reader<ClassBuilder, ClassBuilder> createConstructor() => Reader(
         (ClassBuilder b) {
           return b
             ..constructors.addAll(
@@ -941,13 +943,15 @@ class ClassGenerator extends ElementGenerator<Class> {
       );
 
   @override
-  Class onGenerate() => Class(
-        _createConstructor()
-            .andThen(_appendSuffix)
-            .andThen(_addExtends)
-            .andThen(_implement)
-            .run,
-      );
+  Class onGenerate() {
+    return Class(
+      createConstructor()
+          .andThen(appendSuffix)
+          .andThen(addExtends)
+          .andThen(implement)
+          .run,
+    );
+  }
 }
 
 JKeyConfig jKeyFromDartObj(DartObject obj) => JKeyConfig(

@@ -3,6 +3,8 @@ import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/generator.dart';
 import 'package:merging_builder/merging_builder.dart';
 
+import 'src/core/model_config.dart';
+
 Builder jSerializerBuilder(BuilderOptions options) {
   BuilderOptions defaultOptions = BuilderOptions({
     'input_files': 'lib/**.dart',

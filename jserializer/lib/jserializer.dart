@@ -29,6 +29,10 @@ class JSerializable implements JSerializableBase {
   final List<String>? ignoreAll;
 }
 
+const jUnion = JUnion();
+
+
+
 class JKey {
   const JKey({
     this.name,
@@ -46,4 +50,17 @@ class JKey {
   final bool ignore;
   final String? name;
   final bool overridesFields;
+}
+
+class JUnion implements JSerializableBase {
+  const JUnion({this.typeKey, this.fallbackName});
+
+  final String? typeKey;
+  final String? fallbackName;
+}
+
+class JUnionValue {
+  const JUnionValue({this.name});
+
+  final String? name;
 }

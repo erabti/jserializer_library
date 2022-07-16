@@ -12,8 +12,10 @@ import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/class_generator.dart';
+import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/type_resolver.dart';
+import 'package:jserializer_generator/src/union_generator.dart';
 import 'package:merging_builder/merging_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -21,6 +23,8 @@ const fromJsonAdapterChecker = TypeChecker.fromRuntime(FromJsonAdapter);
 const customAdapterChecker = TypeChecker.fromRuntime(CustomAdapter);
 const toJsonAdapterChecker = TypeChecker.fromRuntime(ToJsonAdapter);
 const customModelSerializerChecker = TypeChecker.fromRuntime(CustomJSerializer);
+const jUnionChecker = TypeChecker.fromRuntime(JUnion);
+const jUnionValueChecker = TypeChecker.fromRuntime(JUnionValue);
 
 class NoPrefixAllocator implements Allocator {
   final _imports = <String>{};
@@ -45,55 +49,6 @@ class NoPrefixAllocator implements Allocator {
       );
 }
 
-class ModelGenericConfig {
-  const ModelGenericConfig(this.type, this.index);
-
-  final ResolvedType type;
-  final int index;
-
-  String get serializerName => 'serializer${index == 0 ? '' : index + 1}';
-}
-
-class ModelConfig {
-  const ModelConfig({
-    required this.type,
-    required this.classElement,
-    this.fields = const [],
-    required this.hasGenericValue,
-    required this.genericConfigs,
-    // this.isCustomSerializer = false,
-    this.extrasField,
-    required this.customSerializableType,
-    required this.isCustomSerializer,
-  });
-
-  final ResolvedType? customSerializableType;
-  final bool isCustomSerializer;
-
-  final JFieldConfig? extrasField;
-
-  String get baseSerializeName {
-    if (genericConfigs.isEmpty) return 'ModelSerializer';
-    return 'GenericModelSerializer${genericConfigs.length == 1 ? '' : genericConfigs.length.toString()}';
-  }
-
-  final bool hasGenericValue;
-
-  // final bool isCustomSerializer;
-
-  final ClassElement classElement;
-  final List<ModelGenericConfig> genericConfigs;
-
-  final ResolvedType type;
-
-  final List<JFieldConfig> fields;
-
-  List<JFieldConfig> get namedFields => fields.where((f) => f.isNamed).toList();
-
-  List<JFieldConfig> get positionalFields =>
-      fields.where((f) => !f.isNamed).toList();
-}
-
 class JSerializerGenerator
     extends MergingGenerator<ModelConfig, JSerializableBase> {
   JSerializerGenerator(
@@ -109,15 +64,24 @@ class JSerializerGenerator
     try {
       final models = await stream.toList();
 
-      final classes = models
-          .where((e) => !e.isCustomSerializer)
-          .map(
-            (e) => ClassGenerator(
-              getConfig(e.classElement),
-              e,
-            ).onGenerate(),
-          )
-          .toList();
+      final classes = models.where((e) => !e.isCustomSerializer).map(
+        (e) {
+          final unionConfig = e.unionConfig;
+
+          if (unionConfig != null) {
+            return UnionGenerator.generate(
+              unionConfig: unionConfig,
+              modelConfig: e,
+              globalConfig: getConfig(e.classElement),
+            );
+          }
+
+          return ClassGenerator(
+            getConfig(e.classElement),
+            e,
+          ).onGenerate();
+        },
+      ).toList();
 
       final lib = Library(
         (b) => b
@@ -269,11 +233,110 @@ class JSerializerGenerator
     final resolver = TypeResolver(libs, null);
 
     for (final annotatedElement in library.annotatedWith(typeChecker)) {
+      final clazz = annotatedElement.element;
+      if (clazz is! ClassElement) {
+        throw Exception(
+          'JSerializable does not support any types other than classes!',
+        );
+      }
+
+      final isJUnion = jUnionChecker.hasAnnotationOf(clazz);
+
+      if (clazz.unnamedConstructor == null && !isJUnion) {
+        throw Exception('Class must have a default constructor!');
+      }
+
+      if (isJUnion) {
+        final subTypes = <UnionValueConfig>[];
+
+        for (final c in clazz.constructors) {
+          final redirect = c.redirectedConstructor;
+          if (redirect == null) {
+            throw Exception(
+              'JUnion value type must be a redirect constructor!',
+            );
+          }
+
+          final subClass = redirect.enclosingElement;
+
+          final config = generateStreamItemForAnnotatedElement(
+            subClass,
+            annotatedElement.annotation,
+            buildStep,
+            resolver: resolver,
+            customConstructor: redirect.redirectedConstructor,
+          );
+
+          yield config;
+          final jUnionValue = getJUnionValue(c);
+
+          subTypes.add(
+            UnionValueConfig(
+              config: config,
+              annotation: jUnionValue,
+              typeName: jUnionValue.name ?? c.name,
+            ),
+          );
+        }
+
+        if (subTypes.isEmpty) {
+          throw Exception('Union type has no subtypes!');
+        }
+
+        final jUnion = getJUnion(clazz);
+        final fallbackName = jUnion.fallbackName;
+        final fallbackValue = subTypes.firstWhereOrNull(
+          (element) => element.typeName == fallbackName,
+        );
+
+        //verify fallbackValue exists
+        if (fallbackName != null) {
+          if (fallbackValue == null) {
+            throw Exception(
+              'Fallback value ($fallbackName) of union ${clazz.name} '
+              'has no matching constructor name!',
+            );
+          }
+          if (fallbackValue.config.classElement.unnamedConstructor
+                  ?.isDefaultConstructor ==
+              false) {
+            throw Exception(
+              'Fallback value ($fallbackName) of union ${clazz.name} '
+              'has required fields! That is not possible.',
+            );
+          }
+        }
+
+        final type = resolver.resolveType(clazz.thisType);
+
+        final genericConfigs = type.typeArguments
+            .mapIndexed(
+              (i, e) => ModelGenericConfig(e, i),
+            )
+            .toList();
+
+        yield ModelConfig(
+          type: type,
+          classElement: clazz,
+          hasGenericValue: genericConfigs.isNotEmpty,
+          genericConfigs: genericConfigs,
+          customSerializableType: null,
+          isCustomSerializer: false,
+          unionConfig: UnionConfig(
+            values: subTypes,
+            annotation: jUnion,
+            fallbackValue: fallbackValue,
+          ),
+        );
+
+        return;
+      }
+
       yield generateStreamItemForAnnotatedElement(
-        annotatedElement.element,
+        clazz,
         annotatedElement.annotation,
         buildStep,
-        resolver,
+        resolver: resolver,
       );
     }
   }
@@ -307,28 +370,41 @@ class JSerializerGenerator
     );
   }
 
+  JUnion getJUnion(ClassElement clazz) {
+    final a = jUnionChecker.firstAnnotationOf(clazz);
+
+    if (a == null) return const JUnion();
+
+    return JUnion(
+      typeKey: a.getField('typeKey')?.toStringValue(),
+      fallbackName: a.getField('fallbackName')?.toStringValue(),
+    );
+  }
+
+  JUnionValue getJUnionValue(ConstructorElement element) {
+    final a = jUnionValueChecker.firstAnnotationOf(element);
+
+    if (a == null) return const JUnionValue();
+
+    return JUnionValue(
+      name: a.getField('name')?.toStringValue(),
+    );
+  }
+
   @override
   ModelConfig generateStreamItemForAnnotatedElement(
     Element element,
     ConstantReader annotation,
-    BuildStep buildStep, [
+    BuildStep buildStep, {
     TypeResolver? resolver,
-  ]) {
+    ConstructorElement? customConstructor,
+  }) {
     assert(element is ClassElement);
     assert(resolver is TypeResolver);
     final clazz = element as ClassElement;
+
     final isCustomSerializer =
         customModelSerializerChecker.hasAnnotationOf(clazz);
-
-    // if (isCustomSerializer &&
-    //     clazz.allSupertypes.firstWhereOrNull((e) =>
-    //             TypeChecker.fromRuntime(GenericModelSerializerBase)
-    //                 .isAssignableFrom(e.element)) !=
-    //         null) {
-    //   throw Exception(
-    //     'Custom serializer ${clazz.name} cannot be a generic model serializer, this is not supported yet!\n',
-    //   );
-    // }
 
     final custom = getSerializableTypeOfCustomSerializer(clazz);
     final customType =
@@ -352,17 +428,26 @@ class JSerializerGenerator
             null)
         .toList();
 
-    final _fields = resolveFields(resolver, clazz, config, customSerializers);
+    final _fields = resolveFields(
+      resolver,
+      clazz,
+      config,
+      customSerializers,
+      customConstructor: customConstructor,
+    );
+
     final extraFields = _fields
         .where(
           (e) => e.keyConfig.isExtras,
         )
         .toList();
+
     if (extraFields.length > 1) {
       throw Exception(
         'Error parsing ${clazz.name}: You have declared more than one field as extras field.\n',
       );
     }
+
     final extraField = extraFields.firstOrNull;
     final fields = _fields.where((e) => !e.keyConfig.isExtras).toList();
 
@@ -383,9 +468,7 @@ class JSerializerGenerator
       );
 
       if (correspondingField == null) {
-        throw Exception(
-          'Error parsing ${clazz.name}: You have to use the generic of $genericName in a field.\n',
-        );
+        continue;
       }
     }
 
@@ -497,14 +580,16 @@ class JSerializerGenerator
     TypeResolver typeResolver,
     ClassElement classElement,
     JSerializable config,
-    List<ClassElement> customSerializers,
-  ) {
+    List<ClassElement> customSerializers, {
+    ConstructorElement? customConstructor,
+  }) {
     final isClassCustomSerializer =
         customModelSerializerChecker.hasAnnotationOf(classElement);
 
     if (isClassCustomSerializer) return [];
 
-    final sortedParams = classElement.unnamedConstructor!.parameters;
+    final sortedParams =
+        (customConstructor ?? classElement.unnamedConstructor)!.parameters;
     final className = classElement.name;
     final classType = typeResolver.resolveType(classElement.thisType);
 
@@ -732,6 +817,10 @@ class JSerializerGenerator
           );
         }
 
+        final paramDefaultValueCode = param.defaultValueCode;
+
+        final defaultValueCode = param.defaultValueCode;
+
         return JFieldConfig(
           customSerializerClass: customSerializerClass,
           customSerializerClassType: customSerializerClassType,
@@ -740,7 +829,7 @@ class JSerializerGenerator
           genericConfig: genericConfig,
           hasSerializableGenerics: genericType != null,
           genericType: genericType,
-          defaultValueCode: param.defaultValueCode,
+          defaultValueCode: defaultValueCode,
           serializableClassType: serializableClass == null
               ? null
               : typeResolver.resolveType(

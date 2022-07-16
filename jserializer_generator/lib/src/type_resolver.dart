@@ -64,7 +64,6 @@ class TypeResolver {
     return importableTypes;
   }
 
-
   ResolvedType resolveType(DartType type) {
     return ResolvedType(
       dartType: type,
