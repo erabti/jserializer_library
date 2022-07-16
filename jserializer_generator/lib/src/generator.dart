@@ -252,9 +252,7 @@ class JSerializerGenerator
         for (final c in clazz.constructors) {
           final redirect = c.redirectedConstructor;
           if (redirect == null) {
-            throw Exception(
-              'JUnion value type must be a redirect constructor!',
-            );
+            continue;
           }
 
           final subClass = redirect.enclosingElement;
