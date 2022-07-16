@@ -1,0 +1,1 @@
+library freezed_example;
