@@ -31,8 +31,6 @@ class JSerializable implements JSerializableBase {
 
 const jUnion = JUnion();
 
-
-
 class JKey {
   const JKey({
     this.name,
@@ -60,7 +58,11 @@ class JUnion implements JSerializableBase {
 }
 
 class JUnionValue {
-  const JUnionValue({this.name});
+  const JUnionValue({
+    this.name,
+    this.ignore = false,
+  });
 
+  final bool ignore;
   final String? name;
 }

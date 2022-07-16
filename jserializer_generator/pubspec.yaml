@@ -24,10 +24,10 @@ dependencies:
       path: merging_builder/
   source_gen: ^1.1.1
   jserializer:
-#    path: ../jserializer/
-    git:
-      url: https://github.com/erabti/jserializer_library.git
-      path: jserializer/
+    path: ../jserializer/
+#    git:
+#      url: https://github.com/erabti/jserializer_library.git
+#      path: jserializer/
   build: ^2.1.1
   dart_style: ^2.2.0
   fpdart: ^0.0.12

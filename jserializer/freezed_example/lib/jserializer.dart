@@ -92,6 +92,29 @@ class UnionSerializer extends js.ModelSerializer<Union> {
       return UnionSecond();
     }
   }
+
+  Map<String, dynamic> toJson(Union model) {
+    if (model is UnionFirst) {
+      return {
+        'type': 'first',
+        ..._UnionFirstSerializer.toJson(model),
+      };
+    }
+    if (model is UnionSecond) {
+      return {
+        'type': 'the_second',
+        ..._UnionSecondSerializer.toJson(model),
+      };
+    }
+    if (model is UnionThird) {
+      return {
+        'type': 'third',
+        ..._UnionThirdSerializer.toJson(model),
+      };
+    } else {
+      return {'type': 'the_second'};
+    }
+  }
 }
 
 class Union2FirstSerializer extends js.ModelSerializer<Union2First> {
@@ -183,6 +206,29 @@ class Union2Serializer extends js.ModelSerializer<Union2> {
       return _Union2ThirdSerializer.fromJson(json);
     } else {
       throw Exception('Unknown type $type of union type Union2');
+    }
+  }
+
+  Map<String, dynamic> toJson(Union2 model) {
+    if (model is Union2First) {
+      return {
+        'type': 'first',
+        ..._Union2FirstSerializer.toJson(model),
+      };
+    }
+    if (model is Union2Second) {
+      return {
+        'type': 'the_second',
+        ..._Union2SecondSerializer.toJson(model),
+      };
+    }
+    if (model is Union2Third) {
+      return {
+        'type': 'third',
+        ..._Union2ThirdSerializer.toJson(model),
+      };
+    } else {
+      throw Exception('Unknown type of union value: $model');
     }
   }
 }
@@ -297,6 +343,29 @@ class GenericUnionSerializer extends js.GenericModelSerializer<GenericUnion> {
       return _GenericUnionThird_TSerializer.fromJson(json);
     } else {
       throw Exception('Unknown type $type of union type GenericUnion');
+    }
+  }
+
+  Map<String, dynamic> toJson(GenericUnion model) {
+    if (model is GenericUnionFirst) {
+      return {
+        'type': 'first',
+        ..._GenericUnionFirst_TSerializer.toJson(model),
+      };
+    }
+    if (model is GenericUnionSecond) {
+      return {
+        'type': 'the_second',
+        ..._GenericUnionSecond_TSerializer.toJson(model),
+      };
+    }
+    if (model is GenericUnionThird) {
+      return {
+        'type': 'third',
+        ..._GenericUnionThird_TSerializer.toJson(model),
+      };
+    } else {
+      throw Exception('Unknown type of union value: $model');
     }
   }
 }

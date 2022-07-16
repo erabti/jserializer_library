@@ -49,8 +49,11 @@ class UnionGenerator {
                   modelConfig: modelConfig,
                   globalConfig: globalConfig,
                 ),
-                // if (modelConfig.fromJson!) getModelFromJson(),
-                // if (modelConfig.toJson!) getModelToJson(),
+                getToJson(
+                  unionConfig: unionConfig,
+                  modelConfig: modelConfig,
+                  globalConfig: globalConfig,
+                ),
               ],
             );
         },
@@ -94,7 +97,8 @@ class UnionGenerator {
 
             b.statements.addAll(
               [
-                Code('if(json is ${type.typeArguments.isNotEmpty ? 'M' : type.refer.symbol}) return json;'),
+                Code(
+                    'if(json is ${type.typeArguments.isNotEmpty ? 'M' : type.refer.symbol}) return json;'),
                 Code("""if(json is! Map){
                throw Exception(
                 'JSON passed to fromJson of ${type.refer.symbol}) is not a Map!\\njson: \$json',
@@ -116,6 +120,50 @@ return ${fallbackValue.config.classElement.name}();
 }''') else Code('''
 else {
 throw Exception('Unknown type \$type of union type ${modelConfig.classElement.name}');
+}'''),
+              ],
+            );
+          },
+        ),
+    );
+  }
+
+  static Method getToJson({
+    required UnionConfig unionConfig,
+    required ModelConfig modelConfig,
+    required JSerializable globalConfig,
+  }) {
+
+    return Method(
+      (b) => b
+        ..name = 'toJson'
+        ..requiredParameters.add(
+          Parameter(
+            (b) => b
+              ..name = 'model'
+              ..type = modelConfig.type.baseRefer,
+          ),
+        )
+        ..returns = mapRefer(refer('String'), refer('dynamic'))
+        ..body = Block(
+          (b) {
+            final fallbackValue = unionConfig.fallbackValue;
+
+            b.statements.addAll(
+              [
+                for (final type in unionConfig.values) Code("""
+if(model is ${type.config.classElement.name}){
+  return {
+  '${unionConfig.typeKey}': '${type.typeName}',
+   ...${type.config.type.fullNameAsSerializer}.toJson(model),
+  };
+}"""),
+                if (fallbackValue != null) Code('''
+else {
+return {'${unionConfig.typeKey}': '${fallbackValue.typeName}'};
+}''') else Code('''
+else {
+throw Exception('Unknown type of union value: \$model');
 }'''),
               ],
             );

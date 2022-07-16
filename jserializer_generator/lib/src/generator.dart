@@ -386,6 +386,7 @@ class JSerializerGenerator
 
     return JUnionValue(
       name: a.getField('name')?.toStringValue(),
+      ignore:  a.getField('ignore')?.toBoolValue() ?? false,
     );
   }
 
