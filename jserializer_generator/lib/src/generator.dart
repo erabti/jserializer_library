@@ -799,9 +799,18 @@ class JSerializerGenerator
             : typeResolver.resolveType(customSerializerClass.thisType);
 
         if (!resolvedType.isPrimitiveOrListOrMap(
-              skip: (n) => classElement.typeParameters
-                  .map((e) => e.name)
-                  .contains(n.name),
+              skip: (n) =>
+                  classElement.typeParameters
+                      .map((e) => e.name)
+                      .contains(n.name) ||
+                  serializableClasses.firstWhereOrNull(
+                        (serializableClass) =>
+                            serializableClass.getDisplayString(
+                              withNullability: false,
+                            ) ==
+                            n.dartType.getDisplayString(withNullability: false),
+                      ) !=
+                      null,
             ) &&
             !isSerializable &&
             fromJsonAdapters.isEmpty &&
