@@ -751,7 +751,7 @@ class JSerializerGenerator
               'Extras field of [$className.${param.type} ${param.name}] is not Map<String, dynamic>\n',
             );
           }
-          if (param.isNotOptional) {
+          if (param.isRequired) {
             throw Exception(
               'Error generating ${className}Serializer:\n'
               'Extras field of [$className.${param.type} ${param.name}] is not optional\n',
@@ -759,7 +759,7 @@ class JSerializerGenerator
           }
         }
 
-        if (jKey?.ignore == true && param.isNotOptional) {
+        if (jKey?.ignore == true && param.isRequired) {
           throw Exception(
             'Error generating ${className}Serializer:\n'
             '[$className.${param.type} ${param.name}] is required and marked as ignored\n',
@@ -767,7 +767,7 @@ class JSerializerGenerator
         }
 
         final ignoreAll = config.ignoreAll ?? [];
-        if (ignoreAll.contains(param.name) && param.isNotOptional) {
+        if (ignoreAll.contains(param.name) && param.isRequired) {
           throw Exception(
             'Error generating ${className}Serializer:\n'
             '[$className.${param.type} ${param.name}] is required and marked as ignored\n'
