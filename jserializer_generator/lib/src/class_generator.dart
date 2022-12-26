@@ -847,6 +847,14 @@ class ClassGenerator extends ElementGenerator<Class> {
           {},
           e.typeArguments.map((e) => e.refer).toList(),
         ).code;
+      } else if (e.isMap) {
+        instance = refer('MapSerializer', jSerializerImport).newInstance(
+          [
+            refer(e.typeArguments.last.fullNameAsSerializer),
+          ],
+          {},
+          e.typeArguments.map((e) => e.refer).toList(),
+        ).code;
       } else {
         instance = serializerRefer.newInstance([]).code;
       }
