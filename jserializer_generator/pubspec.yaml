@@ -15,7 +15,7 @@ dev_dependencies:
   lints: ^2.0.0
   test: ^1.16.0
 dependencies:
-  analyzer: ">=2.4.0 <5.0.0"
+  analyzer: ^5.8.0
   build_runner: ^2.1.5
   code_builder: ^4.1.0
   merging_builder:
@@ -30,7 +30,7 @@ dependencies:
       path: jserializer/
   build: ^2.1.1
   dart_style: ^2.2.0
-  fpdart: ^0.2.0
+  fpdart: ">=0.2.0<1.0.0"
   change_case: ^1.0.1
   barbecue: ^0.4.0
   collection: ^1.16.0
