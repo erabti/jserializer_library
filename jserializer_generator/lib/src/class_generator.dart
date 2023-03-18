@@ -88,6 +88,7 @@ class ClassGenerator extends ElementGenerator<Class> {
     Expression ref,
   ) {
     final serializerMethod = 'fromJson';
+    final isRecursiveCall = field.paramType != type;
 
     if (type.isList) {
       final typeArg = type.typeArguments.first;
@@ -233,9 +234,15 @@ class ClassGenerator extends ElementGenerator<Class> {
       return _refer;
     }
 
-    if (field.isSerializableAndHasGenerics && !field.paramType.isListOrMap) {
+    if (isRecursiveCall
+        ? type.typeArguments.isNotEmpty
+        : field.isSerializableAndHasGenerics && !field.paramType.isListOrMap) {
       final methodName = 'fromJsonGeneric';
-      return refer(field.fieldNameSerializerSuffixed).property(methodName).call(
+      return refer(isRecursiveCall
+              ? type.fullNameAsSerializer
+              : field.fieldNameSerializerSuffixed)
+          .property(methodName)
+          .call(
         [ref],
         {},
         [
@@ -260,6 +267,7 @@ class ClassGenerator extends ElementGenerator<Class> {
     Expression ref,
   ) {
     final serializerMethod = 'toJson';
+    final isRecursiveCall = field.paramType != type;
 
     if (type.isList) {
       final typeArg = type.typeArguments.first;
@@ -365,7 +373,9 @@ class ClassGenerator extends ElementGenerator<Class> {
     }
 
     if (field.isSerializableModel) {
-      return refer(field.fieldNameSerializerSuffixed)
+      return refer(isRecursiveCall
+              ? type.fullNameAsSerializer
+              : field.fieldNameSerializerSuffixed)
           .property(serializerMethod)
           .call([ref]);
     }
@@ -482,7 +492,7 @@ class ClassGenerator extends ElementGenerator<Class> {
     final statements = <Code>[];
     final fields = modelConfig.fields;
 
-    for (final field in modelConfig.fields) {
+    for (final field in fields) {
       final hasDefaultValue = field.defaultValueCode != null;
 
       final defaultValueCode = !hasDefaultValue
@@ -769,11 +779,10 @@ class ClassGenerator extends ElementGenerator<Class> {
   List<Field> getSubModelsSerializersFields() {
     final types = [
       ...modelConfig.fields
-          .where(
-            (f) => f.isSerializableModel && !f.paramType.isListOrMap,
-          )
+          .where((f) => f.isSerializableModel)
           .map((e) => e.paramType.distinctFlatTypes())
           .expand((e) => e)
+          .where((f) => !f.isList)
           .where(
             (t) => !modelConfig.genericConfigs
                 .map((e) => e.type.name)
@@ -834,6 +843,14 @@ class ClassGenerator extends ElementGenerator<Class> {
         instance = refer('ListSerializer', jSerializerImport).newInstance(
           [
             refer(e.typeArguments.first.fullNameAsSerializer),
+          ],
+          {},
+          e.typeArguments.map((e) => e.refer).toList(),
+        ).code;
+      } else if (e.isMap) {
+        instance = refer('MapSerializer', jSerializerImport).newInstance(
+          [
+            refer(e.typeArguments.last.fullNameAsSerializer),
           ],
           {},
           e.typeArguments.map((e) => e.refer).toList(),
