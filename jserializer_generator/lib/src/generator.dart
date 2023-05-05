@@ -917,6 +917,7 @@ const _rules = <String>[
   'directives_ordering',
   'long-method',
   'use_named_constants',
+  'unnecessary_late',
 ];
 
 final _ignores = '// ignore_for_file: ${_rules.join(',')}';
