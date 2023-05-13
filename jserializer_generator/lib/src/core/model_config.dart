@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:jserializer/jserializer.dart';
-import 'package:jserializer_generator/src/class_generator.dart';
+import 'package:jserializer_generator/src/core/j_field_config.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 
 class ModelConfig {

@@ -14,7 +14,7 @@ class ResolvedType {
   String get fullName => dartType
       .getDisplayString(withNullability: false)
       .replaceAll(RegExp(r'[\s>]'), '')
-      .replaceAll(RegExp(r'[\,<]'), '_');
+      .replaceAll(RegExp(r'[,<]'), '_');
 
   String get fullNameAsSerializer => '_${fullName}Serializer';
 
@@ -25,7 +25,7 @@ class ResolvedType {
   bool get isJson =>
       isMap &&
       typeArguments[0].dartType.isDartCoreString &&
-      typeArguments[1].dartType.isDynamic == true;
+      typeArguments[1].dartType is DynamicType;
 
   bool get isListOrMap {
     return isList || isMap;
@@ -107,7 +107,7 @@ class ResolvedType {
   }
 
   bool _isPrimitive(DartType t) {
-    return t.isDynamic ||
+    return t is DynamicType ||
         t.isDartCoreBool ||
         t.isDartCoreString ||
         t.isDartCoreDouble ||

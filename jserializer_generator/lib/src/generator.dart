@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/class_generator.dart';
+import 'package:jserializer_generator/src/core/j_field_config.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/type_resolver.dart';
@@ -716,7 +717,8 @@ class JSerializerGenerator
             TypeChecker.fromRuntime(JKey).firstAnnotationOf(param) ??
                 TypeChecker.fromRuntime(JKey).firstAnnotationOf(classField);
 
-        final jKey = annotation == null ? null : jKeyFromDartObj(annotation);
+        final jKey =
+            annotation == null ? null : JKeyConfig.fromDartObj(annotation);
 
         final fromJsonAdapters = [
           ...getAdapterOf(
@@ -825,8 +827,6 @@ class JSerializerGenerator
             ' a custom serializer for it and annotate it with @CustomJSerializer().\n',
           );
         }
-
-        final paramDefaultValueCode = param.defaultValueCode;
 
         final defaultValueCode = param.defaultValueCode;
 
