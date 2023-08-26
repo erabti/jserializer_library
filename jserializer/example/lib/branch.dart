@@ -135,6 +135,7 @@ class Model {
   final String value;
 }
 
+@JSerializable()
 class Branch2<T> {
   const Branch2({
     required this.id,
@@ -263,3 +264,21 @@ City _$CityFromJson(Map<String, dynamic> json) => City(
       id: json['id'] as int,
       name: json['name'] as String,
     );
+
+@jSerializable
+class TheContainingModel<T> {
+  const TheContainingModel({
+    required this.key,
+    required this.items,
+  });
+
+  final String key;
+  final List<T> items;
+}
+
+@jSerializable
+class TheModel {
+  const TheModel({required this.values});
+
+  final List<int> values;
+}

@@ -12,6 +12,9 @@ dependencies:
     sdk: flutter
   jserializer:
     path: ../../jserializer
+dependency_overrides:
+  jserializer:
+    path: ../../jserializer
 
 dev_dependencies:
   build_runner:

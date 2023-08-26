@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="chore: update gitignore">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/jserializer/example/lib/example.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/jserializer/example/pubspec.yaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/jserializer_generator/lib/src/resolved_type.dart" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="218eEty49ovBlpiOtIZmVbCeiE2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/erabti/Projects/work/LS/jserializer_library/jserializer/example/lib&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/jserializer/example/lib" />
+      <recent name="$PROJECT_DIR$/jserializer/example" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/jserializer/lib/src/core/model/serializers" />
+      <recent name="$PROJECT_DIR$/jserializer/lib/src/core/model/serializer" />
+      <recent name="$PROJECT_DIR$/pubspec_overrides.yaml" />
+      <recent name="$PROJECT_DIR$/jserializer/example/lib" />
+      <recent name="$PROJECT_DIR$/jserializer/lib/src/type_plus" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Flutter Test.tests in main.dart">
+    <configuration name="build.dart (1)" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="arguments" value="build --delete-conflicting-outputs" />
+      <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/build.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example" />
+      <method v="2" />
+    </configuration>
+    <configuration name="example2.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/jserializer/example2/lib/example2.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example2" />
+      <method v="2" />
+    </configuration>
+    <configuration name="example.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/example.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/main.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Run" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tests in main.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/jserializer/example/test/main.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Dart Command Line App.main.dart" />
+      <item itemvalue="Dart Command Line App.example.dart" />
+      <item itemvalue="Dart Command Line App.example2.dart" />
+      <item itemvalue="Dart Command Line App.build.dart (1)" />
+      <item itemvalue="Flutter.Run" />
+      <item itemvalue="Flutter Test.tests in main.dart" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter Test.tests in main.dart" />
+        <item itemvalue="Dart Command Line App.main.dart" />
+        <item itemvalue="Dart Command Line App.build.dart (1)" />
+        <item itemvalue="Dart Command Line App.example.dart" />
+        <item itemvalue="Dart Command Line App.example2.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="" />
+      <created>1637327034104</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1637327034104</updated>
+    </task>
+    <task id="LOCAL-00001" summary="chore: ignore pubspec_overrides.yaml">
+      <created>1693082139827</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082139827</updated>
+    </task>
+    <task id="LOCAL-00002" summary="refactor: remove unneeded flags">
+      <created>1693082164490</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082164490</updated>
+    </task>
+    <task id="LOCAL-00003" summary="refactor: ClassGenerator">
+      <created>1693082179265</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082179265</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: FromJsonGenerator">
+      <created>1693082197081</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082197081</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: ToJsonGenerator">
+      <created>1693082206387</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082206387</updated>
+    </task>
+    <task id="LOCAL-00006" summary="refactor: UnionGenerator">
+      <created>1693082231892</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082231892</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactor: resolved_type.dart">
+      <created>1693082245652</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082245652</updated>
+    </task>
+    <task id="LOCAL-00008" summary="build: update min sdk to 3 for dart">
+      <created>1693082267948</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082267948</updated>
+    </task>
+    <task id="LOCAL-00009" summary="refactor: ModelConfig">
+      <created>1693082316370</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082316370</updated>
+    </task>
+    <task id="LOCAL-00010" summary="refactor: JFieldConfig">
+      <created>1693082324730</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082324730</updated>
+    </task>
+    <task id="LOCAL-00011" summary="refactor: JSerializerGenerator">
+      <created>1693082368075</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082368075</updated>
+    </task>
+    <task id="LOCAL-00012" summary="chore: update gitignore">
+      <created>1693082402423</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082402423</updated>
+    </task>
+    <task id="LOCAL-00013" summary="chore: update gitignore">
+      <created>1693082427064</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082427064</updated>
+    </task>
+    <task id="LOCAL-00014" summary="chore: update gitignore">
+      <created>1693082539753</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1693082539753</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="chore: ignore pubspec_overrides.yaml" />
+    <MESSAGE value="refactor: remove unneeded flags" />
+    <MESSAGE value="refactor: ClassGenerator" />
+    <MESSAGE value="feat: FromJsonGenerator" />
+    <MESSAGE value="feat: ToJsonGenerator" />
+    <MESSAGE value="refactor: UnionGenerator" />
+    <MESSAGE value="refactor: resolved_type.dart" />
+    <MESSAGE value="build: update min sdk to 3 for dart" />
+    <MESSAGE value="refactor: ModelConfig" />
+    <MESSAGE value="refactor: JFieldConfig" />
+    <MESSAGE value="refactor: JSerializerGenerator" />
+    <MESSAGE value="chore: update gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: update gitignore" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint suspend="THREAD" type="dart-exception" />
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
