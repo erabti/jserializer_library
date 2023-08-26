@@ -28,7 +28,7 @@ class ModelConfig {
 
   String get baseSerializeName {
     if (genericConfigs.isEmpty) return 'ModelSerializer';
-    return 'GenericModelSerializer${genericConfigs.length == 1 ? '' : genericConfigs.length.toString()}';
+    return 'GenericModelSerializer';
   }
 
   final bool hasGenericValue;
