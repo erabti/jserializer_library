@@ -40,7 +40,7 @@ class JFieldConfig {
     this.genericType,
     required this.hasSerializableGenerics,
     required this.paramType,
-    required this.jsonName,
+    required this.jsonKey,
     required this.isNamed,
     required this.keyConfig,
     required this.genericConfig,
@@ -49,8 +49,7 @@ class JFieldConfig {
     required this.serializableClassType,
     this.isSerializableModel = false,
     this.defaultValueCode,
-    required this.fromJsonAdapters,
-    required this.toJsonAdapters,
+    required this.customAdapters,
     required this.customSerializerClass,
     required this.customSerializerClassType,
     required this.fieldType,
@@ -60,24 +59,19 @@ class JFieldConfig {
   final ClassElement? customSerializerClass;
   final ResolvedType? customSerializerClassType;
 
-  final List<CustomAdapterConfig> fromJsonAdapters;
-  final List<CustomAdapterConfig> toJsonAdapters;
+  final List<CustomAdapterConfig> customAdapters;
 
   List<CustomAdapterConfig> get allAdapters {
     final id = <String>{};
     final List<CustomAdapterConfig> result = [];
-    final list = [...fromJsonAdapters, ...toJsonAdapters];
+    final list = [...customAdapters];
     for (final i in list) {
       if (id.add(i.adapterFieldName)) result.add(i);
     }
     return result;
   }
 
-  bool get hasFromJsonAdapters => fromJsonAdapters.isNotEmpty;
-
-  bool get hasToJsonAdapters => toJsonAdapters.isNotEmpty;
-
-  bool get hasCustomAdapters => hasFromJsonAdapters || hasToJsonAdapters;
+  bool get hasCustomAdapters => customAdapters.isNotEmpty;
 
   final ModelGenericConfig? genericConfig;
   final bool hasSerializableGenerics;
@@ -85,7 +79,7 @@ class JFieldConfig {
   final String? defaultValueCode;
   final bool isSerializableModel;
   final String fieldName;
-  final String jsonName;
+  final String jsonKey;
   final bool isNamed;
   final ResolvedType paramType;
   final ResolvedType fieldType;
