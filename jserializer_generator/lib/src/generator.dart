@@ -223,7 +223,7 @@ class JSerializerGenerator
         ])
         ..body = Block.of(
           [
-            instanceStmt,
+           if(models.isNotEmpty) instanceStmt,
             ...registerStatements,
           ],
         )

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/build" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher/build" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher_builder/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher_builder/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/merging_builder/example/researcher_builder/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/example2/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/.pub" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
+  </component>
+</module>
