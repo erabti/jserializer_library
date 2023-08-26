@@ -223,7 +223,7 @@ class JSerializerGenerator
         ])
         ..body = Block.of(
           [
-           if(models.isNotEmpty) instanceStmt,
+            if (models.isNotEmpty) instanceStmt,
             ...registerStatements,
           ],
         )
@@ -241,16 +241,17 @@ class JSerializerGenerator
 
     for (final annotatedElement in library.annotatedWith(typeChecker)) {
       final clazz = annotatedElement.element;
+      final className = clazz.name;
+      late final errorHeader = 'JSerializableGenerationError in $className:\n';
+
       if (clazz is! ClassElement) {
-        throw Exception(
-          'JSerializable does not support any types other than classes!',
-        );
+        throw Exception('${errorHeader}The item is not a class');
       }
 
       final isJUnion = jUnionChecker.hasAnnotationOf(clazz);
 
       if (clazz.unnamedConstructor == null && !isJUnion) {
-        throw Exception('Class must have a default constructor!');
+        throw Exception('${errorHeader}Must have a default constructor!');
       }
 
       if (isJUnion) {
@@ -286,7 +287,7 @@ class JSerializerGenerator
         }
 
         if (subTypes.isEmpty) {
-          throw Exception('Union type has no subtypes!');
+          throw Exception('${errorHeader}Union type has no subtypes!');
         }
 
         final jUnion = getJUnion(clazz);
@@ -299,7 +300,7 @@ class JSerializerGenerator
         if (fallbackName != null) {
           if (fallbackValue == null) {
             throw Exception(
-              'Fallback value ($fallbackName) of union ${clazz.name} '
+              '${errorHeader}Fallback value ($fallbackName) of union ${clazz.name} '
               'has no matching constructor name!',
             );
           }
@@ -307,7 +308,7 @@ class JSerializerGenerator
                   ?.isDefaultConstructor ==
               false) {
             throw Exception(
-              'Fallback value ($fallbackName) of union ${clazz.name} '
+              '${errorHeader}Fallback value ($fallbackName) of union ${clazz.name} '
               'has required fields! That is not possible.',
             );
           }
@@ -444,7 +445,8 @@ class JSerializerGenerator
 
     if (extraFields.length > 1) {
       throw Exception(
-        'Error parsing ${clazz.name}: You have declared more than one field as extras field.\n',
+        'JserializationGenerationError in ${clazz.name}:\n'
+        'You have declared more than one field as extras field.\n',
       );
     }
 
@@ -497,27 +499,25 @@ class JSerializerGenerator
       );
 
   List<CustomAdapterConfig> getAdapterOf({
+    required ClassElement parentClass,
     required TypeChecker typeChecker,
-    required Element element,
+    required ParameterElement element,
     required TypeResolver typeResolver,
   }) {
     return element.metadata
-        .map(
-          (element) => element.computeConstantValue(),
-        )
+        .map((element) => element.computeConstantValue())
         .where(
           (element) =>
               element?.type?.element != null &&
               typeChecker.isAssignableFrom(element!.type!.element!),
         )
         .whereType<DartObject>()
-        .map(
-          (e) => ConstantReader(e),
-        )
+        .map((e) => ConstantReader(e))
         .where((e) => !e.revive().isPrivate)
         .map(
       (e) {
-        final resolvedType = typeResolver.resolveType(e.objectValue.type!);
+        final adapterResolvedType =
+            typeResolver.resolveType(e.objectValue.type!);
         final clazz = e.objectValue.type!.element! as ClassElement;
         final superType = clazz.supertype;
         final superName = superType?.element.displayName;
@@ -533,22 +533,40 @@ class JSerializerGenerator
             mixedWith(name) ??
             implementedWith(name);
 
-        final isFromJsonAdapterType = extendsWith('FromJsonAdapter');
-        final isToJsonAdapterType = extendsWith('ToJsonAdapter');
-        final isCustomAdapterType = extendsWith('CustomAdapter');
+        final customerAdapterType = extendsWith('CustomAdapter');
 
-        final adapterType = isFromJsonAdapterType ??
-            isToJsonAdapterType ??
-            isCustomAdapterType!;
+        final resolvedAdapter = typeResolver.resolveType(customerAdapterType!);
+        final adapterModelGenericType = resolvedAdapter.typeArguments.first;
+        final paramType = typeResolver.resolveType(element.type);
 
-        final resolvedAdapter = typeResolver.resolveType(adapterType);
+        if (adapterModelGenericType.isNullable &&
+            !adapterResolvedType.isNullable &&
+            element.isRequired) {
+          throw Exception(
+            'JSerializationGenerationError '
+            '[${parentClass.name}.${element.name}]:\n'
+            'The adapter [$adapterResolvedType] used is nullable while '
+            'the parameter is a non nullable required type of '
+            '[$paramType].',
+          );
+        }
+
+        if (adapterModelGenericType.identity != paramType.identity) {
+          throw Exception(
+            'JSerializationGenerationError '
+            '[${parentClass.name}.${element.name}]:\n'
+            'The adapter [$adapterResolvedType] used takes the type '
+            '[$adapterModelGenericType] but the parameter takes the type '
+            '[$paramType]',
+          );
+        }
 
         return CustomAdapterConfig(
           reader: e,
           revivable: e.revive(),
-          type: resolvedType,
+          type: adapterResolvedType,
           jsonType: resolvedAdapter.typeArguments[1],
-          modelType: resolvedAdapter.typeArguments[0],
+          modelType: adapterModelGenericType,
         );
       },
     ).toList();
@@ -715,6 +733,7 @@ class JSerializerGenerator
 
         final customAdapters = [
           ...getAdapterOf(
+            parentClass: classElement,
             typeChecker: customAdapterChecker,
             element: param,
             typeResolver: typeResolver,

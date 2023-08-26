@@ -13,8 +13,8 @@ class User<T, R> {
     this.projects2 = const [],
   });
 
-  final String? name;
-  final String? email;
+  final String name;
+  final String email;
   final T a;
   final R b;
   final List<Project<Map<int, int>>> projects;
@@ -29,7 +29,7 @@ class CustomAdapterImpl extends CustomAdapter<String?, dynamic> {
   const CustomAdapterImpl();
 
   @override
-  String? fromJson(json) => json;
+  String? fromJson(json) => '';
   @override
   toJson(String? model) => model;
 }

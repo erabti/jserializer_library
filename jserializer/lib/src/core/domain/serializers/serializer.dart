@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:jserializer/jserializer.dart';
 import 'package:type_plus/type_plus.dart';
 
@@ -19,7 +17,6 @@ abstract class Serializer<Model, Json> {
   Function get decoder;
 
   Json toJson(Model model);
-
 
   String _getErrorMessage<T>(Object error, String jsonName) {
     if (error is TypeError &&
@@ -48,12 +45,12 @@ abstract class Serializer<Model, Json> {
         child: error,
       );
     } catch (error, stacktrace) {
-      log(error.toString(), stackTrace: stacktrace);
       throw LookupError<T>(
         fieldName: fieldName ?? jsonKey,
         jsonKey: hideJsonKey ? null : jsonKey,
         modelType: modelType ?? this.modelType,
-        message: _getErrorMessage<T>(error, jsonKey),
+        message: '${_getErrorMessage<T>(error, jsonKey)}'
+            '\nOriginal Error: $error',
         stackTrace: stacktrace,
       );
     }

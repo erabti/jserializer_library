@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="chore: update gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example/lib/example.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example/lib/example.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/serializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/serializer.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/from_json_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/from_json_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

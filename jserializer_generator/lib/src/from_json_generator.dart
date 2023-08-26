@@ -59,8 +59,9 @@ class FromJsonGenerator {
 
     final isPrimitive = field.paramType.isPrimitive;
     final typeRefer = field.paramType.refer;
+
     final firstAdapterIsNullable =
-        field.customAdapters.firstOrNull?.modelType.isNullable == true;
+        field.customAdapters.firstOrNull?.modelType.isNullable;
 
     Expression exp = refer('json').index(literalString(field.jsonKey));
     if (field.hasCustomAdapters) {
@@ -80,7 +81,8 @@ class FromJsonGenerator {
       );
     }
 
-    if (defaultValueCode != null && firstAdapterIsNullable) {
+    if ((defaultValueCode != null) &&
+        (firstAdapterIsNullable == null || firstAdapterIsNullable)) {
       exp = exp.ifNullThen(defaultValueCode);
     }
 

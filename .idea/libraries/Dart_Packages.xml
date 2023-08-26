@@ -486,8 +486,9 @@
         <entry key="merging_builder">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-80c67e2a081384c3ab4e011c7c47de900d985571/merging_builder/lib" />
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-1ff5bc6c67cf00a913f20f16ca4e68d34177a8b4/merging_builder/lib" />
               <option value="$USER_HOME$/.pub-cache/git/jserializer_library-d13c5030bd8513dfeab3f420501d30acb9d36914/merging_builder/lib" />
+              <option value="$USER_HOME$/.pub-cache/git/jserializer_library-80c67e2a081384c3ab4e011c7c47de900d985571/merging_builder/lib" />
             </list>
           </value>
         </entry>
@@ -843,6 +844,7 @@
       </option>
     </properties>
     <CLASSES>
+      <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-1ff5bc6c67cf00a913f20f16ca4e68d34177a8b4/merging_builder/lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-80c67e2a081384c3ab4e011c7c47de900d985571/merging_builder/lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/jserializer_library-d13c5030bd8513dfeab3f420501d30acb9d36914/merging_builder/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-31.0.0/lib" />
