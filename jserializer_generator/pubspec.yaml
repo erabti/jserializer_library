@@ -4,11 +4,8 @@ version: 1.1.1
 publish_to: none
 
 environment:
-  sdk: '>=2.14.4 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
-
-# dependencies:
-#   path: ^1.8.0
 
 dev_dependencies:
   lints: ^2.0.0
@@ -16,9 +13,8 @@ dev_dependencies:
 dependencies:
   analyzer: ">=2.4.0 <6.0.0"
   build_runner: ^2.4.4
-  code_builder: ^4.4.0
+  code_builder: ^4.5.0
   merging_builder:
-#    path: ../merging_builder
     git:
       url: https://github.com/erabti/jserializer_library.git
       path: merging_builder/
