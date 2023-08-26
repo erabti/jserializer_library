@@ -20,9 +20,7 @@ import 'package:jserializer_generator/src/union_generator.dart';
 import 'package:merging_builder/merging_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
-const fromJsonAdapterChecker = TypeChecker.fromRuntime(FromJsonAdapter);
 const customAdapterChecker = TypeChecker.fromRuntime(CustomAdapter);
-const toJsonAdapterChecker = TypeChecker.fromRuntime(ToJsonAdapter);
 const customModelSerializerChecker = TypeChecker.fromRuntime(CustomJSerializer);
 const jUnionChecker = TypeChecker.fromRuntime(JUnion);
 const jUnionValueChecker = TypeChecker.fromRuntime(JUnionValue);
@@ -78,8 +76,8 @@ class JSerializerGenerator
           }
 
           return ClassGenerator(
-            getConfig(e.classElement),
-            e,
+            config: getConfig(e.classElement),
+            modelConfig: e,
           ).onGenerate();
         },
       ).toList();
@@ -124,7 +122,7 @@ class JSerializerGenerator
                 for (final field in model.fields)
                   Row(
                     cells: [
-                      Cell(field.jsonName),
+                      Cell(field.jsonKey),
                       Cell(field.paramType.name),
                       Cell(field.defaultValueCode ?? '-')
                     ],
@@ -154,61 +152,55 @@ class JSerializerGenerator
   }
 
   Method getInitializerMethod(List<ModelConfig> models) {
-    final registerSerializerStatements = models.map(
+    final instanceStmt = declareFinal('instance')
+        .assign(
+          refer('jSerializer').ifNullThen(
+            refer('JSerializer', jSerializerImport).property('i'),
+          ),
+        )
+        .statement;
+
+    final registerStatements = models.map(
       (e) {
         final customType = e.customSerializableType;
+        final typeRefer = (customType ?? e.type);
 
-        return refer('JSerializer', jSerializerImport)
-            .property('register')
-            .call(
-          [
-            Method(
-              (b) => b
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (b) => b..name = e.hasGenericValue ? 's' : '_',
-                  ),
-                ])
-                ..body = e.hasGenericValue
-                    ? (!e.isCustomSerializer
-                            ? refer('${e.type.name}Serializer')
-                            : e.type.refer)
-                        .newInstance(
-                        [
-                          if (e.hasGenericValue) refer('s'),
-                        ],
-                      ).code
-                    : (!e.isCustomSerializer
-                            ? refer('${e.type.name}Serializer')
-                            : e.type.refer)
-                        .constInstance(
-                        [
-                          if (e.hasGenericValue) refer('s'),
-                        ],
-                      ).code,
-            ).closure,
-            Method(
-              (b) => b
-                ..lambda = true
-                ..types.addAll(
-                  e.genericConfigs.map((e) => e.type.refer),
-                )
-                ..requiredParameters.add(
-                  Parameter(
-                    (b) => b
-                      ..name = 'f'
-                      ..type = refer('Function'),
-                  ),
-                )
-                ..body = refer('f').call([], {}, [
-                  (customType ?? e.type).refer,
-                ]).code,
-            ).genericClosure,
-          ],
+        final serializerRefer = (!e.isCustomSerializer
+            ? refer('${e.type.name}Serializer')
+            : e.type.refer);
+
+        final serializerFactory = Method(
+          (b) => b
+            ..requiredParameters.addAll([Parameter((b) => b..name = 's')])
+            ..body = serializerRefer.newInstance(
+              [],
+              {'jSerializer': refer('s')},
+            ).code,
+        ).closure;
+
+        final typeFactory = Method(
+          (b) => b
+            ..lambda = true
+            ..types.addAll(
+              e.genericConfigs.map((e) => e.type.refer),
+            )
+            ..requiredParameters.add(
+              Parameter(
+                (b) => b
+                  ..name = 'f'
+                  ..type = refer('Function'),
+              ),
+            )
+            ..body = refer('f').call([], {}, [typeRefer.refer]).code,
+        ).genericClosure;
+
+        final registerMethod = refer('instance').property('register');
+        final registerArgs = [serializerFactory, typeFactory];
+
+        return registerMethod.call(
+          registerArgs,
           {},
-          [
-            (customType ?? e.type).baseRefer,
-          ],
+          [typeRefer.baseRefer],
         ).statement;
       },
     );
@@ -216,9 +208,23 @@ class JSerializerGenerator
     return Method(
       (b) => b
         ..name = 'initializeJSerializer'
+        ..optionalParameters.addAll([
+          Parameter(
+            (b) => b
+              ..name = 'jSerializer'
+              ..named = true
+              ..type = TypeReference(
+                (b) => b
+                  ..url = jSerializerImport
+                  ..isNullable = true
+                  ..symbol = 'JSerializerInterface',
+              ),
+          ),
+        ])
         ..body = Block.of(
           [
-            ...registerSerializerStatements,
+            instanceStmt,
+            ...registerStatements,
           ],
         )
         ..returns = refer('void'),
@@ -342,25 +348,18 @@ class JSerializerGenerator
   }
 
   JSerializable getConfig(ClassElement clazz) {
-    final _a = jSerializableChecker.firstAnnotationOf(clazz);
+    final a = jSerializableChecker.firstAnnotationOf(clazz);
 
-    if (_a == null) return globalOptions;
-    final i = _a.getField('fieldNameCase')?.getField('index')?.toIntValue() ??
+    if (a == null) return globalOptions;
+    final i = a.getField('fieldNameCase')?.getField('index')?.toIntValue() ??
         globalOptions.fieldNameCase!.index;
     final fieldNameCase = FieldNameCase.values[i];
 
     return JSerializable(
-      toJson: _a.getField('toJson')?.toBoolValue() ?? globalOptions.toJson,
-      fromJson:
-          _a.getField('fromJson')?.toBoolValue() ?? globalOptions.fromJson,
-      deepToJson:
-          _a.getField('deepToJson')?.toBoolValue() ?? globalOptions.deepToJson,
-      guardedLookup: _a.getField('guardedLookup')?.toBoolValue() ??
-          globalOptions.deepToJson,
       fieldNameCase: fieldNameCase,
-      filterToJsonNulls: _a.getField('filterToJsonNulls')?.toBoolValue() ??
+      filterToJsonNulls: a.getField('filterToJsonNulls')?.toBoolValue() ??
           globalOptions.filterToJsonNulls,
-      ignoreAll: _a
+      ignoreAll: a
               .getField('ignoreAll')
               ?.toListValue()
               ?.map((e) => e.toString())
@@ -429,7 +428,7 @@ class JSerializerGenerator
             null)
         .toList();
 
-    final _fields = resolveFields(
+    final theFields = resolveFields(
       resolver,
       clazz,
       config,
@@ -437,7 +436,7 @@ class JSerializerGenerator
       customConstructor: customConstructor,
     );
 
-    final extraFields = _fields
+    final extraFields = theFields
         .where(
           (e) => e.keyConfig.isExtras,
         )
@@ -450,7 +449,7 @@ class JSerializerGenerator
     }
 
     final extraField = extraFields.firstOrNull;
-    final fields = _fields.where((e) => !e.keyConfig.isExtras).toList();
+    final fields = theFields.where((e) => !e.keyConfig.isExtras).toList();
 
     final fieldTypes = fields.map(
       (e) => e.paramType,
@@ -518,11 +517,6 @@ class JSerializerGenerator
         .where((e) => !e.revive().isPrivate)
         .map(
       (e) {
-        final canFromJson =
-            fromJsonAdapterChecker.isAssignableFromType(e.objectValue.type!);
-        final canToJson =
-            toJsonAdapterChecker.isAssignableFromType(e.objectValue.type!);
-
         final resolvedType = typeResolver.resolveType(e.objectValue.type!);
         final clazz = e.objectValue.type!.element! as ClassElement;
         final superType = clazz.supertype;
@@ -553,8 +547,6 @@ class JSerializerGenerator
           reader: e,
           revivable: e.revive(),
           type: resolvedType,
-          canFromJson: canFromJson,
-          canToJson: canToJson,
           jsonType: resolvedAdapter.typeArguments[1],
           modelType: resolvedAdapter.typeArguments[0],
         );
@@ -562,17 +554,18 @@ class JSerializerGenerator
     ).toList();
   }
 
-  ClassElement? getSerializableTypeOfCustomSerializer(
+  InterfaceElement? getSerializableTypeOfCustomSerializer(
       ClassElement customSerializer) {
     final serializerInterface = customSerializer.allSupertypes.firstWhereOrNull(
-        (element) =>
-            TypeChecker.fromRuntime(Serializer).isExactly(element.element));
+      (element) =>
+          TypeChecker.fromRuntime(Serializer).isExactly(element.element),
+    );
     if (serializerInterface == null) return null;
     final type = serializerInterface.typeArguments.firstOrNull;
     if (type == null) return null;
     final element = type.element;
 
-    if (element is! ClassElement) return null;
+    if (element is! InterfaceElement) return null;
 
     return element;
   }
@@ -720,28 +713,10 @@ class JSerializerGenerator
         final jKey =
             annotation == null ? null : JKeyConfig.fromDartObj(annotation);
 
-        final fromJsonAdapters = [
+        final customAdapters = [
           ...getAdapterOf(
-            typeChecker: fromJsonAdapterChecker,
+            typeChecker: customAdapterChecker,
             element: param,
-            typeResolver: typeResolver,
-          ),
-          ...getAdapterOf(
-            typeChecker: fromJsonAdapterChecker,
-            element: classField,
-            typeResolver: typeResolver,
-          ),
-        ];
-
-        final toJsonAdapters = [
-          ...getAdapterOf(
-            typeChecker: toJsonAdapterChecker,
-            element: param,
-            typeResolver: typeResolver,
-          ),
-          ...getAdapterOf(
-            typeChecker: toJsonAdapterChecker,
-            element: classField,
             typeResolver: typeResolver,
           ),
         ];
@@ -815,8 +790,8 @@ class JSerializerGenerator
                       null,
             ) &&
             !isSerializable &&
-            fromJsonAdapters.isEmpty &&
-            toJsonAdapters.isEmpty &&
+            !resolvedType.isListOrMap &&
+            customAdapters.isEmpty &&
             jKey?.ignore != true &&
             !ignoreAll.contains(param.name)) {
           throw Exception(
@@ -833,8 +808,7 @@ class JSerializerGenerator
         return JFieldConfig(
           customSerializerClass: customSerializerClass,
           customSerializerClassType: customSerializerClassType,
-          fromJsonAdapters: fromJsonAdapters,
-          toJsonAdapters: toJsonAdapters,
+          customAdapters: customAdapters,
           genericConfig: genericConfig,
           hasSerializableGenerics: genericType != null,
           genericType: genericType,
@@ -848,7 +822,7 @@ class JSerializerGenerator
           isSerializableModel: isSerializable,
           keyConfig: jKey ?? JKey(),
           paramType: typeResolver.resolveType(param.type),
-          jsonName: jsonName,
+          jsonKey: jsonName,
           fieldName: param.name,
           isNamed: param.isNamed,
           fieldType: typeResolver.resolveType(classField.type.returnType),
@@ -869,14 +843,9 @@ class CustomAdapterConfig {
     required this.reader,
     required this.revivable,
     required this.type,
-    required this.canFromJson,
-    required this.canToJson,
     required this.modelType,
     required this.jsonType,
   });
-
-  final bool canFromJson;
-  final bool canToJson;
 
   final ConstantReader reader;
   final Revivable revivable;
@@ -897,27 +866,12 @@ const _welcome = '''
 ''';
 
 const _rules = <String>[
-  'unused_field',
-  'unnecessary_null_checks',
+  'type=lint',
   'prefer-match-file-name',
-  'depend_on_referenced_packages',
-  'lines_longer_than_80_chars',
-  'non_constant_identifier_names',
-  'constant_identifier_names',
-  'prefer_const_constructors',
-  'strict_raw_type',
-  'omit_local_variable_types',
-  'avoid_dynamic_calls',
-  'unnecessary_parenthesis',
-  'unnecessary_nullable_for_final_variable_declarations',
-  'annotate_overrides',
-  'type_annotate_public_apis',
   'newline-before-return',
   'prefer-trailing-comma',
-  'directives_ordering',
   'long-method',
-  'use_named_constants',
-  'unnecessary_late',
+  'STRICT_RAW_TYPE',
 ];
 
 final _ignores = '// ignore_for_file: ${_rules.join(',')}';
