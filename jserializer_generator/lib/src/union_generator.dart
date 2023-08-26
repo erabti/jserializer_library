@@ -13,7 +13,10 @@ class UnionGenerator {
   }) {
     assert(modelConfig.isUnionSuperType);
 
-    final classGen = ClassGenerator(globalConfig, modelConfig);
+    final classGen = ClassGenerator(
+      config: globalConfig,
+      modelConfig: modelConfig,
+    );
 
     return Class(
       classGen
@@ -133,7 +136,6 @@ throw Exception('Unknown type \$type of union type ${modelConfig.classElement.na
     required ModelConfig modelConfig,
     required JSerializable globalConfig,
   }) {
-
     return Method(
       (b) => b
         ..name = 'toJson'
