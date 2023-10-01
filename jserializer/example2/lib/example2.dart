@@ -15,5 +15,4 @@ void main() {
   };
 
   final model = JSerializer.fromJson<Model>(json);
-  print(model.extras);
 }

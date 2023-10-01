@@ -11,15 +11,15 @@ class JKeyConfig implements JKey {
     required this.ignore,
     required this.isExtras,
     this.name,
-    required this.overridesFields,
+    required this.overridesToJsonModelFields,
   });
 
   factory JKeyConfig.fromDartObj(DartObject obj) => JKeyConfig(
         ignore: obj.getField('ignore')?.toBoolValue() ?? false,
         name: obj.getField('name')?.toStringValue(),
         isExtras: obj.getField('isExtras')?.toBoolValue() ?? false,
-        overridesFields:
-            obj.getField('overridesFields')?.toBoolValue() ?? false,
+        overridesToJsonModelFields:
+            obj.getField('overridesToJsonModelFields')?.toBoolValue() ?? false,
       );
 
   @override
@@ -32,7 +32,7 @@ class JKeyConfig implements JKey {
   final String? name;
 
   @override
-  final bool overridesFields;
+  final bool overridesToJsonModelFields;
 }
 
 class JFieldConfig {

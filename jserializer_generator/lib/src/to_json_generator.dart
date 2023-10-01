@@ -65,7 +65,7 @@ class ToJsonGenerator {
     Expression body = literalMap(Map.fromEntries(mapEntries));
 
     if (modelConfig.extrasField != null) {
-      if (modelConfig.extrasField!.keyConfig.overridesFields) {
+      if (modelConfig.extrasField!.keyConfig.overridesToJsonModelFields) {
         body = body.cascade('addAll').call(
           [
             refer('model').property(modelConfig.extrasField!.fieldName),

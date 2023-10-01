@@ -3,16 +3,15 @@ class JKey {
     this.name,
     this.ignore = false,
   })  : isExtras = false,
-        overridesFields = false;
+        overridesToJsonModelFields = false;
 
-  const JKey.extras({
-    this.overridesFields = false,
-  })  : name = null,
+  const JKey.extras({this.overridesToJsonModelFields = false})
+      : name = null,
         ignore = true,
         isExtras = true;
 
   final bool isExtras;
   final bool ignore;
   final String? name;
-  final bool overridesFields;
+  final bool overridesToJsonModelFields;
 }
