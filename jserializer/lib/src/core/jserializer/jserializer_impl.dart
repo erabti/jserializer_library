@@ -21,6 +21,7 @@ class JSerializerImpl extends JSerializerInterface {
         serializer: serializer,
       );
     }
+    serializer.decoder;
     if (serializer is GenericSerializer) {
       return serializer.fromJson<T>(json);
     }

@@ -13,3 +13,13 @@ class Model {
 
   final Map<String, dynamic> extras;
 }
+
+@JSerializable()
+class GenericModel<T> {
+  const GenericModel({
+    required this.value,
+    @JKey.extras() this.extras = const {},
+  });
+  final T value;
+  final Map<String, dynamic> extras;
+}

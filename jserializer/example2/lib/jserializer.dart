@@ -48,10 +48,43 @@ class ModelSerializer extends js.ModelSerializer<Model> {
     });
 }
 
+class GenericModelSerializer extends js.GenericModelSerializer<GenericModel> {
+  GenericModelSerializer({super.jSerializer});
+
+  static const jsonKeys = {'value'};
+
+  GenericModel<T> decode<T>(Map json) {
+    final value$Value = safeLookup<T>(
+      call: () => jSerializer.fromJson<T>(json['value']),
+      jsonKey: 'value',
+    );
+    final extras$Value = Map<String, dynamic>.from(json)
+      ..removeWhere((
+        key,
+        _,
+      ) =>
+          jsonKeys.contains(key));
+    return GenericModel<T>(
+      value: value$Value,
+      extras: extras$Value,
+    );
+  }
+
+  @override
+  Function get decoder => decode;
+  @override
+  Map<String, dynamic> toJson(GenericModel model) =>
+      model.extras..addAll({'value': jSerializer.toJson(model.value)});
+}
+
 void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
   final instance = jSerializer ?? js.JSerializer.i;
   instance.register<Model>(
     (s) => ModelSerializer(jSerializer: s),
     (Function f) => f<Model>(),
+  );
+  instance.register<GenericModel>(
+    (s) => GenericModelSerializer(jSerializer: s),
+    <T>(Function f) => f<GenericModel<T>>(),
   );
 }
