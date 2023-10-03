@@ -149,11 +149,13 @@ class ResolvedType {
 
   String get identity => "$import#$name";
 
-  TypeReference get referNullAware => TypeReference((b) => b
-    ..symbol = dartType.getDisplayString(withNullability: true)
-    ..url = import
-    ..isNullable = isNullable
-    ..types.addAll(typeArguments.map((e) => e.refer)));
+  TypeReference get referAsNullable => TypeReference(
+        (b) => b
+          ..symbol = dartType.getDisplayString(withNullability: true)
+          ..url = import
+          ..isNullable = isNullable
+          ..types.addAll(typeArguments.map((e) => e.refer)),
+      );
 
   TypeReference get refer => TypeReference((b) => b
     ..symbol = name
@@ -167,7 +169,6 @@ class ResolvedType {
           ..url = import
           ..isNullable = isNullable,
       );
-
   @override
   String toString() {
     if (typeArguments.isEmpty) return name;

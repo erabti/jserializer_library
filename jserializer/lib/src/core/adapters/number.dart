@@ -1,6 +1,6 @@
 import 'package:jserializer/src/core/core.dart';
 
-mixin _NumAdapterBase<T extends num?, Json> on CustomAdapter<T, Json> {
+mixin _NumAdapterBase<T extends num?> on CustomAdapter<T, dynamic> {
   T? get fallback;
 
   bool get handleBool;
@@ -12,7 +12,7 @@ mixin _NumAdapterBase<T extends num?, Json> on CustomAdapter<T, Json> {
   Never _throwError() => throw TypeError();
 
   @override
-  T fromJson(Json json) {
+  T fromJson(json) {
     if (json is T) {
       if (fallback is T) return (json ?? fallback) as T;
       return json;
@@ -32,11 +32,11 @@ mixin _NumAdapterBase<T extends num?, Json> on CustomAdapter<T, Json> {
   }
 
   @override
-  Json toJson(T model) => model as Json;
+  toJson(T? model) => model;
 }
 
 class JNumAdapter extends CustomAdapter<num, dynamic>
-    with _NumAdapterBase<num, dynamic>
+    with _NumAdapterBase<num>
     implements JAdapters {
   const JNumAdapter({
     this.fallback,
@@ -51,7 +51,7 @@ class JNumAdapter extends CustomAdapter<num, dynamic>
 }
 
 class JNumNullableAdapter extends CustomAdapter<num?, dynamic>
-    with _NumAdapterBase
+    with _NumAdapterBase<num?>
     implements JAdapters {
   const JNumNullableAdapter({
     this.fallback,
@@ -66,7 +66,7 @@ class JNumNullableAdapter extends CustomAdapter<num?, dynamic>
 }
 
 class JIntAdapter extends CustomAdapter<int, dynamic>
-    with _NumAdapterBase
+    with _NumAdapterBase<int>
     implements JAdapters {
   const JIntAdapter({
     this.fallback,
@@ -81,7 +81,7 @@ class JIntAdapter extends CustomAdapter<int, dynamic>
 }
 
 class JIntNullableAdapter extends CustomAdapter<int?, dynamic>
-    with _NumAdapterBase
+    with _NumAdapterBase<int?>
     implements JAdapters {
   const JIntNullableAdapter({
     this.fallback,
@@ -96,7 +96,7 @@ class JIntNullableAdapter extends CustomAdapter<int?, dynamic>
 }
 
 class JDoubleAdapter extends CustomAdapter<double, dynamic>
-    with _NumAdapterBase
+    with _NumAdapterBase<double>
     implements JAdapters {
   const JDoubleAdapter({
     this.fallback,
@@ -111,7 +111,7 @@ class JDoubleAdapter extends CustomAdapter<double, dynamic>
 }
 
 class JDoubleNullableAdapter extends CustomAdapter<double?, dynamic>
-    with _NumAdapterBase
+    with _NumAdapterBase<double?>
     implements JAdapters {
   const JDoubleNullableAdapter({
     this.fallback,

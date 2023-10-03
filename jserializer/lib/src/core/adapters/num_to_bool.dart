@@ -16,7 +16,11 @@ class JNumToBoolAdapter extends CustomAdapter<bool, num?> implements JAdapters {
   }
 
   @override
-  num toJson(bool model) => model ? 1 : 0;
+  num? toJson(bool? model) {
+    if (model == null) return null;
+
+    return model ? 1 : 0;
+  }
 }
 
 class JNumToBoolNullableAdapter extends CustomAdapter<bool?, num?>

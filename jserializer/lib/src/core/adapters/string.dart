@@ -8,7 +8,7 @@ class JStringAdapter extends CustomAdapter<String, dynamic>
   String fromJson(json) => json.toString();
 
   @override
-  toJson(String model) => model;
+  toJson(String? model) => model;
 }
 
 class JStringNullableAdapter extends CustomAdapter<String?, dynamic>

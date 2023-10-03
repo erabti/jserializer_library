@@ -47,11 +47,7 @@ JSerializable _getJSerializable(Map<String, dynamic> json) {
   }
 
   return JSerializable(
-    deepToJson: json['deepToJson'] ?? true,
     filterToJsonNulls: json['filterToJsonNulls'] ?? false,
-    fromJson: json['fromJson'] ?? true,
-    toJson: json['toJson'] ?? true,
-    guardedLookup: json['guardedLookup'] ?? true,
     fieldNameCase: fieldNameCase,
     ignoreAll: (json['ignoreAll'] as List?)?.cast<String>(),
   );
