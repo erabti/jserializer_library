@@ -1,7 +1,5 @@
 import 'dart:collection';
 
-import 'package:jserializer/src/core/domain/serializers/list_serializer.dart';
-import 'package:jserializer/src/core/domain/serializers/map_serializer.dart';
 import 'package:jserializer/src/core/jserializer/jserializer.dart';
 import 'package:jserializer/src/core/domain/domain.dart';
 import 'package:type_plus/type_plus.dart';

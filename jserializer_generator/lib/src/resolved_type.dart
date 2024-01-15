@@ -60,20 +60,20 @@ class ResolvedType {
   List<ResolvedType> flatTypes({
     bool Function(ResolvedType type) skip = _flatTypesSkip,
   }) {
-    List<ResolvedType> _flatTypes(ResolvedType type) {
+    List<ResolvedType> theFlatTypes(ResolvedType type) {
       final result = <ResolvedType>[if (!skip(type)) type];
 
       for (final t in type.typeArguments) {
         if (skip(t)) continue;
         if (t.typeArguments.isEmpty) result.add(t);
-        final inners = _flatTypes(t);
+        final inners = theFlatTypes(t);
         result.addAll(inners);
       }
 
       return result;
     }
 
-    return _flatTypes(this);
+    return theFlatTypes(this);
   }
 
   bool isPrimitiveOrListOrMap({
@@ -169,6 +169,7 @@ class ResolvedType {
           ..url = import
           ..isNullable = isNullable,
       );
+
   @override
   String toString() {
     if (typeArguments.isEmpty) return name;
