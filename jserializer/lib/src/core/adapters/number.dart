@@ -11,6 +11,8 @@ mixin _NumAdapterBase<T extends num?> on CustomAdapter<T, dynamic> {
 
   Never _throwError() => throw TypeError();
 
+  T? tryParse(String value);
+
   @override
   T fromJson(json) {
     if (json is T) {
@@ -19,6 +21,11 @@ mixin _NumAdapterBase<T extends num?> on CustomAdapter<T, dynamic> {
     }
 
     if (json == null) return fallback ?? _throwError();
+    final wantsInt = _isEqual<T, int>();
+    final wantsDouble = _isEqual<T, double>();
+
+    if(wantsInt && json is double) return json.toInt() as T;
+    if(wantsDouble && json is int) return json.toDouble() as T;
 
     if (handleBool && json is bool) {
       final isNum = _isEqual<T, num>();
@@ -28,7 +35,7 @@ mixin _NumAdapterBase<T extends num?> on CustomAdapter<T, dynamic> {
       if (isDouble) return (json ? 1.0 : 0.0) as T;
     }
 
-    return (num.tryParse(json.toString()) as T?) ?? fallback ?? _throwError();
+    return tryParse(json.toString()) ?? fallback ?? _throwError();
   }
 
   @override
@@ -48,6 +55,9 @@ class JNumAdapter extends CustomAdapter<num, dynamic>
 
   @override
   final bool handleBool;
+
+  @override
+  int? tryParse(String value) => int.tryParse(value);
 }
 
 class JNumNullableAdapter extends CustomAdapter<num?, dynamic>
@@ -63,6 +73,9 @@ class JNumNullableAdapter extends CustomAdapter<num?, dynamic>
 
   @override
   final bool handleBool;
+
+  @override
+  int? tryParse(String value) => int.tryParse(value);
 }
 
 class JIntAdapter extends CustomAdapter<int, dynamic>
@@ -78,6 +91,9 @@ class JIntAdapter extends CustomAdapter<int, dynamic>
 
   @override
   final bool handleBool;
+
+  @override
+  int? tryParse(String value) => int.tryParse(value);
 }
 
 class JIntNullableAdapter extends CustomAdapter<int?, dynamic>
@@ -93,6 +109,9 @@ class JIntNullableAdapter extends CustomAdapter<int?, dynamic>
 
   @override
   final bool handleBool;
+
+  @override
+  int? tryParse(String value) => int.tryParse(value);
 }
 
 class JDoubleAdapter extends CustomAdapter<double, dynamic>
@@ -108,6 +127,9 @@ class JDoubleAdapter extends CustomAdapter<double, dynamic>
 
   @override
   final bool handleBool;
+
+  @override
+  double? tryParse(String value) => double.tryParse(value);
 }
 
 class JDoubleNullableAdapter extends CustomAdapter<double?, dynamic>
@@ -123,4 +145,7 @@ class JDoubleNullableAdapter extends CustomAdapter<double?, dynamic>
 
   @override
   final bool handleBool;
+
+  @override
+  double? tryParse(String value) => double.tryParse(value);
 }
