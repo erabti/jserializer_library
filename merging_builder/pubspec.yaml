@@ -12,15 +12,15 @@ environment:
   sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
-  analyzer: ">=2.4.0 <6.0.0"
-  build: ^2.4.0
+  analyzer: ">=6.0.0<7.0.0"
+  build: ^2.4.1
   build_runner: ">=2.4.4<3.0.0"
-  dart_style: ^2.3.1
-  directed_graph: ^0.3.9
-  exception_templates: ^0.2.4
-  file: ^6.1.4
+  dart_style: ^2.3.6
+  directed_graph: ^0.4.3
+  exception_templates: ^0.3.1
+  file: ^7.0.0
   glob: ^2.1.1
-  lazy_memo: ^0.1.7
+  lazy_memo: ^0.2.3
   meta: '>=1.0.0 <2.0.0'
   path: ^1.8.3
   quote_buffer: ^0.2.3

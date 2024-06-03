@@ -56,7 +56,7 @@ class JFieldConfig {
   });
 
   // final bool hasCustomSerializer;
-  final ClassElement? customSerializerClass;
+  final InterfaceElement? customSerializerClass;
   final ResolvedType? customSerializerClassType;
 
   final List<CustomAdapterConfig> customAdapters;
@@ -85,7 +85,7 @@ class JFieldConfig {
   final ResolvedType fieldType;
 
   final JKey keyConfig;
-  final ClassElement? serializableClassElement;
+  final InterfaceElement? serializableClassElement;
   final ResolvedType? serializableClassType;
 
   bool get isBaseSerializable =>

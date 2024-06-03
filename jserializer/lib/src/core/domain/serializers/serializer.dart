@@ -7,9 +7,11 @@ abstract class Serializer<Model, Json> {
   }) : _jSerializerInstance = jSerializer;
 
   final JSerializerInterface? _jSerializerInstance;
+
   JSerializerInterface get jSerializer => _jSerializerInstance ?? JSerializer.i;
 
   Type get modelType => Model;
+
   Type get jsonType => Json;
 
   String get modelTypeName => modelType.name;
@@ -67,4 +69,17 @@ abstract class Serializer<Model, Json> {
       fieldName: fieldName,
     );
   }
+}
+
+abstract class CustomModelSerializer<Model, Json>
+    extends Serializer<Model, Json> {
+  const CustomModelSerializer({super.jSerializer});
+
+  @override
+  Function get decoder => fromJson;
+
+  Model fromJson(Json json);
+
+  @override
+  Json toJson(Model model);
 }

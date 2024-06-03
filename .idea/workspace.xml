@@ -4,9 +4,28 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="add return_of_invalid_type_from_closure ignore and delete example projects">
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix JAdatper.int and JAdapter.double">
+      <change afterPath="$PROJECT_DIR$/jserializer/lib/src/core/annotations/j_enum.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserializer/lib/src/core/annotations/j_union.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/enum_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/adapters/number.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/adapters/number.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example/analysis_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example/analysis_options.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/jserializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/annotations/annotations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/annotations/annotations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/serializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/serializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/jserializer.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/class_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/class_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/core/j_field_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/core/j_field_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/core/model_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/core/model_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/from_json_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/from_json_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/to_json_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/to_json_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/union_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/union_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/pubspec_overrides.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/pubspec_overrides.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/merging_builder/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/merging_builder/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +77,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Dart Command Line App.build.dart (1).executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
@@ -93,7 +113,7 @@
       <recent name="$PROJECT_DIR$/jserializer/lib/src/type_plus" />
     </key>
   </component>
-  <component name="RunManager" selected="Dart Command Line App.example2.dart">
+  <component name="RunManager" selected="Dart Command Line App.build.dart (1)">
     <configuration name="build.dart (1)" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="arguments" value="build --delete-conflicting-outputs" />
       <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/build.dart" />
@@ -134,11 +154,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Dart Command Line App.build.dart (1)" />
         <item itemvalue="Dart Command Line App.example2.dart" />
         <item itemvalue="Dart Command Line App.build.dart" />
         <item itemvalue="Flutter Test.tests in main.dart" />
         <item itemvalue="Dart Command Line App.main.dart" />
-        <item itemvalue="Dart Command Line App.build.dart (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -300,7 +320,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710090096079</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="fix JAdatper.int and JAdapter.double">
+      <option name="closed" value="true" />
+      <created>1717075855568</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1717075855568</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -345,7 +373,8 @@
     <MESSAGE value="fix extras field after the refactor" />
     <MESSAGE value="fix nullable type for generics" />
     <MESSAGE value="add return_of_invalid_type_from_closure ignore and delete example projects" />
-    <option name="LAST_COMMIT_MESSAGE" value="add return_of_invalid_type_from_closure ignore and delete example projects" />
+    <MESSAGE value="fix JAdatper.int and JAdapter.double" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix JAdatper.int and JAdapter.double" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

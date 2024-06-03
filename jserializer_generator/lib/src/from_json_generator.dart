@@ -16,11 +16,12 @@ class FromJsonGenerator {
 
   List<Method> getMethods() => [
         _getDecoder(),
-        if (isGeneric) _getDecoderGetterForGenericModels(),
+        if (isGeneric) getDecoderGetterForGenericModels(),
       ];
+
   List<Field> getFields() => [];
 
-  Method _getDecoderGetterForGenericModels() => Method(
+  Method getDecoderGetterForGenericModels() => Method(
         (b) => b
           ..type = MethodType.getter
           ..annotations.add(refer('override'))
@@ -64,6 +65,7 @@ class FromJsonGenerator {
         field.customAdapters.firstOrNull?.modelType.isNullable;
 
     Expression exp = refer('json').index(literalString(field.jsonKey));
+
     if (field.hasCustomAdapters) {
       for (final adapter in field.customAdapters) {
         exp = refer(adapter.adapterFieldName).property('fromJson').call([exp]);
@@ -104,6 +106,32 @@ class FromJsonGenerator {
     return declareFinal(field.fieldNameValueSuffixed).assign(exp).statement;
   }
 
+  MethodBuilder getDecoderSign(
+    MethodBuilder builder,
+  ) {
+    return builder
+      ..annotations.addAll(
+        [if (!isGeneric) refer('override')],
+      )
+      ..name = isGeneric ? 'decode' : 'fromJson'
+      ..types.addAll([
+        if (isGeneric) ...[
+          for (final t in modelConfig.type.typeArguments)
+            TypeReference(
+              (b) => b..symbol = t.name,
+            ),
+        ]
+      ])
+      ..returns = modelConfig.type.refer
+      ..requiredParameters.add(
+        Parameter(
+          (b) => b
+            ..name = 'json'
+            ..type = isGeneric ? TypeReference((b) => b..symbol = 'Map') : null,
+        ),
+      );
+  }
+
   Method _getDecoder() {
     final fields = modelConfig.fields;
     final statements = fields.map(resolveFieldToCode).toList();
@@ -138,33 +166,14 @@ class FromJsonGenerator {
     );
 
     return Method(
-      (b) => b
-        ..annotations.addAll(
-          [if (!isGeneric) refer('override')],
-        )
-        ..name = isGeneric ? 'decode' : 'fromJson'
-        ..types.addAll([
-          if (isGeneric) ...[
-            for (final t in modelConfig.type.typeArguments)
-              TypeReference(
-                (b) => b..symbol = t.name,
-              ),
-          ]
-        ])
-        ..returns = modelConfig.type.refer
-        ..body = Block(
-          (b) => b.statements.addAll(
-            [...statements, returnedModel.returned.statement],
+      (b) => getDecoderSign(
+        b
+          ..body = Block(
+            (b) => b.statements.addAll(
+              [...statements, returnedModel.returned.statement],
+            ),
           ),
-        )
-        ..requiredParameters.add(
-          Parameter(
-            (b) => b
-              ..name = 'json'
-              ..type =
-                  isGeneric ? TypeReference((b) => b..symbol = 'Map') : null,
-          ),
-        ),
+      ),
     );
   }
 }

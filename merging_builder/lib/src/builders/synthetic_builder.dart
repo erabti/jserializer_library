@@ -67,9 +67,9 @@ abstract class SyntheticBuilder<S extends SyntheticInput> implements Builder {
   String arrangeContent(String source, {String generatedBy = ''}) {
     // Add header to buffer.
     // Expand header:
-    final _header =
-        '// GENERATED CODE. DO NOT MODIFY. ' + generatedBy + '\n\n' + header;
-    final buffer = StringBuffer(_header);
+    final theHeader =
+        '// GENERATED CODE. DO NOT MODIFY. $generatedBy\n\n$header';
+    final buffer = StringBuffer(theHeader);
     buffer.writeln();
 
     source.trim();

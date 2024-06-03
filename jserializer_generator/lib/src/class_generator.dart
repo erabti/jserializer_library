@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element.dart' show ClassElement;
+import 'package:analyzer/dart/element/element.dart' show InterfaceElement;
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:fpdart/fpdart.dart';
@@ -64,7 +64,7 @@ class ClassGenerator extends ElementGenerator<Class> {
   final ToJsonGenerator toJsonGenerator;
   final JSerializable config;
 
-  ClassElement get classElement => modelConfig.classElement;
+  InterfaceElement get classElement => modelConfig.classElement;
 
   final ModelConfig modelConfig;
 
@@ -78,14 +78,22 @@ class ClassGenerator extends ElementGenerator<Class> {
 
   Reference get thisRefer => modelConfig.type.baseRefer;
 
-  Reader<ClassBuilder, ClassBuilder> addExtends() => Reader(
+  Reader<ClassBuilder, ClassBuilder> addExtends({
+    Reference? secondTypeRefer,
+  }) =>
+      Reader(
         (ClassBuilder b) {
           return b
             ..extend = TypeReference(
               (b) => b
                 ..symbol = modelConfig.baseSerializeName
                 ..url = jSerializerImport
-                ..types.add(modelConfig.type.baseRefer),
+                ..types.addAll(
+                  [
+                    modelConfig.type.baseRefer,
+                    if (secondTypeRefer != null) secondTypeRefer,
+                  ],
+                ),
             );
         },
       );

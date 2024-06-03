@@ -46,7 +46,7 @@ class Project<T> {
 }
 
 class TOption<T> {
-  const TOption.of(final T this.value);
+  const TOption.of(T this.value);
 
   const TOption.none() : value = null;
 

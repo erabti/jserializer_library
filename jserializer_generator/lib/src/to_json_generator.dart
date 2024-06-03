@@ -59,11 +59,23 @@ class ToJsonGenerator {
     return MapEntry(key, exp);
   }
 
+  MethodBuilder toJsonSignature(MethodBuilder builder) {
+    return builder
+      ..name = 'toJson'
+      ..annotations.add(refer('override'))
+      ..returns = refer('Map<String, dynamic>')
+      ..requiredParameters.add(
+        Parameter(
+          (b) => b
+            ..name = 'model'
+            ..type = modelConfig.type.baseRefer,
+        ),
+      );
+  }
+
   Method _getToJson() {
     final mapEntries = modelConfig.fields.map(_fieldToCode);
-
     Expression body = literalMap(Map.fromEntries(mapEntries));
-
     if (modelConfig.extrasField != null) {
       if (modelConfig.extrasField!.keyConfig.overridesToJsonModelFields) {
         body = body.cascade('addAll').call(
@@ -82,19 +94,9 @@ class ToJsonGenerator {
     }
 
     return Method(
-      (b) => b
-        ..name = 'toJson'
-        ..annotations.add(refer('override'))
-        ..returns = refer('Map<String, dynamic>')
+      (b) => toJsonSignature(b)
         ..lambda = true
-        ..body = body.code
-        ..requiredParameters.add(
-          Parameter(
-            (b) => b
-              ..name = 'model'
-              ..type = modelConfig.type.baseRefer,
-          ),
-        ),
+        ..body = body.code,
     );
   }
 }

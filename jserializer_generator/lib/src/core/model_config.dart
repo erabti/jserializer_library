@@ -15,9 +15,13 @@ class ModelConfig {
     required this.customSerializableType,
     required this.isCustomSerializer,
     this.unionConfig,
+    this.enumConfig,
   });
 
+  final EnumConfig? enumConfig;
   final UnionConfig? unionConfig;
+
+  bool get isEnum => enumConfig != null;
 
   bool get isUnionSuperType => unionConfig != null;
 
@@ -27,6 +31,7 @@ class ModelConfig {
   final JFieldConfig? extrasField;
 
   String get baseSerializeName {
+    if (isEnum) return 'CustomModelSerializer';
     if (genericConfigs.isEmpty) return 'ModelSerializer';
     return 'GenericModelSerializer';
   }
@@ -35,7 +40,7 @@ class ModelConfig {
 
   // final bool isCustomSerializer;
 
-  final ClassElement classElement;
+  final InterfaceElement classElement;
   final List<ModelGenericConfig> genericConfigs;
 
   final ResolvedType type;
@@ -57,6 +62,34 @@ class ModelGenericConfig {
   String get serializerName => 'serializer${index == 0 ? '' : index + 1}';
 }
 
+class EnumConfig {
+  final List<EnumKeyConfig> values;
+  final EnumKeyConfig? fallback;
+  final EnumIdentifierConfig? identifier;
+
+  const EnumConfig({
+    required this.values,
+    this.fallback,
+    this.identifier,
+  });
+}
+
+class EnumIdentifierConfig {
+  final FieldElement field;
+  final ResolvedType type;
+
+  const EnumIdentifierConfig({
+    required this.field,
+    required this.type,
+  });
+}
+
+class EnumKeyConfig {
+  final String name;
+
+  const EnumKeyConfig({required this.name});
+}
+
 class UnionConfig {
   final List<UnionValueConfig> values;
   final JUnion annotation;
@@ -76,9 +109,12 @@ class UnionValueConfig {
   final JUnionValue annotation;
   final ModelConfig config;
 
+  // useful when the union type is not generic but the value is
+  final ResolvedType redirectedType;
   final String typeName;
 
   const UnionValueConfig({
+    required this.redirectedType,
     required this.annotation,
     required this.config,
     required this.typeName,

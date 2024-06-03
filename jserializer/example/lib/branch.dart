@@ -199,7 +199,7 @@ class IntAdapter2 extends CustomAdapter<int, dynamic> {
   const IntAdapter2();
 
   @override
-  dynamic toJson(dynamic json) => json;
+  dynamic toJson(dynamic model) => model;
 
   @override
   int fromJson(dynamic json) => (json as int) + 3;
@@ -209,7 +209,7 @@ class IntAdapter extends CustomAdapter<int, dynamic> {
   const IntAdapter();
 
   @override
-  dynamic toJson(dynamic json) => json;
+  dynamic toJson(dynamic model) => model;
 
   @override
   int fromJson(dynamic json) => (json as int) + 3;

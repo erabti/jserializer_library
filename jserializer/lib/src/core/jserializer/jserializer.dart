@@ -1,5 +1,4 @@
 import 'package:jserializer/jserializer.dart';
-import 'package:jserializer/src/core/jserializer/jserializer_impl.dart';
 
 typedef SerializerFactory<T> = Serializer<T, dynamic> Function(
   JSerializerInterface s,
