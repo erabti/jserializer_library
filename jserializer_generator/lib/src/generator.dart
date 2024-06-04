@@ -282,26 +282,6 @@ class JSerializerGenerator
       if (clazz is EnumElement && isJEnum) {
         final fields = clazz.fields;
         final resolvedFields = <EnumKeyConfig>[];
-        EnumKeyConfig? fallbackField;
-
-        for (final field in fields) {
-          if (!field.isEnumConstant) continue;
-          final jEnumKey = getJEnumKey(field);
-          final config = EnumKeyConfig(name: field.name);
-          final isFallback = jEnumKey.isFallback;
-          if (isFallback && fallbackField != null) {
-            throw Exception(
-              '$errorHeader only one fallback field is allowed! you '
-              'defined ${fallbackField.name} and ${field.name} as fallback fields!',
-            );
-          }
-
-          if (isFallback) {
-            fallbackField = config;
-          }
-
-          resolvedFields.add(config);
-        }
 
         final nonEnumFields = fields.where((e) => !e.isEnumConstant).toList();
         final identifierField = nonEnumFields.firstWhereOrNull((field) {
@@ -328,6 +308,47 @@ class JSerializerGenerator
             field: identifierField,
             type: type,
           );
+        }
+
+        EnumKeyConfig? fallbackField;
+
+        for (final field in fields) {
+          if (!field.isEnumConstant) continue;
+          final jEnumKey = getJEnumKey(field);
+
+          final name = field.computeConstantValue()?.getField('name');
+          print('*** $name');
+
+          final String jsonName;
+
+          if (identifierConfig == null) {
+            jsonName = "'${reCase(
+              field.name,
+              nameCase: globalOptions.fieldNameCase,
+            )}'";
+          } else {
+            jsonName =
+                '${clazz.name}.${field.name}.${identifierConfig.field.name}';
+          }
+
+          final config = EnumKeyConfig(
+            fieldName: field.name,
+            jsonName: jsonName,
+          );
+
+          final isFallback = jEnumKey.isFallback;
+          if (isFallback && fallbackField != null) {
+            throw Exception(
+              '$errorHeader only one fallback field is allowed! you '
+              'defined ${fallbackField.fieldName} and ${field.name} as fallback fields!',
+            );
+          }
+
+          if (isFallback) {
+            fallbackField = config;
+          }
+
+          resolvedFields.add(config);
         }
 
         enumConfig = EnumConfig(
@@ -370,7 +391,11 @@ class JSerializerGenerator
               config: config,
               redirectedType: subClassType,
               annotation: jUnionValue,
-              typeName: jUnionValue.name ?? c.name,
+              jsonKey: jUnionValue.name ??
+                  reCase(
+                    c.name,
+                    nameCase: globalOptions.fieldNameCase,
+                  ),
             ),
           );
         }
@@ -382,7 +407,7 @@ class JSerializerGenerator
         final jUnion = getJUnion(clazz);
         final fallbackName = jUnion.fallbackName;
         final fallbackValue = subTypes.firstWhereOrNull(
-          (element) => element.typeName == fallbackName,
+          (element) => element.jsonKey == fallbackName,
         );
 
         //verify fallbackValue exists
@@ -892,24 +917,12 @@ class JSerializerGenerator
           );
         }
 
-        final String jsonName;
-        if (jKey?.name != null) {
-          jsonName = jKey!.name!;
-        } else {
-          switch (config.fieldNameCase) {
-            case FieldNameCase.camel:
-              jsonName = param.name.toCamelCase();
-              break;
-            case FieldNameCase.pascal:
-              jsonName = param.name.toPascalCase();
-              break;
-            case FieldNameCase.snake:
-              jsonName = param.name.toSnakeCase();
-              break;
-            default:
-              jsonName = param.name;
-          }
-        }
+        final jKeyName = jKey?.name;
+        final jsonName = jKeyName ??
+            reCase(
+              param.name,
+              nameCase: config.fieldNameCase,
+            );
 
         final customSerializerClassType = customSerializerClass == null
             ? null
@@ -975,6 +988,22 @@ class JSerializerGenerator
             element.keyConfig.isExtras;
       },
     ).toList();
+  }
+}
+
+String reCase(
+  String identifier, {
+  FieldNameCase? nameCase,
+}) {
+  switch (nameCase) {
+    case FieldNameCase.camel:
+      return identifier.toCamelCase();
+    case FieldNameCase.pascal:
+      return identifier.toPascalCase();
+    case FieldNameCase.snake:
+      return identifier.toSnakeCase();
+    default:
+      return identifier;
   }
 }
 

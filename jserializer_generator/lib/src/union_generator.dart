@@ -67,7 +67,7 @@ class UnionGenerator {
     final statements = <Code>[];
 
     for (final value in unionConfig.values) {
-      statements.add(Code('case \'${value.typeName}\':'));
+      statements.add(Code('case \'${value.jsonKey}\':'));
 
       statements.add(
         refer('jSerializer')
@@ -123,7 +123,7 @@ class UnionGenerator {
                 for (final type in unionConfig.values) Code("""
 if(model is ${type.config.classElement.name}){
   return {
-  '${unionConfig.typeKey}': '${type.typeName}',
+  '${unionConfig.typeKey}': '${type.jsonKey}',
    ...jSerializer.toJson(model),
   };
 }"""),

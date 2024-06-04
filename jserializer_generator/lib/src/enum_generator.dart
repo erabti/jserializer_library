@@ -1,9 +1,11 @@
 import 'package:code_builder/code_builder.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/class_generator.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/from_json_generator.dart';
+import 'package:jserializer_generator/src/generator.dart';
 import 'package:jserializer_generator/src/to_json_generator.dart';
 
 class EnumGenerator {
@@ -73,28 +75,39 @@ throw Exception(
     String getDefaultValueCode(String fallbackName) => """
 return ${modelConfig.classElement.name}.$fallbackName;
 """;
-    final fallbackName = enumConfig.fallback?.name;
+
+    final fallbackName = enumConfig.fallback?.fieldName;
 
     final orElseCode =
         fallbackName != null ? getDefaultValueCode(fallbackName) : throwCode;
+
+    final cases = <String>[];
+    for (final value in enumConfig.values) {
+      final fieldName = value.fieldName;
+      final jsonName = value.jsonName;
+
+      final code = """
+if(json == $jsonName) return ${modelConfig.classElement.name}.$fieldName;
+""";
+
+      cases.add(code);
+    }
+
+    final casesCode = cases.join('\n');
 
     final body = Block(
       (b) => b
         ..statements.add(
           Code(
             """
-return ${modelConfig.classElement.name}.values.firstWhere(
-    (e) => e.$identifierName == json,
-    orElse: () {
+$casesCode
 $orElseCode
-    },
-);
 """,
           ),
         ),
     );
 
-    return Method(
+    final method = Method(
       (b) => b
         ..name = 'fromJson'
         ..returns = modelConfig.type.refer
@@ -107,28 +120,56 @@ $orElseCode
         )
         ..body = body,
     );
+
+    return method;
   }
 
   Method getToJson() {
-    return Method((b) => b
-      ..name = 'toJson'
-      ..returns = jsonTypeRefer
-      ..requiredParameters.add(
-        Parameter(
-          (b) => b
-            ..name = 'model'
-            ..type = modelConfig.type.refer,
-        ),
-      )
-      ..body = Block(
-        (b) => b
-          ..statements.add(
-            Code(
-              """
+    final identifier = enumConfig.identifier;
+
+    final String body;
+
+    if (identifier != null) {
+      body = """
 return model.$identifierName;
-""",
-            ),
+""";
+    } else {
+      final cases = <String>[];
+
+      for (final field in enumConfig.values) {
+        final fieldName = field.fieldName;
+        final jsonName = field.jsonName;
+
+        final code = """
+case ${modelConfig.classElement.name}.$fieldName:
+    return $jsonName;
+""";
+        cases.add(code);
+      }
+
+      final casesCode = cases.join('\n');
+
+      body = """
+switch(model) {
+$casesCode
+}
+""";
+    }
+
+    return Method(
+      (b) => b
+        ..name = 'toJson'
+        ..returns = jsonTypeRefer
+        ..requiredParameters.add(
+          Parameter(
+            (b) => b
+              ..name = 'model'
+              ..type = modelConfig.type.refer,
           ),
-      ));
+        )
+        ..body = Block(
+          (b) => b..statements.add(Code(body)),
+        ),
+    );
   }
 }

@@ -85,9 +85,13 @@ class EnumIdentifierConfig {
 }
 
 class EnumKeyConfig {
-  final String name;
+  final String fieldName;
+  final String jsonName;
 
-  const EnumKeyConfig({required this.name});
+  const EnumKeyConfig({
+    required this.fieldName,
+    required this.jsonName,
+  });
 }
 
 class UnionConfig {
@@ -111,12 +115,12 @@ class UnionValueConfig {
 
   // useful when the union type is not generic but the value is
   final ResolvedType redirectedType;
-  final String typeName;
+  final String jsonKey;
 
   const UnionValueConfig({
     required this.redirectedType,
     required this.annotation,
     required this.config,
-    required this.typeName,
+    required this.jsonKey,
   });
 }

@@ -1,4 +1,3 @@
-
 import 'package:jserializer/jserializer.dart';
 
 const jUnion = JUnion();
@@ -15,6 +14,10 @@ class JUnionValue {
     this.name,
     this.ignore = false,
   });
+
+  const JUnionValue.ignore()
+      : name = null,
+        ignore = true;
 
   final bool ignore;
   final String? name;

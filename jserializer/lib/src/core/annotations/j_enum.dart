@@ -7,7 +7,9 @@ class JEnum implements JSerializableBase {
 }
 
 class JEnumKey {
-  const JEnumKey({this.isFallback = false});
+  const JEnumKey({
+    this.isFallback = false,
+  });
 
   const JEnumKey.fallback() : isFallback = true;
 
