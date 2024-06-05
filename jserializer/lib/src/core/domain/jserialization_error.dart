@@ -33,25 +33,49 @@ class LookupError<ExpectedType> implements JserializationError {
 
   String get path => '$modelTypeStr.$fieldName';
 
+  String get exactLocation {
+    final children = _flatChildren;
+    final last = children.last;
+    final path = children.map((e) => e.path).join('->');
+
+    final jsonName = last.jsonKey;
+    final jsonPart = jsonName == null ? '' : '[key: $jsonName]';
+    final expectedType = last.expectedType;
+
+    return '$path$jsonPart(expectedType: $expectedType)';
+  }
+
+  String toStringWithoutStack() {
+    try {
+      final children = _flatChildren;
+      final last = children.last;
+      final theMessage = last.message;
+      final messagePart = theMessage ?? '';
+      final colonPart = theMessage == null ? '' : ':\n';
+      final location = exactLocation;
+
+      return 'JSerializationError:\n'
+          '$location'
+          '$colonPart$messagePart';
+    } catch (e) {
+      return '';
+    }
+  }
+
   @override
   String toString() {
     try {
       final children = _flatChildren;
-
       final last = children.last;
-      final path = children.map((e) => e.path).join('->');
-      final jsonName = last.jsonKey;
-      final expectedType = last.expectedType;
-      final stackTrace = last.stackTrace;
-      final stacktracePart = stackTrace == null ? '' : '\n$stackTrace';
-
-      final jsonPart = jsonName == null ? '' : '[key: $jsonName]';
       final theMessage = last.message;
       final messagePart = theMessage ?? '';
+      final location = exactLocation;
+      final stackTrace = last.stackTrace;
+      final stacktracePart = stackTrace == null ? '' : '\n$stackTrace';
       final colonPart = (theMessage == null && stackTrace == null) ? '' : ':\n';
 
       return 'JSerializationError:\n'
-          '$path$jsonPart(expectedType: $expectedType)'
+          '$location'
           '$colonPart$messagePart$stacktracePart';
     } catch (e) {
       return '';
