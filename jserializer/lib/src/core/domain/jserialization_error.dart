@@ -45,7 +45,8 @@ class LookupError<ExpectedType> implements JserializationError {
     return '$path$jsonPart(expectedType: $expectedType)';
   }
 
-  String toStringWithoutStack() {
+  @override
+  String toString() {
     try {
       final children = _flatChildren;
       final last = children.last;
@@ -62,8 +63,7 @@ class LookupError<ExpectedType> implements JserializationError {
     }
   }
 
-  @override
-  String toString() {
+  String toStringWithStack() {
     try {
       final children = _flatChildren;
       final last = children.last;
