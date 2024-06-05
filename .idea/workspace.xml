@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="add toStringWithoutStack() to LookupError" />
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="add toStringWithoutStack() to LookupError">
+      <change afterPath="$PROJECT_DIR$/jserializer/test/a_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,28 +57,29 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Dart Command Line App.build.dart (1).executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/erabti/Developer/jserializer_library&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Dart Command Line App.build.dart (1).executor": "Debug",
+    "Dart Test.Tests in a_test.dart.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/erabti/Developer/jserializer_library",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/jserializer/example2/lib" />
@@ -91,7 +96,7 @@
       <recent name="$PROJECT_DIR$/jserializer/lib/src/type_plus" />
     </key>
   </component>
-  <component name="RunManager" selected="Dart Command Line App.build.dart (1)">
+  <component name="RunManager" selected="Dart Test.Tests in a_test.dart">
     <configuration name="build.dart (1)" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="arguments" value="build --delete-conflicting-outputs" />
       <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/build.dart" />
@@ -108,9 +113,9 @@
       <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example2" />
       <method v="2" />
     </configuration>
-    <configuration name="main.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
-      <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/main.dart" />
-      <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example" />
+    <configuration name="Tests in a_test.dart" type="DartTestRunConfigurationType" factoryName="Dart Test" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/jserializer/test/a_test.dart" />
+      <option name="testName" value="a_test.dart" />
       <method v="2" />
     </configuration>
     <configuration name="Run" type="FlutterRunConfigurationType" factoryName="Flutter">
@@ -124,19 +129,19 @@
     </configuration>
     <list>
       <item itemvalue="Dart Command Line App.build.dart" />
-      <item itemvalue="Dart Command Line App.main.dart" />
       <item itemvalue="Dart Command Line App.example2.dart" />
       <item itemvalue="Dart Command Line App.build.dart (1)" />
+      <item itemvalue="Dart Test.Tests in a_test.dart" />
       <item itemvalue="Flutter.Run" />
       <item itemvalue="Flutter Test.tests in main.dart" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Dart Test.Tests in a_test.dart" />
         <item itemvalue="Dart Command Line App.build.dart (1)" />
         <item itemvalue="Dart Command Line App.example2.dart" />
         <item itemvalue="Dart Command Line App.build.dart" />
         <item itemvalue="Flutter Test.tests in main.dart" />
-        <item itemvalue="Dart Command Line App.main.dart" />
       </list>
     </recent_temporary>
   </component>
@@ -338,7 +343,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717618612755</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="add toStringWithoutStack() to LookupError">
+      <option name="closed" value="true" />
+      <created>1717620008777</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1717620008777</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
