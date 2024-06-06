@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="add toStringWithoutStack() to LookupError">
-      <change afterPath="$PROJECT_DIR$/jserializer/test/a_test.dart" afterDir="false" />
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="make jserializer more resiliant to common serialization errors from backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example/lib/branch.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example/lib/example.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example/lib/json.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +61,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Dart Command Line App.build.dart (1).executor": "Debug",
+    "Dart Command Line App.main.dart.executor": "Run",
     "Dart Test.Tests in a_test.dart.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -96,7 +98,7 @@
       <recent name="$PROJECT_DIR$/jserializer/lib/src/type_plus" />
     </key>
   </component>
-  <component name="RunManager" selected="Dart Test.Tests in a_test.dart">
+  <component name="RunManager" selected="Dart Command Line App.main.dart">
     <configuration name="build.dart (1)" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="arguments" value="build --delete-conflicting-outputs" />
       <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/build.dart" />
@@ -113,6 +115,11 @@
       <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example2" />
       <method v="2" />
     </configuration>
+    <configuration name="main.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/main.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example" />
+      <method v="2" />
+    </configuration>
     <configuration name="Tests in a_test.dart" type="DartTestRunConfigurationType" factoryName="Dart Test" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/jserializer/test/a_test.dart" />
       <option name="testName" value="a_test.dart" />
@@ -122,26 +129,21 @@
       <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/main.dart" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in main.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/jserializer/example/test/main.dart" />
-      <option name="useRegexp" value="false" />
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Dart Command Line App.main.dart" />
       <item itemvalue="Dart Command Line App.build.dart" />
       <item itemvalue="Dart Command Line App.example2.dart" />
       <item itemvalue="Dart Command Line App.build.dart (1)" />
       <item itemvalue="Dart Test.Tests in a_test.dart" />
       <item itemvalue="Flutter.Run" />
-      <item itemvalue="Flutter Test.tests in main.dart" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Dart Command Line App.main.dart" />
         <item itemvalue="Dart Test.Tests in a_test.dart" />
         <item itemvalue="Dart Command Line App.build.dart (1)" />
         <item itemvalue="Dart Command Line App.example2.dart" />
         <item itemvalue="Dart Command Line App.build.dart" />
-        <item itemvalue="Flutter Test.tests in main.dart" />
       </list>
     </recent_temporary>
   </component>
@@ -351,7 +353,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717620008777</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="make jserializer more resiliant to common serialization errors from backend">
+      <option name="closed" value="true" />
+      <created>1717621575010</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1717621575010</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -400,7 +410,8 @@
     <MESSAGE value="Revive JUnion, now we support unions and enums!" />
     <MESSAGE value="Add re-casing feature for JEnum and JUnion types" />
     <MESSAGE value="add toStringWithoutStack() to LookupError" />
-    <option name="LAST_COMMIT_MESSAGE" value="add toStringWithoutStack() to LookupError" />
+    <MESSAGE value="make jserializer more resiliant to common serialization errors from backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="make jserializer more resiliant to common serialization errors from backend" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

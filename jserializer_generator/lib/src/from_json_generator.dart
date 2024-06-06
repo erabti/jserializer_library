@@ -58,7 +58,6 @@ class FromJsonGenerator {
         : CodeExpression(Code(rawDefaultValueCode));
     final hasDefaultValue = defaultValueCode != null;
 
-    final isPrimitive = field.paramType.isPrimitive;
     final typeRefer = field.paramType.refer;
 
     final firstAdapterIsNullable =
@@ -70,7 +69,7 @@ class FromJsonGenerator {
       for (final adapter in field.customAdapters) {
         exp = refer(adapter.adapterFieldName).property('fromJson').call([exp]);
       }
-    } else if (!isPrimitive) {
+    } else {
       exp = refer('jSerializer').property('fromJson').call(
         [exp],
         {},
