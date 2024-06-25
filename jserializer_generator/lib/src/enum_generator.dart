@@ -1,11 +1,9 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:dart_style/dart_style.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/class_generator.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/from_json_generator.dart';
-import 'package:jserializer_generator/src/generator.dart';
 import 'package:jserializer_generator/src/to_json_generator.dart';
 
 class EnumGenerator {

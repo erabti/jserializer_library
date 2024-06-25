@@ -64,6 +64,11 @@ class FromJsonGenerator {
         field.customAdapters.firstOrNull?.modelType.isNullable;
 
     Expression exp = refer('json').index(literalString(field.jsonKey));
+    final fallbackName = field.keyConfig.fallbackName;
+
+    if (fallbackName != null) {
+      exp = exp.ifNullThen(refer('json').index(literalString(fallbackName)));
+    }
 
     if (field.hasCustomAdapters) {
       for (final adapter in field.customAdapters) {

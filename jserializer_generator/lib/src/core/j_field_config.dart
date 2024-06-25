@@ -12,6 +12,7 @@ class JKeyConfig implements JKey {
     required this.isExtras,
     this.name,
     required this.overridesToJsonModelFields,
+    this.fallbackName,
   });
 
   factory JKeyConfig.fromDartObj(DartObject obj) => JKeyConfig(
@@ -20,6 +21,7 @@ class JKeyConfig implements JKey {
         isExtras: obj.getField('isExtras')?.toBoolValue() ?? false,
         overridesToJsonModelFields:
             obj.getField('overridesToJsonModelFields')?.toBoolValue() ?? false,
+        fallbackName: obj.getField('fallbackName')?.toStringValue(),
       );
 
   @override
@@ -33,6 +35,9 @@ class JKeyConfig implements JKey {
 
   @override
   final bool overridesToJsonModelFields;
+
+  @override
+  final String? fallbackName;
 }
 
 class JFieldConfig {
