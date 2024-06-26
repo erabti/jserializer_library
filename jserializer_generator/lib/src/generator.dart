@@ -317,7 +317,6 @@ class JSerializerGenerator
           final jEnumKey = getJEnumKey(field);
 
           final name = field.computeConstantValue()?.getField('name');
-          print('*** $name');
 
           final String jsonName;
 

@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix jserializer resiliant issue where it wasn't looking up in the right way">
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="add new feature of defining fallbackName in JKey">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/annotations/jkey.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/annotations/jkey.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/core/j_field_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/core/j_field_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/enum_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/enum_generator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/from_json_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/from_json_generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -370,7 +366,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717686188638</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="add new feature of defining fallbackName in JKey">
+      <option name="closed" value="true" />
+      <created>1719319421680</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1719319421680</updated>
+    </task>
+    <task id="LOCAL-00031" summary="add new feature of defining fallbackName in JKey">
+      <option name="closed" value="true" />
+      <created>1719319431588</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1719319431588</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -421,7 +433,8 @@
     <MESSAGE value="add toStringWithoutStack() to LookupError" />
     <MESSAGE value="make jserializer more resiliant to common serialization errors from backend" />
     <MESSAGE value="fix jserializer resiliant issue where it wasn't looking up in the right way" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix jserializer resiliant issue where it wasn't looking up in the right way" />
+    <MESSAGE value="add new feature of defining fallbackName in JKey" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new feature of defining fallbackName in JKey" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
