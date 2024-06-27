@@ -14,7 +14,7 @@ mixin _NumAdapterBase<T extends num?> on CustomAdapter<T, dynamic> {
   T? tryParse(String value);
 
   @override
-  T fromJson(json) {
+  T fromJson(json, fullJson) {
     if (json is T) {
       if (fallback is T) return (json ?? fallback) as T;
       return json;

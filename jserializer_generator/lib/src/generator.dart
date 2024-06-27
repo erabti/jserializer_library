@@ -18,6 +18,7 @@ import 'package:jserializer_generator/src/enum_generator.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/type_resolver.dart';
 import 'package:jserializer_generator/src/union_generator.dart';
+import 'package:jserializer_generator/src/util.dart';
 import 'package:merging_builder/merging_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -316,8 +317,6 @@ class JSerializerGenerator
           if (!field.isEnumConstant) continue;
           final jEnumKey = getJEnumKey(field);
 
-          final name = field.computeConstantValue()?.getField('name');
-
           final String jsonName;
 
           if (identifierConfig == null) {
@@ -582,14 +581,12 @@ class JSerializerGenerator
     );
 
     for (final generic in type.typeArguments) {
-      final genericName = generic.dartType.getDisplayString(
-        withNullability: false,
-      );
+      final genericName = generic.dartType.getDisplayStringWithoutNullability();
 
       final correspondingField = fieldTypes.firstWhereOrNull(
         (element) =>
             genericName ==
-                element.dartType.getDisplayString(withNullability: false) ||
+                element.dartType.getDisplayStringWithoutNullability() ||
             element.hasDeepGenericOf(generic.dartType),
       );
 
@@ -762,9 +759,9 @@ class JSerializerGenerator
       (param) {
         final classFieldLib = typeResolver.libs.firstWhereOrNull(
           (lib) =>
-              classElement.lookUpGetter(
-                param.name,
-                lib,
+              classElement.safeLookupGetter(
+                name: param.name,
+                library: lib,
               ) !=
               null,
         );
@@ -775,9 +772,9 @@ class JSerializerGenerator
             )
             .firstWhereOrNull(
               (lib) =>
-                  classElement.lookUpGetter(
-                    param.name,
-                    lib,
+                  classElement.safeLookupGetter(
+                    name: param.name,
+                    library: lib,
                   ) !=
                   null,
             );
@@ -786,7 +783,10 @@ class JSerializerGenerator
 
         final classField = fieldLib == null
             ? null
-            : classElement.lookUpGetter(param.name, fieldLib);
+            : classElement.safeLookupGetter(
+                name: param.name,
+                library: fieldLib,
+              );
 
         if (classField == null) {
           throw Exception(
@@ -803,8 +803,8 @@ class JSerializerGenerator
 
         var genericType = classType.typeArguments.firstWhereOrNull(
           (e) {
-            return e.dartType.getDisplayString(withNullability: false) ==
-                    paramType.getDisplayString(withNullability: false) ||
+            return e.dartType.getDisplayStringWithoutNullability() ==
+                    paramType.getDisplayStringWithoutNullability() ||
                 resolvedType.hasDeepGenericOf(e.dartType);
           },
         );
@@ -934,10 +934,9 @@ class JSerializerGenerator
                       .contains(n.name) ||
                   serializableClasses.firstWhereOrNull(
                         (serializableClass) =>
-                            serializableClass.getDisplayString(
-                              withNullability: false,
-                            ) ==
-                            n.dartType.getDisplayString(withNullability: false),
+                            serializableClass
+                                .getDisplayStringWithoutNullability() ==
+                            n.dartType.getDisplayStringWithoutNullability(),
                       ) !=
                       null,
             ) &&
@@ -1018,7 +1017,6 @@ class CustomAdapterConfig {
   final ConstantReader reader;
   final Revivable revivable;
   final ResolvedType type;
-
   final ResolvedType jsonType;
   final ResolvedType modelType;
 

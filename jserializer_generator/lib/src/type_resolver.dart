@@ -4,6 +4,7 @@ import 'package:analyzer/dart/element/nullability_suffix.dart'
 import 'package:analyzer/dart/element/type.dart'
     show DartType, ParameterizedType;
 import 'package:jserializer_generator/src/resolved_type.dart';
+import 'package:jserializer_generator/src/util.dart';
 import 'package:path/path.dart' as p;
 
 class TypeResolver {
@@ -67,7 +68,7 @@ class TypeResolver {
   ResolvedType resolveType(DartType type) {
     return ResolvedType(
       dartType: type,
-      name: type.element?.name ?? type.getDisplayString(withNullability: false),
+      name: type.element?.name ?? type.getDisplayStringWithoutNullability(),
       isNullable: type.nullabilitySuffix == NullabilitySuffix.question,
       import: resolveImport(type.element),
       typeArguments: _resolveTypeArguments(type),

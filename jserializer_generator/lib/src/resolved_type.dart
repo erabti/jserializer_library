@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart' show TypeReference;
 import 'package:collection/collection.dart';
+import 'package:jserializer_generator/src/util.dart';
 
 void main() {}
 
@@ -12,7 +13,7 @@ class ResolvedType {
   final DartType dartType;
 
   String get fullName => dartType
-      .getDisplayString(withNullability: false)
+      .getDisplayStringWithoutNullability()
       .replaceAll(RegExp(r'[\s>]'), '')
       .replaceAll(RegExp(r'[,<]'), '_');
 
@@ -43,7 +44,7 @@ class ResolvedType {
 
     for (final f in types) {
       if (typeNames.add(
-        f.dartType.getDisplayString(withNullability: false),
+        f.dartType.getDisplayStringWithoutNullability(),
       )) typeNamesDistinct.add(f);
     }
 
@@ -128,8 +129,8 @@ class ResolvedType {
   bool _hasGenericNameOf(DartType t) {
     return typeArguments.firstWhereOrNull(
           (element) {
-            return element.dartType.getDisplayString(withNullability: false) ==
-                t.getDisplayString(withNullability: false);
+            return element.dartType.getDisplayStringWithoutNullability() ==
+                t.getDisplayStringWithoutNullability();
           },
         ) !=
         null;
@@ -151,7 +152,7 @@ class ResolvedType {
 
   TypeReference get referAsNullable => TypeReference(
         (b) => b
-          ..symbol = dartType.getDisplayString(withNullability: true)
+          ..symbol = dartType.getDisplayStringWithoutNullability()
           ..url = import
           ..isNullable = isNullable
           ..types.addAll(typeArguments.map((e) => e.refer)),

@@ -6,7 +6,7 @@ class JNumToBoolAdapter extends CustomAdapter<bool, num?> implements JAdapters {
   final bool? fallback;
 
   @override
-  bool fromJson(num? json) {
+  bool fromJson(num? json, fullJson) {
     final n = json?.toDouble();
     if (n == 0.0) return false;
     if (n == 1.0) return true;
@@ -30,7 +30,7 @@ class JNumToBoolNullableAdapter extends CustomAdapter<bool?, num?>
   final bool? fallback;
 
   @override
-  bool? fromJson(num? json) {
+  bool? fromJson(num? json, fullJson) {
     final n = json?.toDouble();
     if (n == 0.0) return false;
     if (n == 1.0) return true;

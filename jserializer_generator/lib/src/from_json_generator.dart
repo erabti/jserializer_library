@@ -72,7 +72,10 @@ class FromJsonGenerator {
 
     if (field.hasCustomAdapters) {
       for (final adapter in field.customAdapters) {
-        exp = refer(adapter.adapterFieldName).property('fromJson').call([exp]);
+        exp = refer(adapter.adapterFieldName).property('fromJson').call([
+          exp,
+          refer('json'),
+        ]);
       }
     } else {
       exp = refer('jSerializer').property('fromJson').call(

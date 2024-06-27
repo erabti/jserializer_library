@@ -5,7 +5,7 @@ class JStringAdapter extends CustomAdapter<String, dynamic>
   const JStringAdapter();
 
   @override
-  String fromJson(json) => json.toString();
+  String fromJson(json, fullJson) => json.toString();
 
   @override
   toJson(String? model) => model;
@@ -16,7 +16,7 @@ class JStringNullableAdapter extends CustomAdapter<String?, dynamic>
   const JStringNullableAdapter();
 
   @override
-  String? fromJson(json) => json?.toString();
+  String? fromJson(json, fullJson) => json?.toString();
 
   @override
   toJson(String? model) => model;
