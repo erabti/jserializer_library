@@ -138,9 +138,6 @@ class MockMethodGenerator {
       {
         for (final f in namedFields)
           f.fieldName: refer(f.fieldNameValueSuffixed),
-        if (modelConfig.extrasField?.isNamed == true)
-          modelConfig.extrasField!.fieldName:
-              refer(modelConfig.extrasField!.fieldNameValueSuffixed),
       },
       [
         ...modelConfig.genericConfigs.map((e) => e.type.refer),
