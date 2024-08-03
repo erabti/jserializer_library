@@ -288,8 +288,7 @@ class JSerializerGenerator
             typeFactory,
           ],
           {
-            if (hasCustomMocker || isGenerated)
-              'mockFactory': mockFactory,
+            if (hasCustomMocker || isGenerated) 'mockFactory': mockFactory,
           },
           [typeRefer.baseRefer],
         ).statement,
@@ -1118,6 +1117,7 @@ const _rules = <String>[
   'prefer-trailing-comma',
   'long-method',
   'STRICT_RAW_TYPE',
+  'unnecessary_import',
   'return_of_invalid_type_from_closure',
 ];
 
