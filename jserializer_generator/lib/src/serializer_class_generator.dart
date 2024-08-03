@@ -7,6 +7,7 @@ import 'package:jserializer_generator/src/core/element_generator.dart';
 import 'package:jserializer_generator/src/core/j_field_config.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/from_json_generator.dart';
+import 'package:jserializer_generator/src/generator.dart';
 import 'package:jserializer_generator/src/mock_method_generator.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/to_json_generator.dart';
@@ -132,12 +133,16 @@ class SerializerClassGenerator extends ElementGenerator<Class> {
             ..assignment = adapter.type.refer.newInstance(
               [
                 for (final x in adapter.revivable.positionalArguments)
-                  literal(ConstantReader(x).literalValue),
+                  refer(x.toCodeString()),
               ],
               {
                 ...adapter.revivable.namedArguments.map(
-                  (key, value) => MapEntry(
-                      key, literal(ConstantReader(value).literalValue)),
+                  (key, value) {
+                    return MapEntry(
+                      key,
+                      refer(value.toCodeString()),
+                    );
+                  },
                 ),
               },
               [],

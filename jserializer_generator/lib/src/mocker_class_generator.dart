@@ -5,6 +5,7 @@ import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/core/element_generator.dart';
 import 'package:jserializer_generator/src/core/j_field_config.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
+import 'package:jserializer_generator/src/generator.dart';
 import 'package:jserializer_generator/src/mock_method_generator.dart';
 import 'package:jserializer_generator/src/serializer_class_generator.dart';
 import 'package:source_gen/source_gen.dart';
@@ -64,6 +65,7 @@ class MockerClassGenerator extends ElementGenerator<Class> {
       for (final adapter in field.uniqueMockers) {
         adapter.adapterFieldName;
         if (ids.contains(adapter.adapterFieldName)) continue;
+        final bodyAccessor = adapter.revivable.accessor;
 
         final f = Field(
           (b) => b
@@ -73,12 +75,16 @@ class MockerClassGenerator extends ElementGenerator<Class> {
             ..assignment = adapter.type.refer.newInstance(
               [
                 for (final x in adapter.revivable.positionalArguments)
-                  literal(ConstantReader(x).literalValue),
+                  refer(x.toCodeString()),
               ],
               {
                 ...adapter.revivable.namedArguments.map(
-                  (key, value) => MapEntry(
-                      key, literal(ConstantReader(value).literalValue)),
+                  (key, value) {
+                    return MapEntry(
+                      key,
+                      refer(value.toCodeString()),
+                    );
+                  },
                 ),
               },
               [],
