@@ -21,7 +21,7 @@ class PrimitiveMocker<T> extends JMocker<T> {
   final T Function() mockBuilder;
 
   @override
-  Function get mocker => throw UnimplementedError();
+  Function get mocker => createMock;
 
   T createMock() => mockBuilder();
 }

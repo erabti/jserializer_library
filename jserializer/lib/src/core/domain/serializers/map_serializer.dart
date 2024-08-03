@@ -26,13 +26,13 @@ class MapSerializer extends GenericModelSerializer<Map> {
       );
 }
 
-class MapMocker<K, V> extends JMocker<Map<K, V>> {
+class MapMocker extends JGenericMocker<Map> {
   const MapMocker({super.jSerializer});
 
   @override
-  Function get mocker => createMock;
+  Function get mocker => _mock;
 
-  Map<K, V> createMock({JMockerContext? context}) {
+  Map<K, V> _mock<K, V>([JMockerContext? context]) {
     final ctx = context ?? JMockerContext();
 
     return ctx.getValue<Map<K, V>>(

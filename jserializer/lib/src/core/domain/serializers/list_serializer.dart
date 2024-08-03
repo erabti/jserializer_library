@@ -25,13 +25,13 @@ class ListSerializer extends GenericSerializer<List, Iterable> {
   List toJson(model) => model.map((e) => jSerializer.toJson(e)).toList();
 }
 
-class ListMocker<T> extends JMocker<List<T>> {
+class ListMocker extends JGenericMocker<List> {
   const ListMocker({super.jSerializer});
 
   @override
-  Function get mocker => createMock;
+  Function get mocker => _mock;
 
-  List<T> createMock({JMockerContext? context}) {
+  List<T> _mock<T>([JMockerContext? context]) {
     final ctx = context ?? JMockerContext();
 
     return ctx.getValue<List<T>>(
