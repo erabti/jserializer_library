@@ -211,9 +211,11 @@ class JSerializerGenerator
       }
       if (model.isCustomSerializer) {
         resolvedModels[typeRefer.name]!['hasCustomSerializer'] = true;
+        resolvedModels[typeRefer.name]!['serializerModel'] = model;
       }
       if (model.isCustomMocker) {
         resolvedModels[typeRefer.name]!['hasCustomMocker'] = true;
+        resolvedModels[typeRefer.name]!['mockerModel'] = model;
       }
 
       resolvedModels[typeRefer.name]!['model'] = model;
@@ -226,6 +228,8 @@ class JSerializerGenerator
           resolvedModel['hasCustomSerializer'] as bool? ?? false;
       final hasCustomMocker =
           resolvedModel['hasCustomMocker'] as bool? ?? false;
+      final mockerModel = resolvedModel['mockerModel'] as ModelConfig?;
+      final serializerModel = resolvedModel['serializerModel'] as ModelConfig?;
 
       if (isGenerated && (hasCustomMocker || hasCustomSerializer)) {
         throw Exception(
@@ -241,7 +245,7 @@ class JSerializerGenerator
 
       final instanceRefer = !hasCustomSerializer
           ? refer('${model.type.name}Serializer')
-          : model.type.refer;
+          : (serializerModel?.type.refer ?? model.type.refer);
 
       final serializerFactory = Method(
         (b) => b
@@ -272,7 +276,9 @@ class JSerializerGenerator
         (b) => b
           ..requiredParameters.addAll([Parameter((b) => b..name = 's')])
           ..body = refer(
-            hasCustomMocker ? model.type.name : '${model.type.name}Mocker',
+            hasCustomMocker
+                ? model.type.name
+                : '${(mockerModel ?? model).type.name}Mocker',
           ).newInstance(
             [],
             {'jSerializer': refer('s')},
