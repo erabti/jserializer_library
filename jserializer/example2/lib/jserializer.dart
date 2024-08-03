@@ -9,8 +9,8 @@
 import 'package:jserializer/jserializer.dart' as js;
 import 'package:example2/model/model.dart';
 
-class ModelSerializer extends js.ModelSerializer<Model> {
-  const ModelSerializer({super.jSerializer});
+class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
+  const SomeModelSerializer({super.jSerializer});
 
   static const jsonKeys = {
     'field1',
@@ -18,7 +18,7 @@ class ModelSerializer extends js.ModelSerializer<Model> {
   };
 
   @override
-  Model fromJson(json) {
+  SomeModel fromJson(json) {
     final field1$Value = safeLookup<String>(
       call: () => jSerializer.fromJson<String>(json['field1']),
       jsonKey: 'field1',
@@ -33,7 +33,7 @@ class ModelSerializer extends js.ModelSerializer<Model> {
         _,
       ) =>
           jsonKeys.contains(key));
-    return Model(
+    return SomeModel(
       field1: field1$Value,
       field2: field2$Value,
       extras: extras$Value,
@@ -41,19 +41,20 @@ class ModelSerializer extends js.ModelSerializer<Model> {
   }
 
   @override
-  Map<String, dynamic> toJson(Model model) => model.extras
+  Map<String, dynamic> toJson(SomeModel model) => model.extras
     ..addAll({
       'field1': model.field1,
       'field2': model.field2,
     });
 }
 
-class GenericModelSerializer extends js.GenericModelSerializer<GenericModel> {
-  GenericModelSerializer({super.jSerializer});
+class SomeGenericModelSerializer
+    extends js.GenericModelSerializer<SomeGenericModel> {
+  SomeGenericModelSerializer({super.jSerializer});
 
   static const jsonKeys = {'value'};
 
-  GenericModel<T> decode<T>(Map json) {
+  SomeGenericModel<T> decode<T>(Map json) {
     final value$Value = safeLookup<T>(
       call: () => jSerializer.fromJson<T>(json['value']),
       jsonKey: 'value',
@@ -64,7 +65,7 @@ class GenericModelSerializer extends js.GenericModelSerializer<GenericModel> {
         _,
       ) =>
           jsonKeys.contains(key));
-    return GenericModel<T>(
+    return SomeGenericModel<T>(
       value: value$Value,
       extras: extras$Value,
     );
@@ -74,30 +75,30 @@ class GenericModelSerializer extends js.GenericModelSerializer<GenericModel> {
   Function get decoder => decode;
 
   @override
-  Map<String, dynamic> toJson(GenericModel model) =>
+  Map<String, dynamic> toJson(SomeGenericModel model) =>
       model.extras..addAll({'value': jSerializer.toJson(model.value)});
 }
 
-class ModelMocker extends js.JModelMocker<Model> {
-  const ModelMocker({super.jSerializer});
+class SomeModelMocker extends js.JModelMocker<SomeModel> {
+  const SomeModelMocker({super.jSerializer});
 
   @override
-  Model createMock({js.JMockerContext? context}) {
+  SomeModel createMock({js.JMockerContext? context}) {
     final field1$Value = jSerializer.createMock<String>(context: context);
     final field2$Value = jSerializer.createMock<String>(context: context);
-    return Model(
+    return SomeModel(
       field1: field1$Value,
       field2: field2$Value,
     );
   }
 }
 
-class GenericModelMocker extends js.JGenericMocker<GenericModel> {
-  GenericModelMocker({super.jSerializer});
+class SomeGenericModelMocker extends js.JGenericMocker<SomeGenericModel> {
+  SomeGenericModelMocker({super.jSerializer});
 
-  GenericModel<T> mock<T>({js.JMockerContext? context}) {
+  SomeGenericModel<T> mock<T>({js.JMockerContext? context}) {
     final value$Value = jSerializer.createMock<T>(context: context);
-    return GenericModel<T>(value: value$Value);
+    return SomeGenericModel<T>(value: value$Value);
   }
 
   @override
@@ -106,14 +107,19 @@ class GenericModelMocker extends js.JGenericMocker<GenericModel> {
 
 void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
   final instance = jSerializer ?? js.JSerializer.i;
-  instance.register<Model>(
-    (s) => ModelSerializer(jSerializer: s),
-    (Function f) => f<Model>(),
-    mockFactory: (s) => ModelMocker(jSerializer: s),
+  instance.register<SomeModel>(
+    (s) => SomeModelSerializer(jSerializer: s),
+    (Function f) => f<SomeModel>(),
+    mockFactory: (s) => SomeModelMocker(jSerializer: s),
   );
-  instance.register<GenericModel>(
-    (s) => GenericModelSerializer(jSerializer: s),
-    <T>(Function f) => f<GenericModel<T>>(),
-    mockFactory: (s) => GenericModelMocker(jSerializer: s),
+  instance.register<SomeGenericModel>(
+    (s) => SomeGenericModelSerializer(jSerializer: s),
+    <T>(Function f) => f<SomeGenericModel<T>>(),
+    mockFactory: (s) => SomeGenericModelMocker(jSerializer: s),
+  );
+  instance.register<SomeCustomModel>(
+    (s) => SomeCustomModelMocker(jSerializer: s),
+    (Function f) => f<SomeCustomModel>(),
+    mockFactory: (s) => SomeCustomModelMocker(jSerializer: s),
   );
 }

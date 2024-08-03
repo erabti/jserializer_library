@@ -7,12 +7,14 @@ class ModelConfig {
   const ModelConfig({
     required this.type,
     required this.classElement,
+    required this.isCustomMocker,
     this.fields = const [],
     required this.hasGenericValue,
     required this.genericConfigs,
     // this.isCustomSerializer = false,
     this.extrasField,
-    required this.customSerializableType,
+    required this.customSerializableModelType,
+    required this.customMockerModelType,
     required this.isCustomSerializer,
     this.unionConfig,
     this.enumConfig,
@@ -25,8 +27,13 @@ class ModelConfig {
 
   bool get isUnionSuperType => unionConfig != null;
 
-  final ResolvedType? customSerializableType;
+  final ResolvedType? customSerializableModelType;
+  final ResolvedType? customMockerModelType;
+
   final bool isCustomSerializer;
+  final bool isCustomMocker;
+
+  bool get isCustomMockerOrSerializer => isCustomMocker || isCustomSerializer;
 
   final JFieldConfig? extrasField;
 

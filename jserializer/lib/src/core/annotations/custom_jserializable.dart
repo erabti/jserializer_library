@@ -6,3 +6,13 @@ const customJSerializer = CustomJSerializer();
 class CustomJSerializer implements JSerializableBase {
   const CustomJSerializer();
 }
+
+class CustomJMocker implements JSerializableBase {
+  const CustomJMocker({
+    this.applyOnlyToFieldNames,
+  });
+
+  final List<String>? applyOnlyToFieldNames;
+}
+
+const customJMocker = CustomJMocker();

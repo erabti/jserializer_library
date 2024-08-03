@@ -10,6 +10,7 @@ import 'package:change_case/change_case.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/mocker_class_generator.dart';
 import 'package:jserializer_generator/src/serializer_class_generator.dart';
@@ -24,8 +25,9 @@ import 'package:merging_builder/merging_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
 const customAdapterChecker = TypeChecker.fromRuntime(CustomAdapter);
-const customMockerChecker = TypeChecker.fromRuntime(JCustomMocker);
+const mockerChecker = TypeChecker.fromRuntime(JMocker);
 const customModelSerializerChecker = TypeChecker.fromRuntime(CustomJSerializer);
+const customModelMockerChecker = TypeChecker.fromRuntime(CustomJMocker);
 const jUnionChecker = TypeChecker.fromRuntime(JUnion);
 const jUnionValueChecker = TypeChecker.fromRuntime(JUnionValue);
 const jEnumKeyChecker = TypeChecker.fromRuntime(JEnumKey);
@@ -70,7 +72,8 @@ class JSerializerGenerator
     try {
       final models = await stream.toList();
 
-      final primaryClasses = models.where((e) => !e.isCustomSerializer).map(
+      final primaryClasses =
+          models.where((e) => !e.isCustomMockerOrSerializer).map(
         (e) {
           final unionConfig = e.unionConfig;
           final enumConfig = e.enumConfig;
@@ -105,7 +108,8 @@ class JSerializerGenerator
         },
       ).toList();
 
-      final mockClasses = models.where((e) => !e.isCustomSerializer).map(
+      final mockClasses =
+          models.where((e) => !e.isCustomMockerOrSerializer).map(
         (e) {
           return MockerClassGenerator(
             config: getConfig(e.classElement),
@@ -193,62 +197,104 @@ class JSerializerGenerator
         )
         .statement;
 
-    final registerStatements = models.map(
-      (e) {
-        final customType = e.customSerializableType;
-        final typeRefer = (customType ?? e.type);
+    final registerStatements = <Code>[];
+    final resolvedModels = <String, Map>{};
 
-        final serializerRefer = (!e.isCustomSerializer
-            ? refer('${e.type.name}Serializer')
-            : e.type.refer);
+    for (final model in models) {
+      final typeRefer = model.customSerializableModelType ??
+          model.customMockerModelType ??
+          model.type;
+      resolvedModels[typeRefer.name] ??= {};
 
-        final serializerFactory = Method(
-          (b) => b
-            ..requiredParameters.addAll([Parameter((b) => b..name = 's')])
-            ..body = serializerRefer.newInstance(
-              [],
-              {'jSerializer': refer('s')},
-            ).code,
-        ).closure;
+      if (!model.isCustomMockerOrSerializer) {
+        resolvedModels[typeRefer.name]!['isGenerated'] = true;
+      }
+      if (model.isCustomSerializer) {
+        resolvedModels[typeRefer.name]!['hasCustomSerializer'] = true;
+      }
+      if (model.isCustomMocker) {
+        resolvedModels[typeRefer.name]!['hasCustomMocker'] = true;
+      }
 
-        final typeFactory = Method(
-          (b) => b
-            ..lambda = true
-            ..types.addAll(
-              e.genericConfigs.map((e) => e.type.refer),
-            )
-            ..requiredParameters.add(
-              Parameter(
-                (b) => b
-                  ..name = 'f'
-                  ..type = refer('Function'),
-              ),
-            )
-            ..body = refer('f').call([], {}, [typeRefer.refer]).code,
-        ).genericClosure;
+      resolvedModels[typeRefer.name]!['model'] = model;
+    }
 
-        final mockFactory = Method(
-          (b) => b
-            ..requiredParameters.addAll([Parameter((b) => b..name = 's')])
-            ..body = refer('${e.type.name}Mocker').newInstance(
-              [],
-              {'jSerializer': refer('s')},
-            ).code,
-        ).closure;
+    for (final resolvedModel in resolvedModels.values) {
+      final model = resolvedModel['model'] as ModelConfig;
+      final isGenerated = resolvedModel['isGenerated'] as bool? ?? false;
+      final hasCustomSerializer =
+          resolvedModel['hasCustomSerializer'] as bool? ?? false;
+      final hasCustomMocker =
+          resolvedModel['hasCustomMocker'] as bool? ?? false;
 
-        final registerMethod = refer('instance').property('register');
-        final registerArgs = [
-          serializerFactory,
-          typeFactory,
-        ];
+      if (isGenerated && (hasCustomMocker || hasCustomSerializer)) {
+        throw Exception(
+          'JSerializationGenerationError in ${model.classElement.name}:\n'
+          'You cannot annotate a model with JSerializable and have a custom '
+          'serializer or a mocker',
+        );
+      }
 
-        return registerMethod.call(
-          registerArgs,
-          {'mockFactory': mockFactory},
+      final typeRefer = model.customSerializableModelType ??
+          model.customMockerModelType ??
+          model.type;
+
+      final instanceRefer = !hasCustomSerializer
+          ? refer('${model.type.name}Serializer')
+          : model.type.refer;
+
+      final serializerFactory = Method(
+        (b) => b
+          ..requiredParameters.addAll([Parameter((b) => b..name = 's')])
+          ..body = instanceRefer.newInstance(
+            [],
+            {'jSerializer': refer('s')},
+          ).code,
+      ).closure;
+
+      final typeFactory = Method(
+        (b) => b
+          ..lambda = true
+          ..types.addAll(
+            model.genericConfigs.map((e) => e.type.refer),
+          )
+          ..requiredParameters.add(
+            Parameter(
+              (b) => b
+                ..name = 'f'
+                ..type = refer('Function'),
+            ),
+          )
+          ..body = refer('f').call([], {}, [typeRefer.refer]).code,
+      ).genericClosure;
+
+      late final mockFactory = Method(
+        (b) => b
+          ..requiredParameters.addAll([Parameter((b) => b..name = 's')])
+          ..body = refer(
+            hasCustomMocker ? model.type.name : '${model.type.name}Mocker',
+          ).newInstance(
+            [],
+            {'jSerializer': refer('s')},
+          ).code,
+      ).closure;
+
+      final registerMethod = refer('instance').property('register');
+
+      registerStatements.add(
+        registerMethod.call(
+          [
+            serializerFactory,
+            typeFactory,
+          ],
+          {
+            if (hasCustomMocker || isGenerated)
+              'mockFactory': mockFactory,
+          },
           [typeRefer.baseRefer],
-        ).statement;
-      },
-    );
+        ).statement,
+      );
+    }
 
     return Method(
       (b) => b
@@ -463,8 +509,10 @@ class JSerializerGenerator
           classElement: clazz,
           hasGenericValue: genericConfigs.isNotEmpty,
           genericConfigs: genericConfigs,
-          customSerializableType: null,
+          customSerializableModelType: null,
+          customMockerModelType: null,
           isCustomSerializer: false,
+          isCustomMocker: false,
           unionConfig: UnionConfig(
             values: subTypes,
             annotation: jUnion,
@@ -554,9 +602,18 @@ class JSerializerGenerator
     final isCustomSerializer =
         customModelSerializerChecker.hasAnnotationOf(clazz);
 
-    final custom = getSerializableTypeOfCustomSerializer(clazz);
-    final customType =
-        custom == null ? null : resolver!.resolveType(custom.thisType);
+    final isCustomMocker = customModelMockerChecker.hasAnnotationOf(clazz);
+
+    final customSerializerModel = getSuperTypeFirstTypeArg(clazz, Serializer);
+    final customMockerModel = getSuperTypeFirstTypeArg(clazz, JMocker);
+
+    final customSerializableModelType = customSerializerModel == null
+        ? null
+        : resolver!.resolveType(customSerializerModel.thisType);
+
+    final customMockerModelType = customMockerModel == null
+        ? null
+        : resolver!.resolveType(customMockerModel.thisType);
 
     final config = getConfig(clazz);
 
@@ -619,7 +676,7 @@ class JSerializerGenerator
       }
     }
 
-    final genericConfigs = (customType ?? type)
+    final genericConfigs = (customSerializableModelType ?? type)
         .typeArguments
         .mapIndexed(
           (i, e) => ModelGenericConfig(e, i),
@@ -627,7 +684,9 @@ class JSerializerGenerator
         .toList();
 
     return ModelConfig(
-      customSerializableType: customType,
+      isCustomMocker: isCustomMocker,
+      customSerializableModelType: customSerializableModelType,
+      customMockerModelType: customMockerModelType,
       isCustomSerializer: isCustomSerializer,
       genericConfigs: genericConfigs,
       extrasField: extraField,
@@ -663,15 +722,17 @@ class JSerializerGenerator
         (element) => element.toString() == type.toString(),
       );
 
-  InterfaceElement? getSerializableTypeOfCustomSerializer(
-    InterfaceElement customSerializer,
+  InterfaceElement? getSuperTypeFirstTypeArg(
+    InterfaceElement elm,
+    Type superType,
   ) {
-    final serializerInterface = customSerializer.allSupertypes.firstWhereOrNull(
+    final interface = elm.allSupertypes.firstWhereOrNull(
       (element) =>
-          TypeChecker.fromRuntime(Serializer).isExactly(element.element),
+          TypeChecker.fromRuntime(superType).isExactly(element.element),
     );
-    if (serializerInterface == null) return null;
-    final type = serializerInterface.typeArguments.firstOrNull;
+
+    if (interface == null) return null;
+    final type = interface.typeArguments.firstOrNull;
     if (type == null) return null;
     final element = type.element;
 
@@ -689,8 +750,10 @@ class JSerializerGenerator
   }) {
     final isClassCustomSerializer =
         customModelSerializerChecker.hasAnnotationOf(classElement);
+    final isClassCustomMocker =
+        customModelMockerChecker.hasAnnotationOf(classElement);
 
-    if (isClassCustomSerializer) return [];
+    if (isClassCustomSerializer || isClassCustomMocker) return [];
 
     final sortedParams =
         (customConstructor ?? classElement.unnamedConstructor)!.parameters;
@@ -702,7 +765,9 @@ class JSerializerGenerator
         .flattened;
 
     final customSerializableModels = customSerializers
-        .map(getSerializableTypeOfCustomSerializer)
+        .map(
+          (e) => getSuperTypeFirstTypeArg(e, Serializer),
+        )
         .whereType<InterfaceElement>();
 
     return sortedParams.map(
@@ -838,7 +903,7 @@ class JSerializerGenerator
         final customMockers = [
           ...getParamAdapters(
             parentClass: classElement,
-            typeChecker: customMockerChecker,
+            typeChecker: mockerChecker,
             element: param,
             typeResolver: typeResolver,
             parentAdapterClassName: 'JCustomMocker',

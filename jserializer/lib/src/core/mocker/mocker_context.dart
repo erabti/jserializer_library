@@ -6,7 +6,6 @@ class JMockerContext {
     this.fieldName,
     this.randomize,
     this.options,
-    this.valueBuilder,
     this.deterministicRandom,
     this.deterministicSeedSalt,
   });
@@ -18,7 +17,6 @@ class JMockerContext {
   final String? fieldName;
   final int? deterministicSeedSalt;
   final Map<String, dynamic>? options;
-  final dynamic Function()? valueBuilder;
 
   int? get callCountAsIndex {
     final callCount = this.callCount;
@@ -73,11 +71,6 @@ class JMockerContext {
     required T Function() fallback,
     int? deterministicSeedSalt,
   }) {
-    final value = valueBuilder?.call();
-    if (value is T) {
-      return value;
-    }
-
     final randomize = this.randomize ?? false;
 
     if (randomize) {
@@ -98,7 +91,6 @@ class JMockerContext {
     String? fieldName,
     int? deterministicSeedSalt,
     Map<String, dynamic>? options,
-    dynamic Function()? valueBuilder,
   }) {
     return JMockerContext(
       deterministicRandom: deterministicRandom ?? this.deterministicRandom,
@@ -108,7 +100,6 @@ class JMockerContext {
       deterministicSeedSalt:
           deterministicSeedSalt ?? this.deterministicSeedSalt,
       options: options ?? this.options,
-      valueBuilder: valueBuilder ?? this.valueBuilder,
     );
   }
 }
