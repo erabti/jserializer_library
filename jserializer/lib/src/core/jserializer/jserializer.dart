@@ -11,7 +11,10 @@ typedef MockerFactory<T> = JMocker<T> Function(
 abstract class JSerializerInterface {
   T fromJson<T>(dynamic json);
 
-  T createMock<T>({JMockerContext? context});
+  T createMock<T>({
+    Type? type,
+    JMockerContext? context,
+  });
 
   toJson(model);
 
@@ -47,7 +50,6 @@ abstract class JSerializerInterface {
   /// In case both passed, the [t] will be used.
   bool hasMockerOf<T>([Type? t]);
 
-
   /// Registers a new type within [JSerializer] for the type [T]
   ///
   /// [factory] is a function that returns the serializer,
@@ -80,7 +82,11 @@ abstract class JSerializer {
 
   static T fromJson<T>(json) => i.fromJson<T>(json);
 
-  static T createMock<T>({JMockerContext? context}) => i.createMock<T>(
+  static T createMock<T>({
+    JMockerContext? context,
+    Type? type,
+  }) =>
+      i.createMock<T>(
         context: context,
       );
 
