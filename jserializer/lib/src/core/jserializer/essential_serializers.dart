@@ -19,13 +19,14 @@ class BoolSerializer extends Serializer<bool, dynamic> {
   }
 }
 
-class BoolMocker extends JMocker<bool> {
+class BoolMocker extends JModelMocker<bool> {
   const BoolMocker({super.jSerializer});
 
   @override
   Function get mocker => createMock;
 
-  bool createMock({JMockerContext? context}) {
+  @override
+  bool createMock([JMockerContext? context]) {
     final ctx = context ?? JMockerContext();
 
     return ctx.getValue<bool>(
@@ -52,13 +53,14 @@ class NumSerializer extends Serializer<num, dynamic> {
   }
 }
 
-class NumMocker extends JMocker<num> {
+class NumMocker extends JModelMocker<num> {
   const NumMocker({super.jSerializer});
 
   @override
   Function get mocker => createMock;
 
-  num createMock({JMockerContext? context}) {
+  @override
+  num createMock([JMockerContext? context]) {
     final ctx = context ?? JMockerContext();
 
     return ctx.getValue<num>(
@@ -86,7 +88,7 @@ class StringSerializer extends Serializer<String, dynamic> {
   }
 }
 
-class StringMocker extends JMocker<String> implements JMockers {
+class StringMocker extends JModelMocker<String> implements JMockers {
   const StringMocker({
     super.jSerializer,
     this.language,
@@ -101,9 +103,6 @@ class StringMocker extends JMocker<String> implements JMockers {
   final int? minWords;
   final int? maxChars;
   final int? minChars;
-
-  @override
-  Function get mocker => createMock;
 
   static String randomizeString({
     int? minWords,
@@ -147,7 +146,8 @@ class StringMocker extends JMocker<String> implements JMockers {
     return words.join(' ');
   }
 
-  String createMock({JMockerContext? context}) {
+  @override
+  String createMock([JMockerContext? context]) {
     final ctx = context ?? JMockerContext();
 
     return ctx.getValue<String>(
@@ -182,13 +182,11 @@ class DoubleSerializer extends Serializer<double, dynamic> {
   }
 }
 
-class DoubleMocker extends JMocker<double> {
+class DoubleMocker extends JModelMocker<double> {
   const DoubleMocker({super.jSerializer});
 
   @override
-  Function get mocker => createMock;
-
-  double createMock({JMockerContext? context}) {
+  double createMock([JMockerContext? context]) {
     final ctx = context ?? JMockerContext();
 
     return ctx.getValue<double>(
@@ -216,13 +214,14 @@ class IntSerializer extends Serializer<int, dynamic> {
   }
 }
 
-class IntMocker extends JMocker<int> {
+class IntMocker extends JModelMocker<int> {
   const IntMocker({super.jSerializer});
 
   @override
   Function get mocker => createMock;
 
-  int createMock({JMockerContext? context}) {
+  @override
+  int createMock([JMockerContext? context]) {
     final ctx = context ?? JMockerContext();
 
     return ctx.getValue<int>(
