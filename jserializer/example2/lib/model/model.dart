@@ -25,6 +25,8 @@ class SomeGenericModel<T> {
   final Map<String, dynamic> extras;
 }
 
+@jEnum
+enum SomeEnum { someValue1, someValue2 }
 
 class SomeCustomModel {
   const SomeCustomModel({
@@ -64,6 +66,6 @@ class SomeCustomModelMocker extends JModelMocker<SomeCustomModel> {
   });
 
   @override
-  SomeCustomModel createMock({JMockerContext? context}) =>
+  SomeCustomModel createMock([JMockerContext? context]) =>
       const SomeCustomModel(value: 'mocked_value');
 }

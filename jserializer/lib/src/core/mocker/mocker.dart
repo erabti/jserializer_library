@@ -18,7 +18,7 @@ abstract class JMocker<T> {
 abstract class JCustomMocker<T> extends JMocker<T> {
   const JCustomMocker({super.jSerializer});
 
-  T createMock({JMockerContext? context});
+  T createMock([JMockerContext? context]);
 
   @override
   Function get mocker => createMock;
@@ -44,7 +44,7 @@ abstract class JCustomMocker<T> extends JMocker<T> {
 abstract class JModelMocker<T> extends JMocker<T> {
   const JModelMocker({super.jSerializer});
 
-  T createMock({JMockerContext? context});
+  T createMock([JMockerContext? context]);
 
   @override
   Function get mocker => createMock;
@@ -53,9 +53,10 @@ abstract class JModelMocker<T> extends JMocker<T> {
 abstract class JGenericMocker<T> extends JMocker<T> {
   const JGenericMocker({super.jSerializer});
 
-  M createMock<M extends T>({JMockerContext? context}) {
+  M createMock<M extends T>([JMockerContext? context]) {
     final result = mocker.callWith(
       typeArguments: M.args,
+      parameters: [context],
     );
 
     try {

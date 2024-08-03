@@ -6,7 +6,7 @@ class EmailMocker extends JCustomMocker<String> implements JMockers {
   const EmailMocker();
 
   @override
-  String createMock({JMockerContext? context}) {
+  String createMock([JMockerContext? context]) {
     final names = NameMocker.namesData['en']!;
     final randomize = context?.randomize ?? false;
     if (!randomize) {

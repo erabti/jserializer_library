@@ -44,10 +44,9 @@ class MockMethodGenerator {
     Expression exp;
     if (customMocker != null) {
       exp = refer(customMocker.adapterFieldName).property('createMock').call(
-        [],
-        {
-          'context': refer('context'),
-        },
+        [
+          refer('context'),
+        ],
       );
     } else if (hasValue) {
       exp = valueCode;
@@ -75,7 +74,6 @@ class MockMethodGenerator {
       ..optionalParameters.addAll([
         Parameter(
           (b) => b
-            ..named = true
             ..name = 'context'
             ..type = TypeReference((b) => b
               ..symbol = 'JMockerContext'

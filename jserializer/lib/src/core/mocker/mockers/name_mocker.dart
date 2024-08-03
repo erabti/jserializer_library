@@ -29,7 +29,7 @@ class NameMocker extends JCustomMocker<String> implements JMockers {
   }
 
   @override
-  String createMock({JMockerContext? context}) {
+  String createMock([JMockerContext? context]) {
     final ctx = context ?? JMockerContext();
     final nameCount = getNameCount(ctx);
     final language = getLanguage(ctx);

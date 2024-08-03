@@ -136,18 +136,18 @@ class JSerializerImpl extends JSerializerInterface {
     final ctx = ctxWrapper.getValue();
 
     if (mocker is JGenericMocker) {
-      return mocker.createMock<T>(context: ctx);
+      return mocker.createMock<T>(ctx);
     }
 
-    if (mocker is JModelMocker) return mocker.createMock(context: ctx) as T;
+    if (mocker is JModelMocker) return mocker.createMock(ctx) as T;
     final rawMocker = mocker.mocker;
 
-    if (rawMocker is Function({JMockerContext? context})) {
-      return rawMocker(context: ctx) as T;
+    if (rawMocker is Function([JMockerContext? context])) {
+      return rawMocker(ctx) as T;
     }
 
-    if (rawMocker is Function<R>({JMockerContext? context})) {
-      return rawMocker<T>(context: ctx) as T;
+    if (rawMocker is Function<R>([JMockerContext? context])) {
+      return rawMocker<T>(ctx) as T;
     }
 
     return mocker.mocker();
