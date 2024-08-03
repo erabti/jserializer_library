@@ -25,3 +25,34 @@ class MapSerializer extends GenericModelSerializer<Map> {
         ),
       );
 }
+
+class MapMocker<K, V> extends JMocker<Map<K, V>> {
+  const MapMocker({super.jSerializer});
+
+  @override
+  Function get mocker => createMock;
+
+  Map<K, V> createMock({JMockerContext? context}) {
+    final ctx = context ?? JMockerContext();
+
+    return ctx.getValue<Map<K, V>>(
+      randomizer: (random) => Map.fromEntries(
+        List.generate(
+          random.nextInt(ctx.mapMaxCount),
+          (index) => MapEntry(
+            jSerializer.createMock<K>(context: ctx),
+            jSerializer.createMock<V>(context: ctx),
+          ),
+        ),
+      ),
+      fallback: () => {
+        jSerializer.createMock<K>(context: ctx):
+            jSerializer.createMock<V>(context: ctx),
+        jSerializer.createMock<K>(context: ctx):
+            jSerializer.createMock<V>(context: ctx),
+        jSerializer.createMock<K>(context: ctx):
+            jSerializer.createMock<V>(context: ctx),
+      },
+    );
+  }
+}

@@ -11,3 +11,17 @@ class PrimitiveSerializer<T> extends Serializer<T, T> {
 
   T fromJson(T json) => json;
 }
+
+class PrimitiveMocker<T> extends JMocker<T> {
+  const PrimitiveMocker({
+    required this.mockBuilder,
+    super.jSerializer,
+  });
+
+  final T Function() mockBuilder;
+
+  @override
+  Function get mocker => throw UnimplementedError();
+
+  T createMock() => mockBuilder();
+}

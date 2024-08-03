@@ -7,6 +7,7 @@ import 'package:jserializer_generator/src/core/element_generator.dart';
 import 'package:jserializer_generator/src/core/j_field_config.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/from_json_generator.dart';
+import 'package:jserializer_generator/src/mock_method_generator.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 import 'package:jserializer_generator/src/to_json_generator.dart';
 import 'package:source_gen/source_gen.dart';
@@ -49,18 +50,23 @@ Reference listRefer(Reference itemRefer) => TypeReference(
         ..types.add(itemRefer),
     );
 
-class ClassGenerator extends ElementGenerator<Class> {
-  ClassGenerator({
+class SerializerClassGenerator extends ElementGenerator<Class> {
+  SerializerClassGenerator({
     required this.config,
     required this.modelConfig,
     FromJsonGenerator? fromJsonGenerator,
     ToJsonGenerator? toJsonGenerator,
+    MockMethodGenerator? mockGenerator,
   })  : fromJsonGenerator = fromJsonGenerator ??
             FromJsonGenerator(modelConfig: modelConfig, config: config),
         toJsonGenerator = toJsonGenerator ??
-            ToJsonGenerator(modelConfig: modelConfig, config: config);
+            ToJsonGenerator(modelConfig: modelConfig, config: config),
+        mockGenerator = mockGenerator ??
+            MockMethodGenerator(modelConfig: modelConfig, config: config);
 
   final FromJsonGenerator fromJsonGenerator;
+  final MockMethodGenerator mockGenerator;
+
   final ToJsonGenerator toJsonGenerator;
   final JSerializable config;
 
@@ -98,26 +104,6 @@ class ClassGenerator extends ElementGenerator<Class> {
         },
       );
 
-  Expression listFromRef({
-    Reference? type,
-  }) {
-    return TypeReference(
-      (b) => b
-        ..symbol = 'List'
-        ..types.addAll([if (type != null) type]),
-    ).property('from');
-  }
-
-  Expression mapFromRef({
-    List<Reference>? types,
-  }) {
-    return TypeReference(
-      (b) => b
-        ..symbol = 'Map'
-        ..types.addAll([...?types]),
-    ).property('from');
-  }
-
   List<JFieldConfig> get serializableFields => modelConfig.fields
       .where(
         (m) => m.isSerializableModel,
@@ -134,7 +120,7 @@ class ClassGenerator extends ElementGenerator<Class> {
     final ids = <String>{};
 
     for (final field in modelConfig.fields) {
-      for (final adapter in field.allAdapters) {
+      for (final adapter in field.uniqueAdapters) {
         adapter.adapterFieldName;
         if (ids.contains(adapter.adapterFieldName)) continue;
 
@@ -181,7 +167,6 @@ class ClassGenerator extends ElementGenerator<Class> {
         return b
           ..fields.addAll([
             ...getCustomAdapters(),
-            ...fromJsonGenerator.getFields(),
             getJsonKeysField(),
           ])
           ..methods.addAll(

@@ -1,44 +1,11 @@
-import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:code_builder/code_builder.dart';
-import 'package:jserializer/jserializer.dart';
+import 'package:jserializer_generator/src/core/j_key_config.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/generator.dart';
 import 'package:jserializer_generator/src/resolved_type.dart';
 
-class JKeyConfig implements JKey {
-  const JKeyConfig({
-    required this.ignore,
-    required this.isExtras,
-    this.name,
-    required this.overridesToJsonModelFields,
-    this.fallbackName,
-  });
-
-  factory JKeyConfig.fromDartObj(DartObject obj) => JKeyConfig(
-        ignore: obj.getField('ignore')?.toBoolValue() ?? false,
-        name: obj.getField('name')?.toStringValue(),
-        isExtras: obj.getField('isExtras')?.toBoolValue() ?? false,
-        overridesToJsonModelFields:
-            obj.getField('overridesToJsonModelFields')?.toBoolValue() ?? false,
-        fallbackName: obj.getField('fallbackName')?.toStringValue(),
-      );
-
-  @override
-  final bool ignore;
-
-  @override
-  final bool isExtras;
-
-  @override
-  final String? name;
-
-  @override
-  final bool overridesToJsonModelFields;
-
-  @override
-  final String? fallbackName;
-}
+export 'j_key_config.dart';
 
 class JFieldConfig {
   const JFieldConfig({
@@ -55,6 +22,7 @@ class JFieldConfig {
     this.isSerializableModel = false,
     this.defaultValueCode,
     required this.customAdapters,
+    required this.customMockers,
     required this.customSerializerClass,
     required this.customSerializerClassType,
     required this.fieldType,
@@ -65,18 +33,33 @@ class JFieldConfig {
   final ResolvedType? customSerializerClassType;
 
   final List<CustomAdapterConfig> customAdapters;
+  final List<CustomAdapterConfig> customMockers;
 
-  List<CustomAdapterConfig> get allAdapters {
+  List<CustomAdapterConfig> get uniqueAdapters {
     final id = <String>{};
     final List<CustomAdapterConfig> result = [];
     final list = [...customAdapters];
     for (final i in list) {
       if (id.add(i.adapterFieldName)) result.add(i);
     }
+
+    return result;
+  }
+
+  List<CustomAdapterConfig> get uniqueMockers {
+    final id = <String>{};
+    final List<CustomAdapterConfig> result = [];
+    final list = [...customMockers];
+    for (final i in list) {
+      if (id.add(i.adapterFieldName)) result.add(i);
+    }
+
     return result;
   }
 
   bool get hasCustomAdapters => customAdapters.isNotEmpty;
+
+  bool get hasCustomMockers => customMockers.isNotEmpty;
 
   final ModelGenericConfig? genericConfig;
   final bool hasSerializableGenerics;
@@ -89,7 +72,7 @@ class JFieldConfig {
   final ResolvedType paramType;
   final ResolvedType fieldType;
 
-  final JKey keyConfig;
+  final JKeyConfig keyConfig;
   final InterfaceElement? serializableClassElement;
   final ResolvedType? serializableClassType;
 

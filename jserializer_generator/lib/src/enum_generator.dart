@@ -1,7 +1,7 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:jserializer/jserializer.dart';
-import 'package:jserializer_generator/src/class_generator.dart';
+import 'package:jserializer_generator/src/serializer_class_generator.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/from_json_generator.dart';
 import 'package:jserializer_generator/src/to_json_generator.dart';
@@ -30,7 +30,7 @@ class EnumGenerator {
   );
 
   Class generate() {
-    final classGen = ClassGenerator(
+    final classGen = SerializerClassGenerator(
       config: globalConfig,
       modelConfig: modelConfig,
     );
@@ -52,6 +52,7 @@ class EnumGenerator {
           ..methods.addAll(
             [
               getFromJson(),
+              getCreateJson(),
               getToJson(),
             ],
           ),
@@ -120,6 +121,20 @@ $orElseCode
     );
 
     return method;
+  }
+
+  Method getCreateJson() {
+    final fallbackName = enumConfig.fallback?.fieldName;
+
+    final mockName = fallbackName ?? enumConfig.values.first.fieldName;
+
+    return Method(
+      (b) => b
+        ..name = 'createMock'
+        ..returns = modelConfig.type.refer
+        ..lambda = true
+        ..body = modelConfig.type.refer.property(mockName).code,
+    );
   }
 
   Method getToJson() {

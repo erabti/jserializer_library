@@ -19,7 +19,6 @@ class FromJsonGenerator {
         if (isGeneric) getDecoderGetterForGenericModels(),
       ];
 
-  List<Field> getFields() => [];
 
   Method getDecoderGetterForGenericModels() => Method(
         (b) => b

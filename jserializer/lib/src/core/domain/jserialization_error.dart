@@ -83,8 +83,8 @@ class LookupError<ExpectedType> implements JserializationError {
   }
 }
 
-class UnregisteredTypeError implements JserializationError {
-  const UnregisteredTypeError(this.type);
+class UnregisteredSerializableTypeError implements JserializationError {
+  const UnregisteredSerializableTypeError(this.type);
 
   final Type type;
 
@@ -95,6 +95,21 @@ class UnregisteredTypeError implements JserializationError {
         'Did you forget to annotate it with @JSerializable()?\n\n'
         'In case you do not have access to $type you can define a custom '
         'serializer for it and annotate it with @CustomJSerializer().';
+  }
+}
+
+class UnregisteredMockerTypeError implements JserializationError {
+  const UnregisteredMockerTypeError(this.type);
+
+  final Type type;
+
+  @override
+  String toString() {
+    return 'UnregisteredTypeError:\n'
+        'The type [$type] has no registered mocker!\n'
+        'Did you forget to annotate it with @JSerializable()?\n\n'
+        'In case you do not have access to $type you can define a custom '
+        'mocker for it and annotate it with @JCustomMocker().';
   }
 }
 

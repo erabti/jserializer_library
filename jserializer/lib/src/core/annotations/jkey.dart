@@ -3,6 +3,7 @@ class JKey {
     this.name,
     this.ignore = false,
     this.fallbackName,
+    this.mockValue,
   })  : isExtras = false,
         overridesToJsonModelFields = false;
 
@@ -10,6 +11,7 @@ class JKey {
       : name = null,
         ignore = true,
         isExtras = true,
+        mockValue = null,
         fallbackName = null;
 
   final bool isExtras;
@@ -17,4 +19,5 @@ class JKey {
   final String? name;
   final bool overridesToJsonModelFields;
   final String? fallbackName;
+  final dynamic mockValue;
 }

@@ -11,7 +11,8 @@ import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:jserializer/jserializer.dart';
-import 'package:jserializer_generator/src/class_generator.dart';
+import 'package:jserializer_generator/src/mocker_class_generator.dart';
+import 'package:jserializer_generator/src/serializer_class_generator.dart';
 import 'package:jserializer_generator/src/core/j_field_config.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/enum_generator.dart';
@@ -23,6 +24,7 @@ import 'package:merging_builder/merging_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
 const customAdapterChecker = TypeChecker.fromRuntime(CustomAdapter);
+const customMockerChecker = TypeChecker.fromRuntime(JCustomMocker);
 const customModelSerializerChecker = TypeChecker.fromRuntime(CustomJSerializer);
 const jUnionChecker = TypeChecker.fromRuntime(JUnion);
 const jUnionValueChecker = TypeChecker.fromRuntime(JUnionValue);
@@ -68,7 +70,7 @@ class JSerializerGenerator
     try {
       final models = await stream.toList();
 
-      final classes = models.where((e) => !e.isCustomSerializer).map(
+      final primaryClasses = models.where((e) => !e.isCustomSerializer).map(
         (e) {
           final unionConfig = e.unionConfig;
           final enumConfig = e.enumConfig;
@@ -96,7 +98,16 @@ class JSerializerGenerator
             ).generate();
           }
 
-          return ClassGenerator(
+          return SerializerClassGenerator(
+            config: getConfig(e.classElement),
+            modelConfig: e,
+          ).onGenerate();
+        },
+      ).toList();
+
+      final mockClasses = models.where((e) => !e.isCustomSerializer).map(
+        (e) {
+          return MockerClassGenerator(
             config: getConfig(e.classElement),
             modelConfig: e,
           ).onGenerate();
@@ -107,7 +118,8 @@ class JSerializerGenerator
         (b) => b
           ..body.addAll(
             [
-              ...classes,
+              ...primaryClasses,
+              ...mockClasses,
               getInitializerMethod(models),
             ],
           ),
@@ -215,12 +227,24 @@ class JSerializerGenerator
             ..body = refer('f').call([], {}, [typeRefer.refer]).code,
         ).genericClosure;
 
+        final mockFactory = Method(
+          (b) => b
+            ..requiredParameters.addAll([Parameter((b) => b..name = 's')])
+            ..body = refer('${e.type.name}Mocker').newInstance(
+              [],
+              {'jSerializer': refer('s')},
+            ).code,
+        ).closure;
+
         final registerMethod = refer('instance').property('register');
-        final registerArgs = [serializerFactory, typeFactory];
+        final registerArgs = [
+          serializerFactory,
+          typeFactory,
+        ];
 
         return registerMethod.call(
           registerArgs,
-          {},
+          {'mockFactory': mockFactory},
           [typeRefer.baseRefer],
         ).statement;
       },
@@ -639,80 +663,6 @@ class JSerializerGenerator
         (element) => element.toString() == type.toString(),
       );
 
-  List<CustomAdapterConfig> getAdapterOf({
-    required InterfaceElement parentClass,
-    required TypeChecker typeChecker,
-    required ParameterElement element,
-    required TypeResolver typeResolver,
-  }) {
-    return element.metadata
-        .map((element) => element.computeConstantValue())
-        .where(
-          (element) =>
-              element?.type?.element != null &&
-              typeChecker.isAssignableFrom(element!.type!.element!),
-        )
-        .whereType<DartObject>()
-        .map((e) => ConstantReader(e))
-        .where((e) => !e.revive().isPrivate)
-        .map(
-      (e) {
-        final adapterResolvedType =
-            typeResolver.resolveType(e.objectValue.type!);
-        final clazz = e.objectValue.type!.element! as InterfaceElement;
-        final superType = clazz.supertype;
-        final superName = superType?.element.displayName;
-
-        InterfaceType? mixedWith(String name) => clazz.mixins
-            .firstWhereOrNull((element) => element.element.displayName == name);
-
-        InterfaceType? implementedWith(String name) => clazz.interfaces
-            .firstWhereOrNull((element) => element.element.displayName == name);
-
-        InterfaceType? extendsWith(String name) =>
-            (superName == name ? superType : null) ??
-            mixedWith(name) ??
-            implementedWith(name);
-
-        final customerAdapterType = extendsWith('CustomAdapter');
-
-        final resolvedAdapter = typeResolver.resolveType(customerAdapterType!);
-        final adapterModelGenericType = resolvedAdapter.typeArguments.first;
-        final paramType = typeResolver.resolveType(element.type);
-
-        if (adapterModelGenericType.isNullable &&
-            !adapterResolvedType.isNullable &&
-            element.isRequired) {
-          throw Exception(
-            'JSerializationGenerationError '
-            '[${parentClass.name}.${element.name}]:\n'
-            'The adapter [$adapterResolvedType] used is nullable while '
-            'the parameter is a non nullable required type of '
-            '[$paramType].',
-          );
-        }
-
-        if (adapterModelGenericType.identity != paramType.identity) {
-          throw Exception(
-            'JSerializationGenerationError '
-            '[${parentClass.name}.${element.name}]:\n'
-            'The adapter [$adapterResolvedType] used takes the type '
-            '[$adapterModelGenericType] but the parameter takes the type '
-            '[$paramType]',
-          );
-        }
-
-        return CustomAdapterConfig(
-          reader: e,
-          revivable: e.revive(),
-          type: adapterResolvedType,
-          jsonType: resolvedAdapter.typeArguments[1],
-          modelType: adapterModelGenericType,
-        );
-      },
-    ).toList();
-  }
-
   InterfaceElement? getSerializableTypeOfCustomSerializer(
     InterfaceElement customSerializer,
   ) {
@@ -869,19 +819,29 @@ class JSerializerGenerator
                 },
               );
 
-        final annotation =
+        final jKeyObj =
             TypeChecker.fromRuntime(JKey).firstAnnotationOf(param) ??
                 TypeChecker.fromRuntime(JKey).firstAnnotationOf(classField);
 
-        final jKey =
-            annotation == null ? null : JKeyConfig.fromDartObj(annotation);
+        final jKey = jKeyObj == null ? null : JKeyConfig.fromDartObj(jKeyObj);
 
         final customAdapters = [
-          ...getAdapterOf(
+          ...getParamAdapters(
             parentClass: classElement,
             typeChecker: customAdapterChecker,
             element: param,
             typeResolver: typeResolver,
+            parentAdapterClassName: 'CustomAdapter',
+          ),
+        ];
+
+        final customMockers = [
+          ...getParamAdapters(
+            parentClass: classElement,
+            typeChecker: customMockerChecker,
+            element: param,
+            typeResolver: typeResolver,
+            parentAdapterClassName: 'JCustomMocker',
           ),
         ];
 
@@ -960,6 +920,7 @@ class JSerializerGenerator
           customSerializerClass: customSerializerClass,
           customSerializerClassType: customSerializerClassType,
           customAdapters: customAdapters,
+          customMockers: customMockers,
           genericConfig: genericConfig,
           hasSerializableGenerics: genericType != null,
           genericType: genericType,
@@ -971,7 +932,7 @@ class JSerializerGenerator
                 ),
           serializableClassElement: serializableClass,
           isSerializableModel: isSerializable,
-          keyConfig: jKey ?? JKey(),
+          keyConfig: jKey ?? JKeyConfig(),
           paramType: typeResolver.resolveType(param.type),
           jsonKey: jsonName,
           fieldName: param.name,
@@ -1021,6 +982,60 @@ class CustomAdapterConfig {
   final ResolvedType modelType;
 
   String get adapterFieldName => '_\$${type.fullName}';
+}
+
+extension ReviveDartObjX on DartObject {
+  String toCodeString() => _reviveConstantObj(this);
+
+  String _reviveConstantObj(DartObject obj) {
+    final object = obj.variable?.computeConstantValue() ?? obj;
+
+    String reviveArgument(DartObject obj) {
+      final object = obj.variable?.computeConstantValue() ?? obj;
+      final reader = ConstantReader(object);
+      if (reader.isString) {
+        return "'${reader.stringValue}'";
+      } else if (reader.isInt) {
+        return reader.intValue.toString();
+      } else if (reader.isDouble) {
+        return reader.doubleValue.toString();
+      } else if (reader.isBool) {
+        return reader.boolValue.toString();
+      } else if (reader.isList) {
+        return 'const [${reader.listValue.map((e) => reviveArgument(e)).join(', ')}]';
+      } else if (reader.isSet) {
+        return 'const {${reader.listValue.map((e) => reviveArgument(e)).join(', ')}}';
+      } else if (reader.isMap) {
+        final entries = reader.mapValue.entries.map((e) {
+          final key = reviveArgument(e.key!);
+          final value = reviveArgument(e.value!);
+          return '$key: $value';
+        }).join(', ');
+        return 'const {$entries}';
+      } else {
+        return _reviveConstantObj(object);
+      }
+    }
+
+    final reader = ConstantReader(object);
+    if (reader.isLiteral) return reviveArgument(object);
+    final revived = reader.revive();
+    final accessor = revived.accessor;
+    if (accessor.isNotEmpty) return accessor;
+    final positionalArguments =
+        revived.positionalArguments.map(reviveArgument).join(', ');
+    final namedArguments = revived.namedArguments.entries
+        .map((e) => '${e.key}: ${reviveArgument(e.value)}')
+        .join(', ');
+
+    if (positionalArguments.isNotEmpty && namedArguments.isNotEmpty) {
+      return '${revived.source.fragment}($positionalArguments, $namedArguments)';
+    } else if (positionalArguments.isNotEmpty) {
+      return '${revived.source.fragment}($positionalArguments)';
+    } else {
+      return '${revived.source.fragment}($namedArguments)';
+    }
+  }
 }
 
 final _header = '$_ignores\n\n$_welcome\n\n';

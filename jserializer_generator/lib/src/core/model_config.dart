@@ -36,6 +36,12 @@ class ModelConfig {
     return 'GenericModelSerializer';
   }
 
+  String get baseMockerName {
+    if (isEnum) return 'JCustomMocker';
+    if (genericConfigs.isEmpty) return 'JModelMocker';
+    return 'JGenericMocker';
+  }
+
   final bool hasGenericValue;
 
   // final bool isCustomSerializer;

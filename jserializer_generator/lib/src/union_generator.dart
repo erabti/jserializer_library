@@ -1,7 +1,7 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:jserializer/jserializer.dart';
-import 'package:jserializer_generator/src/class_generator.dart';
+import 'package:jserializer_generator/src/serializer_class_generator.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/from_json_generator.dart';
 import 'package:jserializer_generator/src/to_json_generator.dart';
@@ -32,7 +32,7 @@ class UnionGenerator {
   Class generate() {
     assert(modelConfig.isUnionSuperType);
 
-    final classGen = ClassGenerator(
+    final classGen = SerializerClassGenerator(
       config: globalConfig,
       modelConfig: modelConfig,
     );
