@@ -29,14 +29,29 @@ extension InterfaceElementX on InterfaceElement {
   }
 }
 
+InterfaceType? getMatchingSuperType({
+  required InterfaceElement element,
+  required String superTypeName,
+}) {
+  final superTypes = element.allSupertypes;
+
+  for (final superType in superTypes) {
+    if (superType.element.displayName == superTypeName) {
+      return superType;
+    }
+  }
+
+  return null;
+}
+
 List<CustomAdapterConfig> getParamAdapters({
   required InterfaceElement parentClass,
   required TypeChecker typeChecker,
-  required ParameterElement element,
+  required ParameterElement param,
   required TypeResolver typeResolver,
   required String parentAdapterClassName,
 }) {
-  return element.metadata
+  return param.metadata
       .map((element) => element.computeConstantValue())
       .where(
         (element) =>
@@ -50,32 +65,30 @@ List<CustomAdapterConfig> getParamAdapters({
     (e) {
       final adapterResolvedType = typeResolver.resolveType(e.objectValue.type!);
       final clazz = e.objectValue.type!.element! as InterfaceElement;
-      final superType = clazz.supertype;
-      final superName = superType?.element.displayName;
+      final customerAdapterType = getMatchingSuperType(
+        element: clazz,
+        superTypeName: parentAdapterClassName,
+      );
 
-      InterfaceType? mixedWith(String name) => clazz.mixins
-          .firstWhereOrNull((element) => element.element.displayName == name);
+      if (customerAdapterType == null) {
+        throw Exception(
+          'JSerializationGenerationError '
+          '[${parentClass.name}.${param.name}]:\n'
+          'The adapter [$adapterResolvedType] used does not extend '
+          '[$parentAdapterClassName].',
+        );
+      }
 
-      InterfaceType? implementedWith(String name) => clazz.interfaces
-          .firstWhereOrNull((element) => element.element.displayName == name);
-
-      InterfaceType? extendsWith(String name) =>
-          (superName == name ? superType : null) ??
-          mixedWith(name) ??
-          implementedWith(name);
-
-      final customerAdapterType = extendsWith(parentAdapterClassName);
-
-      final resolvedAdapter = typeResolver.resolveType(customerAdapterType!);
+      final resolvedAdapter = typeResolver.resolveType(customerAdapterType);
       final adapterModelGenericType = resolvedAdapter.typeArguments.first;
-      final paramType = typeResolver.resolveType(element.type);
+      final paramType = typeResolver.resolveType(param.type);
 
       if (adapterModelGenericType.isNullable &&
           !adapterResolvedType.isNullable &&
-          element.isRequired) {
+          param.isRequired) {
         throw Exception(
           'JSerializationGenerationError '
-          '[${parentClass.name}.${element.name}]:\n'
+          '[${parentClass.name}.${param.name}]:\n'
           'The adapter [$adapterResolvedType] used is nullable while '
           'the parameter is a non nullable required type of '
           '[$paramType].',
@@ -85,7 +98,7 @@ List<CustomAdapterConfig> getParamAdapters({
       if (adapterModelGenericType.identity != paramType.identity) {
         throw Exception(
           'JSerializationGenerationError '
-          '[${parentClass.name}.${element.name}]:\n'
+          '[${parentClass.name}.${param.name}]:\n'
           'The adapter [$adapterResolvedType] used takes the type '
           '[$adapterModelGenericType] but the parameter takes the type '
           '[$paramType]',
@@ -93,6 +106,7 @@ List<CustomAdapterConfig> getParamAdapters({
       }
 
       return CustomAdapterConfig(
+        param: param,
         reader: e,
         revivable: e.revive(),
         type: adapterResolvedType,

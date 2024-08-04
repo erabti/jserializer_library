@@ -10,7 +10,6 @@ import 'package:change_case/change_case.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/mocker_class_generator.dart';
 import 'package:jserializer_generator/src/serializer_class_generator.dart';
@@ -899,7 +898,7 @@ class JSerializerGenerator
           ...getParamAdapters(
             parentClass: classElement,
             typeChecker: customAdapterChecker,
-            element: param,
+            param: param,
             typeResolver: typeResolver,
             parentAdapterClassName: 'CustomAdapter',
           ),
@@ -909,9 +908,9 @@ class JSerializerGenerator
           ...getParamAdapters(
             parentClass: classElement,
             typeChecker: mockerChecker,
-            element: param,
+            param: param,
             typeResolver: typeResolver,
-            parentAdapterClassName: 'JCustomMocker',
+            parentAdapterClassName: 'JMocker',
           ),
         ];
 
@@ -1043,6 +1042,7 @@ class CustomAdapterConfig {
     required this.type,
     required this.modelType,
     required this.jsonType,
+    required this.param,
   });
 
   final ConstantReader reader;
@@ -1050,8 +1050,9 @@ class CustomAdapterConfig {
   final ResolvedType type;
   final ResolvedType jsonType;
   final ResolvedType modelType;
+  final ParameterElement param;
 
-  String get adapterFieldName => '_\$${type.fullName}';
+  String get adapterFieldName => '_\$${param.name}_\$${type.fullName}';
 }
 
 extension ReviveDartObjX on DartObject {

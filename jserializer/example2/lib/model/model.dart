@@ -3,13 +3,17 @@ import 'package:jserializer/jserializer.dart';
 @JSerializable()
 class SomeModel {
   const SomeModel({
-    required this.field1,
-    required this.field2,
+    @JMockers.string(language: 'ar') required this.field1,
+    @JMockers.string(language: 'en') required this.field2,
+    @JAdapters.double(handleBool: true) required this.field3,
+    @JAdapters.double(handleBool: false) required this.field4,
     @JKey.extras(overridesToJsonModelFields: false) this.extras = const {},
   });
 
   final String field1;
   final String field2;
+  final double field3;
+  final double field4;
 
   final Map<String, dynamic> extras;
 }

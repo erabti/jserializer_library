@@ -8,7 +8,6 @@ import 'package:jserializer_generator/src/core/model_config.dart';
 import 'package:jserializer_generator/src/generator.dart';
 import 'package:jserializer_generator/src/mock_method_generator.dart';
 import 'package:jserializer_generator/src/serializer_class_generator.dart';
-import 'package:source_gen/source_gen.dart';
 
 class MockerClassGenerator extends ElementGenerator<Class> {
   MockerClassGenerator({
@@ -65,7 +64,6 @@ class MockerClassGenerator extends ElementGenerator<Class> {
       for (final adapter in field.uniqueMockers) {
         adapter.adapterFieldName;
         if (ids.contains(adapter.adapterFieldName)) continue;
-        final bodyAccessor = adapter.revivable.accessor;
 
         final f = Field(
           (b) => b
