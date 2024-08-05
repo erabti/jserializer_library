@@ -1,5 +1,4 @@
 import 'package:jserializer/jserializer.dart';
-import 'package:jserializer/src/core/mocker/mockers/name_mocker.dart';
 import 'dart:math' as math;
 
 class EmailMocker extends JCustomMocker<String> implements JMockers {

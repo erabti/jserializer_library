@@ -73,7 +73,7 @@ abstract class JModelMocker<T> extends JMocker<T> {
 abstract class JGenericMocker<T> extends JMocker<T> {
   const JGenericMocker({super.jSerializer});
 
-  M createMock<M extends T>([JMockerContext? context]) {
+  M createMock<M extends T?>([JMockerContext? context]) {
     final result = mocker.callWith(
       typeArguments: M.args,
       parameters: [context],

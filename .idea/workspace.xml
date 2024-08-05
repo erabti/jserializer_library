@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix for using same adapter or mocker for a field twice issue">
-      <change beforePath="$PROJECT_DIR$/.idea/jserializer_library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jserializer_library.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="support JUnion mocking">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -416,7 +414,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722765963084</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="support JUnion mocking">
+      <option name="closed" value="true" />
+      <created>1722874113381</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1722874113381</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -444,7 +450,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: ClassGenerator" />
     <MESSAGE value="feat: FromJsonGenerator" />
     <MESSAGE value="feat: ToJsonGenerator" />
     <MESSAGE value="refactor: UnionGenerator" />
@@ -469,7 +474,8 @@
     <MESSAGE value="remove forgotten print" />
     <MESSAGE value="fix for using enums in adapters and custom mockers per field" />
     <MESSAGE value="fix for using same adapter or mocker for a field twice issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix for using same adapter or mocker for a field twice issue" />
+    <MESSAGE value="support JUnion mocking" />
+    <option name="LAST_COMMIT_MESSAGE" value="support JUnion mocking" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
