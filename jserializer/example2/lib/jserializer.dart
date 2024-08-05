@@ -7,8 +7,233 @@
 // **************************************************************************
 
 import 'package:jserializer/jserializer.dart' as js;
+import 'package:example2/model/union.dart';
 import 'package:example2/model/model.dart';
 import 'package:jserializer/src/core/jserializer/essential_serializers.dart';
+
+class SectionLayoutVListSerializer
+    extends js.ModelSerializer<SectionLayoutVList> {
+  const SectionLayoutVListSerializer({super.jSerializer});
+
+  static const jsonKeys = {'shape'};
+
+  @override
+  SectionLayoutVList fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
+    );
+    return SectionLayoutVList(shape: shape$Value);
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutVList model) =>
+      {'shape': jSerializer.toJson(model.shape)};
+}
+
+class SectionLayoutHListSerializer
+    extends js.ModelSerializer<SectionLayoutHList> {
+  const SectionLayoutHListSerializer({super.jSerializer});
+
+  static const jsonKeys = {'shape'};
+
+  @override
+  SectionLayoutHList fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
+    );
+    return SectionLayoutHList(shape: shape$Value);
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutHList model) =>
+      {'shape': jSerializer.toJson(model.shape)};
+}
+
+class SectionLayoutGridViewSerializer
+    extends js.ModelSerializer<SectionLayoutGridView> {
+  const SectionLayoutGridViewSerializer({super.jSerializer});
+
+  static const jsonKeys = {'shape'};
+
+  @override
+  SectionLayoutGridView fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
+    );
+    return SectionLayoutGridView(shape: shape$Value);
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutGridView model) =>
+      {'shape': jSerializer.toJson(model.shape)};
+}
+
+class SectionLayoutGridPatternSerializer
+    extends js.ModelSerializer<SectionLayoutGridPattern> {
+  const SectionLayoutGridPatternSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'shape',
+    'pattern',
+  };
+
+  @override
+  SectionLayoutGridPattern fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
+    );
+    final pattern$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['pattern']),
+      jsonKey: 'pattern',
+    );
+    return SectionLayoutGridPattern(
+      shape: shape$Value,
+      pattern: pattern$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutGridPattern model) => {
+        'shape': jSerializer.toJson(model.shape),
+        'pattern': model.pattern,
+      };
+}
+
+class SectionLayoutCarouselSerializer
+    extends js.ModelSerializer<SectionLayoutCarousel> {
+  const SectionLayoutCarouselSerializer({super.jSerializer});
+
+  static const jsonKeys = {'shape'};
+
+  @override
+  SectionLayoutCarousel fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
+    );
+    return SectionLayoutCarousel(shape: shape$Value);
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutCarousel model) =>
+      {'shape': jSerializer.toJson(model.shape)};
+}
+
+class SectionLayoutUnknownSerializer
+    extends js.ModelSerializer<SectionLayoutUnknown> {
+  const SectionLayoutUnknownSerializer({super.jSerializer});
+
+  static const jsonKeys = {};
+
+  @override
+  SectionLayoutUnknown fromJson(json) {
+    return SectionLayoutUnknown();
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutUnknown model) => {};
+}
+
+class SectionLayoutSerializer extends js.ModelSerializer<SectionLayout> {
+  const SectionLayoutSerializer({super.jSerializer});
+
+  @override
+  SectionLayout fromJson(json) {
+    final type = json['type'];
+    if (type is! String) {
+      throw Exception(
+        'Type passed to fromJson of SectionLayout) is not a String!\nvalue: $type',
+      );
+    }
+    switch (type) {
+      case 'vList':
+        return jSerializer.fromJson<SectionLayoutVList>(json);
+      case 'hList':
+        return jSerializer.fromJson<SectionLayoutHList>(json);
+      case 'gridView':
+        return jSerializer.fromJson<SectionLayoutGridView>(json);
+      case 'gridPattern':
+        return jSerializer.fromJson<SectionLayoutGridPattern>(json);
+      case 'carousel':
+        return jSerializer.fromJson<SectionLayoutCarousel>(json);
+      default:
+        return SectionLayoutUnknown();
+    }
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayout model) {
+    if (model is SectionLayoutVList) {
+      return {
+        'type': 'vList',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutHList) {
+      return {
+        'type': 'hList',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutGridView) {
+      return {
+        'type': 'gridView',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutGridPattern) {
+      return {
+        'type': 'gridPattern',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutCarousel) {
+      return {
+        'type': 'carousel',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutUnknown) {
+      return {
+        'type': 'unknown',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    throw Exception('Unknown type of union value: $model');
+  }
+}
+
+class DynamicItemShapeSerializer
+    extends js.CustomModelSerializer<DynamicItemShape, String> {
+  const DynamicItemShapeSerializer({super.jSerializer});
+
+  DynamicItemShape fromJson(String json) {
+    if (json == 'circle') return DynamicItemShape.circle;
+
+    if (json == 'undefined') return DynamicItemShape.undefined;
+
+    throw Exception(
+      'JSerializationException in Enum of type $DynamicItemShape '
+      'Unknown enum value: $json',
+    );
+  }
+
+  DynamicItemShape createMock() => DynamicItemShape.circle;
+
+  String toJson(DynamicItemShape model) {
+    switch (model) {
+      case DynamicItemShape.circle:
+        return 'circle';
+
+      case DynamicItemShape.undefined:
+        return 'undefined';
+    }
+  }
+}
 
 class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
   const SomeModelSerializer({super.jSerializer});
@@ -131,6 +356,111 @@ class SomeEnumSerializer extends js.CustomModelSerializer<SomeEnum, String> {
   }
 }
 
+class SectionLayoutVListMocker extends js.JModelMocker<SectionLayoutVList> {
+  const SectionLayoutVListMocker({super.jSerializer});
+
+  @override
+  SectionLayoutVList createMock([js.JMockerContext? context]) {
+    final shape$Value =
+        jSerializer.createMock<DynamicItemShape?>(context: context);
+    return SectionLayoutVList(shape: shape$Value);
+  }
+}
+
+class SectionLayoutHListMocker extends js.JModelMocker<SectionLayoutHList> {
+  const SectionLayoutHListMocker({super.jSerializer});
+
+  @override
+  SectionLayoutHList createMock([js.JMockerContext? context]) {
+    final shape$Value =
+        jSerializer.createMock<DynamicItemShape?>(context: context);
+    return SectionLayoutHList(shape: shape$Value);
+  }
+}
+
+class SectionLayoutGridViewMocker
+    extends js.JModelMocker<SectionLayoutGridView> {
+  const SectionLayoutGridViewMocker({super.jSerializer});
+
+  @override
+  SectionLayoutGridView createMock([js.JMockerContext? context]) {
+    final shape$Value =
+        jSerializer.createMock<DynamicItemShape?>(context: context);
+    return SectionLayoutGridView(shape: shape$Value);
+  }
+}
+
+class SectionLayoutGridPatternMocker
+    extends js.JModelMocker<SectionLayoutGridPattern> {
+  const SectionLayoutGridPatternMocker({super.jSerializer});
+
+  @override
+  SectionLayoutGridPattern createMock([js.JMockerContext? context]) {
+    final shape$Value =
+        jSerializer.createMock<DynamicItemShape?>(context: context);
+    final pattern$Value = jSerializer.createMock<String?>(context: context);
+    return SectionLayoutGridPattern(
+      shape: shape$Value,
+      pattern: pattern$Value,
+    );
+  }
+}
+
+class SectionLayoutCarouselMocker
+    extends js.JModelMocker<SectionLayoutCarousel> {
+  const SectionLayoutCarouselMocker({super.jSerializer});
+
+  @override
+  SectionLayoutCarousel createMock([js.JMockerContext? context]) {
+    final shape$Value =
+        jSerializer.createMock<DynamicItemShape?>(context: context);
+    return SectionLayoutCarousel(shape: shape$Value);
+  }
+}
+
+class SectionLayoutUnknownMocker extends js.JModelMocker<SectionLayoutUnknown> {
+  const SectionLayoutUnknownMocker({super.jSerializer});
+
+  @override
+  SectionLayoutUnknown createMock([js.JMockerContext? context]) {
+    return SectionLayoutUnknown();
+  }
+}
+
+class SectionLayoutMocker extends js.JCustomMocker<SectionLayout> {
+  const SectionLayoutMocker({super.jSerializer});
+
+  @override
+  SectionLayout createMock([js.JMockerContext? context]) {
+    return optionallyRandomizedValueFromListLazy(
+      context,
+      [
+        () => jSerializer.createMock<SectionLayoutVList>(context: context),
+        () => jSerializer.createMock<SectionLayoutHList>(context: context),
+        () => jSerializer.createMock<SectionLayoutGridView>(context: context),
+        () =>
+            jSerializer.createMock<SectionLayoutGridPattern>(context: context),
+        () => jSerializer.createMock<SectionLayoutCarousel>(context: context),
+        () => jSerializer.createMock<SectionLayoutUnknown>(context: context),
+      ],
+      fallback: () =>
+          jSerializer.createMock<SectionLayoutUnknown>(context: context),
+    );
+  }
+}
+
+class DynamicItemShapeMocker extends js.JCustomMocker<DynamicItemShape> {
+  const DynamicItemShapeMocker({super.jSerializer});
+
+  @override
+  DynamicItemShape createMock([js.JMockerContext? context]) {
+    return optionallyRandomizedValueFromList(
+      context,
+      DynamicItemShape.values,
+    );
+  }
+}
+
 class SomeModelMocker extends js.JModelMocker<SomeModel> {
   const SomeModelMocker({super.jSerializer});
 
@@ -179,6 +509,46 @@ class SomeEnumMocker extends js.JCustomMocker<SomeEnum> {
 
 void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
   final instance = jSerializer ?? js.JSerializer.i;
+  instance.register<SectionLayoutVList>(
+    (s) => SectionLayoutVListSerializer(jSerializer: s),
+    (Function f) => f<SectionLayoutVList>(),
+    mockFactory: (s) => SectionLayoutVListMocker(jSerializer: s),
+  );
+  instance.register<SectionLayoutHList>(
+    (s) => SectionLayoutHListSerializer(jSerializer: s),
+    (Function f) => f<SectionLayoutHList>(),
+    mockFactory: (s) => SectionLayoutHListMocker(jSerializer: s),
+  );
+  instance.register<SectionLayoutGridView>(
+    (s) => SectionLayoutGridViewSerializer(jSerializer: s),
+    (Function f) => f<SectionLayoutGridView>(),
+    mockFactory: (s) => SectionLayoutGridViewMocker(jSerializer: s),
+  );
+  instance.register<SectionLayoutGridPattern>(
+    (s) => SectionLayoutGridPatternSerializer(jSerializer: s),
+    (Function f) => f<SectionLayoutGridPattern>(),
+    mockFactory: (s) => SectionLayoutGridPatternMocker(jSerializer: s),
+  );
+  instance.register<SectionLayoutCarousel>(
+    (s) => SectionLayoutCarouselSerializer(jSerializer: s),
+    (Function f) => f<SectionLayoutCarousel>(),
+    mockFactory: (s) => SectionLayoutCarouselMocker(jSerializer: s),
+  );
+  instance.register<SectionLayoutUnknown>(
+    (s) => SectionLayoutUnknownSerializer(jSerializer: s),
+    (Function f) => f<SectionLayoutUnknown>(),
+    mockFactory: (s) => SectionLayoutUnknownMocker(jSerializer: s),
+  );
+  instance.register<SectionLayout>(
+    (s) => SectionLayoutSerializer(jSerializer: s),
+    (Function f) => f<SectionLayout>(),
+    mockFactory: (s) => SectionLayoutMocker(jSerializer: s),
+  );
+  instance.register<DynamicItemShape>(
+    (s) => DynamicItemShapeSerializer(jSerializer: s),
+    (Function f) => f<DynamicItemShape>(),
+    mockFactory: (s) => DynamicItemShapeMocker(jSerializer: s),
+  );
   instance.register<SomeModel>(
     (s) => SomeModelSerializer(jSerializer: s),
     (Function f) => f<SomeModel>(),

@@ -45,6 +45,8 @@ class ModelConfig {
 
   String get baseMockerName {
     if (isEnum) return 'JCustomMocker';
+    if (isUnionSuperType) return 'JCustomMocker';
+
     if (genericConfigs.isEmpty) return 'JModelMocker';
     return 'JGenericMocker';
   }
@@ -129,11 +131,13 @@ class UnionValueConfig {
   // useful when the union type is not generic but the value is
   final ResolvedType redirectedType;
   final String jsonKey;
+  final ConstructorElement constructor;
 
   const UnionValueConfig({
     required this.redirectedType,
     required this.annotation,
     required this.config,
     required this.jsonKey,
+    required this.constructor,
   });
 }

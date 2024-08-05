@@ -461,6 +461,7 @@ class JSerializerGenerator
           subTypes.add(
             UnionValueConfig(
               config: config,
+              constructor: c,
               redirectedType: subClassType,
               annotation: jUnionValue,
               jsonKey: jUnionValue.name ??

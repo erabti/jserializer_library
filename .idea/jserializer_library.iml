@@ -273,6 +273,9 @@
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/snippets/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/snippets/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/snippets/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/test_core/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/test_core/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer/test_core/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -67,6 +67,8 @@ class UnionGenerator {
     final statements = <Code>[];
 
     for (final value in unionConfig.values) {
+      final fallbackValue = unionConfig.fallbackValue;
+      if (value.jsonKey == fallbackValue?.jsonKey) continue;
       statements.add(Code('case \'${value.jsonKey}\':'));
 
       statements.add(
@@ -124,7 +126,7 @@ class UnionGenerator {
 if(model is ${type.config.classElement.name}){
   return {
   '${unionConfig.typeKey}': '${type.jsonKey}',
-   ...jSerializer.toJson(model),
+    ...(jSerializer.toJson(model) as Map<String, dynamic>),
   };
 }"""),
                 Code('''

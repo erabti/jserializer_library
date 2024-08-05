@@ -121,6 +121,53 @@ class MockMethodGenerator {
       );
     }
 
+    final unionConfig = modelConfig.unionConfig;
+
+    if (unionConfig != null) {
+      final fallback = unionConfig.fallbackValue;
+      return Method(
+        (b) => getMockerSign(
+          b
+            ..body = Block(
+              (b) => b.statements.addAll(
+                [
+                  refer('optionallyRandomizedValueFromListLazy')
+                      .call(
+                        [
+                          refer('context'),
+                          literalList(
+                            [
+                              for (final item in unionConfig.values)
+                                refer('() => jSerializer')
+                                    .property('createMock')
+                                    .call(
+                                  [],
+                                  {'context': refer('context')},
+                                  [item.config.type.refer],
+                                )
+                            ],
+                          ),
+                        ],
+                        {
+                          if (fallback != null)
+                            'fallback': refer('() => jSerializer')
+                                .property('createMock')
+                                .call(
+                              [],
+                              {'context': refer('context')},
+                              [fallback.config.type.refer],
+                            ),
+                        },
+                      )
+                      .returned
+                      .statement,
+                ],
+              ),
+            ),
+        ),
+      );
+    }
+
     final fields = modelConfig.fields;
     final statements = fields.map(resolveFieldToCode).toList();
 

@@ -39,6 +39,26 @@ abstract class JCustomMocker<T> extends JMocker<T> {
       salt: salt ?? ctx.deterministicSeedSalt,
     );
   }
+
+  R optionallyRandomizedValueFromListLazy<R>(
+    JMockerContext? context,
+    List<R Function()> list, {
+    R Function()? fallback,
+    int? salt,
+  }) {
+    final ctx = context ?? JMockerContext();
+    final randomized = ctx.randomize ?? false;
+    if (!randomized) {
+      return fallback?.call() ?? list.first();
+    }
+
+    final itemBuilder = ctx.getRandomValueFromList(
+      list,
+      salt: salt ?? ctx.deterministicSeedSalt,
+    );
+
+    return itemBuilder();
+  }
 }
 
 abstract class JModelMocker<T> extends JMocker<T> {
