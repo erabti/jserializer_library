@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="support JUnion mocking">
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix generic nullable JSerializer.createMock">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/core/model_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/core/model_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/union_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/union_generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -422,7 +426,23 @@
       <option name="project" value="LOCAL" />
       <updated>1722874113381</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="fix generic nullable JSerializer.createMock">
+      <option name="closed" value="true" />
+      <created>1722890057294</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1722890057294</updated>
+    </task>
+    <task id="LOCAL-00038" summary="fix generic nullable JSerializer.createMock">
+      <option name="closed" value="true" />
+      <created>1722890154169</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1722890154169</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -450,7 +470,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: FromJsonGenerator" />
     <MESSAGE value="feat: ToJsonGenerator" />
     <MESSAGE value="refactor: UnionGenerator" />
     <MESSAGE value="refactor: resolved_type.dart" />
@@ -475,7 +494,8 @@
     <MESSAGE value="fix for using enums in adapters and custom mockers per field" />
     <MESSAGE value="fix for using same adapter or mocker for a field twice issue" />
     <MESSAGE value="support JUnion mocking" />
-    <option name="LAST_COMMIT_MESSAGE" value="support JUnion mocking" />
+    <MESSAGE value="fix generic nullable JSerializer.createMock" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix generic nullable JSerializer.createMock" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

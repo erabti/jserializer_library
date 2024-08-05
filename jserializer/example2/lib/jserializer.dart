@@ -27,8 +27,10 @@ class SectionLayoutVListSerializer
   }
 
   @override
-  Map<String, dynamic> toJson(SectionLayoutVList model) =>
-      {'shape': jSerializer.toJson(model.shape)};
+  Map<String, dynamic> toJson(SectionLayoutVList model) => {
+        'shape': jSerializer.toJson(model.shape),
+        'type': 'vList',
+      };
 }
 
 class SectionLayoutHListSerializer
@@ -47,8 +49,10 @@ class SectionLayoutHListSerializer
   }
 
   @override
-  Map<String, dynamic> toJson(SectionLayoutHList model) =>
-      {'shape': jSerializer.toJson(model.shape)};
+  Map<String, dynamic> toJson(SectionLayoutHList model) => {
+        'shape': jSerializer.toJson(model.shape),
+        'type': 'hList',
+      };
 }
 
 class SectionLayoutGridViewSerializer
@@ -67,8 +71,10 @@ class SectionLayoutGridViewSerializer
   }
 
   @override
-  Map<String, dynamic> toJson(SectionLayoutGridView model) =>
-      {'shape': jSerializer.toJson(model.shape)};
+  Map<String, dynamic> toJson(SectionLayoutGridView model) => {
+        'shape': jSerializer.toJson(model.shape),
+        'type': 'gridView',
+      };
 }
 
 class SectionLayoutGridPatternSerializer
@@ -100,6 +106,7 @@ class SectionLayoutGridPatternSerializer
   Map<String, dynamic> toJson(SectionLayoutGridPattern model) => {
         'shape': jSerializer.toJson(model.shape),
         'pattern': model.pattern,
+        'type': 'gridPattern',
       };
 }
 
@@ -119,8 +126,10 @@ class SectionLayoutCarouselSerializer
   }
 
   @override
-  Map<String, dynamic> toJson(SectionLayoutCarousel model) =>
-      {'shape': jSerializer.toJson(model.shape)};
+  Map<String, dynamic> toJson(SectionLayoutCarousel model) => {
+        'shape': jSerializer.toJson(model.shape),
+        'type': 'carousel',
+      };
 }
 
 class SectionLayoutUnknownSerializer
@@ -135,7 +144,8 @@ class SectionLayoutUnknownSerializer
   }
 
   @override
-  Map<String, dynamic> toJson(SectionLayoutUnknown model) => {};
+  Map<String, dynamic> toJson(SectionLayoutUnknown model) =>
+      {'type': 'unknown'};
 }
 
 class SectionLayoutSerializer extends js.ModelSerializer<SectionLayout> {
@@ -146,7 +156,8 @@ class SectionLayoutSerializer extends js.ModelSerializer<SectionLayout> {
     final type = json['type'];
     if (type is! String) {
       throw Exception(
-        'Type passed to fromJson of SectionLayout) is not a String!\nvalue: $type',
+        'The json field of type named (type) that was passed'
+        'using fromJson of model SectionLayout) is not a String!\actual value: $type',
       );
     }
     switch (type) {

@@ -95,7 +95,8 @@ class UnionGenerator {
                 Code("final type = json['${unionConfig.typeKey}'];"),
                 Code("""if(type is! String){
                throw Exception(
-                'Type passed to fromJson of ${type.refer.symbol}) is not a String!\\nvalue: \$type',
+                'The json field of type named (${unionConfig.typeKey}) that was passed'
+                'using fromJson of model ${type.refer.symbol}) is not a String!\\actual value: \$type',
                 );
               }"""),
                 Code('switch(type){'),

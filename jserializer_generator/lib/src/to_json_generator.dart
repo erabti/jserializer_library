@@ -1,4 +1,5 @@
 import 'package:code_builder/code_builder.dart';
+import 'package:collection/collection.dart';
 import 'package:jserializer/jserializer.dart';
 import 'package:jserializer_generator/src/core/j_field_config.dart';
 import 'package:jserializer_generator/src/core/model_config.dart';
@@ -74,7 +75,24 @@ class ToJsonGenerator {
   }
 
   Method _getToJson() {
-    final mapEntries = modelConfig.fields.map(_fieldToCode);
+    final mapEntries = modelConfig.fields.map(_fieldToCode).toList();
+
+    final unionValueMeta = modelConfig.unionSubTypeMeta;
+    if (unionValueMeta != null) {
+      final jsonKey = unionValueMeta.typeKey;
+      final jsonValue = unionValueMeta.typeJsonValue;
+      final hasSameKey = modelConfig.fields.firstWhereOrNull(
+            (element) => element.jsonKey == jsonKey,
+          ) !=
+          null;
+
+      if (!hasSameKey) {
+        mapEntries.add(
+          MapEntry(literalString(jsonKey), literalString(jsonValue)),
+        );
+      }
+    }
+
     Expression body = literalMap(Map.fromEntries(mapEntries));
     if (modelConfig.extrasField != null) {
       if (modelConfig.extrasField!.keyConfig.overridesToJsonModelFields) {

@@ -18,10 +18,12 @@ class ModelConfig {
     required this.isCustomSerializer,
     this.unionConfig,
     this.enumConfig,
+    this.unionSubTypeMeta,
   });
 
   final EnumConfig? enumConfig;
   final UnionConfig? unionConfig;
+  final UnionSubTypeMeta? unionSubTypeMeta;
 
   bool get isEnum => enumConfig != null;
 
@@ -140,4 +142,18 @@ class UnionValueConfig {
     required this.jsonKey,
     required this.constructor,
   });
+}
+
+class UnionSubTypeMeta {
+  const UnionSubTypeMeta({
+    required this.typeJsonValue,
+    required this.unionAnnotation,
+    required this.unionValueAnnotation,
+  });
+
+  final String typeJsonValue;
+  final JUnion unionAnnotation;
+  final JUnionValue unionValueAnnotation;
+
+  String get typeKey => unionAnnotation.typeKey ?? 'type';
 }

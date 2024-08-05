@@ -430,6 +430,8 @@ class JSerializerGenerator
         );
       }
 
+      final jUnion = getJUnion(clazz);
+
       if (isJUnion) {
         final generatedSubTypes = <String>[];
         final subTypes = <UnionValueConfig>[];
@@ -444,6 +446,11 @@ class JSerializerGenerator
 
           final subClass = redirect.enclosingElement;
           final subClassType = resolver.resolveType(redirect.returnType);
+          final jsonKey = jUnionValue.name ??
+              reCase(
+                c.name,
+                nameCase: globalOptions.fieldNameCase,
+              );
 
           final config = getModelConfigFromElement(
             subClass,
@@ -451,6 +458,19 @@ class JSerializerGenerator
             buildStep,
             resolver: resolver,
             customConstructor: redirect.redirectedConstructor,
+            unionSubTypeMeta: UnionSubTypeMeta(
+              typeJsonValue: jsonKey,
+              unionAnnotation: jUnion,
+              unionValueAnnotation: jUnionValue,
+            ),
+          );
+
+          final unionValue = UnionValueConfig(
+            config: config,
+            constructor: c,
+            redirectedType: subClassType,
+            annotation: jUnionValue,
+            jsonKey: jsonKey,
           );
 
           if (!generatedSubTypes.contains(config.classElement.name)) {
@@ -458,26 +478,13 @@ class JSerializerGenerator
             generatedSubTypes.add(config.classElement.name);
           }
 
-          subTypes.add(
-            UnionValueConfig(
-              config: config,
-              constructor: c,
-              redirectedType: subClassType,
-              annotation: jUnionValue,
-              jsonKey: jUnionValue.name ??
-                  reCase(
-                    c.name,
-                    nameCase: globalOptions.fieldNameCase,
-                  ),
-            ),
-          );
+          subTypes.add(unionValue);
         }
 
         if (subTypes.isEmpty) {
           throw Exception('${errorHeader}Union type has no subtypes!');
         }
 
-        final jUnion = getJUnion(clazz);
         final fallbackName = jUnion.fallbackName;
         final fallbackValue = subTypes.firstWhereOrNull(
           (element) => element.jsonKey == fallbackName,
@@ -599,6 +606,7 @@ class JSerializerGenerator
     TypeResolver? resolver,
     ConstructorElement? customConstructor,
     EnumConfig? enumConfig,
+    UnionSubTypeMeta? unionSubTypeMeta,
   }) {
     assert(element is InterfaceElement);
     assert(resolver is TypeResolver);
@@ -700,6 +708,7 @@ class JSerializerGenerator
       classElement: clazz,
       type: type,
       enumConfig: enumConfig,
+      unionSubTypeMeta: unionSubTypeMeta,
     );
   }
 
