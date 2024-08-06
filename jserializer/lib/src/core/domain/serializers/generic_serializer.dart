@@ -13,7 +13,7 @@ abstract class GenericSerializer<Model, Json> extends Serializer<Model, Json> {
     try {
       return result as M;
     } catch (error) {
-      throw LocationAwareJSerializerError(
+      throw LocationAwareJSerializerException(
         location: 'GenericSerializer: $this',
         error: error,
       );

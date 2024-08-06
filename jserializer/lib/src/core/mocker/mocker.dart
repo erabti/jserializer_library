@@ -82,7 +82,7 @@ abstract class JGenericMocker<T> extends JMocker<T> {
     try {
       return result as M;
     } catch (error) {
-      throw LocationAwareJSerializerError(
+      throw LocationAwareJSerializerException(
         location: 'MockGenericSerializer: $this',
         error: error,
       );

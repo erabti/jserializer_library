@@ -9,7 +9,6 @@
 import 'package:jserializer/jserializer.dart' as js;
 import 'package:example2/model/union.dart';
 import 'package:example2/model/model.dart';
-import 'package:jserializer/src/core/jserializer/essential_serializers.dart';
 
 class SectionLayoutVListSerializer
     extends js.ModelSerializer<SectionLayoutVList> {
@@ -249,10 +248,6 @@ class DynamicItemShapeSerializer
 class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
   const SomeModelSerializer({super.jSerializer});
 
-  static const _$field3_$JDoubleAdapter = js.JDoubleAdapter(handleBool: true);
-
-  static const _$field4_$JDoubleAdapter = js.JDoubleAdapter(handleBool: false);
-
   static const jsonKeys = {
     'field1',
     'field2',
@@ -266,22 +261,16 @@ class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
       call: () => jSerializer.fromJson<String>(json['field1']),
       jsonKey: 'field1',
     );
-    final field2$Value = safeLookup<String>(
-      call: () => jSerializer.fromJson<String>(json['field2']),
+    final field2$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['field2']),
       jsonKey: 'field2',
     );
-    final field3$Value = safeLookup<double>(
-      call: () => _$field3_$JDoubleAdapter.fromJson(
-        json['field3'],
-        json,
-      ),
+    final field3$Value = safeLookup<double?>(
+      call: () => jSerializer.fromJson<double?>(json['field3']),
       jsonKey: 'field3',
     );
-    final field4$Value = safeLookup<double>(
-      call: () => _$field4_$JDoubleAdapter.fromJson(
-        json['field4'],
-        json,
-      ),
+    final field4$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['field4']),
       jsonKey: 'field4',
     );
     final extras$Value = Map<String, dynamic>.from(json)
@@ -304,8 +293,8 @@ class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
     ..addAll({
       'field1': model.field1,
       'field2': model.field2,
-      'field3': _$field3_$JDoubleAdapter.toJson(model.field3),
-      'field4': _$field4_$JDoubleAdapter.toJson(model.field4),
+      'field3': model.field3,
+      'field4': model.field4,
     });
 }
 
@@ -475,16 +464,16 @@ class DynamicItemShapeMocker extends js.JCustomMocker<DynamicItemShape> {
 class SomeModelMocker extends js.JModelMocker<SomeModel> {
   const SomeModelMocker({super.jSerializer});
 
-  static const _$field1_$StringMocker = StringMocker(language: 'ar');
+  static const _$field1_$StringMocker = js.StringMocker(language: 'ar');
 
-  static const _$field2_$StringMocker = StringMocker(language: 'en');
+  static const _$field2_$StringMocker = js.StringMocker(language: 'en');
 
   @override
   SomeModel createMock([js.JMockerContext? context]) {
     final field1$Value = _$field1_$StringMocker.createMock(context);
     final field2$Value = _$field2_$StringMocker.createMock(context);
-    final field3$Value = jSerializer.createMock<double>(context: context);
-    final field4$Value = jSerializer.createMock<double>(context: context);
+    final field3$Value = jSerializer.createMock<double?>(context: context);
+    final field4$Value = jSerializer.createMock<int?>(context: context);
     return SomeModel(
       field1: field1$Value,
       field2: field2$Value,

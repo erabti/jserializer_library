@@ -28,7 +28,13 @@ class JMockerContext {
   String get language => options?['language'] ?? 'en';
 
   // Num
-  int get numMaxValue => options?['num']?['maxRandomValue'] ?? 1000;
+  num get numMaxValue => options?['num']?['maxValue'] ?? 1000;
+
+  num get numMinValue => options?['num']?['minValue'] ?? 0;
+
+  bool get numMaxInclusive => options?['num']?['maxInclusive'] ?? true;
+
+  int? get numPrecision => options?['num']?['precision'];
 
   // String
   int get stringMaxWords => options?['string']?['maxWords'] ?? 5;
@@ -91,6 +97,8 @@ class JMockerContext {
     String? fieldName,
     int? deterministicSeedSalt,
     Map<String, dynamic>? options,
+    bool? madMode,
+    JMockerContext? madModeContext,
   }) {
     return JMockerContext(
       deterministicRandom: deterministicRandom ?? this.deterministicRandom,
@@ -100,6 +108,21 @@ class JMockerContext {
       deterministicSeedSalt:
           deterministicSeedSalt ?? this.deterministicSeedSalt,
       options: options ?? this.options,
+    );
+  }
+
+  JMockerContext merge(JMockerContext? other) {
+    if (this == other || other == null) return this;
+
+    final options = {...?this.options, ...?other.options};
+
+    return copyWith(
+      deterministicRandom: other.deterministicRandom,
+      randomize: other.randomize,
+      callCount: other.callCount,
+      fieldName: other.fieldName,
+      deterministicSeedSalt: other.deterministicSeedSalt,
+      options: options.isEmpty ? null : options,
     );
   }
 }

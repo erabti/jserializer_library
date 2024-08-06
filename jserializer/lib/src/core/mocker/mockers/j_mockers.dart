@@ -1,6 +1,4 @@
-import 'package:jserializer/src/core/jserializer/essential_serializers.dart';
-import 'package:jserializer/src/core/mocker/mockers/email_mocker.dart';
-import 'package:jserializer/src/core/mocker/mockers/name_mocker.dart';
+import 'package:jserializer/jserializer.dart';
 
 export 'name_mocker.dart';
 export 'email_mocker.dart';

@@ -5,17 +5,28 @@ class SomeModel {
   const SomeModel({
     @JMockers.string(language: 'ar') required this.field1,
     @JMockers.string(language: 'en') required this.field2,
-    @JAdapters.double(handleBool: true) required this.field3,
-    @JAdapters.double(handleBool: false) required this.field4,
+    this.field3,
+    this.field4,
     @JKey.extras(overridesToJsonModelFields: false) this.extras = const {},
   });
 
+  static const Map<String, dynamic> json = {
+    'field2': 'value2',
+    'field3': 3.14,
+    'field4': 'hi',
+  };
+
   final String field1;
-  final String field2;
-  final double field3;
-  final double field4;
+  final String? field2;
+  final double? field3;
+  final int? field4;
 
   final Map<String, dynamic> extras;
+
+  @override
+  String toString() {
+    return 'SomeModel{field1: $field1, field2: $field2, field3: $field3, field4: $field4, extras: $extras}';
+  }
 }
 
 @JSerializable()

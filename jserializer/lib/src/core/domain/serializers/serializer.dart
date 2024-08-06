@@ -20,9 +20,10 @@ abstract class Serializer<Model, Json> {
 
   Json toJson(Model model);
 
-  String _getErrorMessage<T>(Object error, String jsonName) {
+  String _getErrorMessage<T>(Object error, String? jsonName) {
     if (error is TypeError &&
-        error.toString().contains("type 'Null' is not a subtype of type")) {
+        error.toString().contains("type 'Null' is not a subtype of type") &&
+        jsonName != null) {
       return "Json missing the non-nullable key '$jsonName' of type '$T'. "
           "Please make sure that you include it in the passed json.";
     }
@@ -32,28 +33,34 @@ abstract class Serializer<Model, Json> {
 
   T safeLookup<T>({
     required T Function() call,
-    required String jsonKey,
+    String? jsonKey,
     String? fieldName,
     Type? modelType,
   }) {
     late final hideJsonKey = fieldName == null || jsonKey == fieldName;
     try {
       return call();
-    } on LookupError catch (error) {
-      throw LookupError<T>(
-        fieldName: fieldName ?? jsonKey,
-        jsonKey: hideJsonKey ? null : jsonKey,
-        modelType: modelType ?? this.modelType,
-        child: error,
+    } on FromJsonException catch (error, stack) {
+      Error.throwWithStackTrace(
+        FromJsonException<T>(
+          fieldName: fieldName ?? jsonKey,
+          jsonKey: hideJsonKey ? null : jsonKey,
+          modelType: modelType ?? this.modelType,
+          error: error,
+        ),
+        error.stackTrace ?? stack,
       );
     } catch (error, stacktrace) {
-      throw LookupError<T>(
-        fieldName: fieldName ?? jsonKey,
-        jsonKey: hideJsonKey ? null : jsonKey,
-        modelType: modelType ?? this.modelType,
-        message: '${_getErrorMessage<T>(error, jsonKey)}'
-            '\nOriginal Error: $error',
-        stackTrace: stacktrace,
+      Error.throwWithStackTrace(
+        FromJsonException<T>(
+          fieldName: fieldName ?? jsonKey,
+          jsonKey: hideJsonKey ? null : jsonKey,
+          modelType: modelType ?? this.modelType,
+          message: '${_getErrorMessage<T>(error, jsonKey)}'
+              '\nOriginal Error: $error',
+          stackTrace: stacktrace,
+        ),
+        stacktrace,
       );
     }
   }

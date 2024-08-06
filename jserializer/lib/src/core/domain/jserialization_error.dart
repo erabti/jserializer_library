@@ -1,28 +1,33 @@
 import 'package:jserializer/jserializer.dart';
 
-sealed class JserializationError implements Exception {}
+sealed class JSerializationException implements Exception {}
 
-class LookupError<ExpectedType> implements JserializationError {
+class FromJsonException<ExpectedType> implements JSerializationException {
   Type get expectedType => ExpectedType;
 
-  const LookupError({
-    required this.fieldName,
+  const FromJsonException({
     required this.modelType,
+    this.fieldName,
     this.message,
     this.stackTrace,
     this.jsonKey,
-    this.child,
+    this.error,
   });
 
   final String? message;
   final StackTrace? stackTrace;
   final String? jsonKey;
-  final String fieldName;
+  final String? fieldName;
   final Type modelType;
+  final Object? error;
 
-  final LookupError? child;
+  FromJsonException? get child {
+    final error = this.error;
+    if (error is FromJsonException) return error;
+    return null;
+  }
 
-  List<LookupError> get _flatChildren {
+  List<FromJsonException> get _flatChildren {
     if (child == null) return [this];
 
     return [this, ...child!._flatChildren];
@@ -31,7 +36,7 @@ class LookupError<ExpectedType> implements JserializationError {
   String get modelTypeStr =>
       modelType.toString().replaceAll(RegExp('<.*?>'), '');
 
-  String get path => '$modelTypeStr.$fieldName';
+  String get path => '$modelTypeStr${fieldName == null ? '' : '.$fieldName'}';
 
   String get exactLocation {
     final children = _flatChildren;
@@ -50,12 +55,12 @@ class LookupError<ExpectedType> implements JserializationError {
     try {
       final children = _flatChildren;
       final last = children.last;
-      final theMessage = last.message;
+      final theMessage = last.message ?? last.error?.toString();
       final messagePart = theMessage ?? '';
       final colonPart = theMessage == null ? '' : ':\n';
       final location = exactLocation;
 
-      return 'JSerializationError:\n'
+      return 'JSerializationFromJsonError:\n'
           '$location'
           '$colonPart$messagePart';
     } catch (e) {
@@ -67,14 +72,14 @@ class LookupError<ExpectedType> implements JserializationError {
     try {
       final children = _flatChildren;
       final last = children.last;
-      final theMessage = last.message;
+      final theMessage = last.message ?? last.error?.toString();
       final messagePart = theMessage ?? '';
       final location = exactLocation;
       final stackTrace = last.stackTrace;
       final stacktracePart = stackTrace == null ? '' : '\n$stackTrace';
       final colonPart = (theMessage == null && stackTrace == null) ? '' : ':\n';
 
-      return 'JSerializationError:\n'
+      return 'JSerializationFromJsonError:\n'
           '$location'
           '$colonPart$messagePart$stacktracePart';
     } catch (e) {
@@ -83,8 +88,8 @@ class LookupError<ExpectedType> implements JserializationError {
   }
 }
 
-class UnregisteredSerializableTypeError implements JserializationError {
-  const UnregisteredSerializableTypeError(this.type);
+class UnregisteredSerializableTypeException extends JSerializationException {
+  UnregisteredSerializableTypeException(this.type);
 
   final Type type;
 
@@ -98,8 +103,8 @@ class UnregisteredSerializableTypeError implements JserializationError {
   }
 }
 
-class UnregisteredMockerTypeError implements JserializationError {
-  const UnregisteredMockerTypeError(this.type);
+class UnregisteredMockerTypeException extends JSerializationException {
+  UnregisteredMockerTypeException(this.type);
 
   final Type type;
 
@@ -113,8 +118,8 @@ class UnregisteredMockerTypeError implements JserializationError {
   }
 }
 
-class NonGenericSerializerMisuseError implements JserializationError {
-  const NonGenericSerializerMisuseError({
+class NonGenericSerializerMisuseException extends JSerializationException {
+  NonGenericSerializerMisuseException({
     required this.lookupType,
     required this.serializer,
   });
@@ -131,11 +136,9 @@ class NonGenericSerializerMisuseError implements JserializationError {
   }
 }
 
-class LocationAwareJSerializerError implements JserializationError {
-  const LocationAwareJSerializerError({
-    required this.location,
-    required this.error,
-  });
+class LocationAwareJSerializerException extends JSerializationException {
+  LocationAwareJSerializerException(
+      {required this.location, required this.error});
 
   final String location;
   final dynamic error;
