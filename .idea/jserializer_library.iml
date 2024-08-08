@@ -276,6 +276,12 @@
       <excludeFolder url="file://$MODULE_DIR$/jserializer/test_core/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer/test_core/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer/test_core/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/bin/cache/pkg/flutter_gpu/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/bin/cache/pkg/flutter_gpu/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/bin/cache/pkg/flutter_gpu/build" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/link_hook/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/link_hook/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/link_hook/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

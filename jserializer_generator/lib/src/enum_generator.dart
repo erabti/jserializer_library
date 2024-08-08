@@ -52,7 +52,6 @@ class EnumGenerator {
           ..methods.addAll(
             [
               getFromJson(),
-              getCreateJson(),
               getToJson(),
             ],
           ),
@@ -109,6 +108,7 @@ $orElseCode
     final method = Method(
       (b) => b
         ..name = 'fromJson'
+        ..annotations.addAll([overrideAnnotation])
         ..returns = modelConfig.type.refer
         ..requiredParameters.add(
           Parameter(
@@ -121,20 +121,6 @@ $orElseCode
     );
 
     return method;
-  }
-
-  Method getCreateJson() {
-    final fallbackName = enumConfig.fallback?.fieldName;
-
-    final mockName = fallbackName ?? enumConfig.values.first.fieldName;
-
-    return Method(
-      (b) => b
-        ..name = 'createMock'
-        ..returns = modelConfig.type.refer
-        ..lambda = true
-        ..body = modelConfig.type.refer.property(mockName).code,
-    );
   }
 
   Method getToJson() {
@@ -173,6 +159,7 @@ $casesCode
       (b) => b
         ..name = 'toJson'
         ..returns = jsonTypeRefer
+        ..annotations.addAll([overrideAnnotation])
         ..requiredParameters.add(
           Parameter(
             (b) => b

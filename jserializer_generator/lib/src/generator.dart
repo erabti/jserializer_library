@@ -1129,13 +1129,15 @@ const _welcome = '''
 
 const _rules = <String>[
   'type=lint',
+  'unnecessary_import',
+  'return_of_invalid_type_from_closure',
+  'STRICT_RAW_TYPE',
   'prefer-match-file-name',
   'newline-before-return',
   'prefer-trailing-comma',
   'long-method',
-  'STRICT_RAW_TYPE',
-  'unnecessary_import',
-  'return_of_invalid_type_from_closure',
 ];
 
-final _ignores = '// ignore_for_file: ${_rules.join(',')}';
+final _ignores = '''
+// ignore_for_file: ${_rules.join(',')}
+''';
