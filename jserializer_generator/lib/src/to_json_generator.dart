@@ -98,16 +98,21 @@ class ToJsonGenerator {
       if (modelConfig.extrasField!.keyConfig.overridesToJsonModelFields) {
         body = body.cascade('addAll').call(
           [
-            refer('model').property(modelConfig.extrasField!.fieldName),
+            refer('Map').property('of').call(
+              [
+                refer('model').property(modelConfig.extrasField!.fieldName),
+              ],
+            ),
           ],
         );
       } else {
-        body = refer('model')
-            .property(modelConfig.extrasField!.fieldName)
+        body = refer('Map')
+            .property('of')
+            .call([refer('model').property(modelConfig.extrasField!.fieldName)])
             .cascade('addAll')
             .call(
-          [body],
-        );
+              [body],
+            );
       }
     }
 

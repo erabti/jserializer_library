@@ -24,6 +24,7 @@ class JSerializerImpl extends JSerializerInterface {
     dynamic json, {
     OnJserializerError? onError,
     FromJsonErrorHandler<T>? handleError,
+    Type? type,
   }) {
     return runZoned(
       () {
@@ -61,7 +62,7 @@ class JSerializerImpl extends JSerializerInterface {
         }
 
         try {
-          return _fromJson<T>(json);
+          return _fromJson<T>(json, type: type);
         } catch (error, stack) {
           final String? message;
           if (error is TypeError) {
@@ -95,9 +96,18 @@ class JSerializerImpl extends JSerializerInterface {
     );
   }
 
-  T _fromJson<T>(dynamic json) {
-    if (json is T || json == null) return json as T;
-    final serializer = serializerOf<T>();
+  T _fromJson<T>(
+    dynamic json, {
+    Type? type,
+  }) {
+    final passedTypeCheck = type?.provideTo(
+          <T>() => json is T,
+        ) ??
+        true;
+    final sameType = json is T && passedTypeCheck;
+
+    if (sameType || json == null) return json as T;
+    final serializer = serializerOf<T>(type);
 
     if (serializer is! GenericSerializer && T.args.isNotEmpty) {
       throw NonGenericSerializerMisuseException(
@@ -106,6 +116,14 @@ class JSerializerImpl extends JSerializerInterface {
       );
     }
     if (serializer is GenericSerializer) {
+      if (type != null) {
+        return type.provideTo(
+          <R>() {
+            return serializer.fromJson<R>(json) as T;
+          },
+        );
+      }
+
       return serializer.fromJson<T>(json);
     }
     if (serializer is ModelSerializer) {

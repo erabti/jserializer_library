@@ -26,6 +26,7 @@ abstract class JSerializerInterface {
     dynamic json, {
     OnJserializerError? onError,
     FromJsonErrorHandler<T>? handleError,
+    Type? type,
   });
 
   T createMock<T>({

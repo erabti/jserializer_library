@@ -1,7 +1,19 @@
 import 'package:example2/jserializer.dart';
+import 'package:example2/model/model.dart';
+import 'package:jserializer/jserializer.dart';
 
 void main() {
   initializeJSerializer();
+  final originalModel = SomeGenericModel<String>(
+    value: 'hi',
+    extras: {},
+  );
+
+  final modelJson = JSerializer.i.toJson(originalModel);
+  final model = JSerializer.i.fromJson(1, type: bool);
+
+  print(model);
+  print(model.runtimeType);
 
   // JSerializer.i.fromJsonErrorHandler = (arg) {
   //   if (arg.doesTypeAcceptNull) {
