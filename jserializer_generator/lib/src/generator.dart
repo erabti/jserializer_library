@@ -1130,6 +1130,7 @@ const _welcome = '''
 const _rules = <String>[
   'type=lint',
   'unnecessary_import',
+  'deprecated_member_use_from_same_package',
   'return_of_invalid_type_from_closure',
   'STRICT_RAW_TYPE',
   'prefer-match-file-name',
@@ -1140,5 +1141,4 @@ const _rules = <String>[
 
 final _ignores = '''
 // ignore_for_file: ${_rules.join(',')}
-// ignore_for_file: deprecated_member_use_from_same_package
 ''';
