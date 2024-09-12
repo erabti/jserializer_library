@@ -1140,4 +1140,5 @@ const _rules = <String>[
 
 final _ignores = '''
 // ignore_for_file: ${_rules.join(',')}
+// ignore_for_file: deprecated_member_use_from_same_package
 ''';

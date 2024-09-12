@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix lint rules">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="Support passing Type value to fromJson">
+      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/to_json_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/to_json_generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,12 +26,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "erabti"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;erabti&quot;
   }
-}]]></component>
+}</component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
       <filtered-out-file-type name="LOCAL_BRANCH" />
@@ -45,12 +40,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:erabti/jserializer_library.git",
-    "accountId": "44f65601-a7d6-41bc-8e12-187c8f84fb06"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:erabti/jserializer_library.git&quot;,
+    &quot;accountId&quot;: &quot;44f65601-a7d6-41bc-8e12-187c8f84fb06&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/jserializer/example/lib/example.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/jserializer/example/pubspec.yaml" root0="FORCE_HIGHLIGHTING" />
@@ -76,7 +71,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Dart Command Line App.build.dart (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Dart Command Line App.main.dart (1).executor&quot;: &quot;Run&quot;,
+    &quot;Dart Command Line App.main.dart (1).executor&quot;: &quot;Debug&quot;,
     &quot;Dart Command Line App.main.dart.executor&quot;: &quot;Run&quot;,
     &quot;Dart Test.Tests in a_test.dart.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -513,7 +508,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723095993186</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Support passing Type value to fromJson">
+      <option name="closed" value="true" />
+      <created>1724087921114</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1724087921114</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -541,7 +544,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="build: update min sdk to 3 for dart" />
     <MESSAGE value="refactor: ModelConfig" />
     <MESSAGE value="refactor: JFieldConfig" />
     <MESSAGE value="refactor: JSerializerGenerator" />
@@ -566,7 +568,8 @@
     <MESSAGE value="fix toJson for JUnion types where the type key is not included in the model itself" />
     <MESSAGE value="add onError, and handleError to fromJson, and toJson methods, and also make a global one for JSerializer.i instance, fix some issues with error reporting stack trace" />
     <MESSAGE value="fix lint rules" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix lint rules" />
+    <MESSAGE value="Support passing Type value to fromJson" />
+    <option name="LAST_COMMIT_MESSAGE" value="Support passing Type value to fromJson" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
