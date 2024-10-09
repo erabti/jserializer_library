@@ -32,6 +32,7 @@ abstract class JSerializerInterface {
   T createMock<T>({
     Type? type,
     JMockerContext? context,
+    JMocker? overriddenMocker,
   });
 
   toJson(

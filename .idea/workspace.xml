@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="ignore deprecated_member_use_from_same_package">
-      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker_context.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker_context.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/mock_method_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/mock_method_generator.dart" afterDir="false" />
-    </list>
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="add JSerializer.i.registerMocker and JSerializer.i.unregisterMocker" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -311,14 +305,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
     </task>
-    <task id="LOCAL-00021" summary="add return_of_invalid_type_from_closure ignore and delete example projects">
-      <option name="closed" value="true" />
-      <created>1710090096079</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1710090096079</updated>
-    </task>
     <task id="LOCAL-00022" summary="fix JAdatper.int and JAdapter.double">
       <option name="closed" value="true" />
       <created>1717075855568</created>
@@ -535,7 +521,23 @@
       <option name="project" value="LOCAL" />
       <updated>1726148114791</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="fix fieldName in JMockerContext">
+      <option name="closed" value="true" />
+      <created>1728512338183</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1728512338183</updated>
+    </task>
+    <task id="LOCAL-00050" summary="add JSerializer.i.registerMocker and JSerializer.i.unregisterMocker">
+      <option name="closed" value="true" />
+      <created>1728512573602</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1728512573602</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -563,8 +565,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: JFieldConfig" />
-    <MESSAGE value="refactor: JSerializerGenerator" />
     <MESSAGE value="chore: update gitignore" />
     <MESSAGE value="fix adapters and add new exceptions for better dev experience" />
     <MESSAGE value="fix number and strings adapters" />
@@ -588,7 +588,9 @@
     <MESSAGE value="fix lint rules" />
     <MESSAGE value="Support passing Type value to fromJson" />
     <MESSAGE value="ignore deprecated_member_use_from_same_package" />
-    <option name="LAST_COMMIT_MESSAGE" value="ignore deprecated_member_use_from_same_package" />
+    <MESSAGE value="fix fieldName in JMockerContext" />
+    <MESSAGE value="add JSerializer.i.registerMocker and JSerializer.i.unregisterMocker" />
+    <option name="LAST_COMMIT_MESSAGE" value="add JSerializer.i.registerMocker and JSerializer.i.unregisterMocker" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

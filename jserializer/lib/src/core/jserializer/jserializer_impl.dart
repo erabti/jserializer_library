@@ -289,8 +289,9 @@ class JSerializerImpl extends JSerializerInterface {
   T createMock<T>({
     Type? type,
     JMockerContext? context,
+    JMocker? overriddenMocker,
   }) {
-    final mocker = mockerOf<T>(type);
+    final mocker = overriddenMocker ?? mockerOf<T>(type);
     final ctxWrapper = CallCountWrapper<JMockerContext>(
       valueBuilder: (count) => (context ?? JMockerContext()).copyWith(
         callCount: count,
