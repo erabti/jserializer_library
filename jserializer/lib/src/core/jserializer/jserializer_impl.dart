@@ -207,6 +207,16 @@ class JSerializerImpl extends JSerializerInterface {
   }
 
   @override
+  void registerMocker<T>(MockerFactory<T> mockFactory) {
+    mockers[T.base] = mockFactory;
+  }
+
+  @override
+  void unregisterMocker<T>() {
+    mockers.remove(T.base);
+  }
+
+  @override
   void unregister<T>() {
     serializers.remove(T.base);
     mockers.remove(T.base);

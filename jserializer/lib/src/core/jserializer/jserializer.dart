@@ -81,11 +81,20 @@ abstract class JSerializerInterface {
   /// [typeFactory] a type factory for the registered type:
   /// - if the type is simple (non-generic): (f) => f<User>
   /// - if the type is generic: <T>(f) => f<PagedData<T>>()
+  ///
+  /// [mockFactory] is a function that returns the mocker,
   void register<T>(
     SerializerFactory<T> factory,
     Function typeFactory, {
     MockerFactory<T> mockFactory,
   });
+
+  /// Registers a new mocker for the type [T]
+  void registerMocker<T>(MockerFactory<T> mockFactory);
+
+  /// Unregisters the mocker from the serializers internal memory of the
+  /// jserializer instance
+  void unregisterMocker<T>();
 
   /// Unregisters the type from the serializers internal memory of the
   /// jserializer instance
