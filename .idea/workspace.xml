@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="Support passing Type value to fromJson">
-      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="ignore deprecated_member_use_from_same_package">
+      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker_context.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker_context.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/mock_method_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/mock_method_generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -516,7 +519,23 @@
       <option name="project" value="LOCAL" />
       <updated>1724087921114</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="ignore deprecated_member_use_from_same_package">
+      <option name="closed" value="true" />
+      <created>1726148031383</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1726148031383</updated>
+    </task>
+    <task id="LOCAL-00048" summary="ignore deprecated_member_use_from_same_package">
+      <option name="closed" value="true" />
+      <created>1726148114791</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1726148114791</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,7 +563,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: ModelConfig" />
     <MESSAGE value="refactor: JFieldConfig" />
     <MESSAGE value="refactor: JSerializerGenerator" />
     <MESSAGE value="chore: update gitignore" />
@@ -569,7 +587,8 @@
     <MESSAGE value="add onError, and handleError to fromJson, and toJson methods, and also make a global one for JSerializer.i instance, fix some issues with error reporting stack trace" />
     <MESSAGE value="fix lint rules" />
     <MESSAGE value="Support passing Type value to fromJson" />
-    <option name="LAST_COMMIT_MESSAGE" value="Support passing Type value to fromJson" />
+    <MESSAGE value="ignore deprecated_member_use_from_same_package" />
+    <option name="LAST_COMMIT_MESSAGE" value="ignore deprecated_member_use_from_same_package" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

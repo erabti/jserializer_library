@@ -40,22 +40,23 @@ class MockMethodGenerator {
     final valueCode = mockValueCode;
     final hasValue = valueCode != null;
     final customMocker = field.customMockers.firstOrNull;
+    final contextRefer = refer('context?').cascade('setFieldName').call(
+      [
+        literalString(field.fieldName),
+      ],
+    );
 
     Expression exp;
     if (customMocker != null) {
       exp = refer(customMocker.adapterFieldName).property('createMock').call(
-        [
-          refer('context'),
-        ],
+        [contextRefer],
       );
     } else if (hasValue) {
       exp = valueCode;
     } else {
       exp = refer('jSerializer').property('createMock').call(
         [],
-        {
-          'context': refer('context'),
-        },
+        {'context': contextRefer},
         [field.paramType.refer],
       );
     }

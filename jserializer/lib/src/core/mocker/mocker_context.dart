@@ -1,9 +1,8 @@
 import 'dart:math';
 
 class JMockerContext {
-  const JMockerContext({
+  JMockerContext({
     this.callCount,
-    this.fieldName,
     this.randomize,
     this.options,
     this.deterministicRandom,
@@ -14,7 +13,14 @@ class JMockerContext {
   final bool? randomize;
 
   final int? callCount;
-  final String? fieldName;
+  String? _fieldName;
+
+  void setFieldName(String fieldName) {
+    _fieldName = fieldName;
+  }
+
+  String? get fieldName => _fieldName;
+
   final int? deterministicSeedSalt;
   final Map<String, dynamic>? options;
 
@@ -97,14 +103,11 @@ class JMockerContext {
     String? fieldName,
     int? deterministicSeedSalt,
     Map<String, dynamic>? options,
-    bool? madMode,
-    JMockerContext? madModeContext,
   }) {
     return JMockerContext(
       deterministicRandom: deterministicRandom ?? this.deterministicRandom,
       randomize: randomize ?? this.randomize,
       callCount: callCount ?? this.callCount,
-      fieldName: fieldName ?? this.fieldName,
       deterministicSeedSalt:
           deterministicSeedSalt ?? this.deterministicSeedSalt,
       options: options ?? this.options,
@@ -120,7 +123,6 @@ class JMockerContext {
       deterministicRandom: other.deterministicRandom,
       randomize: other.randomize,
       callCount: other.callCount,
-      fieldName: other.fieldName,
       deterministicSeedSalt: other.deterministicSeedSalt,
       options: options.isEmpty ? null : options,
     );
