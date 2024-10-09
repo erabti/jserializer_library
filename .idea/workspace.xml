@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="add JSerializer.i.registerMocker and JSerializer.i.unregisterMocker" />
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix issue with createMock" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -305,30 +305,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
     </task>
-    <task id="LOCAL-00022" summary="fix JAdatper.int and JAdapter.double">
-      <option name="closed" value="true" />
-      <created>1717075855568</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1717075855568</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Revive JUnion, now we support unions and enums!">
-      <option name="closed" value="true" />
-      <created>1717457667004</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1717457667004</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Add re-casing feature for JEnum and JUnion types">
-      <option name="closed" value="true" />
-      <created>1717493414787</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1717493414787</updated>
-    </task>
     <task id="LOCAL-00025" summary="add toStringWithoutStack() to LookupError">
       <option name="closed" value="true" />
       <created>1717618364244</created>
@@ -537,7 +513,31 @@
       <option name="project" value="LOCAL" />
       <updated>1728512573602</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="add overriddenMocker to JSerializer.i.createMock">
+      <option name="closed" value="true" />
+      <created>1728512805476</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1728512805476</updated>
+    </task>
+    <task id="LOCAL-00052" summary="fix issue with createMock">
+      <option name="closed" value="true" />
+      <created>1728513815895</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1728513815895</updated>
+    </task>
+    <task id="LOCAL-00053" summary="fix issue with createMock">
+      <option name="closed" value="true" />
+      <created>1728513951844</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1728513951844</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -565,8 +565,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="chore: update gitignore" />
-    <MESSAGE value="fix adapters and add new exceptions for better dev experience" />
     <MESSAGE value="fix number and strings adapters" />
     <MESSAGE value="fix extras field after the refactor" />
     <MESSAGE value="fix nullable type for generics" />
@@ -590,7 +588,9 @@
     <MESSAGE value="ignore deprecated_member_use_from_same_package" />
     <MESSAGE value="fix fieldName in JMockerContext" />
     <MESSAGE value="add JSerializer.i.registerMocker and JSerializer.i.unregisterMocker" />
-    <option name="LAST_COMMIT_MESSAGE" value="add JSerializer.i.registerMocker and JSerializer.i.unregisterMocker" />
+    <MESSAGE value="add overriddenMocker to JSerializer.i.createMock" />
+    <MESSAGE value="fix issue with createMock" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix issue with createMock" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

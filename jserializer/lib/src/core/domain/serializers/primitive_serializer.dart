@@ -18,10 +18,10 @@ class PrimitiveMocker<T> extends JMocker<T> {
     super.jSerializer,
   });
 
-  final T Function() mockBuilder;
+  final T Function([JMockerContext? context]) mockBuilder;
 
   @override
   Function get mocker => createMock;
 
-  T createMock() => mockBuilder();
+  T createMock([JMockerContext? context]) => mockBuilder(context);
 }

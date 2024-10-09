@@ -265,15 +265,15 @@ class JSerializerImpl extends JSerializerInterface {
       {
         typeOf<void>(): (i) => PrimitiveMocker<void>(
               jSerializer: i,
-              mockBuilder: () {},
+              mockBuilder: ([ctx]) {},
             ),
         Null: (i) => PrimitiveMocker<void>(
               jSerializer: i,
-              mockBuilder: () {},
+              mockBuilder: ([ctx]) {},
             ),
         dynamic: (i) => PrimitiveMocker<void>(
               jSerializer: i,
-              mockBuilder: () {},
+              mockBuilder: ([ctx]) {},
             ),
         int: (i) => IntMocker(jSerializer: i),
         String: (i) => StringMocker(jSerializer: i),
@@ -306,16 +306,15 @@ class JSerializerImpl extends JSerializerInterface {
     }
 
     if (mocker is JModelMocker) return mocker.createMock(ctx) as T;
-    final rawMocker = mocker.mocker;
 
-    if (rawMocker is Function([JMockerContext? context])) {
-      return rawMocker(ctx) as T;
+    if (mocker.mocker is Function([JMockerContext? context])) {
+      return mocker.mocker(ctx) as T;
     }
 
-    if (rawMocker is Function<R>([JMockerContext? context])) {
-      return rawMocker<T>(ctx) as T;
+    if (mocker.mocker is Function<R>([JMockerContext? context])) {
+      return mocker.mocker<T>(ctx) as T;
     }
 
-    return mocker.mocker();
+    return mocker.mocker(ctx);
   }
 }
