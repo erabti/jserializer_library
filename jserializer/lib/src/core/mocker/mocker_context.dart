@@ -2,7 +2,6 @@ import 'dart:math';
 
 class JMockerContext {
   JMockerContext({
-    this.callCount,
     this.randomize,
     this.options,
     this.deterministicRandom,
@@ -12,10 +11,19 @@ class JMockerContext {
   final bool? deterministicRandom;
   final bool? randomize;
 
-  final int? callCount;
+  int? _callCount;
+
+  int? get callCount => _callCount;
+
+  void setCallCount(int? callCount) {
+    if (callCount == null) return;
+    _callCount = callCount;
+  }
+
   String? _fieldName;
 
-  void setFieldName(String fieldName) {
+  void setFieldName(String? fieldName) {
+    if (fieldName == null) return;
     _fieldName = fieldName;
   }
 
@@ -99,7 +107,6 @@ class JMockerContext {
   JMockerContext copyWith({
     bool? deterministicRandom,
     bool? randomize,
-    int? callCount,
     String? fieldName,
     int? deterministicSeedSalt,
     Map<String, dynamic>? options,
@@ -107,24 +114,9 @@ class JMockerContext {
     return JMockerContext(
       deterministicRandom: deterministicRandom ?? this.deterministicRandom,
       randomize: randomize ?? this.randomize,
-      callCount: callCount ?? this.callCount,
       deterministicSeedSalt:
           deterministicSeedSalt ?? this.deterministicSeedSalt,
       options: options ?? this.options,
-    );
-  }
-
-  JMockerContext merge(JMockerContext? other) {
-    if (this == other || other == null) return this;
-
-    final options = {...?this.options, ...?other.options};
-
-    return copyWith(
-      deterministicRandom: other.deterministicRandom,
-      randomize: other.randomize,
-      callCount: other.callCount,
-      deterministicSeedSalt: other.deterministicSeedSalt,
-      options: options.isEmpty ? null : options,
-    );
+    )..setFieldName(_fieldName);
   }
 }
