@@ -4,8 +4,35 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix issue with createMock">
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix issue with JMockerContext copyWith">
+      <change afterPath="$PROJECT_DIR$/jserializer/example2/lib/model/complicated_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserializer/example2/lib/model/product.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserializer/example2/lib/model/product_customization.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jserializer_library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jserializer_library.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example2/.metadata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example2/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/generic_serializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/generic_serializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/serializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/serializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/util.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/util.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/merging_builder/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/merging_builder/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/type_plus/example/lib/main.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/type_plus/example/pubspec.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/type_plus/lib/src/resolved_type.dart" beforeDir="false" afterPath="$PROJECT_DIR$/type_plus/lib/src/resolved_type.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/type_plus/lib/src/type_plus.dart" beforeDir="false" afterPath="$PROJECT_DIR$/type_plus/lib/src/type_plus.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/type_plus/lib/src/types_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/type_plus/lib/src/types_registry.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/type_plus/lib/type_plus.dart" beforeDir="false" afterPath="$PROJECT_DIR$/type_plus/lib/type_plus.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/type_plus/test/type_info_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/type_plus/test/type_plus_test.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,31 +94,32 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Dart Command Line App.build.dart (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Dart Command Line App.main.dart (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Dart Command Line App.main.dart.executor&quot;: &quot;Run&quot;,
-    &quot;Dart Test.Tests in a_test.dart.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/erabti/Developer/jserializer_library&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;flutter.settings&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Dart Command Line App.build.dart (1).executor": "Debug",
+    "Dart Command Line App.main.dart (1).executor": "Run",
+    "Dart Command Line App.main.dart.executor": "Run",
+    "Dart Test.Tests in a_test.dart.executor": "Run",
+    "Flutter.main.dart.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/erabti/Developer/jserializer_library",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "flutter.settings",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/jserializer/example2/lib" />
@@ -108,16 +136,11 @@
       <recent name="$PROJECT_DIR$/jserializer/lib/src/type_plus" />
     </key>
   </component>
-  <component name="RunManager" selected="Dart Command Line App.main.dart (1)">
+  <component name="RunManager" selected="Flutter.main.dart">
     <configuration name="build.dart (1)" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="arguments" value="build --delete-conflicting-outputs" />
       <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/build.dart" />
       <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example" />
-      <method v="2" />
-    </configuration>
-    <configuration name="example2.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
-      <option name="filePath" value="$PROJECT_DIR$/jserializer/example2/lib/example2.dart" />
-      <option name="workingDirectory" value="$PROJECT_DIR$/jserializer/example2" />
       <method v="2" />
     </configuration>
     <configuration name="main.dart (1)" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
@@ -139,21 +162,25 @@
       <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/main.dart" />
       <method v="2" />
     </configuration>
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/jserializer/example2/lib/main.dart" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Dart Command Line App.main.dart (1)" />
       <item itemvalue="Dart Command Line App.main.dart" />
-      <item itemvalue="Dart Command Line App.example2.dart" />
       <item itemvalue="Dart Command Line App.build.dart (1)" />
       <item itemvalue="Dart Test.Tests in a_test.dart" />
       <item itemvalue="Flutter.Run" />
+      <item itemvalue="Flutter.main.dart" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter.main.dart" />
         <item itemvalue="Dart Command Line App.main.dart (1)" />
         <item itemvalue="Dart Command Line App.main.dart" />
         <item itemvalue="Dart Test.Tests in a_test.dart" />
         <item itemvalue="Dart Command Line App.build.dart (1)" />
-        <item itemvalue="Dart Command Line App.example2.dart" />
       </list>
     </recent_temporary>
   </component>
@@ -306,14 +333,6 @@
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
-    </task>
-    <task id="LOCAL-00027" summary="add toStringWithoutStack() to LookupError">
-      <option name="closed" value="true" />
-      <created>1717620008777</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1717620008777</updated>
     </task>
     <task id="LOCAL-00028" summary="make jserializer more resiliant to common serialization errors from backend">
       <option name="closed" value="true" />
@@ -539,7 +558,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728514331904</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="fix issue with JMockerContext copyWith">
+      <option name="closed" value="true" />
+      <created>1728514910393</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1728514910393</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -567,7 +594,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix number and strings adapters" />
     <MESSAGE value="fix extras field after the refactor" />
     <MESSAGE value="fix nullable type for generics" />
     <MESSAGE value="add return_of_invalid_type_from_closure ignore and delete example projects" />
@@ -592,7 +618,8 @@
     <MESSAGE value="add JSerializer.i.registerMocker and JSerializer.i.unregisterMocker" />
     <MESSAGE value="add overriddenMocker to JSerializer.i.createMock" />
     <MESSAGE value="fix issue with createMock" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix issue with createMock" />
+    <MESSAGE value="fix issue with JMockerContext copyWith" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix issue with JMockerContext copyWith" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

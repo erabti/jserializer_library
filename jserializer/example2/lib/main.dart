@@ -1,88 +1,119 @@
+import 'dart:async';
+
 import 'package:example2/jserializer.dart';
-import 'package:example2/model/model.dart';
+import 'package:example2/model/product.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:jserializer/jserializer.dart';
 
-void main() {
+typedef TestType = Map<Vendor, List<Product>>;
+
+final instance = JSerializer.i;
+
+void main() async {
   initializeJSerializer();
-  final originalModel = SomeGenericModel<String>(
-    value: 'hi',
-    extras: {},
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Timer? _timer;
+  Timer? _secondTimer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 3),
+      (timer) {
+        // runTest(instance);
+        compute((message) => runTest(message), instance);
+      },
+    );
+
+    _secondTimer = Timer.periodic(
+      const Duration(milliseconds: 500),
+      (timer) {
+        setState(() {});
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _secondTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('JSerializer Example'),
+        ),
+        body: ListView(
+          children: [
+            ...List.generate(
+              500,
+              (index) => index.isOdd
+                  ? const SizedBox(
+                      height: 100,
+                      child: FlutterLogo(),
+                    )
+                  : IntrinsicHeight(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        clipBehavior: Clip.hardEdge,
+                        child: Image.network(
+                          'https://picsum.photos/500/500?random=$index',
+                          width: double.infinity,
+                          height: 120,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void runTest(JSerializerInterface instance) {
+  final sw1 = Stopwatch()..start();
+  final mock = instance.createMock<TestType>(
+    context: JMockerContext(
+      randomize: true,
+      options: {
+        'list': {
+          'maxCount': 20,
+        },
+      },
+    ),
   );
 
-  final modelJson = JSerializer.i.toJson(originalModel);
-  final model = JSerializer.i.fromJson(1, type: bool);
+  debugPrint('Mock Elapsed: ${sw1.elapsedMilliseconds}ms\n');
+  sw1.stop();
 
-  print(model);
-  print(model.runtimeType);
+  final sw2 = Stopwatch()..start();
+  final json = instance.toJson(mock);
+  debugPrint('toJson Elapsed: ${sw2.elapsedMilliseconds}ms\n');
+  sw2.stop();
 
-  // JSerializer.i.fromJsonErrorHandler = (arg) {
-  //   if (arg.doesTypeAcceptNull) {
-  //     return JSerializerErrorHandler.returnValue(
-  //       () => null,
-  //     );
-  //   }
-  //
-  //   final isInt = arg.doesTypeEqualsTypeOf<int>();
-  //   final isNum = arg.doesTypeEqualsTypeOf<num>();
-  //   final isDouble = arg.doesTypeEqualsTypeOf<double>() ||
-  //       arg.doesTypeEqualsTypeOf<double?>();
-  //
-  //   if (isInt || isNum) {
-  //     return JSerializerErrorHandler.returnValue(
-  //       () => 0,
-  //     );
-  //   }
-  //   if (isDouble) {
-  //     return JSerializerErrorHandler.returnValue(
-  //       () => 0.0,
-  //     );
-  //   }
-  //
-  //   final isStr = arg.doesTypeEqualsTypeOf<String>();
-  //   if (isStr) {
-  //     return JSerializerErrorHandler.returnValue(
-  //       () => '',
-  //     );
-  //   }
-  //
-  //   final isBool = arg.doesTypeEqualsTypeOf<bool>();
-  //
-  //   if (isBool) {
-  //     return JSerializerErrorHandler.returnValue(
-  //       () => false,
-  //     );
-  //   }
-  //
-  //   final isList = arg.doesBaseTypeEqualsTypeOf<List>();
-  //
-  //   if (isList) {
-  //     return JSerializerErrorHandler.returnValue(
-  //       () => arg.callWitTypeGenericArgs(
-  //         <R>() => <R>[],
-  //       ),
-  //     );
-  //   }
-  //
-  //   final isIterable = arg.doesBaseTypeEqualsTypeOf<List>();
-  //
-  //   if (isIterable) {
-  //     return JSerializerErrorHandler.returnValue(
-  //       () => arg.callWitTypeGenericArgs(
-  //         <R>() => <R>[],
-  //       ),
-  //     );
-  //   }
-  //
-  //   final isMap = arg.doesBaseTypeEqualsTypeOf<Map>();
-  //
-  //   if (isMap) {
-  //     return JSerializerErrorHandler.returnValue(
-  //       () => arg.callWitTypeGenericArgs(
-  //         <K, V>() => <K, V>{},
-  //       ),
-  //     );
-  //   }
-  //
-  //   return const JSerializerErrorHandler.throwValue();
-  // };
+  final sw3 = Stopwatch()..start();
+  instance.fromJson<TestType>(json);
+
+  debugPrint('fromJson Elapsed: ${sw3.elapsedMilliseconds}ms\n');
+  sw3.stop();
 }

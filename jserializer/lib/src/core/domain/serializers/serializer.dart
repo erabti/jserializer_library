@@ -14,7 +14,7 @@ abstract class Serializer<Model, Json> {
 
   Type get jsonType => Json;
 
-  String get modelTypeName => modelType.name;
+  String get modelTypeName => modelType.info.type;
 
   Function get decoder;
 

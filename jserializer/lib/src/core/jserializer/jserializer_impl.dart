@@ -2,19 +2,69 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:jserializer/jserializer.dart';
-import 'package:type_plus/type_plus.dart';
+import 'package:type_plus/type_plus.dart' show TypePlus, TypeRegistry, typeOf;
 
 typedef BaseTypesSerializersMap = HashMap<Type, SerializerFactory>;
 typedef CachedBaseTypesSerializersMap = HashMap<Type, Serializer>;
 typedef BaseTypesMockersMap = HashMap<Type, MockerFactory>;
 
 class JSerializerImpl extends JSerializerInterface {
+  JSerializerImpl({
+    TypeRegistry? typeRegistry,
+  }) : typeRegistry = typeRegistry ?? TypeRegistry.newInstance();
+
   @override
   OnJserializerError? onError;
   @override
   FromJsonErrorHandler? fromJsonErrorHandler;
   @override
   ToJsonErrorHandler? toJsonErrorHandler;
+
+  @override
+  late final BaseTypesSerializersMap serializers = HashMap()
+    ..addAll(
+      {
+        typeOf<void>(): (i) => PrimitiveSerializer<void>(jSerializer: i),
+        Null: (i) => PrimitiveSerializer<void>(jSerializer: i),
+        dynamic: (i) => PrimitiveSerializer<dynamic>(jSerializer: i),
+        int: (i) => IntSerializer(jSerializer: i),
+        String: (i) => StringSerializer(jSerializer: i),
+        bool: (i) => BoolSerializer(jSerializer: i),
+        num: (i) => NumSerializer(jSerializer: i),
+        double: (i) => DoubleSerializer(jSerializer: i),
+        List: (i) => ListSerializer(jSerializer: i),
+        Map: (i) => MapSerializer(jSerializer: i),
+      },
+    );
+
+  @override
+  late final BaseTypesMockersMap mockers = HashMap()
+    ..addAll(
+      {
+        typeOf<void>(): (i) => PrimitiveMocker<void>(
+              jSerializer: i,
+              mockBuilder: ([ctx]) {},
+            ),
+        Null: (i) => PrimitiveMocker<void>(
+              jSerializer: i,
+              mockBuilder: ([ctx]) {},
+            ),
+        dynamic: (i) => PrimitiveMocker<void>(
+              jSerializer: i,
+              mockBuilder: ([ctx]) {},
+            ),
+        int: (i) => IntMocker(jSerializer: i),
+        String: (i) => StringMocker(jSerializer: i),
+        bool: (i) => BoolMocker(jSerializer: i),
+        num: (i) => NumMocker(jSerializer: i),
+        double: (i) => DoubleMocker(jSerializer: i),
+        List: (i) => ListMocker(jSerializer: i),
+        Map: (i) => MapMocker(jSerializer: i),
+      },
+    );
+
+  @override
+  final TypeRegistry typeRegistry;
 
   static const _fromJsonCall = #fromJsonCall;
   static const _toJsonCall = #toJsonCall;
@@ -35,11 +85,12 @@ class JSerializerImpl extends JSerializerInterface {
           if (handler != null) {
             final handlerResult = handler(
               FromJsonErrorHandlerArg<T>(
+                typeRegistry: typeRegistry,
                 json: json,
                 error: error,
                 stackTrace: stack,
                 type: T,
-                baseType: T.base,
+                baseType: _getTypeBase(T),
               ),
             );
 
@@ -100,7 +151,9 @@ class JSerializerImpl extends JSerializerInterface {
     dynamic json, {
     Type? type,
   }) {
-    final passedTypeCheck = type?.provideTo(
+    final resolvedType = type?.resolveWith(typeRegistry);
+
+    final passedTypeCheck = resolvedType?.provideTo(
           <T>() => json is T,
         ) ??
         true;
@@ -109,15 +162,17 @@ class JSerializerImpl extends JSerializerInterface {
     if (sameType || json == null) return json as T;
     final serializer = serializerOf<T>(type);
 
-    if (serializer is! GenericSerializer && T.args.isNotEmpty) {
+    if (serializer is! GenericSerializer &&
+        T.resolveWith(typeRegistry).args.isNotEmpty) {
       throw NonGenericSerializerMisuseException(
         lookupType: T,
         serializer: serializer,
       );
     }
+
     if (serializer is GenericSerializer) {
-      if (type != null) {
-        return type.provideTo(
+      if (resolvedType != null) {
+        return resolvedType.provideTo(
           <R>() {
             return serializer.fromJson<R>(json) as T;
           },
@@ -195,36 +250,38 @@ class JSerializerImpl extends JSerializerInterface {
     return serializerOf(type).toJson(model);
   }
 
+  Type _getTypeBase(Type type) => type.resolveWith(typeRegistry).base;
+
   @override
   void register<T>(
     SerializerFactory<T> factory,
     Function typeFactory, {
     MockerFactory<T>? mockFactory,
   }) {
-    TypePlus.addFactory(typeFactory);
-    serializers[T.base] = factory;
-    if (mockFactory != null) mockers[T.base] = mockFactory;
+    typeRegistry.add(typeFactory);
+    serializers[_getTypeBase(T)] = factory;
+    if (mockFactory != null) mockers[_getTypeBase(T)] = mockFactory;
   }
 
   @override
   void registerMocker<T>(MockerFactory<T> mockFactory) {
-    mockers[T.base] = mockFactory;
+    mockers[_getTypeBase(T)] = mockFactory;
   }
 
   @override
   void unregisterMocker<T>() {
-    mockers.remove(T.base);
+    mockers.remove(_getTypeBase(T));
   }
 
   @override
   void unregister<T>() {
-    serializers.remove(T.base);
-    mockers.remove(T.base);
+    serializers.remove(_getTypeBase(T));
+    mockers.remove(_getTypeBase(T));
   }
 
   @override
   Serializer serializerOf<T>([Type? t]) {
-    final serializer = serializers[(t ?? T).base];
+    final serializer = serializers[_getTypeBase((t ?? T))];
     if (serializer == null) throw UnregisteredSerializableTypeException(T);
 
     return serializer(this);
@@ -232,58 +289,18 @@ class JSerializerImpl extends JSerializerInterface {
 
   @override
   JMocker mockerOf<T>([Type? t]) {
-    final mocker = mockers[(t ?? T).base];
+    final mocker = mockers[_getTypeBase(t ?? T)];
     if (mocker == null) throw UnregisteredMockerTypeException(T);
 
     return mocker(this);
   }
 
   @override
-  bool hasSerializerOf<T>([Type? t]) => serializers[(t ?? T).base] != null;
+  bool hasSerializerOf<T>([Type? t]) =>
+      serializers[_getTypeBase(t ?? T)] != null;
 
   @override
-  bool hasMockerOf<T>([Type? t]) => mockers[(t ?? T).base] != null;
-
-  late final BaseTypesSerializersMap serializers = HashMap()
-    ..addAll(
-      {
-        typeOf<void>(): (i) => PrimitiveSerializer<void>(jSerializer: i),
-        Null: (i) => PrimitiveSerializer<void>(jSerializer: i),
-        dynamic: (i) => PrimitiveSerializer<dynamic>(jSerializer: i),
-        int: (i) => IntSerializer(jSerializer: i),
-        String: (i) => StringSerializer(jSerializer: i),
-        bool: (i) => BoolSerializer(jSerializer: i),
-        num: (i) => NumSerializer(jSerializer: i),
-        double: (i) => DoubleSerializer(jSerializer: i),
-        List: (i) => ListSerializer(jSerializer: i),
-        Map: (i) => MapSerializer(jSerializer: i),
-      },
-    );
-
-  late final BaseTypesMockersMap mockers = HashMap()
-    ..addAll(
-      {
-        typeOf<void>(): (i) => PrimitiveMocker<void>(
-              jSerializer: i,
-              mockBuilder: ([ctx]) {},
-            ),
-        Null: (i) => PrimitiveMocker<void>(
-              jSerializer: i,
-              mockBuilder: ([ctx]) {},
-            ),
-        dynamic: (i) => PrimitiveMocker<void>(
-              jSerializer: i,
-              mockBuilder: ([ctx]) {},
-            ),
-        int: (i) => IntMocker(jSerializer: i),
-        String: (i) => StringMocker(jSerializer: i),
-        bool: (i) => BoolMocker(jSerializer: i),
-        num: (i) => NumMocker(jSerializer: i),
-        double: (i) => DoubleMocker(jSerializer: i),
-        List: (i) => ListMocker(jSerializer: i),
-        Map: (i) => MapMocker(jSerializer: i),
-      },
-    );
+  bool hasMockerOf<T>([Type? t]) => mockers[_getTypeBase(t ?? T)] != null;
 
   @override
   T createMock<T>({

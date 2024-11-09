@@ -41,6 +41,8 @@ abstract class JSerializerInterface {
     ToJsonErrorHandler? handleError,
   });
 
+  TypeRegistry get typeRegistry;
+
   /// Returns the serializer for the type of [t] or [T]
   ///
   /// You can either pass the type instance using the [t] param
@@ -109,6 +111,10 @@ abstract class JSerializerInterface {
   set fromJsonErrorHandler(FromJsonErrorHandler? error);
 
   set toJsonErrorHandler(ToJsonErrorHandler? error);
+
+  BaseTypesSerializersMap get serializers;
+
+  BaseTypesMockersMap get mockers;
 }
 
 abstract class JSerializer {
@@ -117,6 +123,24 @@ abstract class JSerializer {
   static final _instance = JSerializerImpl();
 
   static JSerializerInterface get i => _instance;
+
+  static JSerializerInterface newInstance({
+    JSerializerInterface? parent,
+    bool forceFresh = false,
+  }) {
+    final theParent = forceFresh ? null : parent ?? _instance;
+
+    final newInstance = JSerializerImpl(
+      typeRegistry: theParent?.typeRegistry,
+    );
+
+    if (theParent != null) {
+      newInstance.serializers.addAll(theParent.serializers);
+      newInstance.mockers.addAll(theParent.mockers);
+    }
+
+    return newInstance;
+  }
 
   static T fromJson<T>(
     dynamic json, {
@@ -150,6 +174,7 @@ abstract class JSerializer {
 
 class FromJsonErrorHandlerArg<ModelT> {
   const FromJsonErrorHandlerArg({
+    required this.typeRegistry,
     required this.json,
     required this.error,
     required this.stackTrace,
@@ -157,6 +182,7 @@ class FromJsonErrorHandlerArg<ModelT> {
     required this.baseType,
   });
 
+  final TypeRegistry typeRegistry;
   final dynamic json;
   final Object error;
   final StackTrace stackTrace;
@@ -175,15 +201,20 @@ class FromJsonErrorHandlerArg<ModelT> {
 
   callWitTypeGenericArgs(Function func) {
     return func.callWith(
+      typeRegistry: typeRegistry,
       parameters: [],
-      typeArguments: ModelT.args,
+      typeArguments:
+          ModelT.resolveWith(typeRegistry).argsAsTypes.reversed.toList(),
     );
   }
 
   bool doesTypeEqualsTypeOf<R>() => ModelT == R;
 
   bool doesBaseTypeEqualsTypeOf<R>() {
-    return ModelT.base == R.base;
+    final modelBase = ModelT.resolveWith(typeRegistry).base;
+    final rBase = R.resolveWith(typeRegistry).base;
+
+    return modelBase == rBase;
   }
 
   bool get doesTypeAcceptNull => ModelT == typeOf<ModelT?>();

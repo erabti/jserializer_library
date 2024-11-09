@@ -282,6 +282,9 @@
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/link_hook/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/link_hook/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/jserializer_generator/.fvm/flutter_sdk/dev/integration_tests/link_hook/build" />
+      <excludeFolder url="file://$MODULE_DIR$/type_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/type_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/type_plus/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

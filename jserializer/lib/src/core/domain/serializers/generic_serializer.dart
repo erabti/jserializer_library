@@ -6,8 +6,9 @@ abstract class GenericSerializer<Model, Json> extends Serializer<Model, Json> {
 
   M fromJson<M extends Model?>(Json json) {
     final result = decoder.callWith(
+      typeRegistry: jSerializer.typeRegistry,
       parameters: [json],
-      typeArguments: M.args,
+      typeArguments: M.resolveWith(jSerializer.typeRegistry).argsAsTypes,
     );
 
     try {

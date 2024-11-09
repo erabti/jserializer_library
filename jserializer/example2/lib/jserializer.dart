@@ -7,8 +7,738 @@
 // **************************************************************************
 
 import 'package:jserializer/jserializer.dart' as js;
+import 'package:example2/model/product.dart';
+import 'package:example2/model/product_customization.dart';
 import 'package:example2/model/union.dart';
 import 'package:example2/model/model.dart';
+import 'package:example2/model/complicated_model.dart';
+
+class ProductSerializer extends js.ModelSerializer<Product> {
+  const ProductSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'price',
+    'originalPrice',
+    'featuredImage',
+    'images',
+    'vendor',
+    'currency',
+    'maxPurchaseQuantity',
+    'service',
+    'category',
+    'discountRate',
+    'isAvailable',
+    'description',
+    'tags',
+    'barcode',
+    'quantity',
+    'variants',
+    'shortUrl',
+    'brand',
+    'variantsAttributes',
+    'attributes',
+    'groupReference',
+    'vendorId',
+    'userSpecifics',
+    'customizations',
+  };
+
+  @override
+  Product fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['id']),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    final price$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['price']),
+      jsonKey: 'price',
+    );
+    final originalPrice$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['originalPrice']),
+      jsonKey: 'originalPrice',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['featuredImage']),
+      jsonKey: 'featuredImage',
+    );
+    final images$Value = safeLookup<List<String>?>(
+      call: () => jSerializer.fromJson<List<String>?>(json['images']),
+      jsonKey: 'images',
+    );
+    final vendor$Value = safeLookup<Vendor?>(
+      call: () => jSerializer.fromJson<Vendor?>(json['vendor']),
+      jsonKey: 'vendor',
+    );
+    final currency$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['currency']),
+      jsonKey: 'currency',
+    );
+    final maxPurchaseQuantity$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['maxPurchaseQuantity']),
+      jsonKey: 'maxPurchaseQuantity',
+    );
+    final service$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['service']),
+      jsonKey: 'service',
+    );
+    final category$Value = safeLookup<List<Category?>?>(
+      call: () => jSerializer.fromJson<List<Category?>?>(json['category']),
+      jsonKey: 'category',
+    );
+    final discountRate$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['discountRate']),
+      jsonKey: 'discountRate',
+    );
+    final isAvailable$Value = safeLookup<bool?>(
+      call: () => jSerializer.fromJson<bool?>(json['isAvailable']),
+      jsonKey: 'isAvailable',
+    );
+    final description$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['description']),
+      jsonKey: 'description',
+    );
+    final tags$Value = safeLookup<List<Tag>?>(
+      call: () => jSerializer.fromJson<List<Tag>?>(json['tags']),
+      jsonKey: 'tags',
+    );
+    final barcode$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['barcode']),
+      jsonKey: 'barcode',
+    );
+    final quantity$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['quantity']),
+      jsonKey: 'quantity',
+    );
+    final variants$Value = safeLookup<List<ProductVariant>?>(
+      call: () => jSerializer.fromJson<List<ProductVariant>?>(json['variants']),
+      jsonKey: 'variants',
+    );
+    final shortUrl$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['shortUrl']),
+      jsonKey: 'shortUrl',
+    );
+    final brand$Value = safeLookup<Brand?>(
+      call: () => jSerializer.fromJson<Brand?>(json['brand']),
+      jsonKey: 'brand',
+    );
+    final variantsAttributes$Value = safeLookup<List<ProductAttribute>?>(
+      call: () => jSerializer
+          .fromJson<List<ProductAttribute>?>(json['variantsAttributes']),
+      jsonKey: 'variantsAttributes',
+    );
+    final attributes$Value = safeLookup<List<ProductAttributeValue>?>(
+      call: () => jSerializer
+          .fromJson<List<ProductAttributeValue>?>(json['attributes']),
+      jsonKey: 'attributes',
+    );
+    final groupReference$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['groupReference']),
+      jsonKey: 'groupReference',
+    );
+    final vendorId$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['vendorId']),
+      jsonKey: 'vendorId',
+    );
+    final userSpecifics$Value = safeLookup<ProductUserSpecific?>(
+      call: () =>
+          jSerializer.fromJson<ProductUserSpecific?>(json['userSpecifics']),
+      jsonKey: 'userSpecifics',
+    );
+    final customizations$Value = safeLookup<List<ProductCustomization>?>(
+      call: () => jSerializer
+          .fromJson<List<ProductCustomization>?>(json['customizations']),
+      jsonKey: 'customizations',
+    );
+    return Product(
+      id: id$Value,
+      name: name$Value,
+      price: price$Value,
+      originalPrice: originalPrice$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      vendor: vendor$Value,
+      currency: currency$Value,
+      maxPurchaseQuantity: maxPurchaseQuantity$Value,
+      service: service$Value,
+      category: category$Value,
+      discountRate: discountRate$Value,
+      isAvailable: isAvailable$Value,
+      description: description$Value,
+      tags: tags$Value,
+      barcode: barcode$Value,
+      quantity: quantity$Value,
+      variants: variants$Value,
+      shortUrl: shortUrl$Value,
+      brand: brand$Value,
+      variantsAttributes: variantsAttributes$Value,
+      attributes: attributes$Value,
+      groupReference: groupReference$Value,
+      vendorId: vendorId$Value,
+      userSpecifics: userSpecifics$Value,
+      customizations: customizations$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Product model) => {
+        'id': model.id,
+        'name': model.name,
+        'price': jSerializer.toJson(model.price),
+        'originalPrice': jSerializer.toJson(model.originalPrice),
+        'featuredImage': model.featuredImage,
+        'images': jSerializer.toJson(model.images),
+        'vendor': jSerializer.toJson(model.vendor),
+        'currency': model.currency,
+        'maxPurchaseQuantity': model.maxPurchaseQuantity,
+        'service': model.service,
+        'category': jSerializer.toJson(model.category),
+        'discountRate': model.discountRate,
+        'isAvailable': model.isAvailable,
+        'description': model.description,
+        'tags': jSerializer.toJson(model.tags),
+        'barcode': model.barcode,
+        'quantity': model.quantity,
+        'variants': jSerializer.toJson(model.variants),
+        'shortUrl': model.shortUrl,
+        'brand': jSerializer.toJson(model.brand),
+        'variantsAttributes': jSerializer.toJson(model.variantsAttributes),
+        'attributes': jSerializer.toJson(model.attributes),
+        'groupReference': model.groupReference,
+        'vendorId': model.vendorId,
+        'userSpecifics': jSerializer.toJson(model.userSpecifics),
+        'customizations': jSerializer.toJson(model.customizations),
+      };
+}
+
+class TagSerializer extends js.ModelSerializer<Tag> {
+  const TagSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'key',
+    'title',
+    'subTitle',
+    'featuredImage',
+  };
+
+  @override
+  Tag fromJson(json) {
+    final key$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['key']),
+      jsonKey: 'key',
+    );
+    final title$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['title']),
+      jsonKey: 'title',
+    );
+    final subTitle$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['subTitle']),
+      jsonKey: 'subTitle',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['featuredImage']),
+      jsonKey: 'featuredImage',
+    );
+    return Tag(
+      key: key$Value,
+      title: title$Value,
+      subTitle: subTitle$Value,
+      featuredImage: featuredImage$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Tag model) => {
+        'key': model.key,
+        'title': model.title,
+        'subTitle': model.subTitle,
+        'featuredImage': model.featuredImage,
+      };
+}
+
+class VendorSerializer extends js.ModelSerializer<Vendor> {
+  const VendorSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'banner',
+    'featuredImage',
+    'images',
+    'category',
+    'service',
+    'isOpen',
+    'partnerSupportNumber',
+    'minimumOrderAmount',
+  };
+
+  @override
+  Vendor fromJson(json) {
+    final id$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['id']),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    final banner$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['banner']),
+      jsonKey: 'banner',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => jSerializer
+          .fromJson<String?>(json['featuredImage'] ?? json['image_url']),
+      jsonKey: 'featuredImage',
+    );
+    final images$Value = safeLookup<List<String>?>(
+      call: () => jSerializer.fromJson<List<String>?>(json['images']),
+      jsonKey: 'images',
+    );
+    final category$Value = safeLookup<Category?>(
+      call: () => jSerializer.fromJson<Category?>(json['category']),
+      jsonKey: 'category',
+    );
+    final service$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['service']),
+      jsonKey: 'service',
+    );
+    final isOpen$Value = safeLookup<bool?>(
+      call: () => jSerializer.fromJson<bool?>(json['isOpen']),
+      jsonKey: 'isOpen',
+    );
+    final partnerSupportNumber$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['partnerSupportNumber']),
+      jsonKey: 'partnerSupportNumber',
+    );
+    final minimumOrderAmount$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['minimumOrderAmount']),
+      jsonKey: 'minimumOrderAmount',
+    );
+    return Vendor(
+      id: id$Value,
+      name: name$Value,
+      banner: banner$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      category: category$Value,
+      service: service$Value,
+      isOpen: isOpen$Value,
+      partnerSupportNumber: partnerSupportNumber$Value,
+      minimumOrderAmount: minimumOrderAmount$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Vendor model) => {
+        if (model.id != null) 'id': model.id!,
+        if (model.name != null) 'name': model.name!,
+        if (model.banner != null) 'banner': model.banner!,
+        if (model.featuredImage != null) 'featuredImage': model.featuredImage!,
+        'images': jSerializer.toJson(model.images),
+        if (model.category != null)
+          'category': jSerializer.toJson(model.category!),
+        if (model.service != null) 'service': model.service!,
+        if (model.isOpen != null) 'isOpen': model.isOpen!,
+        if (model.partnerSupportNumber != null)
+          'partnerSupportNumber': model.partnerSupportNumber!,
+        if (model.minimumOrderAmount != null)
+          'minimumOrderAmount': jSerializer.toJson(model.minimumOrderAmount!),
+      };
+}
+
+class CategorySerializer extends js.ModelSerializer<Category> {
+  const CategorySerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'banner',
+    'service',
+    'featuredImage',
+    'images',
+    'name',
+  };
+
+  @override
+  Category fromJson(json) {
+    final id$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['id']),
+      jsonKey: 'id',
+    );
+    final banner$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['banner']),
+      jsonKey: 'banner',
+    );
+    final service$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['service']),
+      jsonKey: 'service',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['featuredImage']),
+      jsonKey: 'featuredImage',
+    );
+    final images$Value = safeLookup<List<String>?>(
+      call: () => jSerializer.fromJson<List<String>?>(json['images']),
+      jsonKey: 'images',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    return Category(
+      id: id$Value,
+      banner: banner$Value,
+      service: service$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      name: name$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Category model) => {
+        'id': model.id,
+        'banner': model.banner,
+        'service': model.service,
+        'featuredImage': model.featuredImage,
+        'images': jSerializer.toJson(model.images),
+        'name': model.name,
+      };
+}
+
+class ProductUserSpecificSerializer
+    extends js.ModelSerializer<ProductUserSpecific> {
+  const ProductUserSpecificSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'isFavorite',
+    'cartQuantity',
+  };
+
+  @override
+  ProductUserSpecific fromJson(json) {
+    final isFavorite$Value = safeLookup<bool?>(
+      call: () => jSerializer.fromJson<bool?>(json['isFavorite']),
+      jsonKey: 'isFavorite',
+    );
+    final cartQuantity$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['cartQuantity']),
+      jsonKey: 'cartQuantity',
+    );
+    return ProductUserSpecific(
+      isFavorite: isFavorite$Value,
+      cartQuantity: cartQuantity$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductUserSpecific model) => {
+        'isFavorite': model.isFavorite,
+        'cartQuantity': model.cartQuantity,
+      };
+}
+
+class ProductAttributeSerializer extends js.ModelSerializer<ProductAttribute> {
+  const ProductAttributeSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'values',
+  };
+
+  @override
+  ProductAttribute fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['id']),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    final values$Value = safeLookup<List<ProductAttributeValue>?>(
+      call: () =>
+          jSerializer.fromJson<List<ProductAttributeValue>?>(json['values']),
+      jsonKey: 'values',
+    );
+    return ProductAttribute(
+      id: id$Value,
+      name: name$Value,
+      values: values$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductAttribute model) => {
+        'id': model.id,
+        'name': model.name,
+        'values': jSerializer.toJson(model.values),
+      };
+}
+
+class ProductAttributeValueSerializer
+    extends js.ModelSerializer<ProductAttributeValue> {
+  const ProductAttributeValueSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'color',
+    'featuredImage',
+  };
+
+  @override
+  ProductAttributeValue fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['id']),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    final color$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['color']),
+      jsonKey: 'color',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['featuredImage']),
+      jsonKey: 'featuredImage',
+    );
+    return ProductAttributeValue(
+      id: id$Value,
+      name: name$Value,
+      color: color$Value,
+      featuredImage: featuredImage$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductAttributeValue model) => {
+        'id': model.id,
+        'name': model.name,
+        'color': model.color,
+        'featuredImage': model.featuredImage,
+      };
+}
+
+class BrandSerializer extends js.ModelSerializer<Brand> {
+  const BrandSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'name',
+    'logo',
+  };
+
+  @override
+  Brand fromJson(json) {
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    final logo$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['logo']),
+      jsonKey: 'logo',
+    );
+    return Brand(
+      name: name$Value,
+      logo: logo$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Brand model) => {
+        'name': model.name,
+        'logo': model.logo,
+      };
+}
+
+class ProductVariantSerializer extends js.ModelSerializer<ProductVariant> {
+  const ProductVariantSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'price',
+    'featuredImage',
+    'images',
+    'vendor',
+    'currency',
+    'maxPurchaseQuantity',
+    'service',
+    'category',
+    'originalPrice',
+    'discountRate',
+    'isAvailable',
+    'description',
+    'tags',
+    'barcode',
+    'quantity',
+    'shortUrl',
+    'brand',
+    'variantsAttributes',
+    'attributes',
+    'userSpecifics',
+    'vendorId',
+  };
+
+  @override
+  ProductVariant fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['id']),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    final price$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['price']),
+      jsonKey: 'price',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['featuredImage']),
+      jsonKey: 'featuredImage',
+    );
+    final images$Value = safeLookup<List<String>?>(
+      call: () => jSerializer.fromJson<List<String>?>(json['images']),
+      jsonKey: 'images',
+    );
+    final vendor$Value = safeLookup<Vendor?>(
+      call: () => jSerializer.fromJson<Vendor?>(json['vendor']),
+      jsonKey: 'vendor',
+    );
+    final currency$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['currency']),
+      jsonKey: 'currency',
+    );
+    final maxPurchaseQuantity$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['maxPurchaseQuantity']),
+      jsonKey: 'maxPurchaseQuantity',
+    );
+    final service$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['service']),
+      jsonKey: 'service',
+    );
+    final category$Value = safeLookup<List<Category?>?>(
+      call: () => jSerializer.fromJson<List<Category?>?>(json['category']),
+      jsonKey: 'category',
+    );
+    final originalPrice$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['originalPrice']),
+      jsonKey: 'originalPrice',
+    );
+    final discountRate$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['discountRate']),
+      jsonKey: 'discountRate',
+    );
+    final isAvailable$Value = safeLookup<bool?>(
+      call: () => jSerializer.fromJson<bool?>(json['isAvailable']),
+      jsonKey: 'isAvailable',
+    );
+    final description$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['description']),
+      jsonKey: 'description',
+    );
+    final tags$Value = safeLookup<List<Tag>?>(
+      call: () => jSerializer.fromJson<List<Tag>?>(json['tags']),
+      jsonKey: 'tags',
+    );
+    final barcode$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['barcode']),
+      jsonKey: 'barcode',
+    );
+    final quantity$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['quantity']),
+      jsonKey: 'quantity',
+    );
+    final shortUrl$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['shortUrl']),
+      jsonKey: 'shortUrl',
+    );
+    final brand$Value = safeLookup<Brand?>(
+      call: () => jSerializer.fromJson<Brand?>(json['brand']),
+      jsonKey: 'brand',
+    );
+    final variantsAttributes$Value = safeLookup<List<ProductAttribute>?>(
+      call: () => jSerializer
+          .fromJson<List<ProductAttribute>?>(json['variantsAttributes']),
+      jsonKey: 'variantsAttributes',
+    );
+    final attributes$Value = safeLookup<List<ProductAttributeValue>?>(
+      call: () => jSerializer
+          .fromJson<List<ProductAttributeValue>?>(json['attributes']),
+      jsonKey: 'attributes',
+    );
+    final userSpecifics$Value = safeLookup<ProductUserSpecific?>(
+      call: () =>
+          jSerializer.fromJson<ProductUserSpecific?>(json['userSpecifics']),
+      jsonKey: 'userSpecifics',
+    );
+    final vendorId$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['vendorId']),
+      jsonKey: 'vendorId',
+    );
+    return ProductVariant(
+      id: id$Value,
+      name: name$Value,
+      price: price$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      vendor: vendor$Value,
+      currency: currency$Value,
+      maxPurchaseQuantity: maxPurchaseQuantity$Value,
+      service: service$Value,
+      category: category$Value,
+      originalPrice: originalPrice$Value,
+      discountRate: discountRate$Value,
+      isAvailable: isAvailable$Value,
+      description: description$Value,
+      tags: tags$Value,
+      barcode: barcode$Value,
+      quantity: quantity$Value,
+      shortUrl: shortUrl$Value,
+      brand: brand$Value,
+      variantsAttributes: variantsAttributes$Value,
+      attributes: attributes$Value,
+      userSpecifics: userSpecifics$Value,
+      vendorId: vendorId$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductVariant model) => {
+        'id': model.id,
+        'name': model.name,
+        'price': jSerializer.toJson(model.price),
+        'featuredImage': model.featuredImage,
+        'images': jSerializer.toJson(model.images),
+        'vendor': jSerializer.toJson(model.vendor),
+        'currency': model.currency,
+        'maxPurchaseQuantity': model.maxPurchaseQuantity,
+        'service': model.service,
+        'category': jSerializer.toJson(model.category),
+        'originalPrice': jSerializer.toJson(model.originalPrice),
+        'discountRate': model.discountRate,
+        'isAvailable': model.isAvailable,
+        'description': model.description,
+        'tags': jSerializer.toJson(model.tags),
+        'barcode': model.barcode,
+        'quantity': model.quantity,
+        'shortUrl': model.shortUrl,
+        'brand': jSerializer.toJson(model.brand),
+        'variantsAttributes': jSerializer.toJson(model.variantsAttributes),
+        'attributes': jSerializer.toJson(model.attributes),
+        'userSpecifics': jSerializer.toJson(model.userSpecifics),
+        'vendorId': model.vendorId,
+      };
+}
 
 class SectionLayoutVListSerializer
     extends js.ModelSerializer<SectionLayoutVList> {
@@ -245,6 +975,186 @@ class DynamicItemShapeSerializer
   }
 }
 
+class ProductCustomizationSerializer
+    extends js.ModelSerializer<ProductCustomization> {
+  const ProductCustomizationSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'decoration',
+    'min',
+    'max',
+    'values',
+  };
+
+  @override
+  ProductCustomization fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['id']),
+      jsonKey: 'id',
+    );
+    final decoration$Value = safeLookup<ProductCustomizationDecoration?>(
+      call: () => jSerializer
+          .fromJson<ProductCustomizationDecoration?>(json['decoration']),
+      jsonKey: 'decoration',
+    );
+    final minSelection$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['min']),
+      jsonKey: 'min',
+      fieldName: 'minSelection',
+    );
+    final maxSelection$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['max']),
+      jsonKey: 'max',
+      fieldName: 'maxSelection',
+    );
+    final values$Value = safeLookup<List<ProductCustomizationValue>?>(
+      call: () => jSerializer
+          .fromJson<List<ProductCustomizationValue>?>(json['values']),
+      jsonKey: 'values',
+    );
+    return ProductCustomization(
+      id: id$Value,
+      decoration: decoration$Value,
+      minSelection: minSelection$Value,
+      maxSelection: maxSelection$Value,
+      values: values$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductCustomization model) => {
+        'id': model.id,
+        'decoration': jSerializer.toJson(model.decoration),
+        'min': model.minSelection,
+        'max': model.maxSelection,
+        'values': jSerializer.toJson(model.values),
+      };
+}
+
+class ProductCustomizationValueSerializer
+    extends js.ModelSerializer<ProductCustomizationValue> {
+  const ProductCustomizationValueSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'featuredImage',
+    'description',
+    'price',
+  };
+
+  @override
+  ProductCustomizationValue fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['id']),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['featuredImage']),
+      jsonKey: 'featuredImage',
+    );
+    final description$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['description']),
+      jsonKey: 'description',
+    );
+    final price$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['price']),
+      jsonKey: 'price',
+    );
+    return ProductCustomizationValue(
+      id: id$Value,
+      name: name$Value,
+      featuredImage: featuredImage$Value,
+      description: description$Value,
+      price: price$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductCustomizationValue model) => {
+        'id': model.id,
+        'name': model.name,
+        'featuredImage': model.featuredImage,
+        'description': model.description,
+        'price': jSerializer.toJson(model.price),
+      };
+}
+
+class ProductCustomizationDecorationSerializer
+    extends js.ModelSerializer<ProductCustomizationDecoration> {
+  const ProductCustomizationDecorationSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'title',
+    'preTitle',
+    'subtitle',
+  };
+
+  @override
+  ProductCustomizationDecoration fromJson(json) {
+    final title$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['title']),
+      jsonKey: 'title',
+    );
+    final preTitle$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['preTitle']),
+      jsonKey: 'preTitle',
+    );
+    final subtitle$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['subtitle']),
+      jsonKey: 'subtitle',
+    );
+    return ProductCustomizationDecoration(
+      title: title$Value,
+      preTitle: preTitle$Value,
+      subtitle: subtitle$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductCustomizationDecoration model) => {
+        'title': model.title,
+        'preTitle': model.preTitle,
+        'subtitle': model.subtitle,
+      };
+}
+
+class PriceSerializer extends js.ModelSerializer<Price> {
+  const PriceSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'amount',
+    'currency',
+  };
+
+  @override
+  Price fromJson(json) {
+    final amount$Value = safeLookup<double>(
+      call: () => jSerializer.fromJson<double>(json['amount']),
+      jsonKey: 'amount',
+    );
+    final currency$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['currency']),
+      jsonKey: 'currency',
+    );
+    return Price(
+      amount: amount$Value,
+      currency: currency$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Price model) => {
+        'amount': model.amount,
+        'currency': model.currency,
+      };
+}
+
 class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
   const SomeModelSerializer({super.jSerializer});
 
@@ -356,6 +1266,1228 @@ class SomeEnumSerializer extends js.CustomModelSerializer<SomeEnum, String> {
   }
 }
 
+class SuperComplicatedModelSerializer
+    extends js.GenericModelSerializer<SuperComplicatedModel> {
+  SuperComplicatedModelSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'value',
+    'name',
+    'age',
+    'isAdult',
+    'height',
+    'friends',
+    'map',
+    'values',
+    'mapValues',
+    'nestedValues',
+    'nestedMapValues',
+    'nestedValuesMap',
+    'nestedMapValuesMap',
+    'nestedValuesMapList',
+    'nestedMapValuesMapList',
+    'nestedValuesMapListList',
+    'nestedMapValuesMapListList',
+    'nestedValuesMapListListList',
+    'nestedMapValuesMapListListList',
+    'nestedValuesMapListListListList',
+    'nestedMapValuesMapListListListList',
+    'nestedValuesMapListListListListList',
+    'nestedMapValuesMapListListListListList',
+    'nestedValuesMapListListListListListList',
+    'nestedMapValuesMapListListListListListList',
+    'nestedValuesMapListListListListListListList',
+    'nestedMapValuesMapListListListListListListList',
+    'nestedValuesMapListListListListListListListList',
+    'nestedMapValuesMapListListListListListListListList',
+    'nestedValuesMapListListListListListListListListList',
+    'theModel',
+    'theModel2',
+    'theModel3',
+    'theModel4',
+    'theModel5',
+    'theModels',
+  };
+
+  SuperComplicatedModel<T> decode<T>(Map json) {
+    final value$Value = safeLookup<ComplicatedModel<ComplicatedModel<T>>>(
+      call: () => jSerializer
+          .fromJson<ComplicatedModel<ComplicatedModel<T>>>(json['value']),
+      jsonKey: 'value',
+    );
+    final name$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['name']),
+      jsonKey: 'name',
+    );
+    final age$Value = safeLookup<int>(
+      call: () => jSerializer.fromJson<int>(json['age']),
+      jsonKey: 'age',
+    );
+    final isAdult$Value = safeLookup<bool>(
+      call: () => jSerializer.fromJson<bool>(json['isAdult']),
+      jsonKey: 'isAdult',
+    );
+    final height$Value = safeLookup<double>(
+      call: () => jSerializer.fromJson<double>(json['height']),
+      jsonKey: 'height',
+    );
+    final friends$Value = safeLookup<List<String>>(
+      call: () => jSerializer.fromJson<List<String>>(json['friends']),
+      jsonKey: 'friends',
+    );
+    final map$Value = safeLookup<Map<String, dynamic>>(
+      call: () => jSerializer.fromJson<Map<String, dynamic>>(json['map']),
+      jsonKey: 'map',
+    );
+    final values$Value =
+        safeLookup<List<ComplicatedModel<ComplicatedModel<T>>>>(
+      call: () =>
+          jSerializer.fromJson<List<ComplicatedModel<ComplicatedModel<T>>>>(
+              json['values']),
+      jsonKey: 'values',
+    );
+    final mapValues$Value =
+        safeLookup<Map<String, ComplicatedModel<ComplicatedModel<T>>>>(
+      call: () => jSerializer
+          .fromJson<Map<String, ComplicatedModel<ComplicatedModel<T>>>>(
+              json['mapValues']),
+      jsonKey: 'mapValues',
+    );
+    final nestedValues$Value =
+        safeLookup<List<List<ComplicatedModel<ComplicatedModel<T>>>>>(
+      call: () => jSerializer
+          .fromJson<List<List<ComplicatedModel<ComplicatedModel<T>>>>>(
+              json['nestedValues']),
+      jsonKey: 'nestedValues',
+    );
+    final nestedMapValues$Value =
+        safeLookup<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>(
+      call: () => jSerializer
+          .fromJson<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>(
+              json['nestedMapValues']),
+      jsonKey: 'nestedMapValues',
+    );
+    final nestedValuesMap$Value =
+        safeLookup<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>(
+      call: () => jSerializer
+          .fromJson<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>(
+              json['nestedValuesMap']),
+      jsonKey: 'nestedValuesMap',
+    );
+    final nestedMapValuesMap$Value = safeLookup<
+        Map<String, List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<String,
+                  List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+          json['nestedMapValuesMap']),
+      jsonKey: 'nestedMapValuesMap',
+    );
+    final nestedValuesMapList$Value = safeLookup<
+        List<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+          json['nestedValuesMapList']),
+      jsonKey: 'nestedValuesMapList',
+    );
+    final nestedMapValuesMapList$Value = safeLookup<
+        Map<String, List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<String,
+                  List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+          json['nestedMapValuesMapList']),
+      jsonKey: 'nestedMapValuesMapList',
+    );
+    final nestedValuesMapListList$Value = safeLookup<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedValuesMapListList']),
+      jsonKey: 'nestedValuesMapListList',
+    );
+    final nestedMapValuesMapListList$Value = safeLookup<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<
+                  String,
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedMapValuesMapListList']),
+      jsonKey: 'nestedMapValuesMapListList',
+    );
+    final nestedValuesMapListListList$Value = safeLookup<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedValuesMapListListList']),
+      jsonKey: 'nestedValuesMapListListList',
+    );
+    final nestedMapValuesMapListListList$Value = safeLookup<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<
+                  String,
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedMapValuesMapListListList']),
+      jsonKey: 'nestedMapValuesMapListListList',
+    );
+    final nestedValuesMapListListListList$Value = safeLookup<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedValuesMapListListListList']),
+      jsonKey: 'nestedValuesMapListListListList',
+    );
+    final nestedMapValuesMapListListListList$Value = safeLookup<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<
+                  String,
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedMapValuesMapListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListList',
+    );
+    final nestedValuesMapListListListListList$Value = safeLookup<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedValuesMapListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListList',
+    );
+    final nestedMapValuesMapListListListListList$Value = safeLookup<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<
+                  String,
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedMapValuesMapListListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListListList',
+    );
+    final nestedValuesMapListListListListListList$Value = safeLookup<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedValuesMapListListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListListList',
+    );
+    final nestedMapValuesMapListListListListListList$Value = safeLookup<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<
+                  String,
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedMapValuesMapListListListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListListListList',
+    );
+    final nestedValuesMapListListListListListListList$Value = safeLookup<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedValuesMapListListListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListListListList',
+    );
+    final nestedMapValuesMapListListListListListListList$Value = safeLookup<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<
+                  String,
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedMapValuesMapListListListListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListListListListList',
+    );
+    final nestedValuesMapListListListListListListListList$Value = safeLookup<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedValuesMapListListListListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListListListListList',
+    );
+    final nestedMapValuesMapListListListListListListListList$Value = safeLookup<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              Map<
+                  String,
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedMapValuesMapListListListListListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListListListListListList',
+    );
+    final nestedValuesMapListListListListListListListListList$Value =
+        safeLookup<
+            List<
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      call: () => jSerializer.fromJson<
+              List<
+                  List<
+                      Map<String,
+                          List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+          json['nestedValuesMapListListListListListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListListListListListList',
+    );
+    final theModel$Value = safeLookup<ComplicatedModel<T>>(
+      call: () => jSerializer.fromJson<ComplicatedModel<T>>(json['theModel']),
+      jsonKey: 'theModel',
+    );
+    final theModel2$Value = safeLookup<ComplicatedModel<ComplicatedModel<T>>>(
+      call: () => jSerializer
+          .fromJson<ComplicatedModel<ComplicatedModel<T>>>(json['theModel2']),
+      jsonKey: 'theModel2',
+    );
+    final theModel3$Value =
+        safeLookup<ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>(
+      call: () => jSerializer
+          .fromJson<ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>(
+              json['theModel3']),
+      jsonKey: 'theModel3',
+    );
+    final theModel4$Value = safeLookup<
+        ComplicatedModel<
+            ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>(
+      call: () => jSerializer.fromJson<
+              ComplicatedModel<
+                  ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>(
+          json['theModel4']),
+      jsonKey: 'theModel4',
+    );
+    final theModel5$Value = safeLookup<
+        ComplicatedModel<
+            ComplicatedModel<
+                ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>>(
+      call: () => jSerializer.fromJson<
+              ComplicatedModel<
+                  ComplicatedModel<
+                      ComplicatedModel<
+                          ComplicatedModel<ComplicatedModel<T>>>>>>(
+          json['theModel5']),
+      jsonKey: 'theModel5',
+    );
+    final theModels$Value = safeLookup<List<ComplicatedModel<T>>>(
+      call: () =>
+          jSerializer.fromJson<List<ComplicatedModel<T>>>(json['theModels']),
+      jsonKey: 'theModels',
+    );
+    return SuperComplicatedModel<T>(
+      value: value$Value,
+      name: name$Value,
+      age: age$Value,
+      isAdult: isAdult$Value,
+      height: height$Value,
+      friends: friends$Value,
+      map: map$Value,
+      values: values$Value,
+      mapValues: mapValues$Value,
+      nestedValues: nestedValues$Value,
+      nestedMapValues: nestedMapValues$Value,
+      nestedValuesMap: nestedValuesMap$Value,
+      nestedMapValuesMap: nestedMapValuesMap$Value,
+      nestedValuesMapList: nestedValuesMapList$Value,
+      nestedMapValuesMapList: nestedMapValuesMapList$Value,
+      nestedValuesMapListList: nestedValuesMapListList$Value,
+      nestedMapValuesMapListList: nestedMapValuesMapListList$Value,
+      nestedValuesMapListListList: nestedValuesMapListListList$Value,
+      nestedMapValuesMapListListList: nestedMapValuesMapListListList$Value,
+      nestedValuesMapListListListList: nestedValuesMapListListListList$Value,
+      nestedMapValuesMapListListListList:
+          nestedMapValuesMapListListListList$Value,
+      nestedValuesMapListListListListList:
+          nestedValuesMapListListListListList$Value,
+      nestedMapValuesMapListListListListList:
+          nestedMapValuesMapListListListListList$Value,
+      nestedValuesMapListListListListListList:
+          nestedValuesMapListListListListListList$Value,
+      nestedMapValuesMapListListListListListList:
+          nestedMapValuesMapListListListListListList$Value,
+      nestedValuesMapListListListListListListList:
+          nestedValuesMapListListListListListListList$Value,
+      nestedMapValuesMapListListListListListListList:
+          nestedMapValuesMapListListListListListListList$Value,
+      nestedValuesMapListListListListListListListList:
+          nestedValuesMapListListListListListListListList$Value,
+      nestedMapValuesMapListListListListListListListList:
+          nestedMapValuesMapListListListListListListListList$Value,
+      nestedValuesMapListListListListListListListListList:
+          nestedValuesMapListListListListListListListListList$Value,
+      theModel: theModel$Value,
+      theModel2: theModel2$Value,
+      theModel3: theModel3$Value,
+      theModel4: theModel4$Value,
+      theModel5: theModel5$Value,
+      theModels: theModels$Value,
+    );
+  }
+
+  @override
+  Function get decoder => decode;
+
+  @override
+  Map<String, dynamic> toJson(SuperComplicatedModel model) => {
+        'value': jSerializer.toJson(model.value),
+        'name': model.name,
+        'age': model.age,
+        'isAdult': model.isAdult,
+        'height': model.height,
+        'friends': jSerializer.toJson(model.friends),
+        'map': jSerializer.toJson(model.map),
+        'values': jSerializer.toJson(model.values),
+        'mapValues': jSerializer.toJson(model.mapValues),
+        'nestedValues': jSerializer.toJson(model.nestedValues),
+        'nestedMapValues': jSerializer.toJson(model.nestedMapValues),
+        'nestedValuesMap': jSerializer.toJson(model.nestedValuesMap),
+        'nestedMapValuesMap': jSerializer.toJson(model.nestedMapValuesMap),
+        'nestedValuesMapList': jSerializer.toJson(model.nestedValuesMapList),
+        'nestedMapValuesMapList':
+            jSerializer.toJson(model.nestedMapValuesMapList),
+        'nestedValuesMapListList':
+            jSerializer.toJson(model.nestedValuesMapListList),
+        'nestedMapValuesMapListList':
+            jSerializer.toJson(model.nestedMapValuesMapListList),
+        'nestedValuesMapListListList':
+            jSerializer.toJson(model.nestedValuesMapListListList),
+        'nestedMapValuesMapListListList':
+            jSerializer.toJson(model.nestedMapValuesMapListListList),
+        'nestedValuesMapListListListList':
+            jSerializer.toJson(model.nestedValuesMapListListListList),
+        'nestedMapValuesMapListListListList':
+            jSerializer.toJson(model.nestedMapValuesMapListListListList),
+        'nestedValuesMapListListListListList':
+            jSerializer.toJson(model.nestedValuesMapListListListListList),
+        'nestedMapValuesMapListListListListList':
+            jSerializer.toJson(model.nestedMapValuesMapListListListListList),
+        'nestedValuesMapListListListListListList':
+            jSerializer.toJson(model.nestedValuesMapListListListListListList),
+        'nestedMapValuesMapListListListListListList': jSerializer
+            .toJson(model.nestedMapValuesMapListListListListListList),
+        'nestedValuesMapListListListListListListList': jSerializer
+            .toJson(model.nestedValuesMapListListListListListListList),
+        'nestedMapValuesMapListListListListListListList': jSerializer
+            .toJson(model.nestedMapValuesMapListListListListListListList),
+        'nestedValuesMapListListListListListListListList': jSerializer
+            .toJson(model.nestedValuesMapListListListListListListListList),
+        'nestedMapValuesMapListListListListListListListList': jSerializer
+            .toJson(model.nestedMapValuesMapListListListListListListListList),
+        'nestedValuesMapListListListListListListListListList': jSerializer
+            .toJson(model.nestedValuesMapListListListListListListListListList),
+        'theModel': jSerializer.toJson(model.theModel),
+        'theModel2': jSerializer.toJson(model.theModel2),
+        'theModel3': jSerializer.toJson(model.theModel3),
+        'theModel4': jSerializer.toJson(model.theModel4),
+        'theModel5': jSerializer.toJson(model.theModel5),
+        'theModels': jSerializer.toJson(model.theModels),
+      };
+}
+
+class ComplicatedModelSerializer
+    extends js.GenericModelSerializer<ComplicatedModel> {
+  ComplicatedModelSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'value',
+    'name',
+    'age',
+    'isAdult',
+    'height',
+    'friends',
+    'map',
+    'values',
+    'mapValues',
+    'nestedValues',
+    'nestedMapValues',
+    'nestedValuesMap',
+    'nestedMapValuesMap',
+    'nestedValuesMapList',
+    'nestedMapValuesMapList',
+    'nestedValuesMapListList',
+    'nestedMapValuesMapListList',
+    'nestedValuesMapListListList',
+    'nestedMapValuesMapListListList',
+    'nestedValuesMapListListListList',
+    'nestedMapValuesMapListListListList',
+    'nestedValuesMapListListListListList',
+    'nestedMapValuesMapListListListListList',
+    'nestedValuesMapListListListListListList',
+    'nestedMapValuesMapListListListListListList',
+    'nestedValuesMapListListListListListListList',
+    'nestedMapValuesMapListListListListListListList',
+    'nestedValuesMapListListListListListListListList',
+    'nestedMapValuesMapListListListListListListListList',
+    'nestedValuesMapListListListListListListListListList',
+  };
+
+  ComplicatedModel<T> decode<T>(Map json) {
+    final value$Value = safeLookup<T>(
+      call: () => jSerializer.fromJson<T>(json['value']),
+      jsonKey: 'value',
+    );
+    final name$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['name']),
+      jsonKey: 'name',
+    );
+    final age$Value = safeLookup<int>(
+      call: () => jSerializer.fromJson<int>(json['age']),
+      jsonKey: 'age',
+    );
+    final isAdult$Value = safeLookup<bool>(
+      call: () => jSerializer.fromJson<bool>(json['isAdult']),
+      jsonKey: 'isAdult',
+    );
+    final height$Value = safeLookup<double>(
+      call: () => jSerializer.fromJson<double>(json['height']),
+      jsonKey: 'height',
+    );
+    final friends$Value = safeLookup<List<String>>(
+      call: () => jSerializer.fromJson<List<String>>(json['friends']),
+      jsonKey: 'friends',
+    );
+    final map$Value = safeLookup<Map<String, dynamic>>(
+      call: () => jSerializer.fromJson<Map<String, dynamic>>(json['map']),
+      jsonKey: 'map',
+    );
+    final values$Value = safeLookup<List<T>>(
+      call: () => jSerializer.fromJson<List<T>>(json['values']),
+      jsonKey: 'values',
+    );
+    final mapValues$Value = safeLookup<Map<String, T>>(
+      call: () => jSerializer.fromJson<Map<String, T>>(json['mapValues']),
+      jsonKey: 'mapValues',
+    );
+    final nestedValues$Value = safeLookup<List<List<T>>>(
+      call: () => jSerializer.fromJson<List<List<T>>>(json['nestedValues']),
+      jsonKey: 'nestedValues',
+    );
+    final nestedMapValues$Value = safeLookup<Map<String, List<T>>>(
+      call: () =>
+          jSerializer.fromJson<Map<String, List<T>>>(json['nestedMapValues']),
+      jsonKey: 'nestedMapValues',
+    );
+    final nestedValuesMap$Value = safeLookup<List<Map<String, T>>>(
+      call: () =>
+          jSerializer.fromJson<List<Map<String, T>>>(json['nestedValuesMap']),
+      jsonKey: 'nestedValuesMap',
+    );
+    final nestedMapValuesMap$Value =
+        safeLookup<Map<String, List<Map<String, T>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, T>>>>(
+          json['nestedMapValuesMap']),
+      jsonKey: 'nestedMapValuesMap',
+    );
+    final nestedValuesMapList$Value = safeLookup<List<List<Map<String, T>>>>(
+      call: () => jSerializer
+          .fromJson<List<List<Map<String, T>>>>(json['nestedValuesMapList']),
+      jsonKey: 'nestedValuesMapList',
+    );
+    final nestedMapValuesMapList$Value =
+        safeLookup<Map<String, List<Map<String, T>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, T>>>>(
+          json['nestedMapValuesMapList']),
+      jsonKey: 'nestedMapValuesMapList',
+    );
+    final nestedValuesMapListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListList']),
+      jsonKey: 'nestedValuesMapListList',
+    );
+    final nestedMapValuesMapListList$Value =
+        safeLookup<Map<String, List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, List<T>>>>>(
+          json['nestedMapValuesMapListList']),
+      jsonKey: 'nestedMapValuesMapListList',
+    );
+    final nestedValuesMapListListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListListList']),
+      jsonKey: 'nestedValuesMapListListList',
+    );
+    final nestedMapValuesMapListListList$Value =
+        safeLookup<Map<String, List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, List<T>>>>>(
+          json['nestedMapValuesMapListListList']),
+      jsonKey: 'nestedMapValuesMapListListList',
+    );
+    final nestedValuesMapListListListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListListListList']),
+      jsonKey: 'nestedValuesMapListListListList',
+    );
+    final nestedMapValuesMapListListListList$Value =
+        safeLookup<Map<String, List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, List<T>>>>>(
+          json['nestedMapValuesMapListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListList',
+    );
+    final nestedValuesMapListListListListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListList',
+    );
+    final nestedMapValuesMapListListListListList$Value =
+        safeLookup<Map<String, List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, List<T>>>>>(
+          json['nestedMapValuesMapListListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListListList',
+    );
+    final nestedValuesMapListListListListListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListListList',
+    );
+    final nestedMapValuesMapListListListListListList$Value =
+        safeLookup<Map<String, List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, List<T>>>>>(
+          json['nestedMapValuesMapListListListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListListListList',
+    );
+    final nestedValuesMapListListListListListListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListListListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListListListList',
+    );
+    final nestedMapValuesMapListListListListListListList$Value =
+        safeLookup<Map<String, List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, List<T>>>>>(
+          json['nestedMapValuesMapListListListListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListListListListList',
+    );
+    final nestedValuesMapListListListListListListListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListListListListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListListListListList',
+    );
+    final nestedMapValuesMapListListListListListListListList$Value =
+        safeLookup<Map<String, List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, List<T>>>>>(
+          json['nestedMapValuesMapListListListListListListListList']),
+      jsonKey: 'nestedMapValuesMapListListListListListListListList',
+    );
+    final nestedValuesMapListListListListListListListListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListListListListListListListListList']),
+      jsonKey: 'nestedValuesMapListListListListListListListListList',
+    );
+    return ComplicatedModel<T>(
+      value: value$Value,
+      name: name$Value,
+      age: age$Value,
+      isAdult: isAdult$Value,
+      height: height$Value,
+      friends: friends$Value,
+      map: map$Value,
+      values: values$Value,
+      mapValues: mapValues$Value,
+      nestedValues: nestedValues$Value,
+      nestedMapValues: nestedMapValues$Value,
+      nestedValuesMap: nestedValuesMap$Value,
+      nestedMapValuesMap: nestedMapValuesMap$Value,
+      nestedValuesMapList: nestedValuesMapList$Value,
+      nestedMapValuesMapList: nestedMapValuesMapList$Value,
+      nestedValuesMapListList: nestedValuesMapListList$Value,
+      nestedMapValuesMapListList: nestedMapValuesMapListList$Value,
+      nestedValuesMapListListList: nestedValuesMapListListList$Value,
+      nestedMapValuesMapListListList: nestedMapValuesMapListListList$Value,
+      nestedValuesMapListListListList: nestedValuesMapListListListList$Value,
+      nestedMapValuesMapListListListList:
+          nestedMapValuesMapListListListList$Value,
+      nestedValuesMapListListListListList:
+          nestedValuesMapListListListListList$Value,
+      nestedMapValuesMapListListListListList:
+          nestedMapValuesMapListListListListList$Value,
+      nestedValuesMapListListListListListList:
+          nestedValuesMapListListListListListList$Value,
+      nestedMapValuesMapListListListListListList:
+          nestedMapValuesMapListListListListListList$Value,
+      nestedValuesMapListListListListListListList:
+          nestedValuesMapListListListListListListList$Value,
+      nestedMapValuesMapListListListListListListList:
+          nestedMapValuesMapListListListListListListList$Value,
+      nestedValuesMapListListListListListListListList:
+          nestedValuesMapListListListListListListListList$Value,
+      nestedMapValuesMapListListListListListListListList:
+          nestedMapValuesMapListListListListListListListList$Value,
+      nestedValuesMapListListListListListListListListList:
+          nestedValuesMapListListListListListListListListList$Value,
+    );
+  }
+
+  @override
+  Function get decoder => decode;
+
+  @override
+  Map<String, dynamic> toJson(ComplicatedModel model) => {
+        'value': jSerializer.toJson(model.value),
+        'name': model.name,
+        'age': model.age,
+        'isAdult': model.isAdult,
+        'height': model.height,
+        'friends': jSerializer.toJson(model.friends),
+        'map': jSerializer.toJson(model.map),
+        'values': jSerializer.toJson(model.values),
+        'mapValues': jSerializer.toJson(model.mapValues),
+        'nestedValues': jSerializer.toJson(model.nestedValues),
+        'nestedMapValues': jSerializer.toJson(model.nestedMapValues),
+        'nestedValuesMap': jSerializer.toJson(model.nestedValuesMap),
+        'nestedMapValuesMap': jSerializer.toJson(model.nestedMapValuesMap),
+        'nestedValuesMapList': jSerializer.toJson(model.nestedValuesMapList),
+        'nestedMapValuesMapList':
+            jSerializer.toJson(model.nestedMapValuesMapList),
+        'nestedValuesMapListList':
+            jSerializer.toJson(model.nestedValuesMapListList),
+        'nestedMapValuesMapListList':
+            jSerializer.toJson(model.nestedMapValuesMapListList),
+        'nestedValuesMapListListList':
+            jSerializer.toJson(model.nestedValuesMapListListList),
+        'nestedMapValuesMapListListList':
+            jSerializer.toJson(model.nestedMapValuesMapListListList),
+        'nestedValuesMapListListListList':
+            jSerializer.toJson(model.nestedValuesMapListListListList),
+        'nestedMapValuesMapListListListList':
+            jSerializer.toJson(model.nestedMapValuesMapListListListList),
+        'nestedValuesMapListListListListList':
+            jSerializer.toJson(model.nestedValuesMapListListListListList),
+        'nestedMapValuesMapListListListListList':
+            jSerializer.toJson(model.nestedMapValuesMapListListListListList),
+        'nestedValuesMapListListListListListList':
+            jSerializer.toJson(model.nestedValuesMapListListListListListList),
+        'nestedMapValuesMapListListListListListList': jSerializer
+            .toJson(model.nestedMapValuesMapListListListListListList),
+        'nestedValuesMapListListListListListListList': jSerializer
+            .toJson(model.nestedValuesMapListListListListListListList),
+        'nestedMapValuesMapListListListListListListList': jSerializer
+            .toJson(model.nestedMapValuesMapListListListListListListList),
+        'nestedValuesMapListListListListListListListList': jSerializer
+            .toJson(model.nestedValuesMapListListListListListListListList),
+        'nestedMapValuesMapListListListListListListListList': jSerializer
+            .toJson(model.nestedMapValuesMapListListListListListListListList),
+        'nestedValuesMapListListListListListListListListList': jSerializer
+            .toJson(model.nestedValuesMapListListListListListListListListList),
+      };
+}
+
+class SemiComplicatedModelSerializer
+    extends js.GenericModelSerializer<SemiComplicatedModel> {
+  SemiComplicatedModelSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'value',
+    'name',
+    'age',
+    'isAdult',
+    'height',
+    'friends',
+    'map',
+    'values',
+    'mapValues',
+    'nestedValues',
+    'nestedMapValues',
+    'nestedValuesMap',
+    'nestedMapValuesMap',
+    'nestedValuesMapList',
+    'nestedValuesMapListList',
+    'nestedMapValuesMapListList',
+  };
+
+  SemiComplicatedModel<T> decode<T>(Map json) {
+    final value$Value = safeLookup<T>(
+      call: () => jSerializer.fromJson<T>(json['value']),
+      jsonKey: 'value',
+    );
+    final name$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['name']),
+      jsonKey: 'name',
+    );
+    final age$Value = safeLookup<int>(
+      call: () => jSerializer.fromJson<int>(json['age']),
+      jsonKey: 'age',
+    );
+    final isAdult$Value = safeLookup<bool>(
+      call: () => jSerializer.fromJson<bool>(json['isAdult']),
+      jsonKey: 'isAdult',
+    );
+    final height$Value = safeLookup<double>(
+      call: () => jSerializer.fromJson<double>(json['height']),
+      jsonKey: 'height',
+    );
+    final friends$Value = safeLookup<List<String>>(
+      call: () => jSerializer.fromJson<List<String>>(json['friends']),
+      jsonKey: 'friends',
+    );
+    final map$Value = safeLookup<Map<String, dynamic>>(
+      call: () => jSerializer.fromJson<Map<String, dynamic>>(json['map']),
+      jsonKey: 'map',
+    );
+    final values$Value = safeLookup<List<T>>(
+      call: () => jSerializer.fromJson<List<T>>(json['values']),
+      jsonKey: 'values',
+    );
+    final mapValues$Value = safeLookup<Map<String, T>>(
+      call: () => jSerializer.fromJson<Map<String, T>>(json['mapValues']),
+      jsonKey: 'mapValues',
+    );
+    final nestedValues$Value = safeLookup<List<List<T>>>(
+      call: () => jSerializer.fromJson<List<List<T>>>(json['nestedValues']),
+      jsonKey: 'nestedValues',
+    );
+    final nestedMapValues$Value = safeLookup<Map<String, List<T>>>(
+      call: () =>
+          jSerializer.fromJson<Map<String, List<T>>>(json['nestedMapValues']),
+      jsonKey: 'nestedMapValues',
+    );
+    final nestedValuesMap$Value = safeLookup<List<Map<String, T>>>(
+      call: () =>
+          jSerializer.fromJson<List<Map<String, T>>>(json['nestedValuesMap']),
+      jsonKey: 'nestedValuesMap',
+    );
+    final nestedMapValuesMap$Value =
+        safeLookup<Map<String, List<Map<String, T>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, T>>>>(
+          json['nestedMapValuesMap']),
+      jsonKey: 'nestedMapValuesMap',
+    );
+    final nestedValuesMapList$Value = safeLookup<List<List<Map<String, T>>>>(
+      call: () => jSerializer
+          .fromJson<List<List<Map<String, T>>>>(json['nestedValuesMapList']),
+      jsonKey: 'nestedValuesMapList',
+    );
+    final nestedValuesMapListList$Value =
+        safeLookup<List<List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<List<List<Map<String, List<T>>>>>(
+          json['nestedValuesMapListList']),
+      jsonKey: 'nestedValuesMapListList',
+    );
+    final nestedMapValuesMapListList$Value =
+        safeLookup<Map<String, List<Map<String, List<T>>>>>(
+      call: () => jSerializer.fromJson<Map<String, List<Map<String, List<T>>>>>(
+          json['nestedMapValuesMapListList']),
+      jsonKey: 'nestedMapValuesMapListList',
+    );
+    return SemiComplicatedModel<T>(
+      value: value$Value,
+      name: name$Value,
+      age: age$Value,
+      isAdult: isAdult$Value,
+      height: height$Value,
+      friends: friends$Value,
+      map: map$Value,
+      values: values$Value,
+      mapValues: mapValues$Value,
+      nestedValues: nestedValues$Value,
+      nestedMapValues: nestedMapValues$Value,
+      nestedValuesMap: nestedValuesMap$Value,
+      nestedMapValuesMap: nestedMapValuesMap$Value,
+      nestedValuesMapList: nestedValuesMapList$Value,
+      nestedValuesMapListList: nestedValuesMapListList$Value,
+      nestedMapValuesMapListList: nestedMapValuesMapListList$Value,
+    );
+  }
+
+  @override
+  Function get decoder => decode;
+
+  @override
+  Map<String, dynamic> toJson(SemiComplicatedModel model) => {
+        'value': jSerializer.toJson(model.value),
+        'name': model.name,
+        'age': model.age,
+        'isAdult': model.isAdult,
+        'height': model.height,
+        'friends': jSerializer.toJson(model.friends),
+        'map': jSerializer.toJson(model.map),
+        'values': jSerializer.toJson(model.values),
+        'mapValues': jSerializer.toJson(model.mapValues),
+        'nestedValues': jSerializer.toJson(model.nestedValues),
+        'nestedMapValues': jSerializer.toJson(model.nestedMapValues),
+        'nestedValuesMap': jSerializer.toJson(model.nestedValuesMap),
+        'nestedMapValuesMap': jSerializer.toJson(model.nestedMapValuesMap),
+        'nestedValuesMapList': jSerializer.toJson(model.nestedValuesMapList),
+        'nestedValuesMapListList':
+            jSerializer.toJson(model.nestedValuesMapListList),
+        'nestedMapValuesMapListList':
+            jSerializer.toJson(model.nestedMapValuesMapListList),
+      };
+}
+
+class ProductMocker extends js.JModelMocker<Product> {
+  const ProductMocker({super.jSerializer});
+
+  @override
+  Product createMock([js.JMockerContext? context]) {
+    final id$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('id'));
+    final name$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('name'));
+    final price$Value = jSerializer.createMock<Price?>(
+        context: context?..setFieldName('price'));
+    final originalPrice$Value = jSerializer.createMock<Price?>(
+        context: context?..setFieldName('originalPrice'));
+    final featuredImage$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('featuredImage'));
+    final images$Value = jSerializer.createMock<List<String>?>(
+        context: context?..setFieldName('images'));
+    final vendor$Value = jSerializer.createMock<Vendor?>(
+        context: context?..setFieldName('vendor'));
+    final currency$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('currency'));
+    final maxPurchaseQuantity$Value = jSerializer.createMock<int?>(
+        context: context?..setFieldName('maxPurchaseQuantity'));
+    final service$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('service'));
+    final category$Value = jSerializer.createMock<List<Category?>?>(
+        context: context?..setFieldName('category'));
+    final discountRate$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('discountRate'));
+    final isAvailable$Value = jSerializer.createMock<bool?>(
+        context: context?..setFieldName('isAvailable'));
+    final description$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('description'));
+    final tags$Value = jSerializer.createMock<List<Tag>?>(
+        context: context?..setFieldName('tags'));
+    final barcode$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('barcode'));
+    final quantity$Value = jSerializer.createMock<int?>(
+        context: context?..setFieldName('quantity'));
+    final variants$Value = jSerializer.createMock<List<ProductVariant>?>(
+        context: context?..setFieldName('variants'));
+    final shortUrl$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('shortUrl'));
+    final brand$Value = jSerializer.createMock<Brand?>(
+        context: context?..setFieldName('brand'));
+    final variantsAttributes$Value =
+        jSerializer.createMock<List<ProductAttribute>?>(
+            context: context?..setFieldName('variantsAttributes'));
+    final attributes$Value =
+        jSerializer.createMock<List<ProductAttributeValue>?>(
+            context: context?..setFieldName('attributes'));
+    final groupReference$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('groupReference'));
+    final vendorId$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('vendorId'));
+    final userSpecifics$Value = jSerializer.createMock<ProductUserSpecific?>(
+        context: context?..setFieldName('userSpecifics'));
+    final customizations$Value =
+        jSerializer.createMock<List<ProductCustomization>?>(
+            context: context?..setFieldName('customizations'));
+    return Product(
+      id: id$Value,
+      name: name$Value,
+      price: price$Value,
+      originalPrice: originalPrice$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      vendor: vendor$Value,
+      currency: currency$Value,
+      maxPurchaseQuantity: maxPurchaseQuantity$Value,
+      service: service$Value,
+      category: category$Value,
+      discountRate: discountRate$Value,
+      isAvailable: isAvailable$Value,
+      description: description$Value,
+      tags: tags$Value,
+      barcode: barcode$Value,
+      quantity: quantity$Value,
+      variants: variants$Value,
+      shortUrl: shortUrl$Value,
+      brand: brand$Value,
+      variantsAttributes: variantsAttributes$Value,
+      attributes: attributes$Value,
+      groupReference: groupReference$Value,
+      vendorId: vendorId$Value,
+      userSpecifics: userSpecifics$Value,
+      customizations: customizations$Value,
+    );
+  }
+}
+
+class TagMocker extends js.JModelMocker<Tag> {
+  const TagMocker({super.jSerializer});
+
+  @override
+  Tag createMock([js.JMockerContext? context]) {
+    final key$Value =
+        jSerializer.createMock<String?>(context: context?..setFieldName('key'));
+    final title$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('title'));
+    final subTitle$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('subTitle'));
+    final featuredImage$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('featuredImage'));
+    return Tag(
+      key: key$Value,
+      title: title$Value,
+      subTitle: subTitle$Value,
+      featuredImage: featuredImage$Value,
+    );
+  }
+}
+
+class VendorMocker extends js.JModelMocker<Vendor> {
+  const VendorMocker({super.jSerializer});
+
+  @override
+  Vendor createMock([js.JMockerContext? context]) {
+    final id$Value =
+        jSerializer.createMock<String?>(context: context?..setFieldName('id'));
+    final name$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('name'));
+    final banner$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('banner'));
+    final featuredImage$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('featuredImage'));
+    final images$Value = jSerializer.createMock<List<String>?>(
+        context: context?..setFieldName('images'));
+    final category$Value = jSerializer.createMock<Category?>(
+        context: context?..setFieldName('category'));
+    final service$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('service'));
+    final isOpen$Value = jSerializer.createMock<bool?>(
+        context: context?..setFieldName('isOpen'));
+    final partnerSupportNumber$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('partnerSupportNumber'));
+    final minimumOrderAmount$Value = jSerializer.createMock<Price?>(
+        context: context?..setFieldName('minimumOrderAmount'));
+    return Vendor(
+      id: id$Value,
+      name: name$Value,
+      banner: banner$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      category: category$Value,
+      service: service$Value,
+      isOpen: isOpen$Value,
+      partnerSupportNumber: partnerSupportNumber$Value,
+      minimumOrderAmount: minimumOrderAmount$Value,
+    );
+  }
+}
+
+class CategoryMocker extends js.JModelMocker<Category> {
+  const CategoryMocker({super.jSerializer});
+
+  @override
+  Category createMock([js.JMockerContext? context]) {
+    final id$Value =
+        jSerializer.createMock<String?>(context: context?..setFieldName('id'));
+    final banner$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('banner'));
+    final service$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('service'));
+    final featuredImage$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('featuredImage'));
+    final images$Value = jSerializer.createMock<List<String>?>(
+        context: context?..setFieldName('images'));
+    final name$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('name'));
+    return Category(
+      id: id$Value,
+      banner: banner$Value,
+      service: service$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      name: name$Value,
+    );
+  }
+}
+
+class ProductUserSpecificMocker extends js.JModelMocker<ProductUserSpecific> {
+  const ProductUserSpecificMocker({super.jSerializer});
+
+  @override
+  ProductUserSpecific createMock([js.JMockerContext? context]) {
+    final isFavorite$Value = jSerializer.createMock<bool?>(
+        context: context?..setFieldName('isFavorite'));
+    final cartQuantity$Value = jSerializer.createMock<int?>(
+        context: context?..setFieldName('cartQuantity'));
+    return ProductUserSpecific(
+      isFavorite: isFavorite$Value,
+      cartQuantity: cartQuantity$Value,
+    );
+  }
+}
+
+class ProductAttributeMocker extends js.JModelMocker<ProductAttribute> {
+  const ProductAttributeMocker({super.jSerializer});
+
+  @override
+  ProductAttribute createMock([js.JMockerContext? context]) {
+    final id$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('id'));
+    final name$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('name'));
+    final values$Value = jSerializer.createMock<List<ProductAttributeValue>?>(
+        context: context?..setFieldName('values'));
+    return ProductAttribute(
+      id: id$Value,
+      name: name$Value,
+      values: values$Value,
+    );
+  }
+}
+
+class ProductAttributeValueMocker
+    extends js.JModelMocker<ProductAttributeValue> {
+  const ProductAttributeValueMocker({super.jSerializer});
+
+  @override
+  ProductAttributeValue createMock([js.JMockerContext? context]) {
+    final id$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('id'));
+    final name$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('name'));
+    final color$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('color'));
+    final featuredImage$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('featuredImage'));
+    return ProductAttributeValue(
+      id: id$Value,
+      name: name$Value,
+      color: color$Value,
+      featuredImage: featuredImage$Value,
+    );
+  }
+}
+
+class BrandMocker extends js.JModelMocker<Brand> {
+  const BrandMocker({super.jSerializer});
+
+  @override
+  Brand createMock([js.JMockerContext? context]) {
+    final name$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('name'));
+    final logo$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('logo'));
+    return Brand(
+      name: name$Value,
+      logo: logo$Value,
+    );
+  }
+}
+
+class ProductVariantMocker extends js.JModelMocker<ProductVariant> {
+  const ProductVariantMocker({super.jSerializer});
+
+  @override
+  ProductVariant createMock([js.JMockerContext? context]) {
+    final id$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('id'));
+    final name$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('name'));
+    final price$Value = jSerializer.createMock<Price?>(
+        context: context?..setFieldName('price'));
+    final featuredImage$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('featuredImage'));
+    final images$Value = jSerializer.createMock<List<String>?>(
+        context: context?..setFieldName('images'));
+    final vendor$Value = jSerializer.createMock<Vendor?>(
+        context: context?..setFieldName('vendor'));
+    final currency$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('currency'));
+    final maxPurchaseQuantity$Value = jSerializer.createMock<int?>(
+        context: context?..setFieldName('maxPurchaseQuantity'));
+    final service$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('service'));
+    final category$Value = jSerializer.createMock<List<Category?>?>(
+        context: context?..setFieldName('category'));
+    final originalPrice$Value = jSerializer.createMock<Price?>(
+        context: context?..setFieldName('originalPrice'));
+    final discountRate$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('discountRate'));
+    final isAvailable$Value = jSerializer.createMock<bool?>(
+        context: context?..setFieldName('isAvailable'));
+    final description$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('description'));
+    final tags$Value = jSerializer.createMock<List<Tag>?>(
+        context: context?..setFieldName('tags'));
+    final barcode$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('barcode'));
+    final quantity$Value = jSerializer.createMock<int?>(
+        context: context?..setFieldName('quantity'));
+    final shortUrl$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('shortUrl'));
+    final brand$Value = jSerializer.createMock<Brand?>(
+        context: context?..setFieldName('brand'));
+    final variantsAttributes$Value =
+        jSerializer.createMock<List<ProductAttribute>?>(
+            context: context?..setFieldName('variantsAttributes'));
+    final attributes$Value =
+        jSerializer.createMock<List<ProductAttributeValue>?>(
+            context: context?..setFieldName('attributes'));
+    final userSpecifics$Value = jSerializer.createMock<ProductUserSpecific?>(
+        context: context?..setFieldName('userSpecifics'));
+    final vendorId$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('vendorId'));
+    return ProductVariant(
+      id: id$Value,
+      name: name$Value,
+      price: price$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      vendor: vendor$Value,
+      currency: currency$Value,
+      maxPurchaseQuantity: maxPurchaseQuantity$Value,
+      service: service$Value,
+      category: category$Value,
+      originalPrice: originalPrice$Value,
+      discountRate: discountRate$Value,
+      isAvailable: isAvailable$Value,
+      description: description$Value,
+      tags: tags$Value,
+      barcode: barcode$Value,
+      quantity: quantity$Value,
+      shortUrl: shortUrl$Value,
+      brand: brand$Value,
+      variantsAttributes: variantsAttributes$Value,
+      attributes: attributes$Value,
+      userSpecifics: userSpecifics$Value,
+      vendorId: vendorId$Value,
+    );
+  }
+}
+
 class SectionLayoutVListMocker extends js.JModelMocker<SectionLayoutVList> {
   const SectionLayoutVListMocker({super.jSerializer});
 
@@ -462,6 +2594,95 @@ class DynamicItemShapeMocker extends js.JCustomMocker<DynamicItemShape> {
   }
 }
 
+class ProductCustomizationMocker extends js.JModelMocker<ProductCustomization> {
+  const ProductCustomizationMocker({super.jSerializer});
+
+  @override
+  ProductCustomization createMock([js.JMockerContext? context]) {
+    final id$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('id'));
+    final decoration$Value =
+        jSerializer.createMock<ProductCustomizationDecoration?>(
+            context: context?..setFieldName('decoration'));
+    final minSelection$Value = jSerializer.createMock<int?>(
+        context: context?..setFieldName('minSelection'));
+    final maxSelection$Value = jSerializer.createMock<int?>(
+        context: context?..setFieldName('maxSelection'));
+    final values$Value =
+        jSerializer.createMock<List<ProductCustomizationValue>?>(
+            context: context?..setFieldName('values'));
+    return ProductCustomization(
+      id: id$Value,
+      decoration: decoration$Value,
+      minSelection: minSelection$Value,
+      maxSelection: maxSelection$Value,
+      values: values$Value,
+    );
+  }
+}
+
+class ProductCustomizationValueMocker
+    extends js.JModelMocker<ProductCustomizationValue> {
+  const ProductCustomizationValueMocker({super.jSerializer});
+
+  @override
+  ProductCustomizationValue createMock([js.JMockerContext? context]) {
+    final id$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('id'));
+    final name$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('name'));
+    final featuredImage$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('featuredImage'));
+    final description$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('description'));
+    final price$Value = jSerializer.createMock<Price?>(
+        context: context?..setFieldName('price'));
+    return ProductCustomizationValue(
+      id: id$Value,
+      name: name$Value,
+      featuredImage: featuredImage$Value,
+      description: description$Value,
+      price: price$Value,
+    );
+  }
+}
+
+class ProductCustomizationDecorationMocker
+    extends js.JModelMocker<ProductCustomizationDecoration> {
+  const ProductCustomizationDecorationMocker({super.jSerializer});
+
+  @override
+  ProductCustomizationDecoration createMock([js.JMockerContext? context]) {
+    final title$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('title'));
+    final preTitle$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('preTitle'));
+    final subtitle$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('subtitle'));
+    return ProductCustomizationDecoration(
+      title: title$Value,
+      preTitle: preTitle$Value,
+      subtitle: subtitle$Value,
+    );
+  }
+}
+
+class PriceMocker extends js.JModelMocker<Price> {
+  const PriceMocker({super.jSerializer});
+
+  @override
+  Price createMock([js.JMockerContext? context]) {
+    final amount$Value = jSerializer.createMock<double>(
+        context: context?..setFieldName('amount'));
+    final currency$Value = jSerializer.createMock<String?>(
+        context: context?..setFieldName('currency'));
+    return Price(
+      amount: amount$Value,
+      currency: currency$Value,
+    );
+  }
+}
+
 class SomeModelMocker extends js.JModelMocker<SomeModel> {
   const SomeModelMocker({super.jSerializer});
 
@@ -513,8 +2734,489 @@ class SomeEnumMocker extends js.JCustomMocker<SomeEnum> {
   }
 }
 
+class SuperComplicatedModelMocker
+    extends js.JGenericMocker<SuperComplicatedModel> {
+  SuperComplicatedModelMocker({super.jSerializer});
+
+  SuperComplicatedModel<T> mock<T>([js.JMockerContext? context]) {
+    final value$Value =
+        jSerializer.createMock<ComplicatedModel<ComplicatedModel<T>>>(
+            context: context?..setFieldName('value'));
+    final name$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('name'));
+    final age$Value =
+        jSerializer.createMock<int>(context: context?..setFieldName('age'));
+    final isAdult$Value = jSerializer.createMock<bool>(
+        context: context?..setFieldName('isAdult'));
+    final height$Value = jSerializer.createMock<double>(
+        context: context?..setFieldName('height'));
+    final friends$Value = jSerializer.createMock<List<String>>(
+        context: context?..setFieldName('friends'));
+    final map$Value = jSerializer.createMock<Map<String, dynamic>>(
+        context: context?..setFieldName('map'));
+    final values$Value =
+        jSerializer.createMock<List<ComplicatedModel<ComplicatedModel<T>>>>(
+            context: context?..setFieldName('values'));
+    final mapValues$Value = jSerializer
+        .createMock<Map<String, ComplicatedModel<ComplicatedModel<T>>>>(
+            context: context?..setFieldName('mapValues'));
+    final nestedValues$Value = jSerializer
+        .createMock<List<List<ComplicatedModel<ComplicatedModel<T>>>>>(
+            context: context?..setFieldName('nestedValues'));
+    final nestedMapValues$Value = jSerializer
+        .createMock<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>(
+            context: context?..setFieldName('nestedMapValues'));
+    final nestedValuesMap$Value = jSerializer
+        .createMock<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>(
+            context: context?..setFieldName('nestedValuesMap'));
+    final nestedMapValuesMap$Value = jSerializer.createMock<
+            Map<String,
+                List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+        context: context?..setFieldName('nestedMapValuesMap'));
+    final nestedValuesMapList$Value = jSerializer.createMock<
+            List<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+        context: context?..setFieldName('nestedValuesMapList'));
+    final nestedMapValuesMapList$Value = jSerializer.createMock<
+            Map<String,
+                List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+        context: context?..setFieldName('nestedMapValuesMapList'));
+    final nestedValuesMapListList$Value = jSerializer.createMock<
+            List<
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+        context: context?..setFieldName('nestedValuesMapListList'));
+    final nestedMapValuesMapListList$Value = jSerializer.createMock<
+            Map<
+                String,
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+        context: context?..setFieldName('nestedMapValuesMapListList'));
+    final nestedValuesMapListListList$Value = jSerializer.createMock<
+            List<
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+        context: context?..setFieldName('nestedValuesMapListListList'));
+    final nestedMapValuesMapListListList$Value = jSerializer.createMock<
+            Map<
+                String,
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+        context: context?..setFieldName('nestedMapValuesMapListListList'));
+    final nestedValuesMapListListListList$Value = jSerializer.createMock<
+            List<
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+        context: context?..setFieldName('nestedValuesMapListListListList'));
+    final nestedMapValuesMapListListListList$Value = jSerializer.createMock<
+            Map<
+                String,
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+        context: context?..setFieldName('nestedMapValuesMapListListListList'));
+    final nestedValuesMapListListListListList$Value = jSerializer.createMock<
+            List<
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+        context: context?..setFieldName('nestedValuesMapListListListListList'));
+    final nestedMapValuesMapListListListListList$Value = jSerializer.createMock<
+            Map<
+                String,
+                List<
+                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+        context: context
+          ?..setFieldName('nestedMapValuesMapListListListListList'));
+    final nestedValuesMapListListListListListList$Value =
+        jSerializer.createMock<
+                List<
+                    List<
+                        Map<String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+            context: context
+              ?..setFieldName('nestedValuesMapListListListListListList'));
+    final nestedMapValuesMapListListListListListList$Value =
+        jSerializer.createMock<
+                Map<
+                    String,
+                    List<
+                        Map<String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+            context: context
+              ?..setFieldName('nestedMapValuesMapListListListListListList'));
+    final nestedValuesMapListListListListListListList$Value =
+        jSerializer.createMock<
+                List<
+                    List<
+                        Map<String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+            context: context
+              ?..setFieldName('nestedValuesMapListListListListListListList'));
+    final nestedMapValuesMapListListListListListListList$Value =
+        jSerializer.createMock<
+                Map<
+                    String,
+                    List<
+                        Map<String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+            context: context
+              ?..setFieldName(
+                  'nestedMapValuesMapListListListListListListList'));
+    final nestedValuesMapListListListListListListListList$Value =
+        jSerializer.createMock<
+                List<
+                    List<
+                        Map<String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+            context: context
+              ?..setFieldName(
+                  'nestedValuesMapListListListListListListListList'));
+    final nestedMapValuesMapListListListListListListListList$Value =
+        jSerializer.createMock<
+                Map<
+                    String,
+                    List<
+                        Map<String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+            context: context
+              ?..setFieldName(
+                  'nestedMapValuesMapListListListListListListListList'));
+    final nestedValuesMapListListListListListListListListList$Value =
+        jSerializer.createMock<
+                List<
+                    List<
+                        Map<String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+            context: context
+              ?..setFieldName(
+                  'nestedValuesMapListListListListListListListListList'));
+    final theModel$Value = jSerializer.createMock<ComplicatedModel<T>>(
+        context: context?..setFieldName('theModel'));
+    final theModel2$Value =
+        jSerializer.createMock<ComplicatedModel<ComplicatedModel<T>>>(
+            context: context?..setFieldName('theModel2'));
+    final theModel3$Value = jSerializer
+        .createMock<ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>(
+            context: context?..setFieldName('theModel3'));
+    final theModel4$Value = jSerializer.createMock<
+            ComplicatedModel<
+                ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>(
+        context: context?..setFieldName('theModel4'));
+    final theModel5$Value = jSerializer.createMock<
+            ComplicatedModel<
+                ComplicatedModel<
+                    ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>>(
+        context: context?..setFieldName('theModel5'));
+    final theModels$Value = jSerializer.createMock<List<ComplicatedModel<T>>>(
+        context: context?..setFieldName('theModels'));
+    return SuperComplicatedModel<T>(
+      value: value$Value,
+      name: name$Value,
+      age: age$Value,
+      isAdult: isAdult$Value,
+      height: height$Value,
+      friends: friends$Value,
+      map: map$Value,
+      values: values$Value,
+      mapValues: mapValues$Value,
+      nestedValues: nestedValues$Value,
+      nestedMapValues: nestedMapValues$Value,
+      nestedValuesMap: nestedValuesMap$Value,
+      nestedMapValuesMap: nestedMapValuesMap$Value,
+      nestedValuesMapList: nestedValuesMapList$Value,
+      nestedMapValuesMapList: nestedMapValuesMapList$Value,
+      nestedValuesMapListList: nestedValuesMapListList$Value,
+      nestedMapValuesMapListList: nestedMapValuesMapListList$Value,
+      nestedValuesMapListListList: nestedValuesMapListListList$Value,
+      nestedMapValuesMapListListList: nestedMapValuesMapListListList$Value,
+      nestedValuesMapListListListList: nestedValuesMapListListListList$Value,
+      nestedMapValuesMapListListListList:
+          nestedMapValuesMapListListListList$Value,
+      nestedValuesMapListListListListList:
+          nestedValuesMapListListListListList$Value,
+      nestedMapValuesMapListListListListList:
+          nestedMapValuesMapListListListListList$Value,
+      nestedValuesMapListListListListListList:
+          nestedValuesMapListListListListListList$Value,
+      nestedMapValuesMapListListListListListList:
+          nestedMapValuesMapListListListListListList$Value,
+      nestedValuesMapListListListListListListList:
+          nestedValuesMapListListListListListListList$Value,
+      nestedMapValuesMapListListListListListListList:
+          nestedMapValuesMapListListListListListListList$Value,
+      nestedValuesMapListListListListListListListList:
+          nestedValuesMapListListListListListListListList$Value,
+      nestedMapValuesMapListListListListListListListList:
+          nestedMapValuesMapListListListListListListListList$Value,
+      nestedValuesMapListListListListListListListListList:
+          nestedValuesMapListListListListListListListListList$Value,
+      theModel: theModel$Value,
+      theModel2: theModel2$Value,
+      theModel3: theModel3$Value,
+      theModel4: theModel4$Value,
+      theModel5: theModel5$Value,
+      theModels: theModels$Value,
+    );
+  }
+
+  @override
+  Function get mocker => mock;
+}
+
+class ComplicatedModelMocker extends js.JGenericMocker<ComplicatedModel> {
+  ComplicatedModelMocker({super.jSerializer});
+
+  ComplicatedModel<T> mock<T>([js.JMockerContext? context]) {
+    final value$Value =
+        jSerializer.createMock<T>(context: context?..setFieldName('value'));
+    final name$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('name'));
+    final age$Value =
+        jSerializer.createMock<int>(context: context?..setFieldName('age'));
+    final isAdult$Value = jSerializer.createMock<bool>(
+        context: context?..setFieldName('isAdult'));
+    final height$Value = jSerializer.createMock<double>(
+        context: context?..setFieldName('height'));
+    final friends$Value = jSerializer.createMock<List<String>>(
+        context: context?..setFieldName('friends'));
+    final map$Value = jSerializer.createMock<Map<String, dynamic>>(
+        context: context?..setFieldName('map'));
+    final values$Value = jSerializer.createMock<List<T>>(
+        context: context?..setFieldName('values'));
+    final mapValues$Value = jSerializer.createMock<Map<String, T>>(
+        context: context?..setFieldName('mapValues'));
+    final nestedValues$Value = jSerializer.createMock<List<List<T>>>(
+        context: context?..setFieldName('nestedValues'));
+    final nestedMapValues$Value = jSerializer.createMock<Map<String, List<T>>>(
+        context: context?..setFieldName('nestedMapValues'));
+    final nestedValuesMap$Value = jSerializer.createMock<List<Map<String, T>>>(
+        context: context?..setFieldName('nestedValuesMap'));
+    final nestedMapValuesMap$Value =
+        jSerializer.createMock<Map<String, List<Map<String, T>>>>(
+            context: context?..setFieldName('nestedMapValuesMap'));
+    final nestedValuesMapList$Value =
+        jSerializer.createMock<List<List<Map<String, T>>>>(
+            context: context?..setFieldName('nestedValuesMapList'));
+    final nestedMapValuesMapList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, T>>>>(
+            context: context?..setFieldName('nestedMapValuesMapList'));
+    final nestedValuesMapListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context?..setFieldName('nestedValuesMapListList'));
+    final nestedMapValuesMapListList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
+            context: context?..setFieldName('nestedMapValuesMapListList'));
+    final nestedValuesMapListListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context?..setFieldName('nestedValuesMapListListList'));
+    final nestedMapValuesMapListListList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
+            context: context?..setFieldName('nestedMapValuesMapListListList'));
+    final nestedValuesMapListListListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context?..setFieldName('nestedValuesMapListListListList'));
+    final nestedMapValuesMapListListListList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName('nestedMapValuesMapListListListList'));
+    final nestedValuesMapListListListListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName('nestedValuesMapListListListListList'));
+    final nestedMapValuesMapListListListListList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName('nestedMapValuesMapListListListListList'));
+    final nestedValuesMapListListListListListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName('nestedValuesMapListListListListListList'));
+    final nestedMapValuesMapListListListListListList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName('nestedMapValuesMapListListListListListList'));
+    final nestedValuesMapListListListListListListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName('nestedValuesMapListListListListListListList'));
+    final nestedMapValuesMapListListListListListListList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName(
+                  'nestedMapValuesMapListListListListListListList'));
+    final nestedValuesMapListListListListListListListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName(
+                  'nestedValuesMapListListListListListListListList'));
+    final nestedMapValuesMapListListListListListListListList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName(
+                  'nestedMapValuesMapListListListListListListListList'));
+    final nestedValuesMapListListListListListListListListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context
+              ?..setFieldName(
+                  'nestedValuesMapListListListListListListListListList'));
+    return ComplicatedModel<T>(
+      value: value$Value,
+      name: name$Value,
+      age: age$Value,
+      isAdult: isAdult$Value,
+      height: height$Value,
+      friends: friends$Value,
+      map: map$Value,
+      values: values$Value,
+      mapValues: mapValues$Value,
+      nestedValues: nestedValues$Value,
+      nestedMapValues: nestedMapValues$Value,
+      nestedValuesMap: nestedValuesMap$Value,
+      nestedMapValuesMap: nestedMapValuesMap$Value,
+      nestedValuesMapList: nestedValuesMapList$Value,
+      nestedMapValuesMapList: nestedMapValuesMapList$Value,
+      nestedValuesMapListList: nestedValuesMapListList$Value,
+      nestedMapValuesMapListList: nestedMapValuesMapListList$Value,
+      nestedValuesMapListListList: nestedValuesMapListListList$Value,
+      nestedMapValuesMapListListList: nestedMapValuesMapListListList$Value,
+      nestedValuesMapListListListList: nestedValuesMapListListListList$Value,
+      nestedMapValuesMapListListListList:
+          nestedMapValuesMapListListListList$Value,
+      nestedValuesMapListListListListList:
+          nestedValuesMapListListListListList$Value,
+      nestedMapValuesMapListListListListList:
+          nestedMapValuesMapListListListListList$Value,
+      nestedValuesMapListListListListListList:
+          nestedValuesMapListListListListListList$Value,
+      nestedMapValuesMapListListListListListList:
+          nestedMapValuesMapListListListListListList$Value,
+      nestedValuesMapListListListListListListList:
+          nestedValuesMapListListListListListListList$Value,
+      nestedMapValuesMapListListListListListListList:
+          nestedMapValuesMapListListListListListListList$Value,
+      nestedValuesMapListListListListListListListList:
+          nestedValuesMapListListListListListListListList$Value,
+      nestedMapValuesMapListListListListListListListList:
+          nestedMapValuesMapListListListListListListListList$Value,
+      nestedValuesMapListListListListListListListListList:
+          nestedValuesMapListListListListListListListListList$Value,
+    );
+  }
+
+  @override
+  Function get mocker => mock;
+}
+
+class SemiComplicatedModelMocker
+    extends js.JGenericMocker<SemiComplicatedModel> {
+  SemiComplicatedModelMocker({super.jSerializer});
+
+  SemiComplicatedModel<T> mock<T>([js.JMockerContext? context]) {
+    final value$Value =
+        jSerializer.createMock<T>(context: context?..setFieldName('value'));
+    final name$Value =
+        jSerializer.createMock<String>(context: context?..setFieldName('name'));
+    final age$Value =
+        jSerializer.createMock<int>(context: context?..setFieldName('age'));
+    final isAdult$Value = jSerializer.createMock<bool>(
+        context: context?..setFieldName('isAdult'));
+    final height$Value = jSerializer.createMock<double>(
+        context: context?..setFieldName('height'));
+    final friends$Value = jSerializer.createMock<List<String>>(
+        context: context?..setFieldName('friends'));
+    final map$Value = jSerializer.createMock<Map<String, dynamic>>(
+        context: context?..setFieldName('map'));
+    final values$Value = jSerializer.createMock<List<T>>(
+        context: context?..setFieldName('values'));
+    final mapValues$Value = jSerializer.createMock<Map<String, T>>(
+        context: context?..setFieldName('mapValues'));
+    final nestedValues$Value = jSerializer.createMock<List<List<T>>>(
+        context: context?..setFieldName('nestedValues'));
+    final nestedMapValues$Value = jSerializer.createMock<Map<String, List<T>>>(
+        context: context?..setFieldName('nestedMapValues'));
+    final nestedValuesMap$Value = jSerializer.createMock<List<Map<String, T>>>(
+        context: context?..setFieldName('nestedValuesMap'));
+    final nestedMapValuesMap$Value =
+        jSerializer.createMock<Map<String, List<Map<String, T>>>>(
+            context: context?..setFieldName('nestedMapValuesMap'));
+    final nestedValuesMapList$Value =
+        jSerializer.createMock<List<List<Map<String, T>>>>(
+            context: context?..setFieldName('nestedValuesMapList'));
+    final nestedValuesMapListList$Value =
+        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
+            context: context?..setFieldName('nestedValuesMapListList'));
+    final nestedMapValuesMapListList$Value =
+        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
+            context: context?..setFieldName('nestedMapValuesMapListList'));
+    return SemiComplicatedModel<T>(
+      value: value$Value,
+      name: name$Value,
+      age: age$Value,
+      isAdult: isAdult$Value,
+      height: height$Value,
+      friends: friends$Value,
+      map: map$Value,
+      values: values$Value,
+      mapValues: mapValues$Value,
+      nestedValues: nestedValues$Value,
+      nestedMapValues: nestedMapValues$Value,
+      nestedValuesMap: nestedValuesMap$Value,
+      nestedMapValuesMap: nestedMapValuesMap$Value,
+      nestedValuesMapList: nestedValuesMapList$Value,
+      nestedValuesMapListList: nestedValuesMapListList$Value,
+      nestedMapValuesMapListList: nestedMapValuesMapListList$Value,
+    );
+  }
+
+  @override
+  Function get mocker => mock;
+}
+
 void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
   final instance = jSerializer ?? js.JSerializer.i;
+  instance.register<Product>(
+    (s) => ProductSerializer(jSerializer: s),
+    (Function f) => f<Product>(),
+    mockFactory: (s) => ProductMocker(jSerializer: s),
+  );
+  instance.register<Tag>(
+    (s) => TagSerializer(jSerializer: s),
+    (Function f) => f<Tag>(),
+    mockFactory: (s) => TagMocker(jSerializer: s),
+  );
+  instance.register<Vendor>(
+    (s) => VendorSerializer(jSerializer: s),
+    (Function f) => f<Vendor>(),
+    mockFactory: (s) => VendorMocker(jSerializer: s),
+  );
+  instance.register<Category>(
+    (s) => CategorySerializer(jSerializer: s),
+    (Function f) => f<Category>(),
+    mockFactory: (s) => CategoryMocker(jSerializer: s),
+  );
+  instance.register<ProductUserSpecific>(
+    (s) => ProductUserSpecificSerializer(jSerializer: s),
+    (Function f) => f<ProductUserSpecific>(),
+    mockFactory: (s) => ProductUserSpecificMocker(jSerializer: s),
+  );
+  instance.register<ProductAttribute>(
+    (s) => ProductAttributeSerializer(jSerializer: s),
+    (Function f) => f<ProductAttribute>(),
+    mockFactory: (s) => ProductAttributeMocker(jSerializer: s),
+  );
+  instance.register<ProductAttributeValue>(
+    (s) => ProductAttributeValueSerializer(jSerializer: s),
+    (Function f) => f<ProductAttributeValue>(),
+    mockFactory: (s) => ProductAttributeValueMocker(jSerializer: s),
+  );
+  instance.register<Brand>(
+    (s) => BrandSerializer(jSerializer: s),
+    (Function f) => f<Brand>(),
+    mockFactory: (s) => BrandMocker(jSerializer: s),
+  );
+  instance.register<ProductVariant>(
+    (s) => ProductVariantSerializer(jSerializer: s),
+    (Function f) => f<ProductVariant>(),
+    mockFactory: (s) => ProductVariantMocker(jSerializer: s),
+  );
   instance.register<SectionLayoutVList>(
     (s) => SectionLayoutVListSerializer(jSerializer: s),
     (Function f) => f<SectionLayoutVList>(),
@@ -555,6 +3257,26 @@ void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
     (Function f) => f<DynamicItemShape>(),
     mockFactory: (s) => DynamicItemShapeMocker(jSerializer: s),
   );
+  instance.register<ProductCustomization>(
+    (s) => ProductCustomizationSerializer(jSerializer: s),
+    (Function f) => f<ProductCustomization>(),
+    mockFactory: (s) => ProductCustomizationMocker(jSerializer: s),
+  );
+  instance.register<ProductCustomizationValue>(
+    (s) => ProductCustomizationValueSerializer(jSerializer: s),
+    (Function f) => f<ProductCustomizationValue>(),
+    mockFactory: (s) => ProductCustomizationValueMocker(jSerializer: s),
+  );
+  instance.register<ProductCustomizationDecoration>(
+    (s) => ProductCustomizationDecorationSerializer(jSerializer: s),
+    (Function f) => f<ProductCustomizationDecoration>(),
+    mockFactory: (s) => ProductCustomizationDecorationMocker(jSerializer: s),
+  );
+  instance.register<Price>(
+    (s) => PriceSerializer(jSerializer: s),
+    (Function f) => f<Price>(),
+    mockFactory: (s) => PriceMocker(jSerializer: s),
+  );
   instance.register<SomeModel>(
     (s) => SomeModelSerializer(jSerializer: s),
     (Function f) => f<SomeModel>(),
@@ -574,5 +3296,20 @@ void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
     (s) => SomeEnumSerializer(jSerializer: s),
     (Function f) => f<SomeEnum>(),
     mockFactory: (s) => SomeEnumMocker(jSerializer: s),
+  );
+  instance.register<SuperComplicatedModel>(
+    (s) => SuperComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<SuperComplicatedModel<T>>(),
+    mockFactory: (s) => SuperComplicatedModelMocker(jSerializer: s),
+  );
+  instance.register<ComplicatedModel>(
+    (s) => ComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<ComplicatedModel<T>>(),
+    mockFactory: (s) => ComplicatedModelMocker(jSerializer: s),
+  );
+  instance.register<SemiComplicatedModel>(
+    (s) => SemiComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<SemiComplicatedModel<T>>(),
+    mockFactory: (s) => SemiComplicatedModelMocker(jSerializer: s),
   );
 }

@@ -75,7 +75,8 @@ abstract class JGenericMocker<T> extends JMocker<T> {
 
   M createMock<M extends T?>([JMockerContext? context]) {
     final result = mocker.callWith(
-      typeArguments: M.args,
+      typeRegistry: jSerializer.typeRegistry,
+      typeArguments: M.resolveWith(jSerializer.typeRegistry).argsAsTypes,
       parameters: [context],
     );
 
