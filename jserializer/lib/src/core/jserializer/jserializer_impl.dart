@@ -289,7 +289,9 @@ class JSerializerImpl extends JSerializerInterface {
 
   @override
   JMocker mockerOf<T>([Type? t]) {
-    final mocker = mockers[_getTypeBase(t ?? T)];
+    final type = _getTypeBase(t ?? T);
+    final mocker = mockers[type] ?? mockers[typeOf<T>()];
+
     if (mocker == null) throw UnregisteredMockerTypeException(T);
 
     return mocker(this);

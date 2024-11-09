@@ -4,36 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="fix issue with JMockerContext copyWith">
-      <change afterPath="$PROJECT_DIR$/jserializer/example2/lib/model/complicated_model.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jserializer/example2/lib/model/product.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jserializer/example2/lib/model/product_customization.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jserializer_library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jserializer_library.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/.metadata" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/generic_serializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/generic_serializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/serializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/domain/serializers/serializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/jserializer/jserializer_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/util.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/util.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merging_builder/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/merging_builder/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/type_plus/example/lib/main.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/type_plus/example/pubspec.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/type_plus/lib/src/resolved_type.dart" beforeDir="false" afterPath="$PROJECT_DIR$/type_plus/lib/src/resolved_type.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/type_plus/lib/src/type_plus.dart" beforeDir="false" afterPath="$PROJECT_DIR$/type_plus/lib/src/type_plus.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/type_plus/lib/src/types_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/type_plus/lib/src/types_registry.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/type_plus/lib/type_plus.dart" beforeDir="false" afterPath="$PROJECT_DIR$/type_plus/lib/type_plus.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/type_plus/test/type_info_test.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/type_plus/test/type_plus_test.dart" beforeDir="false" />
-    </list>
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="Support isolated JSerializer instances, to allow for use in isolates" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,6 +22,8 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="SOFT" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -100,7 +73,7 @@
     "Dart Command Line App.main.dart (1).executor": "Run",
     "Dart Command Line App.main.dart.executor": "Run",
     "Dart Test.Tests in a_test.dart.executor": "Run",
-    "Flutter.main.dart.executor": "Run",
+    "Flutter.main.dart.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
@@ -109,8 +82,9 @@
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
+    "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/erabti/Developer/jserializer_library",
+    "last_opened_file_path": "/Users/erabti/Developer/jserializer_library/jserializer",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
@@ -122,11 +96,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/jserializer" />
       <recent name="$PROJECT_DIR$/jserializer/example2/lib" />
       <recent name="$PROJECT_DIR$/jserializer/example2" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/jserializer/example/lib" />
-      <recent name="$PROJECT_DIR$/jserializer/example" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/jserializer/lib/src/core/model/serializers" />
@@ -334,54 +308,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
     </task>
-    <task id="LOCAL-00028" summary="make jserializer more resiliant to common serialization errors from backend">
-      <option name="closed" value="true" />
-      <created>1717621575010</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1717621575010</updated>
-    </task>
-    <task id="LOCAL-00029" summary="fix jserializer resiliant issue where it wasn't looking up in the right way">
-      <option name="closed" value="true" />
-      <created>1717686188638</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1717686188638</updated>
-    </task>
-    <task id="LOCAL-00030" summary="add new feature of defining fallbackName in JKey">
-      <option name="closed" value="true" />
-      <created>1719319421680</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1719319421680</updated>
-    </task>
-    <task id="LOCAL-00031" summary="add new feature of defining fallbackName in JKey">
-      <option name="closed" value="true" />
-      <created>1719319431588</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1719319431588</updated>
-    </task>
-    <task id="LOCAL-00032" summary="remove forgotten print">
-      <option name="closed" value="true" />
-      <created>1719420842615</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1719420842615</updated>
-    </task>
-    <task id="LOCAL-00033" summary="fix for using enums in adapters and custom mockers per field">
-      <option name="closed" value="true" />
-      <created>1722716164202</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1722716164202</updated>
-    </task>
     <task id="LOCAL-00034" summary="fix for using enums in adapters and custom mockers per field">
       <option name="closed" value="true" />
       <created>1722716194328</created>
@@ -566,7 +492,55 @@
       <option name="project" value="LOCAL" />
       <updated>1728514910393</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Support isolated JSerializer instances, to allow for use in isolates">
+      <option name="closed" value="true" />
+      <created>1731189775001</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1731189775003</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Support isolated JSerializer instances, to allow for use in isolates">
+      <option name="closed" value="true" />
+      <created>1731189787359</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1731189787359</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Support isolated JSerializer instances, to allow for use in isolates">
+      <option name="closed" value="true" />
+      <created>1731191064307</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1731191064308</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Support isolated JSerializer instances, to allow for use in isolates">
+      <option name="closed" value="true" />
+      <created>1731191088396</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1731191088396</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Support isolated JSerializer instances, to allow for use in isolates">
+      <option name="closed" value="true" />
+      <created>1731191265774</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1731191265774</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Support isolated JSerializer instances, to allow for use in isolates">
+      <option name="closed" value="true" />
+      <created>1731191275182</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1731191275182</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -594,7 +568,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix extras field after the refactor" />
     <MESSAGE value="fix nullable type for generics" />
     <MESSAGE value="add return_of_invalid_type_from_closure ignore and delete example projects" />
     <MESSAGE value="fix JAdatper.int and JAdapter.double" />
@@ -619,7 +592,8 @@
     <MESSAGE value="add overriddenMocker to JSerializer.i.createMock" />
     <MESSAGE value="fix issue with createMock" />
     <MESSAGE value="fix issue with JMockerContext copyWith" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix issue with JMockerContext copyWith" />
+    <MESSAGE value="Support isolated JSerializer instances, to allow for use in isolates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Support isolated JSerializer instances, to allow for use in isolates" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
