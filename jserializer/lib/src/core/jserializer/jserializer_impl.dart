@@ -281,28 +281,49 @@ class JSerializerImpl extends JSerializerInterface {
 
   @override
   Serializer serializerOf<T>([Type? t]) {
-    final serializer = serializers[_getTypeBase((t ?? T))];
-    if (serializer == null) throw UnregisteredSerializableTypeException(T);
+    final passedType = t != null ? _getTypeBase(t) : null;
+    late final genericType = _getTypeBase(typeOf<T>());
+
+    final serializer = (t == null ? null : serializers[passedType]) ??
+        serializers[genericType];
+
+    if (serializer == null) throw UnregisteredSerializableTypeException(t ?? T);
 
     return serializer(this);
   }
 
   @override
   JMocker mockerOf<T>([Type? t]) {
-    final type = _getTypeBase(t ?? T);
-    final mocker = mockers[type] ?? mockers[typeOf<T>()];
+    final passedType = t != null ? _getTypeBase(t) : null;
+    late final genericType = _getTypeBase(typeOf<T>());
 
-    if (mocker == null) throw UnregisteredMockerTypeException(T);
+    final mocker =
+        (t == null ? null : mockers[passedType]) ?? mockers[genericType];
+
+    if (mocker == null) throw UnregisteredMockerTypeException(t ?? T);
 
     return mocker(this);
   }
 
   @override
-  bool hasSerializerOf<T>([Type? t]) =>
-      serializers[_getTypeBase(t ?? T)] != null;
+  bool hasSerializerOf<T>([Type? t]) {
+    final passedType = t != null ? _getTypeBase(t) : null;
+    final genericType = _getTypeBase(typeOf<T>());
+
+    if (t == null) return serializers[genericType] != null;
+
+    return (serializers[passedType] ?? serializers[genericType]) != null;
+  }
 
   @override
-  bool hasMockerOf<T>([Type? t]) => mockers[_getTypeBase(t ?? T)] != null;
+  bool hasMockerOf<T>([Type? t]) {
+    final passedType = t != null ? _getTypeBase(t) : null;
+    final genericType = _getTypeBase(typeOf<T>());
+
+    if (t == null) return mockers[genericType] != null;
+
+    return (mockers[passedType] ?? mockers[genericType]) != null;
+  }
 
   @override
   T createMock<T>({
