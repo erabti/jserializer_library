@@ -16,7 +16,7 @@ class MockMethodGenerator {
   bool get isGeneric => modelConfig.hasGenericValue;
 
   List<Method> getMethods() => [
-        _getMocker(),
+        _getMockerMethod(),
         if (isGeneric) geMockerGetterForGenericModels(),
       ];
 
@@ -40,11 +40,7 @@ class MockMethodGenerator {
     final valueCode = mockValueCode;
     final hasValue = valueCode != null;
     final customMocker = field.customMockers.firstOrNull;
-    final contextRefer = refer('context?').cascade('setFieldName').call(
-      [
-        literalString(field.fieldName),
-      ],
-    );
+    final contextRefer = refer('context');
 
     Expression exp;
     if (customMocker != null) {
@@ -54,9 +50,13 @@ class MockMethodGenerator {
     } else if (hasValue) {
       exp = valueCode;
     } else {
-      exp = refer('jSerializer').property('createMock').call(
+      exp = refer('subMock').call(
         [],
-        {'context': contextRefer},
+        {
+          'context': contextRefer,
+          'fieldName': literalString(field.fieldName),
+          'currentLevel': refer('currentLevel'),
+        },
         [field.paramType.refer],
       );
     }
@@ -95,7 +95,7 @@ class MockMethodGenerator {
       ..returns = modelConfig.type.refer;
   }
 
-  Method _getMocker() {
+  Method _getMockerMethod() {
     final enumConfig = modelConfig.enumConfig;
 
     if (enumConfig != null) {
@@ -190,12 +190,27 @@ class MockMethodGenerator {
       ],
     );
 
+    final prevLevelCode =
+        refer('context?').property('currentDepthLevel').ifNullThen(refer('0'));
+    final prevLevelStmt =
+        declareFinal('prevLevel').assign(prevLevelCode).statement;
+
+    //     final currentLevel = prevLevel + 1;
+    final currentLevelCode = refer('prevLevel').operatorAdd(refer('1'));
+    final currentLevelStmt =
+        declareFinal('currentLevel').assign(currentLevelCode).statement;
+
     return Method(
       (b) => getMockerSign(
         b
           ..body = Block(
             (b) => b.statements.addAll(
-              [...statements, returnedModel.returned.statement],
+              [
+                prevLevelStmt,
+                currentLevelStmt,
+                ...statements,
+                returnedModel.returned.statement,
+              ],
             ),
           ),
       ),

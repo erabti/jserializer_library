@@ -6,14 +6,24 @@ class JMockerContext {
     this.options,
     this.deterministicRandom,
     this.deterministicSeedSalt,
+    this.nullifyAfterDepth,
   });
 
   final bool? deterministicRandom;
   final bool? randomize;
+  final int? nullifyAfterDepth;
 
   int? _callCount;
 
   int? get callCount => _callCount;
+
+  int _depthLevel = 0;
+
+  int get currentDepthLevel => _depthLevel;
+
+  void setDepthLevel(level) {
+    _depthLevel = level;
+  }
 
   void setCallCount(int? callCount) {
     if (callCount == null) return;
@@ -117,6 +127,9 @@ class JMockerContext {
       deterministicSeedSalt:
           deterministicSeedSalt ?? this.deterministicSeedSalt,
       options: options ?? this.options,
-    )..setFieldName(_fieldName);
+      nullifyAfterDepth: nullifyAfterDepth,
+    )
+      ..setFieldName(_fieldName)
+      ..setDepthLevel(_depthLevel);
   }
 }

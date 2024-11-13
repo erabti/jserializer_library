@@ -10,8 +10,8 @@ import 'package:jserializer/jserializer.dart' as js;
 import 'package:example2/model/product.dart';
 import 'package:example2/model/product_customization.dart';
 import 'package:example2/model/union.dart';
-import 'package:example2/model/model.dart';
 import 'package:example2/model/complicated_model.dart';
+import 'package:example2/model/model.dart';
 
 class ProductSerializer extends js.ModelSerializer<Product> {
   const ProductSerializer({super.jSerializer});
@@ -975,297 +975,6 @@ class DynamicItemShapeSerializer
   }
 }
 
-class ProductCustomizationSerializer
-    extends js.ModelSerializer<ProductCustomization> {
-  const ProductCustomizationSerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'id',
-    'decoration',
-    'min',
-    'max',
-    'values',
-  };
-
-  @override
-  ProductCustomization fromJson(json) {
-    final id$Value = safeLookup<String>(
-      call: () => jSerializer.fromJson<String>(json['id']),
-      jsonKey: 'id',
-    );
-    final decoration$Value = safeLookup<ProductCustomizationDecoration?>(
-      call: () => jSerializer
-          .fromJson<ProductCustomizationDecoration?>(json['decoration']),
-      jsonKey: 'decoration',
-    );
-    final minSelection$Value = safeLookup<int?>(
-      call: () => jSerializer.fromJson<int?>(json['min']),
-      jsonKey: 'min',
-      fieldName: 'minSelection',
-    );
-    final maxSelection$Value = safeLookup<int?>(
-      call: () => jSerializer.fromJson<int?>(json['max']),
-      jsonKey: 'max',
-      fieldName: 'maxSelection',
-    );
-    final values$Value = safeLookup<List<ProductCustomizationValue>?>(
-      call: () => jSerializer
-          .fromJson<List<ProductCustomizationValue>?>(json['values']),
-      jsonKey: 'values',
-    );
-    return ProductCustomization(
-      id: id$Value,
-      decoration: decoration$Value,
-      minSelection: minSelection$Value,
-      maxSelection: maxSelection$Value,
-      values: values$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ProductCustomization model) => {
-        'id': model.id,
-        'decoration': jSerializer.toJson(model.decoration),
-        'min': model.minSelection,
-        'max': model.maxSelection,
-        'values': jSerializer.toJson(model.values),
-      };
-}
-
-class ProductCustomizationValueSerializer
-    extends js.ModelSerializer<ProductCustomizationValue> {
-  const ProductCustomizationValueSerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'id',
-    'name',
-    'featuredImage',
-    'description',
-    'price',
-  };
-
-  @override
-  ProductCustomizationValue fromJson(json) {
-    final id$Value = safeLookup<String>(
-      call: () => jSerializer.fromJson<String>(json['id']),
-      jsonKey: 'id',
-    );
-    final name$Value = safeLookup<String?>(
-      call: () => jSerializer.fromJson<String?>(json['name']),
-      jsonKey: 'name',
-    );
-    final featuredImage$Value = safeLookup<String?>(
-      call: () => jSerializer.fromJson<String?>(json['featuredImage']),
-      jsonKey: 'featuredImage',
-    );
-    final description$Value = safeLookup<String?>(
-      call: () => jSerializer.fromJson<String?>(json['description']),
-      jsonKey: 'description',
-    );
-    final price$Value = safeLookup<Price?>(
-      call: () => jSerializer.fromJson<Price?>(json['price']),
-      jsonKey: 'price',
-    );
-    return ProductCustomizationValue(
-      id: id$Value,
-      name: name$Value,
-      featuredImage: featuredImage$Value,
-      description: description$Value,
-      price: price$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ProductCustomizationValue model) => {
-        'id': model.id,
-        'name': model.name,
-        'featuredImage': model.featuredImage,
-        'description': model.description,
-        'price': jSerializer.toJson(model.price),
-      };
-}
-
-class ProductCustomizationDecorationSerializer
-    extends js.ModelSerializer<ProductCustomizationDecoration> {
-  const ProductCustomizationDecorationSerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'title',
-    'preTitle',
-    'subtitle',
-  };
-
-  @override
-  ProductCustomizationDecoration fromJson(json) {
-    final title$Value = safeLookup<String?>(
-      call: () => jSerializer.fromJson<String?>(json['title']),
-      jsonKey: 'title',
-    );
-    final preTitle$Value = safeLookup<String?>(
-      call: () => jSerializer.fromJson<String?>(json['preTitle']),
-      jsonKey: 'preTitle',
-    );
-    final subtitle$Value = safeLookup<String?>(
-      call: () => jSerializer.fromJson<String?>(json['subtitle']),
-      jsonKey: 'subtitle',
-    );
-    return ProductCustomizationDecoration(
-      title: title$Value,
-      preTitle: preTitle$Value,
-      subtitle: subtitle$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ProductCustomizationDecoration model) => {
-        'title': model.title,
-        'preTitle': model.preTitle,
-        'subtitle': model.subtitle,
-      };
-}
-
-class PriceSerializer extends js.ModelSerializer<Price> {
-  const PriceSerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'amount',
-    'currency',
-  };
-
-  @override
-  Price fromJson(json) {
-    final amount$Value = safeLookup<double>(
-      call: () => jSerializer.fromJson<double>(json['amount']),
-      jsonKey: 'amount',
-    );
-    final currency$Value = safeLookup<String?>(
-      call: () => jSerializer.fromJson<String?>(json['currency']),
-      jsonKey: 'currency',
-    );
-    return Price(
-      amount: amount$Value,
-      currency: currency$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(Price model) => {
-        'amount': model.amount,
-        'currency': model.currency,
-      };
-}
-
-class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
-  const SomeModelSerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'field1',
-    'field2',
-    'field3',
-    'field4',
-  };
-
-  @override
-  SomeModel fromJson(json) {
-    final field1$Value = safeLookup<String>(
-      call: () => jSerializer.fromJson<String>(json['field1']),
-      jsonKey: 'field1',
-    );
-    final field2$Value = safeLookup<String?>(
-      call: () => jSerializer.fromJson<String?>(json['field2']),
-      jsonKey: 'field2',
-    );
-    final field3$Value = safeLookup<double?>(
-      call: () => jSerializer.fromJson<double?>(json['field3']),
-      jsonKey: 'field3',
-    );
-    final field4$Value = safeLookup<int?>(
-      call: () => jSerializer.fromJson<int?>(json['field4']),
-      jsonKey: 'field4',
-    );
-    final extras$Value = Map<String, dynamic>.from(json)
-      ..removeWhere((
-        key,
-        _,
-      ) =>
-          jsonKeys.contains(key));
-    return SomeModel(
-      field1: field1$Value,
-      field2: field2$Value,
-      field3: field3$Value,
-      field4: field4$Value,
-      extras: extras$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(SomeModel model) => Map.of(model.extras)
-    ..addAll({
-      'field1': model.field1,
-      'field2': model.field2,
-      'field3': model.field3,
-      'field4': model.field4,
-    });
-}
-
-class SomeGenericModelSerializer
-    extends js.GenericModelSerializer<SomeGenericModel> {
-  SomeGenericModelSerializer({super.jSerializer});
-
-  static const jsonKeys = {'value'};
-
-  SomeGenericModel<T> decode<T>(Map json) {
-    final value$Value = safeLookup<T>(
-      call: () => jSerializer.fromJson<T>(json['value']),
-      jsonKey: 'value',
-    );
-    final extras$Value = Map<String, dynamic>.from(json)
-      ..removeWhere((
-        key,
-        _,
-      ) =>
-          jsonKeys.contains(key));
-    return SomeGenericModel<T>(
-      value: value$Value,
-      extras: extras$Value,
-    );
-  }
-
-  @override
-  Function get decoder => decode;
-
-  @override
-  Map<String, dynamic> toJson(SomeGenericModel model) =>
-      Map.of(model.extras)..addAll({'value': jSerializer.toJson(model.value)});
-}
-
-class SomeEnumSerializer extends js.CustomModelSerializer<SomeEnum, String> {
-  const SomeEnumSerializer({super.jSerializer});
-
-  @override
-  SomeEnum fromJson(String json) {
-    if (json == 'someValue1') return SomeEnum.someValue1;
-
-    if (json == 'someValue2') return SomeEnum.someValue2;
-
-    throw Exception(
-      'JSerializationException in Enum of type $SomeEnum '
-      'Unknown enum value: $json',
-    );
-  }
-
-  @override
-  String toJson(SomeEnum model) {
-    switch (model) {
-      case SomeEnum.someValue1:
-        return 'someValue1';
-
-      case SomeEnum.someValue2:
-        return 'someValue2';
-    }
-  }
-}
-
 class SuperComplicatedModelSerializer
     extends js.GenericModelSerializer<SuperComplicatedModel> {
   SuperComplicatedModelSerializer({super.jSerializer});
@@ -2152,66 +1861,434 @@ class SemiComplicatedModelSerializer
       };
 }
 
+class ProductCustomizationSerializer
+    extends js.ModelSerializer<ProductCustomization> {
+  const ProductCustomizationSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'decoration',
+    'min',
+    'max',
+    'values',
+  };
+
+  @override
+  ProductCustomization fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['id']),
+      jsonKey: 'id',
+    );
+    final decoration$Value = safeLookup<ProductCustomizationDecoration?>(
+      call: () => jSerializer
+          .fromJson<ProductCustomizationDecoration?>(json['decoration']),
+      jsonKey: 'decoration',
+    );
+    final minSelection$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['min']),
+      jsonKey: 'min',
+      fieldName: 'minSelection',
+    );
+    final maxSelection$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['max']),
+      jsonKey: 'max',
+      fieldName: 'maxSelection',
+    );
+    final values$Value = safeLookup<List<ProductCustomizationValue>?>(
+      call: () => jSerializer
+          .fromJson<List<ProductCustomizationValue>?>(json['values']),
+      jsonKey: 'values',
+    );
+    return ProductCustomization(
+      id: id$Value,
+      decoration: decoration$Value,
+      minSelection: minSelection$Value,
+      maxSelection: maxSelection$Value,
+      values: values$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductCustomization model) => {
+        'id': model.id,
+        'decoration': jSerializer.toJson(model.decoration),
+        'min': model.minSelection,
+        'max': model.maxSelection,
+        'values': jSerializer.toJson(model.values),
+      };
+}
+
+class ProductCustomizationValueSerializer
+    extends js.ModelSerializer<ProductCustomizationValue> {
+  const ProductCustomizationValueSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'featuredImage',
+    'description',
+    'price',
+  };
+
+  @override
+  ProductCustomizationValue fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['id']),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['name']),
+      jsonKey: 'name',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['featuredImage']),
+      jsonKey: 'featuredImage',
+    );
+    final description$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['description']),
+      jsonKey: 'description',
+    );
+    final price$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['price']),
+      jsonKey: 'price',
+    );
+    return ProductCustomizationValue(
+      id: id$Value,
+      name: name$Value,
+      featuredImage: featuredImage$Value,
+      description: description$Value,
+      price: price$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductCustomizationValue model) => {
+        'id': model.id,
+        'name': model.name,
+        'featuredImage': model.featuredImage,
+        'description': model.description,
+        'price': jSerializer.toJson(model.price),
+      };
+}
+
+class ProductCustomizationDecorationSerializer
+    extends js.ModelSerializer<ProductCustomizationDecoration> {
+  const ProductCustomizationDecorationSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'title',
+    'preTitle',
+    'subtitle',
+  };
+
+  @override
+  ProductCustomizationDecoration fromJson(json) {
+    final title$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['title']),
+      jsonKey: 'title',
+    );
+    final preTitle$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['preTitle']),
+      jsonKey: 'preTitle',
+    );
+    final subtitle$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['subtitle']),
+      jsonKey: 'subtitle',
+    );
+    return ProductCustomizationDecoration(
+      title: title$Value,
+      preTitle: preTitle$Value,
+      subtitle: subtitle$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductCustomizationDecoration model) => {
+        'title': model.title,
+        'preTitle': model.preTitle,
+        'subtitle': model.subtitle,
+      };
+}
+
+class PriceSerializer extends js.ModelSerializer<Price> {
+  const PriceSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'amount',
+    'currency',
+  };
+
+  @override
+  Price fromJson(json) {
+    final amount$Value = safeLookup<double>(
+      call: () => jSerializer.fromJson<double>(json['amount']),
+      jsonKey: 'amount',
+    );
+    final currency$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['currency']),
+      jsonKey: 'currency',
+    );
+    return Price(
+      amount: amount$Value,
+      currency: currency$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Price model) => {
+        'amount': model.amount,
+        'currency': model.currency,
+      };
+}
+
+class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
+  const SomeModelSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'field1',
+    'field2',
+    'field3',
+    'field4',
+  };
+
+  @override
+  SomeModel fromJson(json) {
+    final field1$Value = safeLookup<String>(
+      call: () => jSerializer.fromJson<String>(json['field1']),
+      jsonKey: 'field1',
+    );
+    final field2$Value = safeLookup<String?>(
+      call: () => jSerializer.fromJson<String?>(json['field2']),
+      jsonKey: 'field2',
+    );
+    final field3$Value = safeLookup<double?>(
+      call: () => jSerializer.fromJson<double?>(json['field3']),
+      jsonKey: 'field3',
+    );
+    final field4$Value = safeLookup<int?>(
+      call: () => jSerializer.fromJson<int?>(json['field4']),
+      jsonKey: 'field4',
+    );
+    final extras$Value = Map<String, dynamic>.from(json)
+      ..removeWhere((
+        key,
+        _,
+      ) =>
+          jsonKeys.contains(key));
+    return SomeModel(
+      field1: field1$Value,
+      field2: field2$Value,
+      field3: field3$Value,
+      field4: field4$Value,
+      extras: extras$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(SomeModel model) => Map.of(model.extras)
+    ..addAll({
+      'field1': model.field1,
+      'field2': model.field2,
+      'field3': model.field3,
+      'field4': model.field4,
+    });
+}
+
+class SomeGenericModelSerializer
+    extends js.GenericModelSerializer<SomeGenericModel> {
+  SomeGenericModelSerializer({super.jSerializer});
+
+  static const jsonKeys = {'value'};
+
+  SomeGenericModel<T> decode<T>(Map json) {
+    final value$Value = safeLookup<T>(
+      call: () => jSerializer.fromJson<T>(json['value']),
+      jsonKey: 'value',
+    );
+    final extras$Value = Map<String, dynamic>.from(json)
+      ..removeWhere((
+        key,
+        _,
+      ) =>
+          jsonKeys.contains(key));
+    return SomeGenericModel<T>(
+      value: value$Value,
+      extras: extras$Value,
+    );
+  }
+
+  @override
+  Function get decoder => decode;
+
+  @override
+  Map<String, dynamic> toJson(SomeGenericModel model) =>
+      Map.of(model.extras)..addAll({'value': jSerializer.toJson(model.value)});
+}
+
+class SomeEnumSerializer extends js.CustomModelSerializer<SomeEnum, String> {
+  const SomeEnumSerializer({super.jSerializer});
+
+  @override
+  SomeEnum fromJson(String json) {
+    if (json == 'someValue1') return SomeEnum.someValue1;
+
+    if (json == 'someValue2') return SomeEnum.someValue2;
+
+    throw Exception(
+      'JSerializationException in Enum of type $SomeEnum '
+      'Unknown enum value: $json',
+    );
+  }
+
+  @override
+  String toJson(SomeEnum model) {
+    switch (model) {
+      case SomeEnum.someValue1:
+        return 'someValue1';
+
+      case SomeEnum.someValue2:
+        return 'someValue2';
+    }
+  }
+}
+
 class ProductMocker extends js.JModelMocker<Product> {
   const ProductMocker({super.jSerializer});
 
   @override
   Product createMock([js.JMockerContext? context]) {
-    final id$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('id'));
-    final name$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('name'));
-    final price$Value = jSerializer.createMock<Price?>(
-        context: context?..setFieldName('price'));
-    final originalPrice$Value = jSerializer.createMock<Price?>(
-        context: context?..setFieldName('originalPrice'));
-    final featuredImage$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('featuredImage'));
-    final images$Value = jSerializer.createMock<List<String>?>(
-        context: context?..setFieldName('images'));
-    final vendor$Value = jSerializer.createMock<Vendor?>(
-        context: context?..setFieldName('vendor'));
-    final currency$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('currency'));
-    final maxPurchaseQuantity$Value = jSerializer.createMock<int?>(
-        context: context?..setFieldName('maxPurchaseQuantity'));
-    final service$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('service'));
-    final category$Value = jSerializer.createMock<List<Category?>?>(
-        context: context?..setFieldName('category'));
-    final discountRate$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('discountRate'));
-    final isAvailable$Value = jSerializer.createMock<bool?>(
-        context: context?..setFieldName('isAvailable'));
-    final description$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('description'));
-    final tags$Value = jSerializer.createMock<List<Tag>?>(
-        context: context?..setFieldName('tags'));
-    final barcode$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('barcode'));
-    final quantity$Value = jSerializer.createMock<int?>(
-        context: context?..setFieldName('quantity'));
-    final variants$Value = jSerializer.createMock<List<ProductVariant>?>(
-        context: context?..setFieldName('variants'));
-    final shortUrl$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('shortUrl'));
-    final brand$Value = jSerializer.createMock<Brand?>(
-        context: context?..setFieldName('brand'));
-    final variantsAttributes$Value =
-        jSerializer.createMock<List<ProductAttribute>?>(
-            context: context?..setFieldName('variantsAttributes'));
-    final attributes$Value =
-        jSerializer.createMock<List<ProductAttributeValue>?>(
-            context: context?..setFieldName('attributes'));
-    final groupReference$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('groupReference'));
-    final vendorId$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('vendorId'));
-    final userSpecifics$Value = jSerializer.createMock<ProductUserSpecific?>(
-        context: context?..setFieldName('userSpecifics'));
-    final customizations$Value =
-        jSerializer.createMock<List<ProductCustomization>?>(
-            context: context?..setFieldName('customizations'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final price$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'price',
+      currentLevel: currentLevel,
+    );
+    final originalPrice$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'originalPrice',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final images$Value = subMock<List<String>?>(
+      context: context,
+      fieldName: 'images',
+      currentLevel: currentLevel,
+    );
+    final vendor$Value = subMock<Vendor?>(
+      context: context,
+      fieldName: 'vendor',
+      currentLevel: currentLevel,
+    );
+    final currency$Value = subMock<String?>(
+      context: context,
+      fieldName: 'currency',
+      currentLevel: currentLevel,
+    );
+    final maxPurchaseQuantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'maxPurchaseQuantity',
+      currentLevel: currentLevel,
+    );
+    final service$Value = subMock<String?>(
+      context: context,
+      fieldName: 'service',
+      currentLevel: currentLevel,
+    );
+    final category$Value = subMock<List<Category?>?>(
+      context: context,
+      fieldName: 'category',
+      currentLevel: currentLevel,
+    );
+    final discountRate$Value = subMock<String?>(
+      context: context,
+      fieldName: 'discountRate',
+      currentLevel: currentLevel,
+    );
+    final isAvailable$Value = subMock<bool?>(
+      context: context,
+      fieldName: 'isAvailable',
+      currentLevel: currentLevel,
+    );
+    final description$Value = subMock<String?>(
+      context: context,
+      fieldName: 'description',
+      currentLevel: currentLevel,
+    );
+    final tags$Value = subMock<List<Tag>?>(
+      context: context,
+      fieldName: 'tags',
+      currentLevel: currentLevel,
+    );
+    final barcode$Value = subMock<String?>(
+      context: context,
+      fieldName: 'barcode',
+      currentLevel: currentLevel,
+    );
+    final quantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'quantity',
+      currentLevel: currentLevel,
+    );
+    final variants$Value = subMock<List<ProductVariant>?>(
+      context: context,
+      fieldName: 'variants',
+      currentLevel: currentLevel,
+    );
+    final shortUrl$Value = subMock<String?>(
+      context: context,
+      fieldName: 'shortUrl',
+      currentLevel: currentLevel,
+    );
+    final brand$Value = subMock<Brand?>(
+      context: context,
+      fieldName: 'brand',
+      currentLevel: currentLevel,
+    );
+    final variantsAttributes$Value = subMock<List<ProductAttribute>?>(
+      context: context,
+      fieldName: 'variantsAttributes',
+      currentLevel: currentLevel,
+    );
+    final attributes$Value = subMock<List<ProductAttributeValue>?>(
+      context: context,
+      fieldName: 'attributes',
+      currentLevel: currentLevel,
+    );
+    final groupReference$Value = subMock<String?>(
+      context: context,
+      fieldName: 'groupReference',
+      currentLevel: currentLevel,
+    );
+    final vendorId$Value = subMock<String?>(
+      context: context,
+      fieldName: 'vendorId',
+      currentLevel: currentLevel,
+    );
+    final userSpecifics$Value = subMock<ProductUserSpecific?>(
+      context: context,
+      fieldName: 'userSpecifics',
+      currentLevel: currentLevel,
+    );
+    final customizations$Value = subMock<List<ProductCustomization>?>(
+      context: context,
+      fieldName: 'customizations',
+      currentLevel: currentLevel,
+    );
     return Product(
       id: id$Value,
       name: name$Value,
@@ -2248,14 +2325,28 @@ class TagMocker extends js.JModelMocker<Tag> {
 
   @override
   Tag createMock([js.JMockerContext? context]) {
-    final key$Value =
-        jSerializer.createMock<String?>(context: context?..setFieldName('key'));
-    final title$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('title'));
-    final subTitle$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('subTitle'));
-    final featuredImage$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('featuredImage'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final key$Value = subMock<String?>(
+      context: context,
+      fieldName: 'key',
+      currentLevel: currentLevel,
+    );
+    final title$Value = subMock<String?>(
+      context: context,
+      fieldName: 'title',
+      currentLevel: currentLevel,
+    );
+    final subTitle$Value = subMock<String?>(
+      context: context,
+      fieldName: 'subTitle',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
     return Tag(
       key: key$Value,
       title: title$Value,
@@ -2270,26 +2361,58 @@ class VendorMocker extends js.JModelMocker<Vendor> {
 
   @override
   Vendor createMock([js.JMockerContext? context]) {
-    final id$Value =
-        jSerializer.createMock<String?>(context: context?..setFieldName('id'));
-    final name$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('name'));
-    final banner$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('banner'));
-    final featuredImage$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('featuredImage'));
-    final images$Value = jSerializer.createMock<List<String>?>(
-        context: context?..setFieldName('images'));
-    final category$Value = jSerializer.createMock<Category?>(
-        context: context?..setFieldName('category'));
-    final service$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('service'));
-    final isOpen$Value = jSerializer.createMock<bool?>(
-        context: context?..setFieldName('isOpen'));
-    final partnerSupportNumber$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('partnerSupportNumber'));
-    final minimumOrderAmount$Value = jSerializer.createMock<Price?>(
-        context: context?..setFieldName('minimumOrderAmount'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String?>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final banner$Value = subMock<String?>(
+      context: context,
+      fieldName: 'banner',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final images$Value = subMock<List<String>?>(
+      context: context,
+      fieldName: 'images',
+      currentLevel: currentLevel,
+    );
+    final category$Value = subMock<Category?>(
+      context: context,
+      fieldName: 'category',
+      currentLevel: currentLevel,
+    );
+    final service$Value = subMock<String?>(
+      context: context,
+      fieldName: 'service',
+      currentLevel: currentLevel,
+    );
+    final isOpen$Value = subMock<bool?>(
+      context: context,
+      fieldName: 'isOpen',
+      currentLevel: currentLevel,
+    );
+    final partnerSupportNumber$Value = subMock<String?>(
+      context: context,
+      fieldName: 'partnerSupportNumber',
+      currentLevel: currentLevel,
+    );
+    final minimumOrderAmount$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'minimumOrderAmount',
+      currentLevel: currentLevel,
+    );
     return Vendor(
       id: id$Value,
       name: name$Value,
@@ -2310,18 +2433,38 @@ class CategoryMocker extends js.JModelMocker<Category> {
 
   @override
   Category createMock([js.JMockerContext? context]) {
-    final id$Value =
-        jSerializer.createMock<String?>(context: context?..setFieldName('id'));
-    final banner$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('banner'));
-    final service$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('service'));
-    final featuredImage$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('featuredImage'));
-    final images$Value = jSerializer.createMock<List<String>?>(
-        context: context?..setFieldName('images'));
-    final name$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('name'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String?>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final banner$Value = subMock<String?>(
+      context: context,
+      fieldName: 'banner',
+      currentLevel: currentLevel,
+    );
+    final service$Value = subMock<String?>(
+      context: context,
+      fieldName: 'service',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final images$Value = subMock<List<String>?>(
+      context: context,
+      fieldName: 'images',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
     return Category(
       id: id$Value,
       banner: banner$Value,
@@ -2338,10 +2481,18 @@ class ProductUserSpecificMocker extends js.JModelMocker<ProductUserSpecific> {
 
   @override
   ProductUserSpecific createMock([js.JMockerContext? context]) {
-    final isFavorite$Value = jSerializer.createMock<bool?>(
-        context: context?..setFieldName('isFavorite'));
-    final cartQuantity$Value = jSerializer.createMock<int?>(
-        context: context?..setFieldName('cartQuantity'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final isFavorite$Value = subMock<bool?>(
+      context: context,
+      fieldName: 'isFavorite',
+      currentLevel: currentLevel,
+    );
+    final cartQuantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'cartQuantity',
+      currentLevel: currentLevel,
+    );
     return ProductUserSpecific(
       isFavorite: isFavorite$Value,
       cartQuantity: cartQuantity$Value,
@@ -2354,12 +2505,23 @@ class ProductAttributeMocker extends js.JModelMocker<ProductAttribute> {
 
   @override
   ProductAttribute createMock([js.JMockerContext? context]) {
-    final id$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('id'));
-    final name$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('name'));
-    final values$Value = jSerializer.createMock<List<ProductAttributeValue>?>(
-        context: context?..setFieldName('values'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final values$Value = subMock<List<ProductAttributeValue>?>(
+      context: context,
+      fieldName: 'values',
+      currentLevel: currentLevel,
+    );
     return ProductAttribute(
       id: id$Value,
       name: name$Value,
@@ -2374,14 +2536,28 @@ class ProductAttributeValueMocker
 
   @override
   ProductAttributeValue createMock([js.JMockerContext? context]) {
-    final id$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('id'));
-    final name$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('name'));
-    final color$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('color'));
-    final featuredImage$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('featuredImage'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final color$Value = subMock<String?>(
+      context: context,
+      fieldName: 'color',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
     return ProductAttributeValue(
       id: id$Value,
       name: name$Value,
@@ -2396,10 +2572,18 @@ class BrandMocker extends js.JModelMocker<Brand> {
 
   @override
   Brand createMock([js.JMockerContext? context]) {
-    final name$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('name'));
-    final logo$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('logo'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final logo$Value = subMock<String?>(
+      context: context,
+      fieldName: 'logo',
+      currentLevel: currentLevel,
+    );
     return Brand(
       name: name$Value,
       logo: logo$Value,
@@ -2412,54 +2596,123 @@ class ProductVariantMocker extends js.JModelMocker<ProductVariant> {
 
   @override
   ProductVariant createMock([js.JMockerContext? context]) {
-    final id$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('id'));
-    final name$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('name'));
-    final price$Value = jSerializer.createMock<Price?>(
-        context: context?..setFieldName('price'));
-    final featuredImage$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('featuredImage'));
-    final images$Value = jSerializer.createMock<List<String>?>(
-        context: context?..setFieldName('images'));
-    final vendor$Value = jSerializer.createMock<Vendor?>(
-        context: context?..setFieldName('vendor'));
-    final currency$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('currency'));
-    final maxPurchaseQuantity$Value = jSerializer.createMock<int?>(
-        context: context?..setFieldName('maxPurchaseQuantity'));
-    final service$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('service'));
-    final category$Value = jSerializer.createMock<List<Category?>?>(
-        context: context?..setFieldName('category'));
-    final originalPrice$Value = jSerializer.createMock<Price?>(
-        context: context?..setFieldName('originalPrice'));
-    final discountRate$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('discountRate'));
-    final isAvailable$Value = jSerializer.createMock<bool?>(
-        context: context?..setFieldName('isAvailable'));
-    final description$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('description'));
-    final tags$Value = jSerializer.createMock<List<Tag>?>(
-        context: context?..setFieldName('tags'));
-    final barcode$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('barcode'));
-    final quantity$Value = jSerializer.createMock<int?>(
-        context: context?..setFieldName('quantity'));
-    final shortUrl$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('shortUrl'));
-    final brand$Value = jSerializer.createMock<Brand?>(
-        context: context?..setFieldName('brand'));
-    final variantsAttributes$Value =
-        jSerializer.createMock<List<ProductAttribute>?>(
-            context: context?..setFieldName('variantsAttributes'));
-    final attributes$Value =
-        jSerializer.createMock<List<ProductAttributeValue>?>(
-            context: context?..setFieldName('attributes'));
-    final userSpecifics$Value = jSerializer.createMock<ProductUserSpecific?>(
-        context: context?..setFieldName('userSpecifics'));
-    final vendorId$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('vendorId'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final price$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'price',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final images$Value = subMock<List<String>?>(
+      context: context,
+      fieldName: 'images',
+      currentLevel: currentLevel,
+    );
+    final vendor$Value = subMock<Vendor?>(
+      context: context,
+      fieldName: 'vendor',
+      currentLevel: currentLevel,
+    );
+    final currency$Value = subMock<String?>(
+      context: context,
+      fieldName: 'currency',
+      currentLevel: currentLevel,
+    );
+    final maxPurchaseQuantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'maxPurchaseQuantity',
+      currentLevel: currentLevel,
+    );
+    final service$Value = subMock<String?>(
+      context: context,
+      fieldName: 'service',
+      currentLevel: currentLevel,
+    );
+    final category$Value = subMock<List<Category?>?>(
+      context: context,
+      fieldName: 'category',
+      currentLevel: currentLevel,
+    );
+    final originalPrice$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'originalPrice',
+      currentLevel: currentLevel,
+    );
+    final discountRate$Value = subMock<String?>(
+      context: context,
+      fieldName: 'discountRate',
+      currentLevel: currentLevel,
+    );
+    final isAvailable$Value = subMock<bool?>(
+      context: context,
+      fieldName: 'isAvailable',
+      currentLevel: currentLevel,
+    );
+    final description$Value = subMock<String?>(
+      context: context,
+      fieldName: 'description',
+      currentLevel: currentLevel,
+    );
+    final tags$Value = subMock<List<Tag>?>(
+      context: context,
+      fieldName: 'tags',
+      currentLevel: currentLevel,
+    );
+    final barcode$Value = subMock<String?>(
+      context: context,
+      fieldName: 'barcode',
+      currentLevel: currentLevel,
+    );
+    final quantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'quantity',
+      currentLevel: currentLevel,
+    );
+    final shortUrl$Value = subMock<String?>(
+      context: context,
+      fieldName: 'shortUrl',
+      currentLevel: currentLevel,
+    );
+    final brand$Value = subMock<Brand?>(
+      context: context,
+      fieldName: 'brand',
+      currentLevel: currentLevel,
+    );
+    final variantsAttributes$Value = subMock<List<ProductAttribute>?>(
+      context: context,
+      fieldName: 'variantsAttributes',
+      currentLevel: currentLevel,
+    );
+    final attributes$Value = subMock<List<ProductAttributeValue>?>(
+      context: context,
+      fieldName: 'attributes',
+      currentLevel: currentLevel,
+    );
+    final userSpecifics$Value = subMock<ProductUserSpecific?>(
+      context: context,
+      fieldName: 'userSpecifics',
+      currentLevel: currentLevel,
+    );
+    final vendorId$Value = subMock<String?>(
+      context: context,
+      fieldName: 'vendorId',
+      currentLevel: currentLevel,
+    );
     return ProductVariant(
       id: id$Value,
       name: name$Value,
@@ -2493,8 +2746,13 @@ class SectionLayoutVListMocker extends js.JModelMocker<SectionLayoutVList> {
 
   @override
   SectionLayoutVList createMock([js.JMockerContext? context]) {
-    final shape$Value = jSerializer.createMock<DynamicItemShape?>(
-        context: context?..setFieldName('shape'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
+      context: context,
+      fieldName: 'shape',
+      currentLevel: currentLevel,
+    );
     return SectionLayoutVList(shape: shape$Value);
   }
 }
@@ -2504,8 +2762,13 @@ class SectionLayoutHListMocker extends js.JModelMocker<SectionLayoutHList> {
 
   @override
   SectionLayoutHList createMock([js.JMockerContext? context]) {
-    final shape$Value = jSerializer.createMock<DynamicItemShape?>(
-        context: context?..setFieldName('shape'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
+      context: context,
+      fieldName: 'shape',
+      currentLevel: currentLevel,
+    );
     return SectionLayoutHList(shape: shape$Value);
   }
 }
@@ -2516,8 +2779,13 @@ class SectionLayoutGridViewMocker
 
   @override
   SectionLayoutGridView createMock([js.JMockerContext? context]) {
-    final shape$Value = jSerializer.createMock<DynamicItemShape?>(
-        context: context?..setFieldName('shape'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
+      context: context,
+      fieldName: 'shape',
+      currentLevel: currentLevel,
+    );
     return SectionLayoutGridView(shape: shape$Value);
   }
 }
@@ -2528,10 +2796,18 @@ class SectionLayoutGridPatternMocker
 
   @override
   SectionLayoutGridPattern createMock([js.JMockerContext? context]) {
-    final shape$Value = jSerializer.createMock<DynamicItemShape?>(
-        context: context?..setFieldName('shape'));
-    final pattern$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('pattern'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
+      context: context,
+      fieldName: 'shape',
+      currentLevel: currentLevel,
+    );
+    final pattern$Value = subMock<String?>(
+      context: context,
+      fieldName: 'pattern',
+      currentLevel: currentLevel,
+    );
     return SectionLayoutGridPattern(
       shape: shape$Value,
       pattern: pattern$Value,
@@ -2545,8 +2821,13 @@ class SectionLayoutCarouselMocker
 
   @override
   SectionLayoutCarousel createMock([js.JMockerContext? context]) {
-    final shape$Value = jSerializer.createMock<DynamicItemShape?>(
-        context: context?..setFieldName('shape'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
+      context: context,
+      fieldName: 'shape',
+      currentLevel: currentLevel,
+    );
     return SectionLayoutCarousel(shape: shape$Value);
   }
 }
@@ -2556,6 +2837,8 @@ class SectionLayoutUnknownMocker extends js.JModelMocker<SectionLayoutUnknown> {
 
   @override
   SectionLayoutUnknown createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
     return SectionLayoutUnknown();
   }
 }
@@ -2594,319 +2877,228 @@ class DynamicItemShapeMocker extends js.JCustomMocker<DynamicItemShape> {
   }
 }
 
-class ProductCustomizationMocker extends js.JModelMocker<ProductCustomization> {
-  const ProductCustomizationMocker({super.jSerializer});
-
-  @override
-  ProductCustomization createMock([js.JMockerContext? context]) {
-    final id$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('id'));
-    final decoration$Value =
-        jSerializer.createMock<ProductCustomizationDecoration?>(
-            context: context?..setFieldName('decoration'));
-    final minSelection$Value = jSerializer.createMock<int?>(
-        context: context?..setFieldName('minSelection'));
-    final maxSelection$Value = jSerializer.createMock<int?>(
-        context: context?..setFieldName('maxSelection'));
-    final values$Value =
-        jSerializer.createMock<List<ProductCustomizationValue>?>(
-            context: context?..setFieldName('values'));
-    return ProductCustomization(
-      id: id$Value,
-      decoration: decoration$Value,
-      minSelection: minSelection$Value,
-      maxSelection: maxSelection$Value,
-      values: values$Value,
-    );
-  }
-}
-
-class ProductCustomizationValueMocker
-    extends js.JModelMocker<ProductCustomizationValue> {
-  const ProductCustomizationValueMocker({super.jSerializer});
-
-  @override
-  ProductCustomizationValue createMock([js.JMockerContext? context]) {
-    final id$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('id'));
-    final name$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('name'));
-    final featuredImage$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('featuredImage'));
-    final description$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('description'));
-    final price$Value = jSerializer.createMock<Price?>(
-        context: context?..setFieldName('price'));
-    return ProductCustomizationValue(
-      id: id$Value,
-      name: name$Value,
-      featuredImage: featuredImage$Value,
-      description: description$Value,
-      price: price$Value,
-    );
-  }
-}
-
-class ProductCustomizationDecorationMocker
-    extends js.JModelMocker<ProductCustomizationDecoration> {
-  const ProductCustomizationDecorationMocker({super.jSerializer});
-
-  @override
-  ProductCustomizationDecoration createMock([js.JMockerContext? context]) {
-    final title$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('title'));
-    final preTitle$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('preTitle'));
-    final subtitle$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('subtitle'));
-    return ProductCustomizationDecoration(
-      title: title$Value,
-      preTitle: preTitle$Value,
-      subtitle: subtitle$Value,
-    );
-  }
-}
-
-class PriceMocker extends js.JModelMocker<Price> {
-  const PriceMocker({super.jSerializer});
-
-  @override
-  Price createMock([js.JMockerContext? context]) {
-    final amount$Value = jSerializer.createMock<double>(
-        context: context?..setFieldName('amount'));
-    final currency$Value = jSerializer.createMock<String?>(
-        context: context?..setFieldName('currency'));
-    return Price(
-      amount: amount$Value,
-      currency: currency$Value,
-    );
-  }
-}
-
-class SomeModelMocker extends js.JModelMocker<SomeModel> {
-  const SomeModelMocker({super.jSerializer});
-
-  static const _$field1_$StringMocker = js.StringMocker(language: 'ar');
-
-  static const _$field2_$StringMocker = js.StringMocker(language: 'en');
-
-  @override
-  SomeModel createMock([js.JMockerContext? context]) {
-    final field1$Value =
-        _$field1_$StringMocker.createMock(context?..setFieldName('field1'));
-    final field2$Value =
-        _$field2_$StringMocker.createMock(context?..setFieldName('field2'));
-    final field3$Value = jSerializer.createMock<double?>(
-        context: context?..setFieldName('field3'));
-    final field4$Value =
-        jSerializer.createMock<int?>(context: context?..setFieldName('field4'));
-    return SomeModel(
-      field1: field1$Value,
-      field2: field2$Value,
-      field3: field3$Value,
-      field4: field4$Value,
-    );
-  }
-}
-
-class SomeGenericModelMocker extends js.JGenericMocker<SomeGenericModel> {
-  SomeGenericModelMocker({super.jSerializer});
-
-  SomeGenericModel<T> mock<T>([js.JMockerContext? context]) {
-    final value$Value =
-        jSerializer.createMock<T>(context: context?..setFieldName('value'));
-    return SomeGenericModel<T>(value: value$Value);
-  }
-
-  @override
-  Function get mocker => mock;
-}
-
-class SomeEnumMocker extends js.JCustomMocker<SomeEnum> {
-  const SomeEnumMocker({super.jSerializer});
-
-  @override
-  SomeEnum createMock([js.JMockerContext? context]) {
-    return optionallyRandomizedValueFromList(
-      context,
-      SomeEnum.values,
-    );
-  }
-}
-
 class SuperComplicatedModelMocker
     extends js.JGenericMocker<SuperComplicatedModel> {
   SuperComplicatedModelMocker({super.jSerializer});
 
   SuperComplicatedModel<T> mock<T>([js.JMockerContext? context]) {
-    final value$Value =
-        jSerializer.createMock<ComplicatedModel<ComplicatedModel<T>>>(
-            context: context?..setFieldName('value'));
-    final name$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('name'));
-    final age$Value =
-        jSerializer.createMock<int>(context: context?..setFieldName('age'));
-    final isAdult$Value = jSerializer.createMock<bool>(
-        context: context?..setFieldName('isAdult'));
-    final height$Value = jSerializer.createMock<double>(
-        context: context?..setFieldName('height'));
-    final friends$Value = jSerializer.createMock<List<String>>(
-        context: context?..setFieldName('friends'));
-    final map$Value = jSerializer.createMock<Map<String, dynamic>>(
-        context: context?..setFieldName('map'));
-    final values$Value =
-        jSerializer.createMock<List<ComplicatedModel<ComplicatedModel<T>>>>(
-            context: context?..setFieldName('values'));
-    final mapValues$Value = jSerializer
-        .createMock<Map<String, ComplicatedModel<ComplicatedModel<T>>>>(
-            context: context?..setFieldName('mapValues'));
-    final nestedValues$Value = jSerializer
-        .createMock<List<List<ComplicatedModel<ComplicatedModel<T>>>>>(
-            context: context?..setFieldName('nestedValues'));
-    final nestedMapValues$Value = jSerializer
-        .createMock<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>(
-            context: context?..setFieldName('nestedMapValues'));
-    final nestedValuesMap$Value = jSerializer
-        .createMock<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>(
-            context: context?..setFieldName('nestedValuesMap'));
-    final nestedMapValuesMap$Value = jSerializer.createMock<
-            Map<String,
-                List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
-        context: context?..setFieldName('nestedMapValuesMap'));
-    final nestedValuesMapList$Value = jSerializer.createMock<
-            List<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
-        context: context?..setFieldName('nestedValuesMapList'));
-    final nestedMapValuesMapList$Value = jSerializer.createMock<
-            Map<String,
-                List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
-        context: context?..setFieldName('nestedMapValuesMapList'));
-    final nestedValuesMapListList$Value = jSerializer.createMock<
-            List<
-                List<
-                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-        context: context?..setFieldName('nestedValuesMapListList'));
-    final nestedMapValuesMapListList$Value = jSerializer.createMock<
-            Map<
-                String,
-                List<
-                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-        context: context?..setFieldName('nestedMapValuesMapListList'));
-    final nestedValuesMapListListList$Value = jSerializer.createMock<
-            List<
-                List<
-                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-        context: context?..setFieldName('nestedValuesMapListListList'));
-    final nestedMapValuesMapListListList$Value = jSerializer.createMock<
-            Map<
-                String,
-                List<
-                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-        context: context?..setFieldName('nestedMapValuesMapListListList'));
-    final nestedValuesMapListListListList$Value = jSerializer.createMock<
-            List<
-                List<
-                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-        context: context?..setFieldName('nestedValuesMapListListListList'));
-    final nestedMapValuesMapListListListList$Value = jSerializer.createMock<
-            Map<
-                String,
-                List<
-                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-        context: context?..setFieldName('nestedMapValuesMapListListListList'));
-    final nestedValuesMapListListListListList$Value = jSerializer.createMock<
-            List<
-                List<
-                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-        context: context?..setFieldName('nestedValuesMapListListListListList'));
-    final nestedMapValuesMapListListListListList$Value = jSerializer.createMock<
-            Map<
-                String,
-                List<
-                    Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-        context: context
-          ?..setFieldName('nestedMapValuesMapListListListListList'));
-    final nestedValuesMapListListListListListList$Value =
-        jSerializer.createMock<
-                List<
-                    List<
-                        Map<String,
-                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-            context: context
-              ?..setFieldName('nestedValuesMapListListListListListList'));
-    final nestedMapValuesMapListListListListListList$Value =
-        jSerializer.createMock<
-                Map<
-                    String,
-                    List<
-                        Map<String,
-                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-            context: context
-              ?..setFieldName('nestedMapValuesMapListListListListListList'));
-    final nestedValuesMapListListListListListListList$Value =
-        jSerializer.createMock<
-                List<
-                    List<
-                        Map<String,
-                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-            context: context
-              ?..setFieldName('nestedValuesMapListListListListListListList'));
-    final nestedMapValuesMapListListListListListListList$Value =
-        jSerializer.createMock<
-                Map<
-                    String,
-                    List<
-                        Map<String,
-                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-            context: context
-              ?..setFieldName(
-                  'nestedMapValuesMapListListListListListListList'));
-    final nestedValuesMapListListListListListListListList$Value =
-        jSerializer.createMock<
-                List<
-                    List<
-                        Map<String,
-                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-            context: context
-              ?..setFieldName(
-                  'nestedValuesMapListListListListListListListList'));
-    final nestedMapValuesMapListListListListListListListList$Value =
-        jSerializer.createMock<
-                Map<
-                    String,
-                    List<
-                        Map<String,
-                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-            context: context
-              ?..setFieldName(
-                  'nestedMapValuesMapListListListListListListListList'));
-    final nestedValuesMapListListListListListListListListList$Value =
-        jSerializer.createMock<
-                List<
-                    List<
-                        Map<String,
-                            List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
-            context: context
-              ?..setFieldName(
-                  'nestedValuesMapListListListListListListListListList'));
-    final theModel$Value = jSerializer.createMock<ComplicatedModel<T>>(
-        context: context?..setFieldName('theModel'));
-    final theModel2$Value =
-        jSerializer.createMock<ComplicatedModel<ComplicatedModel<T>>>(
-            context: context?..setFieldName('theModel2'));
-    final theModel3$Value = jSerializer
-        .createMock<ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>(
-            context: context?..setFieldName('theModel3'));
-    final theModel4$Value = jSerializer.createMock<
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final value$Value = subMock<ComplicatedModel<ComplicatedModel<T>>>(
+      context: context,
+      fieldName: 'value',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final age$Value = subMock<int>(
+      context: context,
+      fieldName: 'age',
+      currentLevel: currentLevel,
+    );
+    final isAdult$Value = subMock<bool>(
+      context: context,
+      fieldName: 'isAdult',
+      currentLevel: currentLevel,
+    );
+    final height$Value = subMock<double>(
+      context: context,
+      fieldName: 'height',
+      currentLevel: currentLevel,
+    );
+    final friends$Value = subMock<List<String>>(
+      context: context,
+      fieldName: 'friends',
+      currentLevel: currentLevel,
+    );
+    final map$Value = subMock<Map<String, dynamic>>(
+      context: context,
+      fieldName: 'map',
+      currentLevel: currentLevel,
+    );
+    final values$Value = subMock<List<ComplicatedModel<ComplicatedModel<T>>>>(
+      context: context,
+      fieldName: 'values',
+      currentLevel: currentLevel,
+    );
+    final mapValues$Value =
+        subMock<Map<String, ComplicatedModel<ComplicatedModel<T>>>>(
+      context: context,
+      fieldName: 'mapValues',
+      currentLevel: currentLevel,
+    );
+    final nestedValues$Value =
+        subMock<List<List<ComplicatedModel<ComplicatedModel<T>>>>>(
+      context: context,
+      fieldName: 'nestedValues',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValues$Value =
+        subMock<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValues',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMap$Value =
+        subMock<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMap',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMap$Value = subMock<
+        Map<String, List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMap',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapList$Value =
+        subMock<List<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapList',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMapList$Value = subMock<
+        Map<String, List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapList',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapListList$Value = subMock<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListList',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMapListList$Value = subMock<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListList',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapListListList$Value = subMock<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMapListListList$Value = subMock<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapListListListList$Value = subMock<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMapListListListList$Value = subMock<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapListListListListList$Value = subMock<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMapListListListListList$Value = subMock<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapListListListListListList$Value = subMock<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMapListListListListListList$Value = subMock<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapListListListListListListList$Value = subMock<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMapListListListListListListList$Value = subMock<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapListListListListListListListList$Value = subMock<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMapListListListListListListListList$Value = subMock<
+        Map<String,
+            List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListListListListListList',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapListListListListListListListListList$Value = subMock<
+        List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListListListListListList',
+      currentLevel: currentLevel,
+    );
+    final theModel$Value = subMock<ComplicatedModel<T>>(
+      context: context,
+      fieldName: 'theModel',
+      currentLevel: currentLevel,
+    );
+    final theModel2$Value = subMock<ComplicatedModel<ComplicatedModel<T>>>(
+      context: context,
+      fieldName: 'theModel2',
+      currentLevel: currentLevel,
+    );
+    final theModel3$Value =
+        subMock<ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>(
+      context: context,
+      fieldName: 'theModel3',
+      currentLevel: currentLevel,
+    );
+    final theModel4$Value = subMock<
+        ComplicatedModel<
+            ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>(
+      context: context,
+      fieldName: 'theModel4',
+      currentLevel: currentLevel,
+    );
+    final theModel5$Value = subMock<
+        ComplicatedModel<
             ComplicatedModel<
-                ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>(
-        context: context?..setFieldName('theModel4'));
-    final theModel5$Value = jSerializer.createMock<
-            ComplicatedModel<
-                ComplicatedModel<
-                    ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>>(
-        context: context?..setFieldName('theModel5'));
-    final theModels$Value = jSerializer.createMock<List<ComplicatedModel<T>>>(
-        context: context?..setFieldName('theModels'));
+                ComplicatedModel<ComplicatedModel<ComplicatedModel<T>>>>>>(
+      context: context,
+      fieldName: 'theModel5',
+      currentLevel: currentLevel,
+    );
+    final theModels$Value = subMock<List<ComplicatedModel<T>>>(
+      context: context,
+      fieldName: 'theModels',
+      currentLevel: currentLevel,
+    );
     return SuperComplicatedModel<T>(
       value: value$Value,
       name: name$Value,
@@ -2965,98 +3157,174 @@ class ComplicatedModelMocker extends js.JGenericMocker<ComplicatedModel> {
   ComplicatedModelMocker({super.jSerializer});
 
   ComplicatedModel<T> mock<T>([js.JMockerContext? context]) {
-    final value$Value =
-        jSerializer.createMock<T>(context: context?..setFieldName('value'));
-    final name$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('name'));
-    final age$Value =
-        jSerializer.createMock<int>(context: context?..setFieldName('age'));
-    final isAdult$Value = jSerializer.createMock<bool>(
-        context: context?..setFieldName('isAdult'));
-    final height$Value = jSerializer.createMock<double>(
-        context: context?..setFieldName('height'));
-    final friends$Value = jSerializer.createMock<List<String>>(
-        context: context?..setFieldName('friends'));
-    final map$Value = jSerializer.createMock<Map<String, dynamic>>(
-        context: context?..setFieldName('map'));
-    final values$Value = jSerializer.createMock<List<T>>(
-        context: context?..setFieldName('values'));
-    final mapValues$Value = jSerializer.createMock<Map<String, T>>(
-        context: context?..setFieldName('mapValues'));
-    final nestedValues$Value = jSerializer.createMock<List<List<T>>>(
-        context: context?..setFieldName('nestedValues'));
-    final nestedMapValues$Value = jSerializer.createMock<Map<String, List<T>>>(
-        context: context?..setFieldName('nestedMapValues'));
-    final nestedValuesMap$Value = jSerializer.createMock<List<Map<String, T>>>(
-        context: context?..setFieldName('nestedValuesMap'));
-    final nestedMapValuesMap$Value =
-        jSerializer.createMock<Map<String, List<Map<String, T>>>>(
-            context: context?..setFieldName('nestedMapValuesMap'));
-    final nestedValuesMapList$Value =
-        jSerializer.createMock<List<List<Map<String, T>>>>(
-            context: context?..setFieldName('nestedValuesMapList'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final value$Value = subMock<T>(
+      context: context,
+      fieldName: 'value',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final age$Value = subMock<int>(
+      context: context,
+      fieldName: 'age',
+      currentLevel: currentLevel,
+    );
+    final isAdult$Value = subMock<bool>(
+      context: context,
+      fieldName: 'isAdult',
+      currentLevel: currentLevel,
+    );
+    final height$Value = subMock<double>(
+      context: context,
+      fieldName: 'height',
+      currentLevel: currentLevel,
+    );
+    final friends$Value = subMock<List<String>>(
+      context: context,
+      fieldName: 'friends',
+      currentLevel: currentLevel,
+    );
+    final map$Value = subMock<Map<String, dynamic>>(
+      context: context,
+      fieldName: 'map',
+      currentLevel: currentLevel,
+    );
+    final values$Value = subMock<List<T>>(
+      context: context,
+      fieldName: 'values',
+      currentLevel: currentLevel,
+    );
+    final mapValues$Value = subMock<Map<String, T>>(
+      context: context,
+      fieldName: 'mapValues',
+      currentLevel: currentLevel,
+    );
+    final nestedValues$Value = subMock<List<List<T>>>(
+      context: context,
+      fieldName: 'nestedValues',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValues$Value = subMock<Map<String, List<T>>>(
+      context: context,
+      fieldName: 'nestedMapValues',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMap$Value = subMock<List<Map<String, T>>>(
+      context: context,
+      fieldName: 'nestedValuesMap',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMap$Value = subMock<Map<String, List<Map<String, T>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMap',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapList$Value = subMock<List<List<Map<String, T>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, T>>>>(
-            context: context?..setFieldName('nestedMapValuesMapList'));
+        subMock<Map<String, List<Map<String, T>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context?..setFieldName('nestedValuesMapListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapListList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
-            context: context?..setFieldName('nestedMapValuesMapListList'));
+        subMock<Map<String, List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context?..setFieldName('nestedValuesMapListListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapListListList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
-            context: context?..setFieldName('nestedMapValuesMapListListList'));
+        subMock<Map<String, List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListListListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context?..setFieldName('nestedValuesMapListListListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapListListListList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName('nestedMapValuesMapListListListList'));
+        subMock<Map<String, List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListListListListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName('nestedValuesMapListListListListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapListListListListList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName('nestedMapValuesMapListListListListList'));
+        subMock<Map<String, List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListListListListListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName('nestedValuesMapListListListListListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapListListListListListList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName('nestedMapValuesMapListListListListListList'));
+        subMock<Map<String, List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListListListListListListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName('nestedValuesMapListListListListListListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapListListListListListListList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName(
-                  'nestedMapValuesMapListListListListListListList'));
+        subMock<Map<String, List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListListListListListListListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName(
-                  'nestedValuesMapListListListListListListListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapListListListListListListListList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName(
-                  'nestedMapValuesMapListListListListListListListList'));
+        subMock<Map<String, List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListListListListListListListList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListListListListListListListListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context
-              ?..setFieldName(
-                  'nestedValuesMapListListListListListListListListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListListListListListListListListList',
+      currentLevel: currentLevel,
+    );
     return ComplicatedModel<T>(
       value: value$Value,
       name: name$Value,
@@ -3110,42 +3378,90 @@ class SemiComplicatedModelMocker
   SemiComplicatedModelMocker({super.jSerializer});
 
   SemiComplicatedModel<T> mock<T>([js.JMockerContext? context]) {
-    final value$Value =
-        jSerializer.createMock<T>(context: context?..setFieldName('value'));
-    final name$Value =
-        jSerializer.createMock<String>(context: context?..setFieldName('name'));
-    final age$Value =
-        jSerializer.createMock<int>(context: context?..setFieldName('age'));
-    final isAdult$Value = jSerializer.createMock<bool>(
-        context: context?..setFieldName('isAdult'));
-    final height$Value = jSerializer.createMock<double>(
-        context: context?..setFieldName('height'));
-    final friends$Value = jSerializer.createMock<List<String>>(
-        context: context?..setFieldName('friends'));
-    final map$Value = jSerializer.createMock<Map<String, dynamic>>(
-        context: context?..setFieldName('map'));
-    final values$Value = jSerializer.createMock<List<T>>(
-        context: context?..setFieldName('values'));
-    final mapValues$Value = jSerializer.createMock<Map<String, T>>(
-        context: context?..setFieldName('mapValues'));
-    final nestedValues$Value = jSerializer.createMock<List<List<T>>>(
-        context: context?..setFieldName('nestedValues'));
-    final nestedMapValues$Value = jSerializer.createMock<Map<String, List<T>>>(
-        context: context?..setFieldName('nestedMapValues'));
-    final nestedValuesMap$Value = jSerializer.createMock<List<Map<String, T>>>(
-        context: context?..setFieldName('nestedValuesMap'));
-    final nestedMapValuesMap$Value =
-        jSerializer.createMock<Map<String, List<Map<String, T>>>>(
-            context: context?..setFieldName('nestedMapValuesMap'));
-    final nestedValuesMapList$Value =
-        jSerializer.createMock<List<List<Map<String, T>>>>(
-            context: context?..setFieldName('nestedValuesMapList'));
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final value$Value = subMock<T>(
+      context: context,
+      fieldName: 'value',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final age$Value = subMock<int>(
+      context: context,
+      fieldName: 'age',
+      currentLevel: currentLevel,
+    );
+    final isAdult$Value = subMock<bool>(
+      context: context,
+      fieldName: 'isAdult',
+      currentLevel: currentLevel,
+    );
+    final height$Value = subMock<double>(
+      context: context,
+      fieldName: 'height',
+      currentLevel: currentLevel,
+    );
+    final friends$Value = subMock<List<String>>(
+      context: context,
+      fieldName: 'friends',
+      currentLevel: currentLevel,
+    );
+    final map$Value = subMock<Map<String, dynamic>>(
+      context: context,
+      fieldName: 'map',
+      currentLevel: currentLevel,
+    );
+    final values$Value = subMock<List<T>>(
+      context: context,
+      fieldName: 'values',
+      currentLevel: currentLevel,
+    );
+    final mapValues$Value = subMock<Map<String, T>>(
+      context: context,
+      fieldName: 'mapValues',
+      currentLevel: currentLevel,
+    );
+    final nestedValues$Value = subMock<List<List<T>>>(
+      context: context,
+      fieldName: 'nestedValues',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValues$Value = subMock<Map<String, List<T>>>(
+      context: context,
+      fieldName: 'nestedMapValues',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMap$Value = subMock<List<Map<String, T>>>(
+      context: context,
+      fieldName: 'nestedValuesMap',
+      currentLevel: currentLevel,
+    );
+    final nestedMapValuesMap$Value = subMock<Map<String, List<Map<String, T>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMap',
+      currentLevel: currentLevel,
+    );
+    final nestedValuesMapList$Value = subMock<List<List<Map<String, T>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapList',
+      currentLevel: currentLevel,
+    );
     final nestedValuesMapListList$Value =
-        jSerializer.createMock<List<List<Map<String, List<T>>>>>(
-            context: context?..setFieldName('nestedValuesMapListList'));
+        subMock<List<List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedValuesMapListList',
+      currentLevel: currentLevel,
+    );
     final nestedMapValuesMapListList$Value =
-        jSerializer.createMock<Map<String, List<Map<String, List<T>>>>>(
-            context: context?..setFieldName('nestedMapValuesMapListList'));
+        subMock<Map<String, List<Map<String, List<T>>>>>(
+      context: context,
+      fieldName: 'nestedMapValuesMapListList',
+      currentLevel: currentLevel,
+    );
     return SemiComplicatedModel<T>(
       value: value$Value,
       name: name$Value,
@@ -3168,6 +3484,208 @@ class SemiComplicatedModelMocker
 
   @override
   Function get mocker => mock;
+}
+
+class ProductCustomizationMocker extends js.JModelMocker<ProductCustomization> {
+  const ProductCustomizationMocker({super.jSerializer});
+
+  @override
+  ProductCustomization createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final decoration$Value = subMock<ProductCustomizationDecoration?>(
+      context: context,
+      fieldName: 'decoration',
+      currentLevel: currentLevel,
+    );
+    final minSelection$Value = subMock<int?>(
+      context: context,
+      fieldName: 'minSelection',
+      currentLevel: currentLevel,
+    );
+    final maxSelection$Value = subMock<int?>(
+      context: context,
+      fieldName: 'maxSelection',
+      currentLevel: currentLevel,
+    );
+    final values$Value = subMock<List<ProductCustomizationValue>?>(
+      context: context,
+      fieldName: 'values',
+      currentLevel: currentLevel,
+    );
+    return ProductCustomization(
+      id: id$Value,
+      decoration: decoration$Value,
+      minSelection: minSelection$Value,
+      maxSelection: maxSelection$Value,
+      values: values$Value,
+    );
+  }
+}
+
+class ProductCustomizationValueMocker
+    extends js.JModelMocker<ProductCustomizationValue> {
+  const ProductCustomizationValueMocker({super.jSerializer});
+
+  @override
+  ProductCustomizationValue createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final description$Value = subMock<String?>(
+      context: context,
+      fieldName: 'description',
+      currentLevel: currentLevel,
+    );
+    final price$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'price',
+      currentLevel: currentLevel,
+    );
+    return ProductCustomizationValue(
+      id: id$Value,
+      name: name$Value,
+      featuredImage: featuredImage$Value,
+      description: description$Value,
+      price: price$Value,
+    );
+  }
+}
+
+class ProductCustomizationDecorationMocker
+    extends js.JModelMocker<ProductCustomizationDecoration> {
+  const ProductCustomizationDecorationMocker({super.jSerializer});
+
+  @override
+  ProductCustomizationDecoration createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final title$Value = subMock<String?>(
+      context: context,
+      fieldName: 'title',
+      currentLevel: currentLevel,
+    );
+    final preTitle$Value = subMock<String?>(
+      context: context,
+      fieldName: 'preTitle',
+      currentLevel: currentLevel,
+    );
+    final subtitle$Value = subMock<String?>(
+      context: context,
+      fieldName: 'subtitle',
+      currentLevel: currentLevel,
+    );
+    return ProductCustomizationDecoration(
+      title: title$Value,
+      preTitle: preTitle$Value,
+      subtitle: subtitle$Value,
+    );
+  }
+}
+
+class PriceMocker extends js.JModelMocker<Price> {
+  const PriceMocker({super.jSerializer});
+
+  @override
+  Price createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final amount$Value = subMock<double>(
+      context: context,
+      fieldName: 'amount',
+      currentLevel: currentLevel,
+    );
+    final currency$Value = subMock<String?>(
+      context: context,
+      fieldName: 'currency',
+      currentLevel: currentLevel,
+    );
+    return Price(
+      amount: amount$Value,
+      currency: currency$Value,
+    );
+  }
+}
+
+class SomeModelMocker extends js.JModelMocker<SomeModel> {
+  const SomeModelMocker({super.jSerializer});
+
+  static const _$field1_$StringMocker = js.StringMocker(language: 'ar');
+
+  static const _$field2_$StringMocker = js.StringMocker(language: 'en');
+
+  @override
+  SomeModel createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final field1$Value = _$field1_$StringMocker.createMock(context);
+    final field2$Value = _$field2_$StringMocker.createMock(context);
+    final field3$Value = subMock<double?>(
+      context: context,
+      fieldName: 'field3',
+      currentLevel: currentLevel,
+    );
+    final field4$Value = subMock<int?>(
+      context: context,
+      fieldName: 'field4',
+      currentLevel: currentLevel,
+    );
+    return SomeModel(
+      field1: field1$Value,
+      field2: field2$Value,
+      field3: field3$Value,
+      field4: field4$Value,
+    );
+  }
+}
+
+class SomeGenericModelMocker extends js.JGenericMocker<SomeGenericModel> {
+  SomeGenericModelMocker({super.jSerializer});
+
+  SomeGenericModel<T> mock<T>([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final value$Value = subMock<T>(
+      context: context,
+      fieldName: 'value',
+      currentLevel: currentLevel,
+    );
+    return SomeGenericModel<T>(value: value$Value);
+  }
+
+  @override
+  Function get mocker => mock;
+}
+
+class SomeEnumMocker extends js.JCustomMocker<SomeEnum> {
+  const SomeEnumMocker({super.jSerializer});
+
+  @override
+  SomeEnum createMock([js.JMockerContext? context]) {
+    return optionallyRandomizedValueFromList(
+      context,
+      SomeEnum.values,
+    );
+  }
 }
 
 void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
@@ -3257,6 +3775,21 @@ void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
     (Function f) => f<DynamicItemShape>(),
     mockFactory: (s) => DynamicItemShapeMocker(jSerializer: s),
   );
+  instance.register<SuperComplicatedModel>(
+    (s) => SuperComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<SuperComplicatedModel<T>>(),
+    mockFactory: (s) => SuperComplicatedModelMocker(jSerializer: s),
+  );
+  instance.register<ComplicatedModel>(
+    (s) => ComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<ComplicatedModel<T>>(),
+    mockFactory: (s) => ComplicatedModelMocker(jSerializer: s),
+  );
+  instance.register<SemiComplicatedModel>(
+    (s) => SemiComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<SemiComplicatedModel<T>>(),
+    mockFactory: (s) => SemiComplicatedModelMocker(jSerializer: s),
+  );
   instance.register<ProductCustomization>(
     (s) => ProductCustomizationSerializer(jSerializer: s),
     (Function f) => f<ProductCustomization>(),
@@ -3296,20 +3829,5 @@ void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
     (s) => SomeEnumSerializer(jSerializer: s),
     (Function f) => f<SomeEnum>(),
     mockFactory: (s) => SomeEnumMocker(jSerializer: s),
-  );
-  instance.register<SuperComplicatedModel>(
-    (s) => SuperComplicatedModelSerializer(jSerializer: s),
-    <T>(Function f) => f<SuperComplicatedModel<T>>(),
-    mockFactory: (s) => SuperComplicatedModelMocker(jSerializer: s),
-  );
-  instance.register<ComplicatedModel>(
-    (s) => ComplicatedModelSerializer(jSerializer: s),
-    <T>(Function f) => f<ComplicatedModel<T>>(),
-    mockFactory: (s) => ComplicatedModelMocker(jSerializer: s),
-  );
-  instance.register<SemiComplicatedModel>(
-    (s) => SemiComplicatedModelSerializer(jSerializer: s),
-    <T>(Function f) => f<SemiComplicatedModel<T>>(),
-    mockFactory: (s) => SemiComplicatedModelMocker(jSerializer: s),
   );
 }

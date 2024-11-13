@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="Support isolated JSerializer instances, to allow for use in isolates" />
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="Small fixes">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/model/product.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/model/product.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker_context.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker_context.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/mock_method_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/mock_method_generator.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +93,7 @@
     "git-widget-placeholder": "main",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/erabti/Developer/jserializer_library/jserializer",
+    "last_opened_file_path": "/Users/erabti/Developer/jserializer_library/jserializer/example/lib",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
@@ -96,11 +105,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/jserializer/example/lib" />
       <recent name="$PROJECT_DIR$/jserializer" />
       <recent name="$PROJECT_DIR$/jserializer/example2/lib" />
       <recent name="$PROJECT_DIR$/jserializer/example2" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/jserializer/example/lib" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/jserializer/lib/src/core/model/serializers" />
@@ -110,7 +119,7 @@
       <recent name="$PROJECT_DIR$/jserializer/lib/src/type_plus" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart">
+  <component name="RunManager" selected="Dart Command Line App.main.dart">
     <configuration name="build.dart (1)" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="arguments" value="build --delete-conflicting-outputs" />
       <option name="filePath" value="$PROJECT_DIR$/jserializer/example/lib/build.dart" />
@@ -150,9 +159,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Dart Command Line App.main.dart" />
         <item itemvalue="Flutter.main.dart" />
         <item itemvalue="Dart Command Line App.main.dart (1)" />
-        <item itemvalue="Dart Command Line App.main.dart" />
         <item itemvalue="Dart Test.Tests in a_test.dart" />
         <item itemvalue="Dart Command Line App.build.dart (1)" />
       </list>
@@ -307,22 +316,6 @@
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
-    </task>
-    <task id="LOCAL-00034" summary="fix for using enums in adapters and custom mockers per field">
-      <option name="closed" value="true" />
-      <created>1722716194328</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1722716194328</updated>
-    </task>
-    <task id="LOCAL-00035" summary="fix for using same adapter or mocker for a field twice issue">
-      <option name="closed" value="true" />
-      <created>1722765963084</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1722765963084</updated>
     </task>
     <task id="LOCAL-00036" summary="support JUnion mocking">
       <option name="closed" value="true" />
@@ -540,7 +533,23 @@
       <option name="project" value="LOCAL" />
       <updated>1731191275182</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Small fix">
+      <option name="closed" value="true" />
+      <created>1731193235876</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1731193235876</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Small fixes">
+      <option name="closed" value="true" />
+      <created>1731232716178</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1731232716178</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -568,8 +577,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix nullable type for generics" />
-    <MESSAGE value="add return_of_invalid_type_from_closure ignore and delete example projects" />
     <MESSAGE value="fix JAdatper.int and JAdapter.double" />
     <MESSAGE value="Revive JUnion, now we support unions and enums!" />
     <MESSAGE value="Add re-casing feature for JEnum and JUnion types" />
@@ -593,7 +600,9 @@
     <MESSAGE value="fix issue with createMock" />
     <MESSAGE value="fix issue with JMockerContext copyWith" />
     <MESSAGE value="Support isolated JSerializer instances, to allow for use in isolates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Support isolated JSerializer instances, to allow for use in isolates" />
+    <MESSAGE value="Small fix" />
+    <MESSAGE value="Small fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -281,4 +281,5 @@ class ProductVariant extends Product {
     super.userSpecifics,
     super.vendorId,
   });
+
 }

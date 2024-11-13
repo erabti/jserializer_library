@@ -13,6 +13,36 @@ abstract class JMocker<T> {
   JSerializerInterface get jSerializer => _jSerializerInstance ?? JSerializer.i;
 
   Function get mocker;
+
+  Type typeOf<TypeT>() => TypeT;
+
+  bool _eq<TypeT>(Type type) => type == TypeT || type == typeOf<TypeT?>();
+
+  bool _isPrimitive<R>() =>
+      _eq<String>(R) ||
+      _eq<int>(R) ||
+      _eq<double>(R) ||
+      _eq<bool>(R) ||
+      _eq<num>(R);
+
+  R subMock<R>({
+    JMockerContext? context,
+    required String fieldName,
+    required int currentLevel,
+  }) {
+    context?.setFieldName(fieldName);
+    final nullifyAfterDepth = context?.nullifyAfterDepth ?? 3;
+    late final isNullable = R == typeOf<R?>();
+    late final isPrimitive = _isPrimitive<R>();
+
+    if (currentLevel >= nullifyAfterDepth && isNullable && !isPrimitive) {
+      return null as R;
+    }
+
+    context?.setDepthLevel(currentLevel + 1);
+
+    return jSerializer.createMock<R>(context: context);
+  }
 }
 
 abstract class JCustomMocker<T> extends JMocker<T> {

@@ -29,4 +29,5 @@ dependencies:
     git:
       url: https://github.com/erabti/jserializer_library.git
       path: jserializer/
+  equatable: ^2.0.5
 
