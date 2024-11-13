@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="Small fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/jserializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/example2/lib/model/product.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/example2/lib/model/product.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker_context.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer/lib/src/core/mocker/mocker_context.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/mock_method_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/mock_method_generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +73,7 @@
   "keyToString": {
     "Dart Command Line App.build.dart (1).executor": "Debug",
     "Dart Command Line App.main.dart (1).executor": "Run",
-    "Dart Command Line App.main.dart.executor": "Run",
+    "Dart Command Line App.main.dart.executor": "Debug",
     "Dart Test.Tests in a_test.dart.executor": "Run",
     "Flutter.main.dart.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -317,14 +310,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
     </task>
-    <task id="LOCAL-00036" summary="support JUnion mocking">
-      <option name="closed" value="true" />
-      <created>1722874113381</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1722874113381</updated>
-    </task>
     <task id="LOCAL-00037" summary="fix generic nullable JSerializer.createMock">
       <option name="closed" value="true" />
       <created>1722890057294</created>
@@ -549,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731232716178</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Small fixes">
+      <option name="closed" value="true" />
+      <created>1731498535895</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1731498535895</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

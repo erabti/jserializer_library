@@ -2837,8 +2837,6 @@ class SectionLayoutUnknownMocker extends js.JModelMocker<SectionLayoutUnknown> {
 
   @override
   SectionLayoutUnknown createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
     return SectionLayoutUnknown();
   }
 }
