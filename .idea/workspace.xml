@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="Small fixes" />
+    <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="update deps">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,12 +41,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:erabti/jserializer_library.git&quot;,
-    &quot;accountId&quot;: &quot;44f65601-a7d6-41bc-8e12-187c8f84fb06&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:erabti/jserializer_library.git",
+    "accountId": "d1a99eb1-d898-4f78-b6f1-bd8e974edec6"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/jserializer/example/lib/example.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/jserializer/example/pubspec.yaml" root0="FORCE_HIGHLIGHTING" />
@@ -308,14 +310,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
     </task>
-    <task id="LOCAL-00038" summary="fix generic nullable JSerializer.createMock">
-      <option name="closed" value="true" />
-      <created>1722890154169</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1722890154169</updated>
-    </task>
     <task id="LOCAL-00039" summary="fix toJson for JUnion types where the type key is not included in the model itself">
       <option name="closed" value="true" />
       <created>1722891710408</created>
@@ -540,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731507040599</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="update deps">
+      <option name="closed" value="true" />
+      <created>1740999729050</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1740999729050</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -568,7 +570,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix JAdatper.int and JAdapter.double" />
     <MESSAGE value="Revive JUnion, now we support unions and enums!" />
     <MESSAGE value="Add re-casing feature for JEnum and JUnion types" />
     <MESSAGE value="add toStringWithoutStack() to LookupError" />
@@ -593,7 +594,8 @@
     <MESSAGE value="Support isolated JSerializer instances, to allow for use in isolates" />
     <MESSAGE value="Small fix" />
     <MESSAGE value="Small fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Small fixes" />
+    <MESSAGE value="update deps" />
+    <option name="LAST_COMMIT_MESSAGE" value="update deps" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

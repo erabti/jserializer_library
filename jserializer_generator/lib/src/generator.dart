@@ -176,7 +176,9 @@ class JSerializerGenerator
         useNullSafetySyntax: true,
         allocator: NoPrefixAllocator(),
       );
-      final code = DartFormatter().format(
+      final code = DartFormatter(
+        languageVersion: DartFormatter.latestLanguageVersion,
+      ).format(
         lib.accept(emitter).toString(),
       );
 

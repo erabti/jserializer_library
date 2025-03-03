@@ -30,7 +30,10 @@ abstract class SyntheticBuilder<S extends SyntheticInput> implements Builder {
     this.header = '',
     this.footer = '',
     Formatter? formatter,
-  })  : formatter = formatter ?? DartFormatter().format,
+  })  : formatter = formatter ??
+            DartFormatter(
+              languageVersion: DartFormatter.latestLanguageVersion,
+            ).format,
         syntheticInput = SyntheticInput.instance<S>();
 
   /// Input files. Specify the complete path relative to the

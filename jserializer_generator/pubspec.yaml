@@ -24,7 +24,7 @@ dependencies:
       url: https://github.com/erabti/jserializer_library.git
       path: jserializer/
   build: ^2.4.1
-  dart_style: ^2.2.4
+  dart_style: ^3.0.1
   fpdart: ">=1.1.0<2.0.0"
   change_case: ^2.0.1
   barbecue: ^0.5.0
