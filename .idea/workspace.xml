@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="update deps">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/generator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/lib/src/resolved_type.dart" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/lib/src/resolved_type.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merging_builder/lib/src/builders/synthetic_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/merging_builder/lib/src/builders/synthetic_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merging_builder/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/merging_builder/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -333,14 +327,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
     </task>
-    <task id="LOCAL-00041" summary="add onError, and handleError to fromJson, and toJson methods, and also make a global one for JSerializer.i instance, fix some issues with error reporting stack trace">
-      <option name="closed" value="true" />
-      <created>1722979665299</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1722979665299</updated>
-    </task>
     <task id="LOCAL-00042" summary="add onError, and handleError to fromJson, and toJson methods, and also make a global one for JSerializer.i instance, fix some issues with error reporting stack trace">
       <option name="closed" value="true" />
       <created>1723013454004</created>
@@ -565,7 +551,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746741811806</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="update deps">
+      <option name="closed" value="true" />
+      <created>1746743219056</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1746743219056</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
