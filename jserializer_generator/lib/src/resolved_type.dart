@@ -45,7 +45,9 @@ class ResolvedType {
     for (final f in types) {
       if (typeNames.add(
         f.dartType.getDisplayStringWithoutNullability(),
-      )) typeNamesDistinct.add(f);
+      )) {
+        typeNamesDistinct.add(f);
+      }
     }
 
     return typeNamesDistinct;

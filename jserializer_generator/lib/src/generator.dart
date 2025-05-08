@@ -446,7 +446,7 @@ class JSerializerGenerator
             continue;
           }
 
-          final subClass = redirect.enclosingElement;
+          final subClass = redirect.enclosingElement3;
           final subClassType = resolver.resolveType(redirect.returnType);
           final jsonKey = jUnionValue.name ??
               reCase(
@@ -797,18 +797,19 @@ class JSerializerGenerator
               null,
         );
 
-        late final classFieldLib2 = classElement.library.parts
-            .map(
-              (e) => e.library,
-            )
-            .firstWhereOrNull(
-              (lib) =>
-                  classElement.safeLookupGetter(
-                    name: param.name,
-                    library: lib,
-                  ) !=
-                  null,
-            );
+        late final classFieldLib2 =
+            classElement.library.definingCompilationUnit.parts
+                .map(
+                  (e) => e.library,
+                )
+                .firstWhereOrNull(
+                  (lib) =>
+                      classElement.safeLookupGetter(
+                        name: param.name,
+                        library: lib,
+                      ) !=
+                      null,
+                );
 
         late final fieldLib = classFieldLib ?? classFieldLib2;
 
