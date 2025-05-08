@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/jserializer_library.iml" filepath="$PROJECT_DIR$/.idea/jserializer_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jserializer/melos_jserializer.iml" filepath="$PROJECT_DIR$/jserializer/melos_jserializer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jserializer_generator/melos_jserializer_generator.iml" filepath="$PROJECT_DIR$/jserializer_generator/melos_jserializer_generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/merging_builder/melos_merging_builder.iml" filepath="$PROJECT_DIR$/merging_builder/melos_merging_builder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/type_plus/melos_type_plus.iml" filepath="$PROJECT_DIR$/type_plus/melos_type_plus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_jserializer_library.iml" filepath="$PROJECT_DIR$/melos_jserializer_library.iml" />
     </modules>
   </component>
 </project>

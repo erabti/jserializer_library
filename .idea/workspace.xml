@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f108301-a2b0-4138-bbaf-1ff9029d3d3d" name="Default Changelist" comment="update deps">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jserializer_library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jserializer_library.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/.fvm/flutter_sdk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/.fvm/fvm_config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserializer_generator/pubspec_overrides.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/jserializer_generator/pubspec_overrides.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/merging_builder/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/merging_builder/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +50,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:erabti/jserializer_library.git",
-    "accountId": "d1a99eb1-d898-4f78-b6f1-bd8e974edec6"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:erabti/jserializer_library.git&quot;,
+    &quot;accountId&quot;: &quot;d1a99eb1-d898-4f78-b6f1-bd8e974edec6&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/jserializer/example/lib/example.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/jserializer/example/pubspec.yaml" root0="FORCE_HIGHLIGHTING" />
@@ -79,6 +88,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
@@ -142,6 +152,17 @@
       <option name="filePath" value="$PROJECT_DIR$/jserializer/example2/lib/main.dart" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="jserializer_library" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="jserializer_library" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Dart Command Line App.main.dart (1)" />
       <item itemvalue="Dart Command Line App.main.dart" />
@@ -149,6 +170,8 @@
       <item itemvalue="Dart Test.Tests in a_test.dart" />
       <item itemvalue="Flutter.Run" />
       <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Shell Script.Melos -&gt; Bootstrap Workspace" />
+      <item itemvalue="Shell Script.Melos -&gt; Clean Workspace" />
     </list>
     <recent_temporary>
       <list>
@@ -309,14 +332,6 @@
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
       <updated>1696133189303</updated>
-    </task>
-    <task id="LOCAL-00039" summary="fix toJson for JUnion types where the type key is not included in the model itself">
-      <option name="closed" value="true" />
-      <created>1722891710408</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1722891710408</updated>
     </task>
     <task id="LOCAL-00040" summary="fix toJson for JUnion types where the type key is not included in the model itself">
       <option name="closed" value="true" />
@@ -542,7 +557,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740999729050</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="update deps">
+      <option name="closed" value="true" />
+      <created>1741000181310</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1741000181310</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
