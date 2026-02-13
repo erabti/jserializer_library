@@ -564,6 +564,8 @@ class JSerializerGenerator
               .cast<String>()
               .toList() ??
           globalOptions.ignoreAll,
+      safeLookup: a.getField('safeLookup')?.toBoolValue() ??
+          globalOptions.safeLookup,
     );
   }
 

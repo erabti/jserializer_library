@@ -66,6 +66,11 @@ class JSerializerImpl extends JSerializerInterface {
   @override
   final TypeRegistry typeRegistry;
 
+  late final CachedBaseTypesSerializersMap _cachedSerializers = HashMap();
+  late final HashMap<Type, Type> _typeBaseCache = HashMap();
+  Serializer? _listSerializerCache;
+  Serializer? _mapSerializerCache;
+
   static const _fromJsonCall = #fromJsonCall;
   static const _toJsonCall = #toJsonCall;
 
@@ -76,6 +81,11 @@ class JSerializerImpl extends JSerializerInterface {
     FromJsonErrorHandler<T>? handleError,
     Type? type,
   }) {
+    // Skip zone creation for nested calls - already inside a serialization zone
+    if (Zone.current[_fromJsonCall] != null) {
+      return _fromJson<T>(json, type: type);
+    }
+
     return runZoned(
       () {
         T handleFromJsonError(Object error, StackTrace stack) {
@@ -151,12 +161,21 @@ class JSerializerImpl extends JSerializerInterface {
     dynamic json, {
     Type? type,
   }) {
-    final resolvedType = type?.resolveWith(typeRegistry);
+    // Fast path: type == null (common from generated code)
+    if (type == null) {
+      if (json is T || json == null) return json as T;
+      final serializer = serializerOf<T>();
+      if (serializer is ModelSerializer) return serializer.fromJson(json) as T;
+      if (serializer is GenericSerializer) return serializer.fromJson<T>(json);
+      return serializer.decoder(json) as T;
+    }
 
-    final passedTypeCheck = resolvedType?.provideTo(
-          <T>() => json is T,
-        ) ??
-        true;
+    // Full path: explicit type passed (rare, from manual calls)
+    final resolvedType = type.resolveWith(typeRegistry);
+
+    final passedTypeCheck = resolvedType.provideTo(
+      <T>() => json is T,
+    );
     final sameType = json is T && passedTypeCheck;
 
     if (sameType || json == null) return json as T;
@@ -171,15 +190,11 @@ class JSerializerImpl extends JSerializerInterface {
     }
 
     if (serializer is GenericSerializer) {
-      if (resolvedType != null) {
-        return resolvedType.provideTo(
-          <R>() {
-            return serializer.fromJson<R>(json) as T;
-          },
-        );
-      }
-
-      return serializer.fromJson<T>(json);
+      return resolvedType.provideTo(
+        <R>() {
+          return serializer.fromJson<R>(json) as T;
+        },
+      );
     }
     if (serializer is ModelSerializer) {
       return serializer.fromJson(json) as T;
@@ -194,6 +209,11 @@ class JSerializerImpl extends JSerializerInterface {
     OnJserializerError? onError,
     ToJsonErrorHandler? handleError,
   }) {
+    // Skip zone creation for nested calls - already inside a serialization zone
+    if (Zone.current[_toJsonCall] != null) {
+      return _toJson(model);
+    }
+
     return runZoned(() {
       try {
         return _toJson(model);
@@ -240,17 +260,20 @@ class JSerializerImpl extends JSerializerInterface {
   }
 
   _toJson(model) {
-    final Type type;
-    if (model is Map) {
-      type = Map;
-    } else {
-      type = model.runtimeType;
+    if (model == null || model is String || model is num || model is bool) {
+      return model;
     }
-
-    return serializerOf(type).toJson(model);
+    if (model is List) {
+      return (_listSerializerCache ??= serializerOf(List)).toJson(model);
+    }
+    if (model is Map) {
+      return (_mapSerializerCache ??= serializerOf(Map)).toJson(model);
+    }
+    return serializerOf(model.runtimeType).toJson(model);
   }
 
-  Type _getTypeBase(Type type) => type.resolveWith(typeRegistry).base;
+  Type _getTypeBase(Type type) =>
+      _typeBaseCache[type] ??= type.resolveWith(typeRegistry).base;
 
   @override
   void register<T>(
@@ -259,8 +282,13 @@ class JSerializerImpl extends JSerializerInterface {
     MockerFactory<T>? mockFactory,
   }) {
     typeRegistry.add(typeFactory);
-    serializers[_getTypeBase(T)] = factory;
-    if (mockFactory != null) mockers[_getTypeBase(T)] = mockFactory;
+    _typeBaseCache.clear();
+    final base = _getTypeBase(T);
+    serializers[base] = factory;
+    _cachedSerializers.remove(base);
+    _listSerializerCache = null;
+    _mapSerializerCache = null;
+    if (mockFactory != null) mockers[base] = mockFactory;
   }
 
   @override
@@ -275,21 +303,41 @@ class JSerializerImpl extends JSerializerInterface {
 
   @override
   void unregister<T>() {
-    serializers.remove(_getTypeBase(T));
-    mockers.remove(_getTypeBase(T));
+    final base = _getTypeBase(T);
+    serializers.remove(base);
+    _cachedSerializers.remove(base);
+    _listSerializerCache = null;
+    _mapSerializerCache = null;
+    mockers.remove(base);
   }
 
   @override
   Serializer serializerOf<T>([Type? t]) {
-    final passedType = t != null ? _getTypeBase(t) : null;
+    if (t == null) {
+      final cached = _cachedSerializers[T];
+      if (cached != null) return cached;
+
+      final genericType = _getTypeBase(typeOf<T>());
+      final factory = serializers[genericType];
+      if (factory == null) throw UnregisteredSerializableTypeException(T);
+
+      final serializer = factory(this);
+      _cachedSerializers[T] = serializer;
+      return serializer;
+    }
+
+    // Slow path: explicit type passed (used by _toJson with runtimeType)
+    final passedType = _getTypeBase(t);
+    final cached = _cachedSerializers[passedType];
+    if (cached != null) return cached;
+
     late final genericType = _getTypeBase(typeOf<T>());
+    final factory = serializers[passedType] ?? serializers[genericType];
+    if (factory == null) throw UnregisteredSerializableTypeException(t);
 
-    final serializer = (t == null ? null : serializers[passedType]) ??
-        serializers[genericType];
-
-    if (serializer == null) throw UnregisteredSerializableTypeException(t ?? T);
-
-    return serializer(this);
+    final serializer = factory(this);
+    _cachedSerializers[passedType] = serializer;
+    return serializer;
   }
 
   @override
