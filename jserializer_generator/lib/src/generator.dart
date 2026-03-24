@@ -82,8 +82,12 @@ class JSerializerGenerator
   final bool shouldAddAnalysisOptions;
 
   // Cached data — reused across generateStream calls within a build.
-  // Invalidated when resolver.libraries grows (as more files are loaded).
+  // With pre-loading in MergingBuilder, libs are complete from the first call,
+  // so caches are built once and reused for all subsequent files.
   int _lastLibsCount = -1;
+  bool _libsStabilized = false;
+  List<LibraryElement>? _cachedLibs;
+  TypeResolver? _cachedTypeResolver;
   List<InterfaceElement>? _cachedCustomSerializers;
   List<AnnotatedElement>? _cachedAllAnnotatedClasses;
 
@@ -354,29 +358,42 @@ class JSerializerGenerator
     LibraryReader library,
     BuildStep buildStep,
   ) async* {
-    final libs = await buildStep.resolver.libraries.toList();
-    final resolver = TypeResolver(libs, null);
+    // Early exit: skip files with no JSerializable annotations.
+    // This avoids expensive resolver.libraries.toList() for ~85% of files.
+    final allAnnotatedElements = library.annotatedWith(typeChecker).toList();
+    if (allAnnotatedElements.isEmpty) return;
 
-    // Invalidate caches if the resolver has loaded more libraries since last call.
-    if (libs.length != _lastLibsCount) {
-      _lastLibsCount = libs.length;
-      _cachedCustomSerializers = libs
-          .expand((lib) =>
-              LibraryReader(lib).annotatedWith(customModelSerializerChecker))
-          .map((e) => e.element)
-          .whereType<InterfaceElement>()
-          .where((e) =>
-              e.allSupertypes.firstWhereOrNull(
-                (element) => serializerChecker.isExactly(element.element),
-              ) !=
-              null)
-          .toList();
-      _cachedAllAnnotatedClasses = libs
-          .expand((lib) => LibraryReader(lib).annotatedWith(typeChecker))
-          .toList();
+    // Load and cache the full library list + derived caches.
+    // With pre-loading in MergingBuilder, libs are complete from the first call,
+    // so _libsStabilized becomes true after the second annotated file.
+    if (!_libsStabilized) {
+      final libs = await buildStep.resolver.libraries.toList();
+      if (libs.length != _lastLibsCount) {
+        _lastLibsCount = libs.length;
+        _cachedLibs = libs;
+        _cachedTypeResolver = TypeResolver(libs, null);
+        _cachedCustomSerializers = libs
+            .expand((lib) =>
+                LibraryReader(lib).annotatedWith(customModelSerializerChecker))
+            .map((e) => e.element)
+            .whereType<InterfaceElement>()
+            .where((e) =>
+                e.allSupertypes.firstWhereOrNull(
+                  (element) => serializerChecker.isExactly(element.element),
+                ) !=
+                null)
+            .toList();
+        _cachedAllAnnotatedClasses = libs
+            .expand((lib) => LibraryReader(lib).annotatedWith(typeChecker))
+            .toList();
+      } else {
+        // Libs count unchanged from last call — they've stabilized.
+        // Skip resolver.libraries.toList() for all remaining files.
+        _libsStabilized = true;
+      }
     }
 
-    final allAnnotatedElements = library.annotatedWith(typeChecker);
+    final resolver = _cachedTypeResolver!;
 
     for (final annotatedElement in allAnnotatedElements) {
       final clazz = annotatedElement.element;
