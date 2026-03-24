@@ -17,11 +17,13 @@ dependencies:
   merging_builder:
     git:
       url: https://github.com/erabti/jserializer_library.git
+      ref: perf/serialization-optimization
       path: merging_builder/
   source_gen: ">=2.0.0 <5.0.0"
   jserializer:
     git:
       url: https://github.com/erabti/jserializer_library.git
+      ref: perf/serialization-optimization
       path: jserializer/
   build: ">=2.4.1 <6.0.0"
   dart_style: ^3.0.1
