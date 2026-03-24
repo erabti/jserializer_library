@@ -7,959 +7,11 @@
 // **************************************************************************
 
 import 'package:jserializer/jserializer.dart' as js;
+import 'package:example2/model/complicated_model.dart';
+import 'package:example2/model/model.dart';
 import 'package:example2/model/product.dart';
 import 'package:example2/model/product_customization.dart';
 import 'package:example2/model/union.dart';
-import 'package:example2/model/complicated_model.dart';
-import 'package:example2/model/model.dart';
-
-class ProductSerializer extends js.ModelSerializer<Product> {
-  const ProductSerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'id',
-    'name',
-    'price',
-    'originalPrice',
-    'featuredImage',
-    'images',
-    'vendor',
-    'currency',
-    'maxPurchaseQuantity',
-    'service',
-    'category',
-    'discountRate',
-    'isAvailable',
-    'description',
-    'tags',
-    'barcode',
-    'quantity',
-    'variants',
-    'shortUrl',
-    'brand',
-    'variantsAttributes',
-    'attributes',
-    'groupReference',
-    'vendorId',
-    'userSpecifics',
-    'customizations',
-  };
-
-  @override
-  Product fromJson(json) {
-    final id$Value = safeLookup<String>(
-      call: () => (json['id'] as String),
-      jsonKey: 'id',
-    );
-    final name$Value = safeLookup<String?>(
-      call: () => (json['name'] as String?),
-      jsonKey: 'name',
-    );
-    final price$Value = safeLookup<Price?>(
-      call: () => jSerializer.fromJson<Price?>(json['price']),
-      jsonKey: 'price',
-    );
-    final originalPrice$Value = safeLookup<Price?>(
-      call: () => jSerializer.fromJson<Price?>(json['originalPrice']),
-      jsonKey: 'originalPrice',
-    );
-    final featuredImage$Value = safeLookup<String?>(
-      call: () => (json['featuredImage'] as String?),
-      jsonKey: 'featuredImage',
-    );
-    final images$Value = safeLookup<List<String>?>(
-      call: () => (json['images'] as List?)?.cast<String>(),
-      jsonKey: 'images',
-    );
-    final vendor$Value = safeLookup<Vendor?>(
-      call: () => jSerializer.fromJson<Vendor?>(json['vendor']),
-      jsonKey: 'vendor',
-    );
-    final currency$Value = safeLookup<String?>(
-      call: () => (json['currency'] as String?),
-      jsonKey: 'currency',
-    );
-    final maxPurchaseQuantity$Value = safeLookup<int?>(
-      call: () => (json['maxPurchaseQuantity'] as num?)?.toInt(),
-      jsonKey: 'maxPurchaseQuantity',
-    );
-    final service$Value = safeLookup<String?>(
-      call: () => (json['service'] as String?),
-      jsonKey: 'service',
-    );
-    final category$Value = safeLookup<List<Category?>?>(
-      call: () => (json['category'] as List?)
-          ?.map((e) => jSerializer.fromJson<Category>(e))
-          .toList(),
-      jsonKey: 'category',
-    );
-    final discountRate$Value = safeLookup<String?>(
-      call: () => (json['discountRate'] as String?),
-      jsonKey: 'discountRate',
-    );
-    final isAvailable$Value = safeLookup<bool?>(
-      call: () => (json['isAvailable'] as bool?),
-      jsonKey: 'isAvailable',
-    );
-    final description$Value = safeLookup<String?>(
-      call: () => (json['description'] as String?),
-      jsonKey: 'description',
-    );
-    final tags$Value = safeLookup<List<Tag>?>(
-      call: () => (json['tags'] as List?)
-          ?.map((e) => jSerializer.fromJson<Tag>(e))
-          .toList(),
-      jsonKey: 'tags',
-    );
-    final barcode$Value = safeLookup<String?>(
-      call: () => (json['barcode'] as String?),
-      jsonKey: 'barcode',
-    );
-    final quantity$Value = safeLookup<int?>(
-      call: () => (json['quantity'] as num?)?.toInt(),
-      jsonKey: 'quantity',
-    );
-    final variants$Value = safeLookup<List<ProductVariant>?>(
-      call: () => (json['variants'] as List?)
-          ?.map((e) => jSerializer.fromJson<ProductVariant>(e))
-          .toList(),
-      jsonKey: 'variants',
-    );
-    final shortUrl$Value = safeLookup<String?>(
-      call: () => (json['shortUrl'] as String?),
-      jsonKey: 'shortUrl',
-    );
-    final brand$Value = safeLookup<Brand?>(
-      call: () => jSerializer.fromJson<Brand?>(json['brand']),
-      jsonKey: 'brand',
-    );
-    final variantsAttributes$Value = safeLookup<List<ProductAttribute>?>(
-      call: () => (json['variantsAttributes'] as List?)
-          ?.map((e) => jSerializer.fromJson<ProductAttribute>(e))
-          .toList(),
-      jsonKey: 'variantsAttributes',
-    );
-    final attributes$Value = safeLookup<List<ProductAttributeValue>?>(
-      call: () => (json['attributes'] as List?)
-          ?.map((e) => jSerializer.fromJson<ProductAttributeValue>(e))
-          .toList(),
-      jsonKey: 'attributes',
-    );
-    final groupReference$Value = safeLookup<String?>(
-      call: () => (json['groupReference'] as String?),
-      jsonKey: 'groupReference',
-    );
-    final vendorId$Value = safeLookup<String?>(
-      call: () => (json['vendorId'] as String?),
-      jsonKey: 'vendorId',
-    );
-    final userSpecifics$Value = safeLookup<ProductUserSpecific?>(
-      call: () =>
-          jSerializer.fromJson<ProductUserSpecific?>(json['userSpecifics']),
-      jsonKey: 'userSpecifics',
-    );
-    final customizations$Value = safeLookup<List<ProductCustomization>?>(
-      call: () => (json['customizations'] as List?)
-          ?.map((e) => jSerializer.fromJson<ProductCustomization>(e))
-          .toList(),
-      jsonKey: 'customizations',
-    );
-    return Product(
-      id: id$Value,
-      name: name$Value,
-      price: price$Value,
-      originalPrice: originalPrice$Value,
-      featuredImage: featuredImage$Value,
-      images: images$Value,
-      vendor: vendor$Value,
-      currency: currency$Value,
-      maxPurchaseQuantity: maxPurchaseQuantity$Value,
-      service: service$Value,
-      category: category$Value,
-      discountRate: discountRate$Value,
-      isAvailable: isAvailable$Value,
-      description: description$Value,
-      tags: tags$Value,
-      barcode: barcode$Value,
-      quantity: quantity$Value,
-      variants: variants$Value,
-      shortUrl: shortUrl$Value,
-      brand: brand$Value,
-      variantsAttributes: variantsAttributes$Value,
-      attributes: attributes$Value,
-      groupReference: groupReference$Value,
-      vendorId: vendorId$Value,
-      userSpecifics: userSpecifics$Value,
-      customizations: customizations$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(Product model) => {
-    'id': model.id,
-    'name': model.name,
-    'price': jSerializer.toJson(model.price),
-    'originalPrice': jSerializer.toJson(model.originalPrice),
-    'featuredImage': model.featuredImage,
-    'images': model.images,
-    'vendor': jSerializer.toJson(model.vendor),
-    'currency': model.currency,
-    'maxPurchaseQuantity': model.maxPurchaseQuantity,
-    'service': model.service,
-    'category': jSerializer.toJson(model.category),
-    'discountRate': model.discountRate,
-    'isAvailable': model.isAvailable,
-    'description': model.description,
-    'tags': jSerializer.toJson(model.tags),
-    'barcode': model.barcode,
-    'quantity': model.quantity,
-    'variants': jSerializer.toJson(model.variants),
-    'shortUrl': model.shortUrl,
-    'brand': jSerializer.toJson(model.brand),
-    'variantsAttributes': jSerializer.toJson(model.variantsAttributes),
-    'attributes': jSerializer.toJson(model.attributes),
-    'groupReference': model.groupReference,
-    'vendorId': model.vendorId,
-    'userSpecifics': jSerializer.toJson(model.userSpecifics),
-    'customizations': jSerializer.toJson(model.customizations),
-  };
-}
-
-class TagSerializer extends js.ModelSerializer<Tag> {
-  const TagSerializer({super.jSerializer});
-
-  static const jsonKeys = {'key', 'title', 'subTitle', 'featuredImage'};
-
-  @override
-  Tag fromJson(json) {
-    final key$Value = safeLookup<String?>(
-      call: () => (json['key'] as String?),
-      jsonKey: 'key',
-    );
-    final title$Value = safeLookup<String?>(
-      call: () => (json['title'] as String?),
-      jsonKey: 'title',
-    );
-    final subTitle$Value = safeLookup<String?>(
-      call: () => (json['subTitle'] as String?),
-      jsonKey: 'subTitle',
-    );
-    final featuredImage$Value = safeLookup<String?>(
-      call: () => (json['featuredImage'] as String?),
-      jsonKey: 'featuredImage',
-    );
-    return Tag(
-      key: key$Value,
-      title: title$Value,
-      subTitle: subTitle$Value,
-      featuredImage: featuredImage$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(Tag model) => {
-    'key': model.key,
-    'title': model.title,
-    'subTitle': model.subTitle,
-    'featuredImage': model.featuredImage,
-  };
-}
-
-class VendorSerializer extends js.ModelSerializer<Vendor> {
-  const VendorSerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'id',
-    'name',
-    'banner',
-    'featuredImage',
-    'images',
-    'category',
-    'service',
-    'isOpen',
-    'partnerSupportNumber',
-    'minimumOrderAmount',
-  };
-
-  @override
-  Vendor fromJson(json) {
-    final id$Value = safeLookup<String?>(
-      call: () => (json['id'] as String?),
-      jsonKey: 'id',
-    );
-    final name$Value = safeLookup<String?>(
-      call: () => (json['name'] as String?),
-      jsonKey: 'name',
-    );
-    final banner$Value = safeLookup<String?>(
-      call: () => (json['banner'] as String?),
-      jsonKey: 'banner',
-    );
-    final featuredImage$Value = safeLookup<String?>(
-      call: () => (json['featuredImage'] ?? json['image_url'] as String?),
-      jsonKey: 'featuredImage',
-    );
-    final images$Value = safeLookup<List<String>?>(
-      call: () => (json['images'] as List?)?.cast<String>(),
-      jsonKey: 'images',
-    );
-    final category$Value = safeLookup<Category?>(
-      call: () => jSerializer.fromJson<Category?>(json['category']),
-      jsonKey: 'category',
-    );
-    final service$Value = safeLookup<String?>(
-      call: () => (json['service'] as String?),
-      jsonKey: 'service',
-    );
-    final isOpen$Value = safeLookup<bool?>(
-      call: () => (json['isOpen'] as bool?),
-      jsonKey: 'isOpen',
-    );
-    final partnerSupportNumber$Value = safeLookup<String?>(
-      call: () => (json['partnerSupportNumber'] as String?),
-      jsonKey: 'partnerSupportNumber',
-    );
-    final minimumOrderAmount$Value = safeLookup<Price?>(
-      call: () => jSerializer.fromJson<Price?>(json['minimumOrderAmount']),
-      jsonKey: 'minimumOrderAmount',
-    );
-    return Vendor(
-      id: id$Value,
-      name: name$Value,
-      banner: banner$Value,
-      featuredImage: featuredImage$Value,
-      images: images$Value,
-      category: category$Value,
-      service: service$Value,
-      isOpen: isOpen$Value,
-      partnerSupportNumber: partnerSupportNumber$Value,
-      minimumOrderAmount: minimumOrderAmount$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(Vendor model) => {
-    if (model.id != null) 'id': model.id!,
-    if (model.name != null) 'name': model.name!,
-    if (model.banner != null) 'banner': model.banner!,
-    if (model.featuredImage != null) 'featuredImage': model.featuredImage!,
-    'images': model.images,
-    if (model.category != null) 'category': jSerializer.toJson(model.category!),
-    if (model.service != null) 'service': model.service!,
-    if (model.isOpen != null) 'isOpen': model.isOpen!,
-    if (model.partnerSupportNumber != null)
-      'partnerSupportNumber': model.partnerSupportNumber!,
-    if (model.minimumOrderAmount != null)
-      'minimumOrderAmount': jSerializer.toJson(model.minimumOrderAmount!),
-  };
-}
-
-class CategorySerializer extends js.ModelSerializer<Category> {
-  const CategorySerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'id',
-    'banner',
-    'service',
-    'featuredImage',
-    'images',
-    'name',
-  };
-
-  @override
-  Category fromJson(json) {
-    final id$Value = safeLookup<String?>(
-      call: () => (json['id'] as String?),
-      jsonKey: 'id',
-    );
-    final banner$Value = safeLookup<String?>(
-      call: () => (json['banner'] as String?),
-      jsonKey: 'banner',
-    );
-    final service$Value = safeLookup<String?>(
-      call: () => (json['service'] as String?),
-      jsonKey: 'service',
-    );
-    final featuredImage$Value = safeLookup<String?>(
-      call: () => (json['featuredImage'] as String?),
-      jsonKey: 'featuredImage',
-    );
-    final images$Value = safeLookup<List<String>?>(
-      call: () => (json['images'] as List?)?.cast<String>(),
-      jsonKey: 'images',
-    );
-    final name$Value = safeLookup<String?>(
-      call: () => (json['name'] as String?),
-      jsonKey: 'name',
-    );
-    return Category(
-      id: id$Value,
-      banner: banner$Value,
-      service: service$Value,
-      featuredImage: featuredImage$Value,
-      images: images$Value,
-      name: name$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(Category model) => {
-    'id': model.id,
-    'banner': model.banner,
-    'service': model.service,
-    'featuredImage': model.featuredImage,
-    'images': model.images,
-    'name': model.name,
-  };
-}
-
-class ProductUserSpecificSerializer
-    extends js.ModelSerializer<ProductUserSpecific> {
-  const ProductUserSpecificSerializer({super.jSerializer});
-
-  static const jsonKeys = {'isFavorite', 'cartQuantity'};
-
-  @override
-  ProductUserSpecific fromJson(json) {
-    final isFavorite$Value = safeLookup<bool?>(
-      call: () => (json['isFavorite'] as bool?),
-      jsonKey: 'isFavorite',
-    );
-    final cartQuantity$Value = safeLookup<int?>(
-      call: () => (json['cartQuantity'] as num?)?.toInt(),
-      jsonKey: 'cartQuantity',
-    );
-    return ProductUserSpecific(
-      isFavorite: isFavorite$Value,
-      cartQuantity: cartQuantity$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ProductUserSpecific model) => {
-    'isFavorite': model.isFavorite,
-    'cartQuantity': model.cartQuantity,
-  };
-}
-
-class ProductAttributeSerializer extends js.ModelSerializer<ProductAttribute> {
-  const ProductAttributeSerializer({super.jSerializer});
-
-  static const jsonKeys = {'id', 'name', 'values'};
-
-  @override
-  ProductAttribute fromJson(json) {
-    final id$Value = safeLookup<String>(
-      call: () => (json['id'] as String),
-      jsonKey: 'id',
-    );
-    final name$Value = safeLookup<String?>(
-      call: () => (json['name'] as String?),
-      jsonKey: 'name',
-    );
-    final values$Value = safeLookup<List<ProductAttributeValue>?>(
-      call: () => (json['values'] as List?)
-          ?.map((e) => jSerializer.fromJson<ProductAttributeValue>(e))
-          .toList(),
-      jsonKey: 'values',
-    );
-    return ProductAttribute(
-      id: id$Value,
-      name: name$Value,
-      values: values$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ProductAttribute model) => {
-    'id': model.id,
-    'name': model.name,
-    'values': jSerializer.toJson(model.values),
-  };
-}
-
-class ProductAttributeValueSerializer
-    extends js.ModelSerializer<ProductAttributeValue> {
-  const ProductAttributeValueSerializer({super.jSerializer});
-
-  static const jsonKeys = {'id', 'name', 'color', 'featuredImage'};
-
-  @override
-  ProductAttributeValue fromJson(json) {
-    final id$Value = safeLookup<String>(
-      call: () => (json['id'] as String),
-      jsonKey: 'id',
-    );
-    final name$Value = safeLookup<String?>(
-      call: () => (json['name'] as String?),
-      jsonKey: 'name',
-    );
-    final color$Value = safeLookup<String?>(
-      call: () => (json['color'] as String?),
-      jsonKey: 'color',
-    );
-    final featuredImage$Value = safeLookup<String?>(
-      call: () => (json['featuredImage'] as String?),
-      jsonKey: 'featuredImage',
-    );
-    return ProductAttributeValue(
-      id: id$Value,
-      name: name$Value,
-      color: color$Value,
-      featuredImage: featuredImage$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ProductAttributeValue model) => {
-    'id': model.id,
-    'name': model.name,
-    'color': model.color,
-    'featuredImage': model.featuredImage,
-  };
-}
-
-class BrandSerializer extends js.ModelSerializer<Brand> {
-  const BrandSerializer({super.jSerializer});
-
-  static const jsonKeys = {'name', 'logo'};
-
-  @override
-  Brand fromJson(json) {
-    final name$Value = safeLookup<String?>(
-      call: () => (json['name'] as String?),
-      jsonKey: 'name',
-    );
-    final logo$Value = safeLookup<String?>(
-      call: () => (json['logo'] as String?),
-      jsonKey: 'logo',
-    );
-    return Brand(name: name$Value, logo: logo$Value);
-  }
-
-  @override
-  Map<String, dynamic> toJson(Brand model) => {
-    'name': model.name,
-    'logo': model.logo,
-  };
-}
-
-class ProductVariantSerializer extends js.ModelSerializer<ProductVariant> {
-  const ProductVariantSerializer({super.jSerializer});
-
-  static const jsonKeys = {
-    'id',
-    'name',
-    'price',
-    'featuredImage',
-    'images',
-    'vendor',
-    'currency',
-    'maxPurchaseQuantity',
-    'service',
-    'category',
-    'originalPrice',
-    'discountRate',
-    'isAvailable',
-    'description',
-    'tags',
-    'barcode',
-    'quantity',
-    'shortUrl',
-    'brand',
-    'variantsAttributes',
-    'attributes',
-    'userSpecifics',
-    'vendorId',
-  };
-
-  @override
-  ProductVariant fromJson(json) {
-    final id$Value = safeLookup<String>(
-      call: () => (json['id'] as String),
-      jsonKey: 'id',
-    );
-    final name$Value = safeLookup<String?>(
-      call: () => (json['name'] as String?),
-      jsonKey: 'name',
-    );
-    final price$Value = safeLookup<Price?>(
-      call: () => jSerializer.fromJson<Price?>(json['price']),
-      jsonKey: 'price',
-    );
-    final featuredImage$Value = safeLookup<String?>(
-      call: () => (json['featuredImage'] as String?),
-      jsonKey: 'featuredImage',
-    );
-    final images$Value = safeLookup<List<String>?>(
-      call: () => (json['images'] as List?)?.cast<String>(),
-      jsonKey: 'images',
-    );
-    final vendor$Value = safeLookup<Vendor?>(
-      call: () => jSerializer.fromJson<Vendor?>(json['vendor']),
-      jsonKey: 'vendor',
-    );
-    final currency$Value = safeLookup<String?>(
-      call: () => (json['currency'] as String?),
-      jsonKey: 'currency',
-    );
-    final maxPurchaseQuantity$Value = safeLookup<int?>(
-      call: () => (json['maxPurchaseQuantity'] as num?)?.toInt(),
-      jsonKey: 'maxPurchaseQuantity',
-    );
-    final service$Value = safeLookup<String?>(
-      call: () => (json['service'] as String?),
-      jsonKey: 'service',
-    );
-    final category$Value = safeLookup<List<Category?>?>(
-      call: () => (json['category'] as List?)
-          ?.map((e) => jSerializer.fromJson<Category>(e))
-          .toList(),
-      jsonKey: 'category',
-    );
-    final originalPrice$Value = safeLookup<Price?>(
-      call: () => jSerializer.fromJson<Price?>(json['originalPrice']),
-      jsonKey: 'originalPrice',
-    );
-    final discountRate$Value = safeLookup<String?>(
-      call: () => (json['discountRate'] as String?),
-      jsonKey: 'discountRate',
-    );
-    final isAvailable$Value = safeLookup<bool?>(
-      call: () => (json['isAvailable'] as bool?),
-      jsonKey: 'isAvailable',
-    );
-    final description$Value = safeLookup<String?>(
-      call: () => (json['description'] as String?),
-      jsonKey: 'description',
-    );
-    final tags$Value = safeLookup<List<Tag>?>(
-      call: () => (json['tags'] as List?)
-          ?.map((e) => jSerializer.fromJson<Tag>(e))
-          .toList(),
-      jsonKey: 'tags',
-    );
-    final barcode$Value = safeLookup<String?>(
-      call: () => (json['barcode'] as String?),
-      jsonKey: 'barcode',
-    );
-    final quantity$Value = safeLookup<int?>(
-      call: () => (json['quantity'] as num?)?.toInt(),
-      jsonKey: 'quantity',
-    );
-    final shortUrl$Value = safeLookup<String?>(
-      call: () => (json['shortUrl'] as String?),
-      jsonKey: 'shortUrl',
-    );
-    final brand$Value = safeLookup<Brand?>(
-      call: () => jSerializer.fromJson<Brand?>(json['brand']),
-      jsonKey: 'brand',
-    );
-    final variantsAttributes$Value = safeLookup<List<ProductAttribute>?>(
-      call: () => (json['variantsAttributes'] as List?)
-          ?.map((e) => jSerializer.fromJson<ProductAttribute>(e))
-          .toList(),
-      jsonKey: 'variantsAttributes',
-    );
-    final attributes$Value = safeLookup<List<ProductAttributeValue>?>(
-      call: () => (json['attributes'] as List?)
-          ?.map((e) => jSerializer.fromJson<ProductAttributeValue>(e))
-          .toList(),
-      jsonKey: 'attributes',
-    );
-    final userSpecifics$Value = safeLookup<ProductUserSpecific?>(
-      call: () =>
-          jSerializer.fromJson<ProductUserSpecific?>(json['userSpecifics']),
-      jsonKey: 'userSpecifics',
-    );
-    final vendorId$Value = safeLookup<String?>(
-      call: () => (json['vendorId'] as String?),
-      jsonKey: 'vendorId',
-    );
-    return ProductVariant(
-      id: id$Value,
-      name: name$Value,
-      price: price$Value,
-      featuredImage: featuredImage$Value,
-      images: images$Value,
-      vendor: vendor$Value,
-      currency: currency$Value,
-      maxPurchaseQuantity: maxPurchaseQuantity$Value,
-      service: service$Value,
-      category: category$Value,
-      originalPrice: originalPrice$Value,
-      discountRate: discountRate$Value,
-      isAvailable: isAvailable$Value,
-      description: description$Value,
-      tags: tags$Value,
-      barcode: barcode$Value,
-      quantity: quantity$Value,
-      shortUrl: shortUrl$Value,
-      brand: brand$Value,
-      variantsAttributes: variantsAttributes$Value,
-      attributes: attributes$Value,
-      userSpecifics: userSpecifics$Value,
-      vendorId: vendorId$Value,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ProductVariant model) => {
-    'id': model.id,
-    'name': model.name,
-    'price': jSerializer.toJson(model.price),
-    'featuredImage': model.featuredImage,
-    'images': model.images,
-    'vendor': jSerializer.toJson(model.vendor),
-    'currency': model.currency,
-    'maxPurchaseQuantity': model.maxPurchaseQuantity,
-    'service': model.service,
-    'category': jSerializer.toJson(model.category),
-    'originalPrice': jSerializer.toJson(model.originalPrice),
-    'discountRate': model.discountRate,
-    'isAvailable': model.isAvailable,
-    'description': model.description,
-    'tags': jSerializer.toJson(model.tags),
-    'barcode': model.barcode,
-    'quantity': model.quantity,
-    'shortUrl': model.shortUrl,
-    'brand': jSerializer.toJson(model.brand),
-    'variantsAttributes': jSerializer.toJson(model.variantsAttributes),
-    'attributes': jSerializer.toJson(model.attributes),
-    'userSpecifics': jSerializer.toJson(model.userSpecifics),
-    'vendorId': model.vendorId,
-  };
-}
-
-class SectionLayoutVListSerializer
-    extends js.ModelSerializer<SectionLayoutVList> {
-  const SectionLayoutVListSerializer({super.jSerializer});
-
-  static const jsonKeys = {'shape'};
-
-  @override
-  SectionLayoutVList fromJson(json) {
-    final shape$Value = safeLookup<DynamicItemShape?>(
-      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
-      jsonKey: 'shape',
-    );
-    return SectionLayoutVList(shape: shape$Value);
-  }
-
-  @override
-  Map<String, dynamic> toJson(SectionLayoutVList model) => {
-    'shape': jSerializer.toJson(model.shape),
-    'type': 'vList',
-  };
-}
-
-class SectionLayoutHListSerializer
-    extends js.ModelSerializer<SectionLayoutHList> {
-  const SectionLayoutHListSerializer({super.jSerializer});
-
-  static const jsonKeys = {'shape'};
-
-  @override
-  SectionLayoutHList fromJson(json) {
-    final shape$Value = safeLookup<DynamicItemShape?>(
-      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
-      jsonKey: 'shape',
-    );
-    return SectionLayoutHList(shape: shape$Value);
-  }
-
-  @override
-  Map<String, dynamic> toJson(SectionLayoutHList model) => {
-    'shape': jSerializer.toJson(model.shape),
-    'type': 'hList',
-  };
-}
-
-class SectionLayoutGridViewSerializer
-    extends js.ModelSerializer<SectionLayoutGridView> {
-  const SectionLayoutGridViewSerializer({super.jSerializer});
-
-  static const jsonKeys = {'shape'};
-
-  @override
-  SectionLayoutGridView fromJson(json) {
-    final shape$Value = safeLookup<DynamicItemShape?>(
-      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
-      jsonKey: 'shape',
-    );
-    return SectionLayoutGridView(shape: shape$Value);
-  }
-
-  @override
-  Map<String, dynamic> toJson(SectionLayoutGridView model) => {
-    'shape': jSerializer.toJson(model.shape),
-    'type': 'gridView',
-  };
-}
-
-class SectionLayoutGridPatternSerializer
-    extends js.ModelSerializer<SectionLayoutGridPattern> {
-  const SectionLayoutGridPatternSerializer({super.jSerializer});
-
-  static const jsonKeys = {'shape', 'pattern'};
-
-  @override
-  SectionLayoutGridPattern fromJson(json) {
-    final shape$Value = safeLookup<DynamicItemShape?>(
-      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
-      jsonKey: 'shape',
-    );
-    final pattern$Value = safeLookup<String?>(
-      call: () => (json['pattern'] as String?),
-      jsonKey: 'pattern',
-    );
-    return SectionLayoutGridPattern(shape: shape$Value, pattern: pattern$Value);
-  }
-
-  @override
-  Map<String, dynamic> toJson(SectionLayoutGridPattern model) => {
-    'shape': jSerializer.toJson(model.shape),
-    'pattern': model.pattern,
-    'type': 'gridPattern',
-  };
-}
-
-class SectionLayoutCarouselSerializer
-    extends js.ModelSerializer<SectionLayoutCarousel> {
-  const SectionLayoutCarouselSerializer({super.jSerializer});
-
-  static const jsonKeys = {'shape'};
-
-  @override
-  SectionLayoutCarousel fromJson(json) {
-    final shape$Value = safeLookup<DynamicItemShape?>(
-      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
-      jsonKey: 'shape',
-    );
-    return SectionLayoutCarousel(shape: shape$Value);
-  }
-
-  @override
-  Map<String, dynamic> toJson(SectionLayoutCarousel model) => {
-    'shape': jSerializer.toJson(model.shape),
-    'type': 'carousel',
-  };
-}
-
-class SectionLayoutUnknownSerializer
-    extends js.ModelSerializer<SectionLayoutUnknown> {
-  const SectionLayoutUnknownSerializer({super.jSerializer});
-
-  static const jsonKeys = {};
-
-  @override
-  SectionLayoutUnknown fromJson(json) {
-    return SectionLayoutUnknown();
-  }
-
-  @override
-  Map<String, dynamic> toJson(SectionLayoutUnknown model) => {
-    'type': 'unknown',
-  };
-}
-
-class SectionLayoutSerializer extends js.ModelSerializer<SectionLayout> {
-  const SectionLayoutSerializer({super.jSerializer});
-
-  @override
-  SectionLayout fromJson(json) {
-    final type = json['type'];
-    if (type is! String) {
-      throw Exception(
-        'The json field of type named (type) that was passed'
-        'using fromJson of model SectionLayout) is not a String!\actual value: $type',
-      );
-    }
-    switch (type) {
-      case 'vList':
-        return jSerializer.fromJson<SectionLayoutVList>(json);
-      case 'hList':
-        return jSerializer.fromJson<SectionLayoutHList>(json);
-      case 'gridView':
-        return jSerializer.fromJson<SectionLayoutGridView>(json);
-      case 'gridPattern':
-        return jSerializer.fromJson<SectionLayoutGridPattern>(json);
-      case 'carousel':
-        return jSerializer.fromJson<SectionLayoutCarousel>(json);
-      default:
-        return SectionLayoutUnknown();
-    }
-  }
-
-  @override
-  Map<String, dynamic> toJson(SectionLayout model) {
-    if (model is SectionLayoutVList) {
-      return {
-        'type': 'vList',
-        ...(jSerializer.toJson(model) as Map<String, dynamic>),
-      };
-    }
-    if (model is SectionLayoutHList) {
-      return {
-        'type': 'hList',
-        ...(jSerializer.toJson(model) as Map<String, dynamic>),
-      };
-    }
-    if (model is SectionLayoutGridView) {
-      return {
-        'type': 'gridView',
-        ...(jSerializer.toJson(model) as Map<String, dynamic>),
-      };
-    }
-    if (model is SectionLayoutGridPattern) {
-      return {
-        'type': 'gridPattern',
-        ...(jSerializer.toJson(model) as Map<String, dynamic>),
-      };
-    }
-    if (model is SectionLayoutCarousel) {
-      return {
-        'type': 'carousel',
-        ...(jSerializer.toJson(model) as Map<String, dynamic>),
-      };
-    }
-    if (model is SectionLayoutUnknown) {
-      return {
-        'type': 'unknown',
-        ...(jSerializer.toJson(model) as Map<String, dynamic>),
-      };
-    }
-    throw Exception('Unknown type of union value: $model');
-  }
-}
-
-class DynamicItemShapeSerializer
-    extends js.CustomModelSerializer<DynamicItemShape, String> {
-  const DynamicItemShapeSerializer({super.jSerializer});
-
-  @override
-  DynamicItemShape fromJson(String json) {
-    if (json == 'circle') return DynamicItemShape.circle;
-
-    if (json == 'undefined') return DynamicItemShape.undefined;
-
-    throw Exception(
-      'JSerializationException in Enum of type $DynamicItemShape '
-      'Unknown enum value: $json',
-    );
-  }
-
-  @override
-  String toJson(DynamicItemShape model) {
-    switch (model) {
-      case DynamicItemShape.circle:
-        return 'circle';
-
-      case DynamicItemShape.undefined:
-        return 'undefined';
-    }
-  }
-}
 
 class SuperComplicatedModelSerializer
     extends js.GenericModelSerializer<SuperComplicatedModel> {
@@ -1038,35 +90,54 @@ class SuperComplicatedModelSerializer
     final values$Value =
         safeLookup<List<ComplicatedModel<ComplicatedModel<T>>>>(
           call: () => (json['values'] as List)
-              .map((e) => jSerializer.fromJson<T>(e))
+              .map(
+                (e) => jSerializer
+                    .fromJson<ComplicatedModel<ComplicatedModel<T>>>(e),
+              )
               .toList(),
           jsonKey: 'values',
         );
     final mapValues$Value =
         safeLookup<Map<String, ComplicatedModel<ComplicatedModel<T>>>>(
           call: () => (json['mapValues'] as Map).map(
-            (k, v) => MapEntry((k as String), jSerializer.fromJson<T>(v)),
+            (k, v) => MapEntry(
+              (k as String),
+              jSerializer.fromJson<ComplicatedModel<ComplicatedModel<T>>>(v),
+            ),
           ),
           jsonKey: 'mapValues',
         );
     final nestedValues$Value =
         safeLookup<List<List<ComplicatedModel<ComplicatedModel<T>>>>>(
           call: () => (json['nestedValues'] as List)
-              .map((e) => jSerializer.fromJson<List<T>>(e))
+              .map(
+                (e) => jSerializer
+                    .fromJson<List<ComplicatedModel<ComplicatedModel<T>>>>(e),
+              )
               .toList(),
           jsonKey: 'nestedValues',
         );
     final nestedMapValues$Value =
         safeLookup<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>(
           call: () => (json['nestedMapValues'] as Map).map(
-            (k, v) => MapEntry((k as String), jSerializer.fromJson<List<T>>(v)),
+            (k, v) => MapEntry(
+              (k as String),
+              jSerializer.fromJson<List<ComplicatedModel<ComplicatedModel<T>>>>(
+                v,
+              ),
+            ),
           ),
           jsonKey: 'nestedMapValues',
         );
     final nestedValuesMap$Value =
         safeLookup<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>(
           call: () => (json['nestedValuesMap'] as List)
-              .map((e) => jSerializer.fromJson<Map<String, T>>(e))
+              .map(
+                (e) =>
+                    jSerializer.fromJson<
+                      Map<String, ComplicatedModel<ComplicatedModel<T>>>
+                    >(e),
+              )
               .toList(),
           jsonKey: 'nestedValuesMap',
         );
@@ -1077,7 +148,9 @@ class SuperComplicatedModelSerializer
           call: () => (json['nestedMapValuesMap'] as Map).map(
             (k, v) => MapEntry(
               (k as String),
-              jSerializer.fromJson<List<Map<String, T>>>(v),
+              jSerializer.fromJson<
+                List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>
+              >(v),
             ),
           ),
           jsonKey: 'nestedMapValuesMap',
@@ -1087,7 +160,12 @@ class SuperComplicatedModelSerializer
           List<List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>>
         >(
           call: () => (json['nestedValuesMapList'] as List)
-              .map((e) => jSerializer.fromJson<List<Map<String, T>>>(e))
+              .map(
+                (e) =>
+                    jSerializer.fromJson<
+                      List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>
+                    >(e),
+              )
               .toList(),
           jsonKey: 'nestedValuesMapList',
         );
@@ -1098,7 +176,9 @@ class SuperComplicatedModelSerializer
           call: () => (json['nestedMapValuesMapList'] as Map).map(
             (k, v) => MapEntry(
               (k as String),
-              jSerializer.fromJson<List<Map<String, T>>>(v),
+              jSerializer.fromJson<
+                List<Map<String, ComplicatedModel<ComplicatedModel<T>>>>
+              >(v),
             ),
           ),
           jsonKey: 'nestedMapValuesMapList',
@@ -1108,7 +188,14 @@ class SuperComplicatedModelSerializer
           List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>
         >(
           call: () => (json['nestedValuesMapListList'] as List)
-              .map((e) => jSerializer.fromJson<List<Map<String, List<T>>>>(e))
+              .map(
+                (e) =>
+                    jSerializer.fromJson<
+                      List<
+                        Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>
+                      >
+                    >(e),
+              )
               .toList(),
           jsonKey: 'nestedValuesMapListList',
         );
@@ -1122,7 +209,9 @@ class SuperComplicatedModelSerializer
           call: () => (json['nestedMapValuesMapListList'] as Map).map(
             (k, v) => MapEntry(
               (k as String),
-              jSerializer.fromJson<List<Map<String, List<T>>>>(v),
+              jSerializer.fromJson<
+                List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>
+              >(v),
             ),
           ),
           jsonKey: 'nestedMapValuesMapListList',
@@ -1132,7 +221,14 @@ class SuperComplicatedModelSerializer
           List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>
         >(
           call: () => (json['nestedValuesMapListListList'] as List)
-              .map((e) => jSerializer.fromJson<List<Map<String, List<T>>>>(e))
+              .map(
+                (e) =>
+                    jSerializer.fromJson<
+                      List<
+                        Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>
+                      >
+                    >(e),
+              )
               .toList(),
           jsonKey: 'nestedValuesMapListListList',
         );
@@ -1146,7 +242,9 @@ class SuperComplicatedModelSerializer
           call: () => (json['nestedMapValuesMapListListList'] as Map).map(
             (k, v) => MapEntry(
               (k as String),
-              jSerializer.fromJson<List<Map<String, List<T>>>>(v),
+              jSerializer.fromJson<
+                List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>
+              >(v),
             ),
           ),
           jsonKey: 'nestedMapValuesMapListListList',
@@ -1156,7 +254,14 @@ class SuperComplicatedModelSerializer
           List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>
         >(
           call: () => (json['nestedValuesMapListListListList'] as List)
-              .map((e) => jSerializer.fromJson<List<Map<String, List<T>>>>(e))
+              .map(
+                (e) =>
+                    jSerializer.fromJson<
+                      List<
+                        Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>
+                      >
+                    >(e),
+              )
               .toList(),
           jsonKey: 'nestedValuesMapListListListList',
         );
@@ -1170,7 +275,9 @@ class SuperComplicatedModelSerializer
           call: () => (json['nestedMapValuesMapListListListList'] as Map).map(
             (k, v) => MapEntry(
               (k as String),
-              jSerializer.fromJson<List<Map<String, List<T>>>>(v),
+              jSerializer.fromJson<
+                List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>
+              >(v),
             ),
           ),
           jsonKey: 'nestedMapValuesMapListListListList',
@@ -1180,7 +287,14 @@ class SuperComplicatedModelSerializer
           List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>
         >(
           call: () => (json['nestedValuesMapListListListListList'] as List)
-              .map((e) => jSerializer.fromJson<List<Map<String, List<T>>>>(e))
+              .map(
+                (e) =>
+                    jSerializer.fromJson<
+                      List<
+                        Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>
+                      >
+                    >(e),
+              )
               .toList(),
           jsonKey: 'nestedValuesMapListListListListList',
         );
@@ -1195,7 +309,11 @@ class SuperComplicatedModelSerializer
               (json['nestedMapValuesMapListListListListList'] as Map).map(
                 (k, v) => MapEntry(
                   (k as String),
-                  jSerializer.fromJson<List<Map<String, List<T>>>>(v),
+                  jSerializer.fromJson<
+                    List<
+                      Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>
+                    >
+                  >(v),
                 ),
               ),
           jsonKey: 'nestedMapValuesMapListListListListList',
@@ -1205,7 +323,14 @@ class SuperComplicatedModelSerializer
           List<List<Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>>>
         >(
           call: () => (json['nestedValuesMapListListListListListList'] as List)
-              .map((e) => jSerializer.fromJson<List<Map<String, List<T>>>>(e))
+              .map(
+                (e) =>
+                    jSerializer.fromJson<
+                      List<
+                        Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>
+                      >
+                    >(e),
+              )
               .toList(),
           jsonKey: 'nestedValuesMapListListListListListList',
         );
@@ -1220,7 +345,11 @@ class SuperComplicatedModelSerializer
               (json['nestedMapValuesMapListListListListListList'] as Map).map(
                 (k, v) => MapEntry(
                   (k as String),
-                  jSerializer.fromJson<List<Map<String, List<T>>>>(v),
+                  jSerializer.fromJson<
+                    List<
+                      Map<String, List<ComplicatedModel<ComplicatedModel<T>>>>
+                    >
+                  >(v),
                 ),
               ),
           jsonKey: 'nestedMapValuesMapListListListListListList',
@@ -1232,7 +361,15 @@ class SuperComplicatedModelSerializer
           call: () =>
               (json['nestedValuesMapListListListListListListList'] as List)
                   .map(
-                    (e) => jSerializer.fromJson<List<Map<String, List<T>>>>(e),
+                    (e) =>
+                        jSerializer.fromJson<
+                          List<
+                            Map<
+                              String,
+                              List<ComplicatedModel<ComplicatedModel<T>>>
+                            >
+                          >
+                        >(e),
                   )
                   .toList(),
           jsonKey: 'nestedValuesMapListListListListListListList',
@@ -1249,7 +386,14 @@ class SuperComplicatedModelSerializer
                   .map(
                     (k, v) => MapEntry(
                       (k as String),
-                      jSerializer.fromJson<List<Map<String, List<T>>>>(v),
+                      jSerializer.fromJson<
+                        List<
+                          Map<
+                            String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>
+                          >
+                        >
+                      >(v),
                     ),
                   ),
           jsonKey: 'nestedMapValuesMapListListListListListListList',
@@ -1261,7 +405,15 @@ class SuperComplicatedModelSerializer
           call: () =>
               (json['nestedValuesMapListListListListListListListList'] as List)
                   .map(
-                    (e) => jSerializer.fromJson<List<Map<String, List<T>>>>(e),
+                    (e) =>
+                        jSerializer.fromJson<
+                          List<
+                            Map<
+                              String,
+                              List<ComplicatedModel<ComplicatedModel<T>>>
+                            >
+                          >
+                        >(e),
                   )
                   .toList(),
           jsonKey: 'nestedValuesMapListListListListListListListList',
@@ -1279,7 +431,14 @@ class SuperComplicatedModelSerializer
                   .map(
                     (k, v) => MapEntry(
                       (k as String),
-                      jSerializer.fromJson<List<Map<String, List<T>>>>(v),
+                      jSerializer.fromJson<
+                        List<
+                          Map<
+                            String,
+                            List<ComplicatedModel<ComplicatedModel<T>>>
+                          >
+                        >
+                      >(v),
                     ),
                   ),
           jsonKey: 'nestedMapValuesMapListListListListListListListList',
@@ -1292,7 +451,15 @@ class SuperComplicatedModelSerializer
               (json['nestedValuesMapListListListListListListListListList']
                       as List)
                   .map(
-                    (e) => jSerializer.fromJson<List<Map<String, List<T>>>>(e),
+                    (e) =>
+                        jSerializer.fromJson<
+                          List<
+                            Map<
+                              String,
+                              List<ComplicatedModel<ComplicatedModel<T>>>
+                            >
+                          >
+                        >(e),
                   )
                   .toList(),
           jsonKey: 'nestedValuesMapListListListListListListListListList',
@@ -2017,6 +1184,819 @@ class SemiComplicatedModelSerializer
   };
 }
 
+class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
+  const SomeModelSerializer({super.jSerializer});
+
+  static const jsonKeys = {'field1', 'field2', 'field3', 'field4'};
+
+  @override
+  SomeModel fromJson(json) {
+    final field1$Value = safeLookup<String>(
+      call: () => (json['field1'] as String),
+      jsonKey: 'field1',
+    );
+    final field2$Value = safeLookup<String?>(
+      call: () => (json['field2'] as String?),
+      jsonKey: 'field2',
+    );
+    final field3$Value = safeLookup<double?>(
+      call: () => (json['field3'] as num?)?.toDouble(),
+      jsonKey: 'field3',
+    );
+    final field4$Value = safeLookup<int?>(
+      call: () => (json['field4'] as num?)?.toInt(),
+      jsonKey: 'field4',
+    );
+    final extras$Value = Map<String, dynamic>.from(json)
+      ..removeWhere((key, _) => jsonKeys.contains(key));
+    return SomeModel(
+      field1: field1$Value,
+      field2: field2$Value,
+      field3: field3$Value,
+      field4: field4$Value,
+      extras: extras$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(SomeModel model) => Map.of(model.extras)
+    ..addAll({
+      'field1': model.field1,
+      'field2': model.field2,
+      'field3': model.field3,
+      'field4': model.field4,
+    });
+}
+
+class SomeGenericModelSerializer
+    extends js.GenericModelSerializer<SomeGenericModel> {
+  SomeGenericModelSerializer({super.jSerializer});
+
+  static const jsonKeys = {'value'};
+
+  SomeGenericModel<T> decode<T>(Map json) {
+    final value$Value = safeLookup<T>(
+      call: () => jSerializer.fromJson<T>(json['value']),
+      jsonKey: 'value',
+    );
+    final extras$Value = Map<String, dynamic>.from(json)
+      ..removeWhere((key, _) => jsonKeys.contains(key));
+    return SomeGenericModel<T>(value: value$Value, extras: extras$Value);
+  }
+
+  @override
+  Function get decoder => decode;
+
+  @override
+  Map<String, dynamic> toJson(SomeGenericModel model) =>
+      Map.of(model.extras)..addAll({'value': jSerializer.toJson(model.value)});
+}
+
+class SomeEnumSerializer extends js.CustomModelSerializer<SomeEnum, String> {
+  const SomeEnumSerializer({super.jSerializer});
+
+  @override
+  SomeEnum fromJson(String json) {
+    if (json == 'someValue1') return SomeEnum.someValue1;
+
+    if (json == 'someValue2') return SomeEnum.someValue2;
+
+    throw Exception(
+      'JSerializationException in Enum of type $SomeEnum '
+      'Unknown enum value: $json',
+    );
+  }
+
+  @override
+  String toJson(SomeEnum model) {
+    switch (model) {
+      case SomeEnum.someValue1:
+        return 'someValue1';
+
+      case SomeEnum.someValue2:
+        return 'someValue2';
+    }
+  }
+}
+
+class ProductSerializer extends js.ModelSerializer<Product> {
+  const ProductSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'price',
+    'originalPrice',
+    'featuredImage',
+    'images',
+    'vendor',
+    'currency',
+    'maxPurchaseQuantity',
+    'service',
+    'category',
+    'discountRate',
+    'isAvailable',
+    'description',
+    'tags',
+    'barcode',
+    'quantity',
+    'variants',
+    'shortUrl',
+    'brand',
+    'variantsAttributes',
+    'attributes',
+    'groupReference',
+    'vendorId',
+    'userSpecifics',
+    'customizations',
+  };
+
+  @override
+  Product fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => (json['id'] as String),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => (json['name'] as String?),
+      jsonKey: 'name',
+    );
+    final price$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['price']),
+      jsonKey: 'price',
+    );
+    final originalPrice$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['originalPrice']),
+      jsonKey: 'originalPrice',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => (json['featuredImage'] as String?),
+      jsonKey: 'featuredImage',
+    );
+    final images$Value = safeLookup<List<String>?>(
+      call: () => (json['images'] as List?)?.cast<String>(),
+      jsonKey: 'images',
+    );
+    final vendor$Value = safeLookup<Vendor?>(
+      call: () => jSerializer.fromJson<Vendor?>(json['vendor']),
+      jsonKey: 'vendor',
+    );
+    final currency$Value = safeLookup<String?>(
+      call: () => (json['currency'] as String?),
+      jsonKey: 'currency',
+    );
+    final maxPurchaseQuantity$Value = safeLookup<int?>(
+      call: () => (json['maxPurchaseQuantity'] as num?)?.toInt(),
+      jsonKey: 'maxPurchaseQuantity',
+    );
+    final service$Value = safeLookup<String?>(
+      call: () => (json['service'] as String?),
+      jsonKey: 'service',
+    );
+    final category$Value = safeLookup<List<Category?>?>(
+      call: () => (json['category'] as List?)
+          ?.map((e) => jSerializer.fromJson<Category?>(e))
+          .toList(),
+      jsonKey: 'category',
+    );
+    final discountRate$Value = safeLookup<String?>(
+      call: () => (json['discountRate'] as String?),
+      jsonKey: 'discountRate',
+    );
+    final isAvailable$Value = safeLookup<bool?>(
+      call: () => (json['isAvailable'] as bool?),
+      jsonKey: 'isAvailable',
+    );
+    final description$Value = safeLookup<String?>(
+      call: () => (json['description'] as String?),
+      jsonKey: 'description',
+    );
+    final tags$Value = safeLookup<List<Tag>?>(
+      call: () => (json['tags'] as List?)
+          ?.map((e) => jSerializer.fromJson<Tag>(e))
+          .toList(),
+      jsonKey: 'tags',
+    );
+    final barcode$Value = safeLookup<String?>(
+      call: () => (json['barcode'] as String?),
+      jsonKey: 'barcode',
+    );
+    final quantity$Value = safeLookup<int?>(
+      call: () => (json['quantity'] as num?)?.toInt(),
+      jsonKey: 'quantity',
+    );
+    final variants$Value = safeLookup<List<ProductVariant>?>(
+      call: () => (json['variants'] as List?)
+          ?.map((e) => jSerializer.fromJson<ProductVariant>(e))
+          .toList(),
+      jsonKey: 'variants',
+    );
+    final shortUrl$Value = safeLookup<String?>(
+      call: () => (json['shortUrl'] as String?),
+      jsonKey: 'shortUrl',
+    );
+    final brand$Value = safeLookup<Brand?>(
+      call: () => jSerializer.fromJson<Brand?>(json['brand']),
+      jsonKey: 'brand',
+    );
+    final variantsAttributes$Value = safeLookup<List<ProductAttribute>?>(
+      call: () => (json['variantsAttributes'] as List?)
+          ?.map((e) => jSerializer.fromJson<ProductAttribute>(e))
+          .toList(),
+      jsonKey: 'variantsAttributes',
+    );
+    final attributes$Value = safeLookup<List<ProductAttributeValue>?>(
+      call: () => (json['attributes'] as List?)
+          ?.map((e) => jSerializer.fromJson<ProductAttributeValue>(e))
+          .toList(),
+      jsonKey: 'attributes',
+    );
+    final groupReference$Value = safeLookup<String?>(
+      call: () => (json['groupReference'] as String?),
+      jsonKey: 'groupReference',
+    );
+    final vendorId$Value = safeLookup<String?>(
+      call: () => (json['vendorId'] as String?),
+      jsonKey: 'vendorId',
+    );
+    final userSpecifics$Value = safeLookup<ProductUserSpecific?>(
+      call: () =>
+          jSerializer.fromJson<ProductUserSpecific?>(json['userSpecifics']),
+      jsonKey: 'userSpecifics',
+    );
+    final customizations$Value = safeLookup<List<ProductCustomization>?>(
+      call: () => (json['customizations'] as List?)
+          ?.map((e) => jSerializer.fromJson<ProductCustomization>(e))
+          .toList(),
+      jsonKey: 'customizations',
+    );
+    return Product(
+      id: id$Value,
+      name: name$Value,
+      price: price$Value,
+      originalPrice: originalPrice$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      vendor: vendor$Value,
+      currency: currency$Value,
+      maxPurchaseQuantity: maxPurchaseQuantity$Value,
+      service: service$Value,
+      category: category$Value,
+      discountRate: discountRate$Value,
+      isAvailable: isAvailable$Value,
+      description: description$Value,
+      tags: tags$Value,
+      barcode: barcode$Value,
+      quantity: quantity$Value,
+      variants: variants$Value,
+      shortUrl: shortUrl$Value,
+      brand: brand$Value,
+      variantsAttributes: variantsAttributes$Value,
+      attributes: attributes$Value,
+      groupReference: groupReference$Value,
+      vendorId: vendorId$Value,
+      userSpecifics: userSpecifics$Value,
+      customizations: customizations$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Product model) => {
+    'id': model.id,
+    'name': model.name,
+    'price': jSerializer.toJson(model.price),
+    'originalPrice': jSerializer.toJson(model.originalPrice),
+    'featuredImage': model.featuredImage,
+    'images': model.images,
+    'vendor': jSerializer.toJson(model.vendor),
+    'currency': model.currency,
+    'maxPurchaseQuantity': model.maxPurchaseQuantity,
+    'service': model.service,
+    'category': jSerializer.toJson(model.category),
+    'discountRate': model.discountRate,
+    'isAvailable': model.isAvailable,
+    'description': model.description,
+    'tags': jSerializer.toJson(model.tags),
+    'barcode': model.barcode,
+    'quantity': model.quantity,
+    'variants': jSerializer.toJson(model.variants),
+    'shortUrl': model.shortUrl,
+    'brand': jSerializer.toJson(model.brand),
+    'variantsAttributes': jSerializer.toJson(model.variantsAttributes),
+    'attributes': jSerializer.toJson(model.attributes),
+    'groupReference': model.groupReference,
+    'vendorId': model.vendorId,
+    'userSpecifics': jSerializer.toJson(model.userSpecifics),
+    'customizations': jSerializer.toJson(model.customizations),
+  };
+}
+
+class TagSerializer extends js.ModelSerializer<Tag> {
+  const TagSerializer({super.jSerializer});
+
+  static const jsonKeys = {'key', 'title', 'subTitle', 'featuredImage'};
+
+  @override
+  Tag fromJson(json) {
+    final key$Value = safeLookup<String?>(
+      call: () => (json['key'] as String?),
+      jsonKey: 'key',
+    );
+    final title$Value = safeLookup<String?>(
+      call: () => (json['title'] as String?),
+      jsonKey: 'title',
+    );
+    final subTitle$Value = safeLookup<String?>(
+      call: () => (json['subTitle'] as String?),
+      jsonKey: 'subTitle',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => (json['featuredImage'] as String?),
+      jsonKey: 'featuredImage',
+    );
+    return Tag(
+      key: key$Value,
+      title: title$Value,
+      subTitle: subTitle$Value,
+      featuredImage: featuredImage$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Tag model) => {
+    'key': model.key,
+    'title': model.title,
+    'subTitle': model.subTitle,
+    'featuredImage': model.featuredImage,
+  };
+}
+
+class VendorSerializer extends js.ModelSerializer<Vendor> {
+  const VendorSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'banner',
+    'featuredImage',
+    'images',
+    'category',
+    'service',
+    'isOpen',
+    'partnerSupportNumber',
+    'minimumOrderAmount',
+  };
+
+  @override
+  Vendor fromJson(json) {
+    final id$Value = safeLookup<String?>(
+      call: () => (json['id'] as String?),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => (json['name'] as String?),
+      jsonKey: 'name',
+    );
+    final banner$Value = safeLookup<String?>(
+      call: () => (json['banner'] as String?),
+      jsonKey: 'banner',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => (json['featuredImage'] ?? json['image_url'] as String?),
+      jsonKey: 'featuredImage',
+    );
+    final images$Value = safeLookup<List<String>?>(
+      call: () => (json['images'] as List?)?.cast<String>(),
+      jsonKey: 'images',
+    );
+    final category$Value = safeLookup<Category?>(
+      call: () => jSerializer.fromJson<Category?>(json['category']),
+      jsonKey: 'category',
+    );
+    final service$Value = safeLookup<String?>(
+      call: () => (json['service'] as String?),
+      jsonKey: 'service',
+    );
+    final isOpen$Value = safeLookup<bool?>(
+      call: () => (json['isOpen'] as bool?),
+      jsonKey: 'isOpen',
+    );
+    final partnerSupportNumber$Value = safeLookup<String?>(
+      call: () => (json['partnerSupportNumber'] as String?),
+      jsonKey: 'partnerSupportNumber',
+    );
+    final minimumOrderAmount$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['minimumOrderAmount']),
+      jsonKey: 'minimumOrderAmount',
+    );
+    return Vendor(
+      id: id$Value,
+      name: name$Value,
+      banner: banner$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      category: category$Value,
+      service: service$Value,
+      isOpen: isOpen$Value,
+      partnerSupportNumber: partnerSupportNumber$Value,
+      minimumOrderAmount: minimumOrderAmount$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Vendor model) => {
+    if (model.id != null) 'id': model.id!,
+    if (model.name != null) 'name': model.name!,
+    if (model.banner != null) 'banner': model.banner!,
+    if (model.featuredImage != null) 'featuredImage': model.featuredImage!,
+    'images': model.images,
+    if (model.category != null) 'category': jSerializer.toJson(model.category!),
+    if (model.service != null) 'service': model.service!,
+    if (model.isOpen != null) 'isOpen': model.isOpen!,
+    if (model.partnerSupportNumber != null)
+      'partnerSupportNumber': model.partnerSupportNumber!,
+    if (model.minimumOrderAmount != null)
+      'minimumOrderAmount': jSerializer.toJson(model.minimumOrderAmount!),
+  };
+}
+
+class CategorySerializer extends js.ModelSerializer<Category> {
+  const CategorySerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'banner',
+    'service',
+    'featuredImage',
+    'images',
+    'name',
+  };
+
+  @override
+  Category fromJson(json) {
+    final id$Value = safeLookup<String?>(
+      call: () => (json['id'] as String?),
+      jsonKey: 'id',
+    );
+    final banner$Value = safeLookup<String?>(
+      call: () => (json['banner'] as String?),
+      jsonKey: 'banner',
+    );
+    final service$Value = safeLookup<String?>(
+      call: () => (json['service'] as String?),
+      jsonKey: 'service',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => (json['featuredImage'] as String?),
+      jsonKey: 'featuredImage',
+    );
+    final images$Value = safeLookup<List<String>?>(
+      call: () => (json['images'] as List?)?.cast<String>(),
+      jsonKey: 'images',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => (json['name'] as String?),
+      jsonKey: 'name',
+    );
+    return Category(
+      id: id$Value,
+      banner: banner$Value,
+      service: service$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      name: name$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(Category model) => {
+    'id': model.id,
+    'banner': model.banner,
+    'service': model.service,
+    'featuredImage': model.featuredImage,
+    'images': model.images,
+    'name': model.name,
+  };
+}
+
+class ProductUserSpecificSerializer
+    extends js.ModelSerializer<ProductUserSpecific> {
+  const ProductUserSpecificSerializer({super.jSerializer});
+
+  static const jsonKeys = {'isFavorite', 'cartQuantity'};
+
+  @override
+  ProductUserSpecific fromJson(json) {
+    final isFavorite$Value = safeLookup<bool?>(
+      call: () => (json['isFavorite'] as bool?),
+      jsonKey: 'isFavorite',
+    );
+    final cartQuantity$Value = safeLookup<int?>(
+      call: () => (json['cartQuantity'] as num?)?.toInt(),
+      jsonKey: 'cartQuantity',
+    );
+    return ProductUserSpecific(
+      isFavorite: isFavorite$Value,
+      cartQuantity: cartQuantity$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductUserSpecific model) => {
+    'isFavorite': model.isFavorite,
+    'cartQuantity': model.cartQuantity,
+  };
+}
+
+class ProductAttributeSerializer extends js.ModelSerializer<ProductAttribute> {
+  const ProductAttributeSerializer({super.jSerializer});
+
+  static const jsonKeys = {'id', 'name', 'values'};
+
+  @override
+  ProductAttribute fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => (json['id'] as String),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => (json['name'] as String?),
+      jsonKey: 'name',
+    );
+    final values$Value = safeLookup<List<ProductAttributeValue>?>(
+      call: () => (json['values'] as List?)
+          ?.map((e) => jSerializer.fromJson<ProductAttributeValue>(e))
+          .toList(),
+      jsonKey: 'values',
+    );
+    return ProductAttribute(
+      id: id$Value,
+      name: name$Value,
+      values: values$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductAttribute model) => {
+    'id': model.id,
+    'name': model.name,
+    'values': jSerializer.toJson(model.values),
+  };
+}
+
+class ProductAttributeValueSerializer
+    extends js.ModelSerializer<ProductAttributeValue> {
+  const ProductAttributeValueSerializer({super.jSerializer});
+
+  static const jsonKeys = {'id', 'name', 'color', 'featuredImage'};
+
+  @override
+  ProductAttributeValue fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => (json['id'] as String),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => (json['name'] as String?),
+      jsonKey: 'name',
+    );
+    final color$Value = safeLookup<String?>(
+      call: () => (json['color'] as String?),
+      jsonKey: 'color',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => (json['featuredImage'] as String?),
+      jsonKey: 'featuredImage',
+    );
+    return ProductAttributeValue(
+      id: id$Value,
+      name: name$Value,
+      color: color$Value,
+      featuredImage: featuredImage$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductAttributeValue model) => {
+    'id': model.id,
+    'name': model.name,
+    'color': model.color,
+    'featuredImage': model.featuredImage,
+  };
+}
+
+class BrandSerializer extends js.ModelSerializer<Brand> {
+  const BrandSerializer({super.jSerializer});
+
+  static const jsonKeys = {'name', 'logo'};
+
+  @override
+  Brand fromJson(json) {
+    final name$Value = safeLookup<String?>(
+      call: () => (json['name'] as String?),
+      jsonKey: 'name',
+    );
+    final logo$Value = safeLookup<String?>(
+      call: () => (json['logo'] as String?),
+      jsonKey: 'logo',
+    );
+    return Brand(name: name$Value, logo: logo$Value);
+  }
+
+  @override
+  Map<String, dynamic> toJson(Brand model) => {
+    'name': model.name,
+    'logo': model.logo,
+  };
+}
+
+class ProductVariantSerializer extends js.ModelSerializer<ProductVariant> {
+  const ProductVariantSerializer({super.jSerializer});
+
+  static const jsonKeys = {
+    'id',
+    'name',
+    'price',
+    'featuredImage',
+    'images',
+    'vendor',
+    'currency',
+    'maxPurchaseQuantity',
+    'service',
+    'category',
+    'originalPrice',
+    'discountRate',
+    'isAvailable',
+    'description',
+    'tags',
+    'barcode',
+    'quantity',
+    'shortUrl',
+    'brand',
+    'variantsAttributes',
+    'attributes',
+    'userSpecifics',
+    'vendorId',
+  };
+
+  @override
+  ProductVariant fromJson(json) {
+    final id$Value = safeLookup<String>(
+      call: () => (json['id'] as String),
+      jsonKey: 'id',
+    );
+    final name$Value = safeLookup<String?>(
+      call: () => (json['name'] as String?),
+      jsonKey: 'name',
+    );
+    final price$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['price']),
+      jsonKey: 'price',
+    );
+    final featuredImage$Value = safeLookup<String?>(
+      call: () => (json['featuredImage'] as String?),
+      jsonKey: 'featuredImage',
+    );
+    final images$Value = safeLookup<List<String>?>(
+      call: () => (json['images'] as List?)?.cast<String>(),
+      jsonKey: 'images',
+    );
+    final vendor$Value = safeLookup<Vendor?>(
+      call: () => jSerializer.fromJson<Vendor?>(json['vendor']),
+      jsonKey: 'vendor',
+    );
+    final currency$Value = safeLookup<String?>(
+      call: () => (json['currency'] as String?),
+      jsonKey: 'currency',
+    );
+    final maxPurchaseQuantity$Value = safeLookup<int?>(
+      call: () => (json['maxPurchaseQuantity'] as num?)?.toInt(),
+      jsonKey: 'maxPurchaseQuantity',
+    );
+    final service$Value = safeLookup<String?>(
+      call: () => (json['service'] as String?),
+      jsonKey: 'service',
+    );
+    final category$Value = safeLookup<List<Category?>?>(
+      call: () => (json['category'] as List?)
+          ?.map((e) => jSerializer.fromJson<Category?>(e))
+          .toList(),
+      jsonKey: 'category',
+    );
+    final originalPrice$Value = safeLookup<Price?>(
+      call: () => jSerializer.fromJson<Price?>(json['originalPrice']),
+      jsonKey: 'originalPrice',
+    );
+    final discountRate$Value = safeLookup<String?>(
+      call: () => (json['discountRate'] as String?),
+      jsonKey: 'discountRate',
+    );
+    final isAvailable$Value = safeLookup<bool?>(
+      call: () => (json['isAvailable'] as bool?),
+      jsonKey: 'isAvailable',
+    );
+    final description$Value = safeLookup<String?>(
+      call: () => (json['description'] as String?),
+      jsonKey: 'description',
+    );
+    final tags$Value = safeLookup<List<Tag>?>(
+      call: () => (json['tags'] as List?)
+          ?.map((e) => jSerializer.fromJson<Tag>(e))
+          .toList(),
+      jsonKey: 'tags',
+    );
+    final barcode$Value = safeLookup<String?>(
+      call: () => (json['barcode'] as String?),
+      jsonKey: 'barcode',
+    );
+    final quantity$Value = safeLookup<int?>(
+      call: () => (json['quantity'] as num?)?.toInt(),
+      jsonKey: 'quantity',
+    );
+    final shortUrl$Value = safeLookup<String?>(
+      call: () => (json['shortUrl'] as String?),
+      jsonKey: 'shortUrl',
+    );
+    final brand$Value = safeLookup<Brand?>(
+      call: () => jSerializer.fromJson<Brand?>(json['brand']),
+      jsonKey: 'brand',
+    );
+    final variantsAttributes$Value = safeLookup<List<ProductAttribute>?>(
+      call: () => (json['variantsAttributes'] as List?)
+          ?.map((e) => jSerializer.fromJson<ProductAttribute>(e))
+          .toList(),
+      jsonKey: 'variantsAttributes',
+    );
+    final attributes$Value = safeLookup<List<ProductAttributeValue>?>(
+      call: () => (json['attributes'] as List?)
+          ?.map((e) => jSerializer.fromJson<ProductAttributeValue>(e))
+          .toList(),
+      jsonKey: 'attributes',
+    );
+    final userSpecifics$Value = safeLookup<ProductUserSpecific?>(
+      call: () =>
+          jSerializer.fromJson<ProductUserSpecific?>(json['userSpecifics']),
+      jsonKey: 'userSpecifics',
+    );
+    final vendorId$Value = safeLookup<String?>(
+      call: () => (json['vendorId'] as String?),
+      jsonKey: 'vendorId',
+    );
+    return ProductVariant(
+      id: id$Value,
+      name: name$Value,
+      price: price$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      vendor: vendor$Value,
+      currency: currency$Value,
+      maxPurchaseQuantity: maxPurchaseQuantity$Value,
+      service: service$Value,
+      category: category$Value,
+      originalPrice: originalPrice$Value,
+      discountRate: discountRate$Value,
+      isAvailable: isAvailable$Value,
+      description: description$Value,
+      tags: tags$Value,
+      barcode: barcode$Value,
+      quantity: quantity$Value,
+      shortUrl: shortUrl$Value,
+      brand: brand$Value,
+      variantsAttributes: variantsAttributes$Value,
+      attributes: attributes$Value,
+      userSpecifics: userSpecifics$Value,
+      vendorId: vendorId$Value,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson(ProductVariant model) => {
+    'id': model.id,
+    'name': model.name,
+    'price': jSerializer.toJson(model.price),
+    'featuredImage': model.featuredImage,
+    'images': model.images,
+    'vendor': jSerializer.toJson(model.vendor),
+    'currency': model.currency,
+    'maxPurchaseQuantity': model.maxPurchaseQuantity,
+    'service': model.service,
+    'category': jSerializer.toJson(model.category),
+    'originalPrice': jSerializer.toJson(model.originalPrice),
+    'discountRate': model.discountRate,
+    'isAvailable': model.isAvailable,
+    'description': model.description,
+    'tags': jSerializer.toJson(model.tags),
+    'barcode': model.barcode,
+    'quantity': model.quantity,
+    'shortUrl': model.shortUrl,
+    'brand': jSerializer.toJson(model.brand),
+    'variantsAttributes': jSerializer.toJson(model.variantsAttributes),
+    'attributes': jSerializer.toJson(model.attributes),
+    'userSpecifics': jSerializer.toJson(model.userSpecifics),
+    'vendorId': model.vendorId,
+  };
+}
+
 class ProductCustomizationSerializer
     extends js.ModelSerializer<ProductCustomization> {
   const ProductCustomizationSerializer({super.jSerializer});
@@ -2183,814 +2163,233 @@ class PriceSerializer extends js.ModelSerializer<Price> {
   };
 }
 
-class SomeModelSerializer extends js.ModelSerializer<SomeModel> {
-  const SomeModelSerializer({super.jSerializer});
+class SectionLayoutVListSerializer
+    extends js.ModelSerializer<SectionLayoutVList> {
+  const SectionLayoutVListSerializer({super.jSerializer});
 
-  static const jsonKeys = {'field1', 'field2', 'field3', 'field4'};
+  static const jsonKeys = {'shape'};
 
   @override
-  SomeModel fromJson(json) {
-    final field1$Value = safeLookup<String>(
-      call: () => (json['field1'] as String),
-      jsonKey: 'field1',
+  SectionLayoutVList fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
     );
-    final field2$Value = safeLookup<String?>(
-      call: () => (json['field2'] as String?),
-      jsonKey: 'field2',
-    );
-    final field3$Value = safeLookup<double?>(
-      call: () => (json['field3'] as num?)?.toDouble(),
-      jsonKey: 'field3',
-    );
-    final field4$Value = safeLookup<int?>(
-      call: () => (json['field4'] as num?)?.toInt(),
-      jsonKey: 'field4',
-    );
-    final extras$Value = Map<String, dynamic>.from(json)
-      ..removeWhere((key, _) => jsonKeys.contains(key));
-    return SomeModel(
-      field1: field1$Value,
-      field2: field2$Value,
-      field3: field3$Value,
-      field4: field4$Value,
-      extras: extras$Value,
-    );
+    return SectionLayoutVList(shape: shape$Value);
   }
 
   @override
-  Map<String, dynamic> toJson(SomeModel model) => Map.of(model.extras)
-    ..addAll({
-      'field1': model.field1,
-      'field2': model.field2,
-      'field3': model.field3,
-      'field4': model.field4,
-    });
+  Map<String, dynamic> toJson(SectionLayoutVList model) => {
+    'shape': jSerializer.toJson(model.shape),
+    'type': 'vList',
+  };
 }
 
-class SomeGenericModelSerializer
-    extends js.GenericModelSerializer<SomeGenericModel> {
-  SomeGenericModelSerializer({super.jSerializer});
+class SectionLayoutHListSerializer
+    extends js.ModelSerializer<SectionLayoutHList> {
+  const SectionLayoutHListSerializer({super.jSerializer});
 
-  static const jsonKeys = {'value'};
+  static const jsonKeys = {'shape'};
 
-  SomeGenericModel<T> decode<T>(Map json) {
-    final value$Value = safeLookup<T>(
-      call: () => jSerializer.fromJson<T>(json['value']),
-      jsonKey: 'value',
+  @override
+  SectionLayoutHList fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
     );
-    final extras$Value = Map<String, dynamic>.from(json)
-      ..removeWhere((key, _) => jsonKeys.contains(key));
-    return SomeGenericModel<T>(value: value$Value, extras: extras$Value);
+    return SectionLayoutHList(shape: shape$Value);
   }
 
   @override
-  Function get decoder => decode;
-
-  @override
-  Map<String, dynamic> toJson(SomeGenericModel model) =>
-      Map.of(model.extras)..addAll({'value': jSerializer.toJson(model.value)});
+  Map<String, dynamic> toJson(SectionLayoutHList model) => {
+    'shape': jSerializer.toJson(model.shape),
+    'type': 'hList',
+  };
 }
 
-class SomeEnumSerializer extends js.CustomModelSerializer<SomeEnum, String> {
-  const SomeEnumSerializer({super.jSerializer});
+class SectionLayoutGridViewSerializer
+    extends js.ModelSerializer<SectionLayoutGridView> {
+  const SectionLayoutGridViewSerializer({super.jSerializer});
+
+  static const jsonKeys = {'shape'};
 
   @override
-  SomeEnum fromJson(String json) {
-    if (json == 'someValue1') return SomeEnum.someValue1;
+  SectionLayoutGridView fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
+    );
+    return SectionLayoutGridView(shape: shape$Value);
+  }
 
-    if (json == 'someValue2') return SomeEnum.someValue2;
+  @override
+  Map<String, dynamic> toJson(SectionLayoutGridView model) => {
+    'shape': jSerializer.toJson(model.shape),
+    'type': 'gridView',
+  };
+}
+
+class SectionLayoutGridPatternSerializer
+    extends js.ModelSerializer<SectionLayoutGridPattern> {
+  const SectionLayoutGridPatternSerializer({super.jSerializer});
+
+  static const jsonKeys = {'shape', 'pattern'};
+
+  @override
+  SectionLayoutGridPattern fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
+    );
+    final pattern$Value = safeLookup<String?>(
+      call: () => (json['pattern'] as String?),
+      jsonKey: 'pattern',
+    );
+    return SectionLayoutGridPattern(shape: shape$Value, pattern: pattern$Value);
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutGridPattern model) => {
+    'shape': jSerializer.toJson(model.shape),
+    'pattern': model.pattern,
+    'type': 'gridPattern',
+  };
+}
+
+class SectionLayoutCarouselSerializer
+    extends js.ModelSerializer<SectionLayoutCarousel> {
+  const SectionLayoutCarouselSerializer({super.jSerializer});
+
+  static const jsonKeys = {'shape'};
+
+  @override
+  SectionLayoutCarousel fromJson(json) {
+    final shape$Value = safeLookup<DynamicItemShape?>(
+      call: () => jSerializer.fromJson<DynamicItemShape?>(json['shape']),
+      jsonKey: 'shape',
+    );
+    return SectionLayoutCarousel(shape: shape$Value);
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutCarousel model) => {
+    'shape': jSerializer.toJson(model.shape),
+    'type': 'carousel',
+  };
+}
+
+class SectionLayoutUnknownSerializer
+    extends js.ModelSerializer<SectionLayoutUnknown> {
+  const SectionLayoutUnknownSerializer({super.jSerializer});
+
+  static const jsonKeys = {};
+
+  @override
+  SectionLayoutUnknown fromJson(json) {
+    return SectionLayoutUnknown();
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayoutUnknown model) => {
+    'type': 'unknown',
+  };
+}
+
+class SectionLayoutSerializer extends js.ModelSerializer<SectionLayout> {
+  const SectionLayoutSerializer({super.jSerializer});
+
+  @override
+  SectionLayout fromJson(json) {
+    final type = json['type'];
+    if (type is! String) {
+      throw Exception(
+        'The json field of type named (type) that was passed'
+        'using fromJson of model SectionLayout) is not a String!\actual value: $type',
+      );
+    }
+    switch (type) {
+      case 'vList':
+        return jSerializer.fromJson<SectionLayoutVList>(json);
+      case 'hList':
+        return jSerializer.fromJson<SectionLayoutHList>(json);
+      case 'gridView':
+        return jSerializer.fromJson<SectionLayoutGridView>(json);
+      case 'gridPattern':
+        return jSerializer.fromJson<SectionLayoutGridPattern>(json);
+      case 'carousel':
+        return jSerializer.fromJson<SectionLayoutCarousel>(json);
+      default:
+        return SectionLayoutUnknown();
+    }
+  }
+
+  @override
+  Map<String, dynamic> toJson(SectionLayout model) {
+    if (model is SectionLayoutVList) {
+      return {
+        'type': 'vList',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutHList) {
+      return {
+        'type': 'hList',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutGridView) {
+      return {
+        'type': 'gridView',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutGridPattern) {
+      return {
+        'type': 'gridPattern',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutCarousel) {
+      return {
+        'type': 'carousel',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    if (model is SectionLayoutUnknown) {
+      return {
+        'type': 'unknown',
+        ...(jSerializer.toJson(model) as Map<String, dynamic>),
+      };
+    }
+    throw Exception('Unknown type of union value: $model');
+  }
+}
+
+class DynamicItemShapeSerializer
+    extends js.CustomModelSerializer<DynamicItemShape, String> {
+  const DynamicItemShapeSerializer({super.jSerializer});
+
+  @override
+  DynamicItemShape fromJson(String json) {
+    if (json == 'circle') return DynamicItemShape.circle;
+
+    if (json == 'undefined') return DynamicItemShape.undefined;
 
     throw Exception(
-      'JSerializationException in Enum of type $SomeEnum '
+      'JSerializationException in Enum of type $DynamicItemShape '
       'Unknown enum value: $json',
     );
   }
 
   @override
-  String toJson(SomeEnum model) {
+  String toJson(DynamicItemShape model) {
     switch (model) {
-      case SomeEnum.someValue1:
-        return 'someValue1';
+      case DynamicItemShape.circle:
+        return 'circle';
 
-      case SomeEnum.someValue2:
-        return 'someValue2';
+      case DynamicItemShape.undefined:
+        return 'undefined';
     }
-  }
-}
-
-class ProductMocker extends js.JModelMocker<Product> {
-  const ProductMocker({super.jSerializer});
-
-  @override
-  Product createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final id$Value = subMock<String>(
-      context: context,
-      fieldName: 'id',
-      currentLevel: currentLevel,
-    );
-    final name$Value = subMock<String?>(
-      context: context,
-      fieldName: 'name',
-      currentLevel: currentLevel,
-    );
-    final price$Value = subMock<Price?>(
-      context: context,
-      fieldName: 'price',
-      currentLevel: currentLevel,
-    );
-    final originalPrice$Value = subMock<Price?>(
-      context: context,
-      fieldName: 'originalPrice',
-      currentLevel: currentLevel,
-    );
-    final featuredImage$Value = subMock<String?>(
-      context: context,
-      fieldName: 'featuredImage',
-      currentLevel: currentLevel,
-    );
-    final images$Value = subMock<List<String>?>(
-      context: context,
-      fieldName: 'images',
-      currentLevel: currentLevel,
-    );
-    final vendor$Value = subMock<Vendor?>(
-      context: context,
-      fieldName: 'vendor',
-      currentLevel: currentLevel,
-    );
-    final currency$Value = subMock<String?>(
-      context: context,
-      fieldName: 'currency',
-      currentLevel: currentLevel,
-    );
-    final maxPurchaseQuantity$Value = subMock<int?>(
-      context: context,
-      fieldName: 'maxPurchaseQuantity',
-      currentLevel: currentLevel,
-    );
-    final service$Value = subMock<String?>(
-      context: context,
-      fieldName: 'service',
-      currentLevel: currentLevel,
-    );
-    final category$Value = subMock<List<Category?>?>(
-      context: context,
-      fieldName: 'category',
-      currentLevel: currentLevel,
-    );
-    final discountRate$Value = subMock<String?>(
-      context: context,
-      fieldName: 'discountRate',
-      currentLevel: currentLevel,
-    );
-    final isAvailable$Value = subMock<bool?>(
-      context: context,
-      fieldName: 'isAvailable',
-      currentLevel: currentLevel,
-    );
-    final description$Value = subMock<String?>(
-      context: context,
-      fieldName: 'description',
-      currentLevel: currentLevel,
-    );
-    final tags$Value = subMock<List<Tag>?>(
-      context: context,
-      fieldName: 'tags',
-      currentLevel: currentLevel,
-    );
-    final barcode$Value = subMock<String?>(
-      context: context,
-      fieldName: 'barcode',
-      currentLevel: currentLevel,
-    );
-    final quantity$Value = subMock<int?>(
-      context: context,
-      fieldName: 'quantity',
-      currentLevel: currentLevel,
-    );
-    final variants$Value = subMock<List<ProductVariant>?>(
-      context: context,
-      fieldName: 'variants',
-      currentLevel: currentLevel,
-    );
-    final shortUrl$Value = subMock<String?>(
-      context: context,
-      fieldName: 'shortUrl',
-      currentLevel: currentLevel,
-    );
-    final brand$Value = subMock<Brand?>(
-      context: context,
-      fieldName: 'brand',
-      currentLevel: currentLevel,
-    );
-    final variantsAttributes$Value = subMock<List<ProductAttribute>?>(
-      context: context,
-      fieldName: 'variantsAttributes',
-      currentLevel: currentLevel,
-    );
-    final attributes$Value = subMock<List<ProductAttributeValue>?>(
-      context: context,
-      fieldName: 'attributes',
-      currentLevel: currentLevel,
-    );
-    final groupReference$Value = subMock<String?>(
-      context: context,
-      fieldName: 'groupReference',
-      currentLevel: currentLevel,
-    );
-    final vendorId$Value = subMock<String?>(
-      context: context,
-      fieldName: 'vendorId',
-      currentLevel: currentLevel,
-    );
-    final userSpecifics$Value = subMock<ProductUserSpecific?>(
-      context: context,
-      fieldName: 'userSpecifics',
-      currentLevel: currentLevel,
-    );
-    final customizations$Value = subMock<List<ProductCustomization>?>(
-      context: context,
-      fieldName: 'customizations',
-      currentLevel: currentLevel,
-    );
-    return Product(
-      id: id$Value,
-      name: name$Value,
-      price: price$Value,
-      originalPrice: originalPrice$Value,
-      featuredImage: featuredImage$Value,
-      images: images$Value,
-      vendor: vendor$Value,
-      currency: currency$Value,
-      maxPurchaseQuantity: maxPurchaseQuantity$Value,
-      service: service$Value,
-      category: category$Value,
-      discountRate: discountRate$Value,
-      isAvailable: isAvailable$Value,
-      description: description$Value,
-      tags: tags$Value,
-      barcode: barcode$Value,
-      quantity: quantity$Value,
-      variants: variants$Value,
-      shortUrl: shortUrl$Value,
-      brand: brand$Value,
-      variantsAttributes: variantsAttributes$Value,
-      attributes: attributes$Value,
-      groupReference: groupReference$Value,
-      vendorId: vendorId$Value,
-      userSpecifics: userSpecifics$Value,
-      customizations: customizations$Value,
-    );
-  }
-}
-
-class TagMocker extends js.JModelMocker<Tag> {
-  const TagMocker({super.jSerializer});
-
-  @override
-  Tag createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final key$Value = subMock<String?>(
-      context: context,
-      fieldName: 'key',
-      currentLevel: currentLevel,
-    );
-    final title$Value = subMock<String?>(
-      context: context,
-      fieldName: 'title',
-      currentLevel: currentLevel,
-    );
-    final subTitle$Value = subMock<String?>(
-      context: context,
-      fieldName: 'subTitle',
-      currentLevel: currentLevel,
-    );
-    final featuredImage$Value = subMock<String?>(
-      context: context,
-      fieldName: 'featuredImage',
-      currentLevel: currentLevel,
-    );
-    return Tag(
-      key: key$Value,
-      title: title$Value,
-      subTitle: subTitle$Value,
-      featuredImage: featuredImage$Value,
-    );
-  }
-}
-
-class VendorMocker extends js.JModelMocker<Vendor> {
-  const VendorMocker({super.jSerializer});
-
-  @override
-  Vendor createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final id$Value = subMock<String?>(
-      context: context,
-      fieldName: 'id',
-      currentLevel: currentLevel,
-    );
-    final name$Value = subMock<String?>(
-      context: context,
-      fieldName: 'name',
-      currentLevel: currentLevel,
-    );
-    final banner$Value = subMock<String?>(
-      context: context,
-      fieldName: 'banner',
-      currentLevel: currentLevel,
-    );
-    final featuredImage$Value = subMock<String?>(
-      context: context,
-      fieldName: 'featuredImage',
-      currentLevel: currentLevel,
-    );
-    final images$Value = subMock<List<String>?>(
-      context: context,
-      fieldName: 'images',
-      currentLevel: currentLevel,
-    );
-    final category$Value = subMock<Category?>(
-      context: context,
-      fieldName: 'category',
-      currentLevel: currentLevel,
-    );
-    final service$Value = subMock<String?>(
-      context: context,
-      fieldName: 'service',
-      currentLevel: currentLevel,
-    );
-    final isOpen$Value = subMock<bool?>(
-      context: context,
-      fieldName: 'isOpen',
-      currentLevel: currentLevel,
-    );
-    final partnerSupportNumber$Value = subMock<String?>(
-      context: context,
-      fieldName: 'partnerSupportNumber',
-      currentLevel: currentLevel,
-    );
-    final minimumOrderAmount$Value = subMock<Price?>(
-      context: context,
-      fieldName: 'minimumOrderAmount',
-      currentLevel: currentLevel,
-    );
-    return Vendor(
-      id: id$Value,
-      name: name$Value,
-      banner: banner$Value,
-      featuredImage: featuredImage$Value,
-      images: images$Value,
-      category: category$Value,
-      service: service$Value,
-      isOpen: isOpen$Value,
-      partnerSupportNumber: partnerSupportNumber$Value,
-      minimumOrderAmount: minimumOrderAmount$Value,
-    );
-  }
-}
-
-class CategoryMocker extends js.JModelMocker<Category> {
-  const CategoryMocker({super.jSerializer});
-
-  @override
-  Category createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final id$Value = subMock<String?>(
-      context: context,
-      fieldName: 'id',
-      currentLevel: currentLevel,
-    );
-    final banner$Value = subMock<String?>(
-      context: context,
-      fieldName: 'banner',
-      currentLevel: currentLevel,
-    );
-    final service$Value = subMock<String?>(
-      context: context,
-      fieldName: 'service',
-      currentLevel: currentLevel,
-    );
-    final featuredImage$Value = subMock<String?>(
-      context: context,
-      fieldName: 'featuredImage',
-      currentLevel: currentLevel,
-    );
-    final images$Value = subMock<List<String>?>(
-      context: context,
-      fieldName: 'images',
-      currentLevel: currentLevel,
-    );
-    final name$Value = subMock<String?>(
-      context: context,
-      fieldName: 'name',
-      currentLevel: currentLevel,
-    );
-    return Category(
-      id: id$Value,
-      banner: banner$Value,
-      service: service$Value,
-      featuredImage: featuredImage$Value,
-      images: images$Value,
-      name: name$Value,
-    );
-  }
-}
-
-class ProductUserSpecificMocker extends js.JModelMocker<ProductUserSpecific> {
-  const ProductUserSpecificMocker({super.jSerializer});
-
-  @override
-  ProductUserSpecific createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final isFavorite$Value = subMock<bool?>(
-      context: context,
-      fieldName: 'isFavorite',
-      currentLevel: currentLevel,
-    );
-    final cartQuantity$Value = subMock<int?>(
-      context: context,
-      fieldName: 'cartQuantity',
-      currentLevel: currentLevel,
-    );
-    return ProductUserSpecific(
-      isFavorite: isFavorite$Value,
-      cartQuantity: cartQuantity$Value,
-    );
-  }
-}
-
-class ProductAttributeMocker extends js.JModelMocker<ProductAttribute> {
-  const ProductAttributeMocker({super.jSerializer});
-
-  @override
-  ProductAttribute createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final id$Value = subMock<String>(
-      context: context,
-      fieldName: 'id',
-      currentLevel: currentLevel,
-    );
-    final name$Value = subMock<String?>(
-      context: context,
-      fieldName: 'name',
-      currentLevel: currentLevel,
-    );
-    final values$Value = subMock<List<ProductAttributeValue>?>(
-      context: context,
-      fieldName: 'values',
-      currentLevel: currentLevel,
-    );
-    return ProductAttribute(
-      id: id$Value,
-      name: name$Value,
-      values: values$Value,
-    );
-  }
-}
-
-class ProductAttributeValueMocker
-    extends js.JModelMocker<ProductAttributeValue> {
-  const ProductAttributeValueMocker({super.jSerializer});
-
-  @override
-  ProductAttributeValue createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final id$Value = subMock<String>(
-      context: context,
-      fieldName: 'id',
-      currentLevel: currentLevel,
-    );
-    final name$Value = subMock<String?>(
-      context: context,
-      fieldName: 'name',
-      currentLevel: currentLevel,
-    );
-    final color$Value = subMock<String?>(
-      context: context,
-      fieldName: 'color',
-      currentLevel: currentLevel,
-    );
-    final featuredImage$Value = subMock<String?>(
-      context: context,
-      fieldName: 'featuredImage',
-      currentLevel: currentLevel,
-    );
-    return ProductAttributeValue(
-      id: id$Value,
-      name: name$Value,
-      color: color$Value,
-      featuredImage: featuredImage$Value,
-    );
-  }
-}
-
-class BrandMocker extends js.JModelMocker<Brand> {
-  const BrandMocker({super.jSerializer});
-
-  @override
-  Brand createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final name$Value = subMock<String?>(
-      context: context,
-      fieldName: 'name',
-      currentLevel: currentLevel,
-    );
-    final logo$Value = subMock<String?>(
-      context: context,
-      fieldName: 'logo',
-      currentLevel: currentLevel,
-    );
-    return Brand(name: name$Value, logo: logo$Value);
-  }
-}
-
-class ProductVariantMocker extends js.JModelMocker<ProductVariant> {
-  const ProductVariantMocker({super.jSerializer});
-
-  @override
-  ProductVariant createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final id$Value = subMock<String>(
-      context: context,
-      fieldName: 'id',
-      currentLevel: currentLevel,
-    );
-    final name$Value = subMock<String?>(
-      context: context,
-      fieldName: 'name',
-      currentLevel: currentLevel,
-    );
-    final price$Value = subMock<Price?>(
-      context: context,
-      fieldName: 'price',
-      currentLevel: currentLevel,
-    );
-    final featuredImage$Value = subMock<String?>(
-      context: context,
-      fieldName: 'featuredImage',
-      currentLevel: currentLevel,
-    );
-    final images$Value = subMock<List<String>?>(
-      context: context,
-      fieldName: 'images',
-      currentLevel: currentLevel,
-    );
-    final vendor$Value = subMock<Vendor?>(
-      context: context,
-      fieldName: 'vendor',
-      currentLevel: currentLevel,
-    );
-    final currency$Value = subMock<String?>(
-      context: context,
-      fieldName: 'currency',
-      currentLevel: currentLevel,
-    );
-    final maxPurchaseQuantity$Value = subMock<int?>(
-      context: context,
-      fieldName: 'maxPurchaseQuantity',
-      currentLevel: currentLevel,
-    );
-    final service$Value = subMock<String?>(
-      context: context,
-      fieldName: 'service',
-      currentLevel: currentLevel,
-    );
-    final category$Value = subMock<List<Category?>?>(
-      context: context,
-      fieldName: 'category',
-      currentLevel: currentLevel,
-    );
-    final originalPrice$Value = subMock<Price?>(
-      context: context,
-      fieldName: 'originalPrice',
-      currentLevel: currentLevel,
-    );
-    final discountRate$Value = subMock<String?>(
-      context: context,
-      fieldName: 'discountRate',
-      currentLevel: currentLevel,
-    );
-    final isAvailable$Value = subMock<bool?>(
-      context: context,
-      fieldName: 'isAvailable',
-      currentLevel: currentLevel,
-    );
-    final description$Value = subMock<String?>(
-      context: context,
-      fieldName: 'description',
-      currentLevel: currentLevel,
-    );
-    final tags$Value = subMock<List<Tag>?>(
-      context: context,
-      fieldName: 'tags',
-      currentLevel: currentLevel,
-    );
-    final barcode$Value = subMock<String?>(
-      context: context,
-      fieldName: 'barcode',
-      currentLevel: currentLevel,
-    );
-    final quantity$Value = subMock<int?>(
-      context: context,
-      fieldName: 'quantity',
-      currentLevel: currentLevel,
-    );
-    final shortUrl$Value = subMock<String?>(
-      context: context,
-      fieldName: 'shortUrl',
-      currentLevel: currentLevel,
-    );
-    final brand$Value = subMock<Brand?>(
-      context: context,
-      fieldName: 'brand',
-      currentLevel: currentLevel,
-    );
-    final variantsAttributes$Value = subMock<List<ProductAttribute>?>(
-      context: context,
-      fieldName: 'variantsAttributes',
-      currentLevel: currentLevel,
-    );
-    final attributes$Value = subMock<List<ProductAttributeValue>?>(
-      context: context,
-      fieldName: 'attributes',
-      currentLevel: currentLevel,
-    );
-    final userSpecifics$Value = subMock<ProductUserSpecific?>(
-      context: context,
-      fieldName: 'userSpecifics',
-      currentLevel: currentLevel,
-    );
-    final vendorId$Value = subMock<String?>(
-      context: context,
-      fieldName: 'vendorId',
-      currentLevel: currentLevel,
-    );
-    return ProductVariant(
-      id: id$Value,
-      name: name$Value,
-      price: price$Value,
-      featuredImage: featuredImage$Value,
-      images: images$Value,
-      vendor: vendor$Value,
-      currency: currency$Value,
-      maxPurchaseQuantity: maxPurchaseQuantity$Value,
-      service: service$Value,
-      category: category$Value,
-      originalPrice: originalPrice$Value,
-      discountRate: discountRate$Value,
-      isAvailable: isAvailable$Value,
-      description: description$Value,
-      tags: tags$Value,
-      barcode: barcode$Value,
-      quantity: quantity$Value,
-      shortUrl: shortUrl$Value,
-      brand: brand$Value,
-      variantsAttributes: variantsAttributes$Value,
-      attributes: attributes$Value,
-      userSpecifics: userSpecifics$Value,
-      vendorId: vendorId$Value,
-    );
-  }
-}
-
-class SectionLayoutVListMocker extends js.JModelMocker<SectionLayoutVList> {
-  const SectionLayoutVListMocker({super.jSerializer});
-
-  @override
-  SectionLayoutVList createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final shape$Value = subMock<DynamicItemShape?>(
-      context: context,
-      fieldName: 'shape',
-      currentLevel: currentLevel,
-    );
-    return SectionLayoutVList(shape: shape$Value);
-  }
-}
-
-class SectionLayoutHListMocker extends js.JModelMocker<SectionLayoutHList> {
-  const SectionLayoutHListMocker({super.jSerializer});
-
-  @override
-  SectionLayoutHList createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final shape$Value = subMock<DynamicItemShape?>(
-      context: context,
-      fieldName: 'shape',
-      currentLevel: currentLevel,
-    );
-    return SectionLayoutHList(shape: shape$Value);
-  }
-}
-
-class SectionLayoutGridViewMocker
-    extends js.JModelMocker<SectionLayoutGridView> {
-  const SectionLayoutGridViewMocker({super.jSerializer});
-
-  @override
-  SectionLayoutGridView createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final shape$Value = subMock<DynamicItemShape?>(
-      context: context,
-      fieldName: 'shape',
-      currentLevel: currentLevel,
-    );
-    return SectionLayoutGridView(shape: shape$Value);
-  }
-}
-
-class SectionLayoutGridPatternMocker
-    extends js.JModelMocker<SectionLayoutGridPattern> {
-  const SectionLayoutGridPatternMocker({super.jSerializer});
-
-  @override
-  SectionLayoutGridPattern createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final shape$Value = subMock<DynamicItemShape?>(
-      context: context,
-      fieldName: 'shape',
-      currentLevel: currentLevel,
-    );
-    final pattern$Value = subMock<String?>(
-      context: context,
-      fieldName: 'pattern',
-      currentLevel: currentLevel,
-    );
-    return SectionLayoutGridPattern(shape: shape$Value, pattern: pattern$Value);
-  }
-}
-
-class SectionLayoutCarouselMocker
-    extends js.JModelMocker<SectionLayoutCarousel> {
-  const SectionLayoutCarouselMocker({super.jSerializer});
-
-  @override
-  SectionLayoutCarousel createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final shape$Value = subMock<DynamicItemShape?>(
-      context: context,
-      fieldName: 'shape',
-      currentLevel: currentLevel,
-    );
-    return SectionLayoutCarousel(shape: shape$Value);
-  }
-}
-
-class SectionLayoutUnknownMocker extends js.JModelMocker<SectionLayoutUnknown> {
-  const SectionLayoutUnknownMocker({super.jSerializer});
-
-  @override
-  SectionLayoutUnknown createMock([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    return SectionLayoutUnknown();
-  }
-}
-
-class SectionLayoutMocker extends js.JCustomMocker<SectionLayout> {
-  const SectionLayoutMocker({super.jSerializer});
-
-  @override
-  SectionLayout createMock([js.JMockerContext? context]) {
-    return optionallyRandomizedValueFromListLazy(
-      context,
-      [
-        () => jSerializer.createMock<SectionLayoutVList>(context: context),
-        () => jSerializer.createMock<SectionLayoutHList>(context: context),
-        () => jSerializer.createMock<SectionLayoutGridView>(context: context),
-        () =>
-            jSerializer.createMock<SectionLayoutGridPattern>(context: context),
-        () => jSerializer.createMock<SectionLayoutCarousel>(context: context),
-        () => jSerializer.createMock<SectionLayoutUnknown>(context: context),
-      ],
-      fallback: () =>
-          jSerializer.createMock<SectionLayoutUnknown>(context: context),
-    );
-  }
-}
-
-class DynamicItemShapeMocker extends js.JCustomMocker<DynamicItemShape> {
-  const DynamicItemShapeMocker({super.jSerializer});
-
-  @override
-  DynamicItemShape createMock([js.JMockerContext? context]) {
-    return optionallyRandomizedValueFromList(context, DynamicItemShape.values);
   }
 }
 
@@ -3650,6 +3049,651 @@ class SemiComplicatedModelMocker
   Function get mocker => mock;
 }
 
+class SomeModelMocker extends js.JModelMocker<SomeModel> {
+  const SomeModelMocker({super.jSerializer});
+
+  static const _$field1_$StringMocker = js.StringMocker(language: 'ar');
+
+  static const _$field2_$StringMocker = js.StringMocker(language: 'en');
+
+  @override
+  SomeModel createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final field1$Value = _$field1_$StringMocker.createMock(context);
+    final field2$Value = _$field2_$StringMocker.createMock(context);
+    final field3$Value = subMock<double?>(
+      context: context,
+      fieldName: 'field3',
+      currentLevel: currentLevel,
+    );
+    final field4$Value = subMock<int?>(
+      context: context,
+      fieldName: 'field4',
+      currentLevel: currentLevel,
+    );
+    return SomeModel(
+      field1: field1$Value,
+      field2: field2$Value,
+      field3: field3$Value,
+      field4: field4$Value,
+    );
+  }
+}
+
+class SomeGenericModelMocker extends js.JGenericMocker<SomeGenericModel> {
+  SomeGenericModelMocker({super.jSerializer});
+
+  SomeGenericModel<T> mock<T>([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final value$Value = subMock<T>(
+      context: context,
+      fieldName: 'value',
+      currentLevel: currentLevel,
+    );
+    return SomeGenericModel<T>(value: value$Value);
+  }
+
+  @override
+  Function get mocker => mock;
+}
+
+class SomeEnumMocker extends js.JCustomMocker<SomeEnum> {
+  const SomeEnumMocker({super.jSerializer});
+
+  @override
+  SomeEnum createMock([js.JMockerContext? context]) {
+    return optionallyRandomizedValueFromList(context, SomeEnum.values);
+  }
+}
+
+class ProductMocker extends js.JModelMocker<Product> {
+  const ProductMocker({super.jSerializer});
+
+  @override
+  Product createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final price$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'price',
+      currentLevel: currentLevel,
+    );
+    final originalPrice$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'originalPrice',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final images$Value = subMock<List<String>?>(
+      context: context,
+      fieldName: 'images',
+      currentLevel: currentLevel,
+    );
+    final vendor$Value = subMock<Vendor?>(
+      context: context,
+      fieldName: 'vendor',
+      currentLevel: currentLevel,
+    );
+    final currency$Value = subMock<String?>(
+      context: context,
+      fieldName: 'currency',
+      currentLevel: currentLevel,
+    );
+    final maxPurchaseQuantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'maxPurchaseQuantity',
+      currentLevel: currentLevel,
+    );
+    final service$Value = subMock<String?>(
+      context: context,
+      fieldName: 'service',
+      currentLevel: currentLevel,
+    );
+    final category$Value = subMock<List<Category?>?>(
+      context: context,
+      fieldName: 'category',
+      currentLevel: currentLevel,
+    );
+    final discountRate$Value = subMock<String?>(
+      context: context,
+      fieldName: 'discountRate',
+      currentLevel: currentLevel,
+    );
+    final isAvailable$Value = subMock<bool?>(
+      context: context,
+      fieldName: 'isAvailable',
+      currentLevel: currentLevel,
+    );
+    final description$Value = subMock<String?>(
+      context: context,
+      fieldName: 'description',
+      currentLevel: currentLevel,
+    );
+    final tags$Value = subMock<List<Tag>?>(
+      context: context,
+      fieldName: 'tags',
+      currentLevel: currentLevel,
+    );
+    final barcode$Value = subMock<String?>(
+      context: context,
+      fieldName: 'barcode',
+      currentLevel: currentLevel,
+    );
+    final quantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'quantity',
+      currentLevel: currentLevel,
+    );
+    final variants$Value = subMock<List<ProductVariant>?>(
+      context: context,
+      fieldName: 'variants',
+      currentLevel: currentLevel,
+    );
+    final shortUrl$Value = subMock<String?>(
+      context: context,
+      fieldName: 'shortUrl',
+      currentLevel: currentLevel,
+    );
+    final brand$Value = subMock<Brand?>(
+      context: context,
+      fieldName: 'brand',
+      currentLevel: currentLevel,
+    );
+    final variantsAttributes$Value = subMock<List<ProductAttribute>?>(
+      context: context,
+      fieldName: 'variantsAttributes',
+      currentLevel: currentLevel,
+    );
+    final attributes$Value = subMock<List<ProductAttributeValue>?>(
+      context: context,
+      fieldName: 'attributes',
+      currentLevel: currentLevel,
+    );
+    final groupReference$Value = subMock<String?>(
+      context: context,
+      fieldName: 'groupReference',
+      currentLevel: currentLevel,
+    );
+    final vendorId$Value = subMock<String?>(
+      context: context,
+      fieldName: 'vendorId',
+      currentLevel: currentLevel,
+    );
+    final userSpecifics$Value = subMock<ProductUserSpecific?>(
+      context: context,
+      fieldName: 'userSpecifics',
+      currentLevel: currentLevel,
+    );
+    final customizations$Value = subMock<List<ProductCustomization>?>(
+      context: context,
+      fieldName: 'customizations',
+      currentLevel: currentLevel,
+    );
+    return Product(
+      id: id$Value,
+      name: name$Value,
+      price: price$Value,
+      originalPrice: originalPrice$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      vendor: vendor$Value,
+      currency: currency$Value,
+      maxPurchaseQuantity: maxPurchaseQuantity$Value,
+      service: service$Value,
+      category: category$Value,
+      discountRate: discountRate$Value,
+      isAvailable: isAvailable$Value,
+      description: description$Value,
+      tags: tags$Value,
+      barcode: barcode$Value,
+      quantity: quantity$Value,
+      variants: variants$Value,
+      shortUrl: shortUrl$Value,
+      brand: brand$Value,
+      variantsAttributes: variantsAttributes$Value,
+      attributes: attributes$Value,
+      groupReference: groupReference$Value,
+      vendorId: vendorId$Value,
+      userSpecifics: userSpecifics$Value,
+      customizations: customizations$Value,
+    );
+  }
+}
+
+class TagMocker extends js.JModelMocker<Tag> {
+  const TagMocker({super.jSerializer});
+
+  @override
+  Tag createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final key$Value = subMock<String?>(
+      context: context,
+      fieldName: 'key',
+      currentLevel: currentLevel,
+    );
+    final title$Value = subMock<String?>(
+      context: context,
+      fieldName: 'title',
+      currentLevel: currentLevel,
+    );
+    final subTitle$Value = subMock<String?>(
+      context: context,
+      fieldName: 'subTitle',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    return Tag(
+      key: key$Value,
+      title: title$Value,
+      subTitle: subTitle$Value,
+      featuredImage: featuredImage$Value,
+    );
+  }
+}
+
+class VendorMocker extends js.JModelMocker<Vendor> {
+  const VendorMocker({super.jSerializer});
+
+  @override
+  Vendor createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String?>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final banner$Value = subMock<String?>(
+      context: context,
+      fieldName: 'banner',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final images$Value = subMock<List<String>?>(
+      context: context,
+      fieldName: 'images',
+      currentLevel: currentLevel,
+    );
+    final category$Value = subMock<Category?>(
+      context: context,
+      fieldName: 'category',
+      currentLevel: currentLevel,
+    );
+    final service$Value = subMock<String?>(
+      context: context,
+      fieldName: 'service',
+      currentLevel: currentLevel,
+    );
+    final isOpen$Value = subMock<bool?>(
+      context: context,
+      fieldName: 'isOpen',
+      currentLevel: currentLevel,
+    );
+    final partnerSupportNumber$Value = subMock<String?>(
+      context: context,
+      fieldName: 'partnerSupportNumber',
+      currentLevel: currentLevel,
+    );
+    final minimumOrderAmount$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'minimumOrderAmount',
+      currentLevel: currentLevel,
+    );
+    return Vendor(
+      id: id$Value,
+      name: name$Value,
+      banner: banner$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      category: category$Value,
+      service: service$Value,
+      isOpen: isOpen$Value,
+      partnerSupportNumber: partnerSupportNumber$Value,
+      minimumOrderAmount: minimumOrderAmount$Value,
+    );
+  }
+}
+
+class CategoryMocker extends js.JModelMocker<Category> {
+  const CategoryMocker({super.jSerializer});
+
+  @override
+  Category createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String?>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final banner$Value = subMock<String?>(
+      context: context,
+      fieldName: 'banner',
+      currentLevel: currentLevel,
+    );
+    final service$Value = subMock<String?>(
+      context: context,
+      fieldName: 'service',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final images$Value = subMock<List<String>?>(
+      context: context,
+      fieldName: 'images',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    return Category(
+      id: id$Value,
+      banner: banner$Value,
+      service: service$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      name: name$Value,
+    );
+  }
+}
+
+class ProductUserSpecificMocker extends js.JModelMocker<ProductUserSpecific> {
+  const ProductUserSpecificMocker({super.jSerializer});
+
+  @override
+  ProductUserSpecific createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final isFavorite$Value = subMock<bool?>(
+      context: context,
+      fieldName: 'isFavorite',
+      currentLevel: currentLevel,
+    );
+    final cartQuantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'cartQuantity',
+      currentLevel: currentLevel,
+    );
+    return ProductUserSpecific(
+      isFavorite: isFavorite$Value,
+      cartQuantity: cartQuantity$Value,
+    );
+  }
+}
+
+class ProductAttributeMocker extends js.JModelMocker<ProductAttribute> {
+  const ProductAttributeMocker({super.jSerializer});
+
+  @override
+  ProductAttribute createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final values$Value = subMock<List<ProductAttributeValue>?>(
+      context: context,
+      fieldName: 'values',
+      currentLevel: currentLevel,
+    );
+    return ProductAttribute(
+      id: id$Value,
+      name: name$Value,
+      values: values$Value,
+    );
+  }
+}
+
+class ProductAttributeValueMocker
+    extends js.JModelMocker<ProductAttributeValue> {
+  const ProductAttributeValueMocker({super.jSerializer});
+
+  @override
+  ProductAttributeValue createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final color$Value = subMock<String?>(
+      context: context,
+      fieldName: 'color',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    return ProductAttributeValue(
+      id: id$Value,
+      name: name$Value,
+      color: color$Value,
+      featuredImage: featuredImage$Value,
+    );
+  }
+}
+
+class BrandMocker extends js.JModelMocker<Brand> {
+  const BrandMocker({super.jSerializer});
+
+  @override
+  Brand createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final logo$Value = subMock<String?>(
+      context: context,
+      fieldName: 'logo',
+      currentLevel: currentLevel,
+    );
+    return Brand(name: name$Value, logo: logo$Value);
+  }
+}
+
+class ProductVariantMocker extends js.JModelMocker<ProductVariant> {
+  const ProductVariantMocker({super.jSerializer});
+
+  @override
+  ProductVariant createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final id$Value = subMock<String>(
+      context: context,
+      fieldName: 'id',
+      currentLevel: currentLevel,
+    );
+    final name$Value = subMock<String?>(
+      context: context,
+      fieldName: 'name',
+      currentLevel: currentLevel,
+    );
+    final price$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'price',
+      currentLevel: currentLevel,
+    );
+    final featuredImage$Value = subMock<String?>(
+      context: context,
+      fieldName: 'featuredImage',
+      currentLevel: currentLevel,
+    );
+    final images$Value = subMock<List<String>?>(
+      context: context,
+      fieldName: 'images',
+      currentLevel: currentLevel,
+    );
+    final vendor$Value = subMock<Vendor?>(
+      context: context,
+      fieldName: 'vendor',
+      currentLevel: currentLevel,
+    );
+    final currency$Value = subMock<String?>(
+      context: context,
+      fieldName: 'currency',
+      currentLevel: currentLevel,
+    );
+    final maxPurchaseQuantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'maxPurchaseQuantity',
+      currentLevel: currentLevel,
+    );
+    final service$Value = subMock<String?>(
+      context: context,
+      fieldName: 'service',
+      currentLevel: currentLevel,
+    );
+    final category$Value = subMock<List<Category?>?>(
+      context: context,
+      fieldName: 'category',
+      currentLevel: currentLevel,
+    );
+    final originalPrice$Value = subMock<Price?>(
+      context: context,
+      fieldName: 'originalPrice',
+      currentLevel: currentLevel,
+    );
+    final discountRate$Value = subMock<String?>(
+      context: context,
+      fieldName: 'discountRate',
+      currentLevel: currentLevel,
+    );
+    final isAvailable$Value = subMock<bool?>(
+      context: context,
+      fieldName: 'isAvailable',
+      currentLevel: currentLevel,
+    );
+    final description$Value = subMock<String?>(
+      context: context,
+      fieldName: 'description',
+      currentLevel: currentLevel,
+    );
+    final tags$Value = subMock<List<Tag>?>(
+      context: context,
+      fieldName: 'tags',
+      currentLevel: currentLevel,
+    );
+    final barcode$Value = subMock<String?>(
+      context: context,
+      fieldName: 'barcode',
+      currentLevel: currentLevel,
+    );
+    final quantity$Value = subMock<int?>(
+      context: context,
+      fieldName: 'quantity',
+      currentLevel: currentLevel,
+    );
+    final shortUrl$Value = subMock<String?>(
+      context: context,
+      fieldName: 'shortUrl',
+      currentLevel: currentLevel,
+    );
+    final brand$Value = subMock<Brand?>(
+      context: context,
+      fieldName: 'brand',
+      currentLevel: currentLevel,
+    );
+    final variantsAttributes$Value = subMock<List<ProductAttribute>?>(
+      context: context,
+      fieldName: 'variantsAttributes',
+      currentLevel: currentLevel,
+    );
+    final attributes$Value = subMock<List<ProductAttributeValue>?>(
+      context: context,
+      fieldName: 'attributes',
+      currentLevel: currentLevel,
+    );
+    final userSpecifics$Value = subMock<ProductUserSpecific?>(
+      context: context,
+      fieldName: 'userSpecifics',
+      currentLevel: currentLevel,
+    );
+    final vendorId$Value = subMock<String?>(
+      context: context,
+      fieldName: 'vendorId',
+      currentLevel: currentLevel,
+    );
+    return ProductVariant(
+      id: id$Value,
+      name: name$Value,
+      price: price$Value,
+      featuredImage: featuredImage$Value,
+      images: images$Value,
+      vendor: vendor$Value,
+      currency: currency$Value,
+      maxPurchaseQuantity: maxPurchaseQuantity$Value,
+      service: service$Value,
+      category: category$Value,
+      originalPrice: originalPrice$Value,
+      discountRate: discountRate$Value,
+      isAvailable: isAvailable$Value,
+      description: description$Value,
+      tags: tags$Value,
+      barcode: barcode$Value,
+      quantity: quantity$Value,
+      shortUrl: shortUrl$Value,
+      brand: brand$Value,
+      variantsAttributes: variantsAttributes$Value,
+      attributes: attributes$Value,
+      userSpecifics: userSpecifics$Value,
+      vendorId: vendorId$Value,
+    );
+  }
+}
+
 class ProductCustomizationMocker extends js.JModelMocker<ProductCustomization> {
   const ProductCustomizationMocker({super.jSerializer});
 
@@ -3787,67 +3831,173 @@ class PriceMocker extends js.JModelMocker<Price> {
   }
 }
 
-class SomeModelMocker extends js.JModelMocker<SomeModel> {
-  const SomeModelMocker({super.jSerializer});
-
-  static const _$field1_$StringMocker = js.StringMocker(language: 'ar');
-
-  static const _$field2_$StringMocker = js.StringMocker(language: 'en');
+class SectionLayoutVListMocker extends js.JModelMocker<SectionLayoutVList> {
+  const SectionLayoutVListMocker({super.jSerializer});
 
   @override
-  SomeModel createMock([js.JMockerContext? context]) {
+  SectionLayoutVList createMock([js.JMockerContext? context]) {
     final prevLevel = context?.currentDepthLevel ?? 0;
     final currentLevel = prevLevel + 1;
-    final field1$Value = _$field1_$StringMocker.createMock(context);
-    final field2$Value = _$field2_$StringMocker.createMock(context);
-    final field3$Value = subMock<double?>(
+    final shape$Value = subMock<DynamicItemShape?>(
       context: context,
-      fieldName: 'field3',
+      fieldName: 'shape',
       currentLevel: currentLevel,
     );
-    final field4$Value = subMock<int?>(
+    return SectionLayoutVList(shape: shape$Value);
+  }
+}
+
+class SectionLayoutHListMocker extends js.JModelMocker<SectionLayoutHList> {
+  const SectionLayoutHListMocker({super.jSerializer});
+
+  @override
+  SectionLayoutHList createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
       context: context,
-      fieldName: 'field4',
+      fieldName: 'shape',
       currentLevel: currentLevel,
     );
-    return SomeModel(
-      field1: field1$Value,
-      field2: field2$Value,
-      field3: field3$Value,
-      field4: field4$Value,
+    return SectionLayoutHList(shape: shape$Value);
+  }
+}
+
+class SectionLayoutGridViewMocker
+    extends js.JModelMocker<SectionLayoutGridView> {
+  const SectionLayoutGridViewMocker({super.jSerializer});
+
+  @override
+  SectionLayoutGridView createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
+      context: context,
+      fieldName: 'shape',
+      currentLevel: currentLevel,
+    );
+    return SectionLayoutGridView(shape: shape$Value);
+  }
+}
+
+class SectionLayoutGridPatternMocker
+    extends js.JModelMocker<SectionLayoutGridPattern> {
+  const SectionLayoutGridPatternMocker({super.jSerializer});
+
+  @override
+  SectionLayoutGridPattern createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
+      context: context,
+      fieldName: 'shape',
+      currentLevel: currentLevel,
+    );
+    final pattern$Value = subMock<String?>(
+      context: context,
+      fieldName: 'pattern',
+      currentLevel: currentLevel,
+    );
+    return SectionLayoutGridPattern(shape: shape$Value, pattern: pattern$Value);
+  }
+}
+
+class SectionLayoutCarouselMocker
+    extends js.JModelMocker<SectionLayoutCarousel> {
+  const SectionLayoutCarouselMocker({super.jSerializer});
+
+  @override
+  SectionLayoutCarousel createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    final shape$Value = subMock<DynamicItemShape?>(
+      context: context,
+      fieldName: 'shape',
+      currentLevel: currentLevel,
+    );
+    return SectionLayoutCarousel(shape: shape$Value);
+  }
+}
+
+class SectionLayoutUnknownMocker extends js.JModelMocker<SectionLayoutUnknown> {
+  const SectionLayoutUnknownMocker({super.jSerializer});
+
+  @override
+  SectionLayoutUnknown createMock([js.JMockerContext? context]) {
+    final prevLevel = context?.currentDepthLevel ?? 0;
+    final currentLevel = prevLevel + 1;
+    return SectionLayoutUnknown();
+  }
+}
+
+class SectionLayoutMocker extends js.JCustomMocker<SectionLayout> {
+  const SectionLayoutMocker({super.jSerializer});
+
+  @override
+  SectionLayout createMock([js.JMockerContext? context]) {
+    return optionallyRandomizedValueFromListLazy(
+      context,
+      [
+        () => jSerializer.createMock<SectionLayoutVList>(context: context),
+        () => jSerializer.createMock<SectionLayoutHList>(context: context),
+        () => jSerializer.createMock<SectionLayoutGridView>(context: context),
+        () =>
+            jSerializer.createMock<SectionLayoutGridPattern>(context: context),
+        () => jSerializer.createMock<SectionLayoutCarousel>(context: context),
+        () => jSerializer.createMock<SectionLayoutUnknown>(context: context),
+      ],
+      fallback: () =>
+          jSerializer.createMock<SectionLayoutUnknown>(context: context),
     );
   }
 }
 
-class SomeGenericModelMocker extends js.JGenericMocker<SomeGenericModel> {
-  SomeGenericModelMocker({super.jSerializer});
-
-  SomeGenericModel<T> mock<T>([js.JMockerContext? context]) {
-    final prevLevel = context?.currentDepthLevel ?? 0;
-    final currentLevel = prevLevel + 1;
-    final value$Value = subMock<T>(
-      context: context,
-      fieldName: 'value',
-      currentLevel: currentLevel,
-    );
-    return SomeGenericModel<T>(value: value$Value);
-  }
+class DynamicItemShapeMocker extends js.JCustomMocker<DynamicItemShape> {
+  const DynamicItemShapeMocker({super.jSerializer});
 
   @override
-  Function get mocker => mock;
-}
-
-class SomeEnumMocker extends js.JCustomMocker<SomeEnum> {
-  const SomeEnumMocker({super.jSerializer});
-
-  @override
-  SomeEnum createMock([js.JMockerContext? context]) {
-    return optionallyRandomizedValueFromList(context, SomeEnum.values);
+  DynamicItemShape createMock([js.JMockerContext? context]) {
+    return optionallyRandomizedValueFromList(context, DynamicItemShape.values);
   }
 }
 
 void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
   final instance = jSerializer ?? js.JSerializer.i;
+  instance.register<SuperComplicatedModel>(
+    (s) => SuperComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<SuperComplicatedModel<T>>(),
+    mockFactory: (s) => SuperComplicatedModelMocker(jSerializer: s),
+  );
+  instance.register<ComplicatedModel>(
+    (s) => ComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<ComplicatedModel<T>>(),
+    mockFactory: (s) => ComplicatedModelMocker(jSerializer: s),
+  );
+  instance.register<SemiComplicatedModel>(
+    (s) => SemiComplicatedModelSerializer(jSerializer: s),
+    <T>(Function f) => f<SemiComplicatedModel<T>>(),
+    mockFactory: (s) => SemiComplicatedModelMocker(jSerializer: s),
+  );
+  instance.register<SomeModel>(
+    (s) => SomeModelSerializer(jSerializer: s),
+    (Function f) => f<SomeModel>(),
+    mockFactory: (s) => SomeModelMocker(jSerializer: s),
+  );
+  instance.register<SomeGenericModel>(
+    (s) => SomeGenericModelSerializer(jSerializer: s),
+    <T>(Function f) => f<SomeGenericModel<T>>(),
+    mockFactory: (s) => SomeGenericModelMocker(jSerializer: s),
+  );
+  instance.register<SomeCustomModel>(
+    (s) => SomeCustomModelCustomSerializer(jSerializer: s),
+    (Function f) => f<SomeCustomModel>(),
+    mockFactory: (s) => SomeCustomModelMocker(jSerializer: s),
+  );
+  instance.register<SomeEnum>(
+    (s) => SomeEnumSerializer(jSerializer: s),
+    (Function f) => f<SomeEnum>(),
+    mockFactory: (s) => SomeEnumMocker(jSerializer: s),
+  );
   instance.register<Product>(
     (s) => ProductSerializer(jSerializer: s),
     (Function f) => f<Product>(),
@@ -3893,6 +4043,26 @@ void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
     (Function f) => f<ProductVariant>(),
     mockFactory: (s) => ProductVariantMocker(jSerializer: s),
   );
+  instance.register<ProductCustomization>(
+    (s) => ProductCustomizationSerializer(jSerializer: s),
+    (Function f) => f<ProductCustomization>(),
+    mockFactory: (s) => ProductCustomizationMocker(jSerializer: s),
+  );
+  instance.register<ProductCustomizationValue>(
+    (s) => ProductCustomizationValueSerializer(jSerializer: s),
+    (Function f) => f<ProductCustomizationValue>(),
+    mockFactory: (s) => ProductCustomizationValueMocker(jSerializer: s),
+  );
+  instance.register<ProductCustomizationDecoration>(
+    (s) => ProductCustomizationDecorationSerializer(jSerializer: s),
+    (Function f) => f<ProductCustomizationDecoration>(),
+    mockFactory: (s) => ProductCustomizationDecorationMocker(jSerializer: s),
+  );
+  instance.register<Price>(
+    (s) => PriceSerializer(jSerializer: s),
+    (Function f) => f<Price>(),
+    mockFactory: (s) => PriceMocker(jSerializer: s),
+  );
   instance.register<SectionLayoutVList>(
     (s) => SectionLayoutVListSerializer(jSerializer: s),
     (Function f) => f<SectionLayoutVList>(),
@@ -3932,60 +4102,5 @@ void initializeJSerializer({js.JSerializerInterface? jSerializer}) {
     (s) => DynamicItemShapeSerializer(jSerializer: s),
     (Function f) => f<DynamicItemShape>(),
     mockFactory: (s) => DynamicItemShapeMocker(jSerializer: s),
-  );
-  instance.register<SuperComplicatedModel>(
-    (s) => SuperComplicatedModelSerializer(jSerializer: s),
-    <T>(Function f) => f<SuperComplicatedModel<T>>(),
-    mockFactory: (s) => SuperComplicatedModelMocker(jSerializer: s),
-  );
-  instance.register<ComplicatedModel>(
-    (s) => ComplicatedModelSerializer(jSerializer: s),
-    <T>(Function f) => f<ComplicatedModel<T>>(),
-    mockFactory: (s) => ComplicatedModelMocker(jSerializer: s),
-  );
-  instance.register<SemiComplicatedModel>(
-    (s) => SemiComplicatedModelSerializer(jSerializer: s),
-    <T>(Function f) => f<SemiComplicatedModel<T>>(),
-    mockFactory: (s) => SemiComplicatedModelMocker(jSerializer: s),
-  );
-  instance.register<ProductCustomization>(
-    (s) => ProductCustomizationSerializer(jSerializer: s),
-    (Function f) => f<ProductCustomization>(),
-    mockFactory: (s) => ProductCustomizationMocker(jSerializer: s),
-  );
-  instance.register<ProductCustomizationValue>(
-    (s) => ProductCustomizationValueSerializer(jSerializer: s),
-    (Function f) => f<ProductCustomizationValue>(),
-    mockFactory: (s) => ProductCustomizationValueMocker(jSerializer: s),
-  );
-  instance.register<ProductCustomizationDecoration>(
-    (s) => ProductCustomizationDecorationSerializer(jSerializer: s),
-    (Function f) => f<ProductCustomizationDecoration>(),
-    mockFactory: (s) => ProductCustomizationDecorationMocker(jSerializer: s),
-  );
-  instance.register<Price>(
-    (s) => PriceSerializer(jSerializer: s),
-    (Function f) => f<Price>(),
-    mockFactory: (s) => PriceMocker(jSerializer: s),
-  );
-  instance.register<SomeModel>(
-    (s) => SomeModelSerializer(jSerializer: s),
-    (Function f) => f<SomeModel>(),
-    mockFactory: (s) => SomeModelMocker(jSerializer: s),
-  );
-  instance.register<SomeGenericModel>(
-    (s) => SomeGenericModelSerializer(jSerializer: s),
-    <T>(Function f) => f<SomeGenericModel<T>>(),
-    mockFactory: (s) => SomeGenericModelMocker(jSerializer: s),
-  );
-  instance.register<SomeCustomModel>(
-    (s) => SomeCustomModelCustomSerializer(jSerializer: s),
-    (Function f) => f<SomeCustomModel>(),
-    mockFactory: (s) => SomeCustomModelMocker(jSerializer: s),
-  );
-  instance.register<SomeEnum>(
-    (s) => SomeEnumSerializer(jSerializer: s),
-    (Function f) => f<SomeEnum>(),
-    mockFactory: (s) => SomeEnumMocker(jSerializer: s),
   );
 }

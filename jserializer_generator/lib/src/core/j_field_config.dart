@@ -94,7 +94,7 @@ class JFieldConfig {
 
   String get fieldNameJsonSuffixed => '$fieldName\$Json';
 
-  String get serializableClassName => serializableClassElement!.name;
+  String get serializableClassName => serializableClassElement!.name!;
 
   String get serializableClassNameLowerCase =>
       serializableClassName.firstLowerCase();

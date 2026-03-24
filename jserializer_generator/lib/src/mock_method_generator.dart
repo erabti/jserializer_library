@@ -109,7 +109,7 @@ class MockMethodGenerator {
                       .call(
                         [
                           refer('context'),
-                          refer(modelConfig.classElement.name)
+                          refer(modelConfig.classElement.name!)
                               .property('values'),
                         ],
                       )

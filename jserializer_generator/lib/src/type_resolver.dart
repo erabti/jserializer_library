@@ -14,18 +14,18 @@ class TypeResolver {
   TypeResolver(this.libs, this.targetFile);
 
   String? resolveImport(Element? element) {
-    // return early if source is null or element is a core type
-    if (element?.source == null || _isCoreDartType(element!)) {
+    // return early if element has no library or element is a core type
+    if (element?.library == null || _isCoreDartType(element!)) {
       return null;
     }
 
     for (var lib in libs) {
       if (!_isCoreDartType(lib) &&
-          lib.exportNamespace.definedNames.values.contains(element)) {
+          lib.exportNamespace.definedNames2.values.contains(element)) {
         return targetFile == null
             ? lib.identifier
             : _relative(
-                lib.source.uri,
+                lib.uri,
                 targetFile!,
               );
       }
@@ -52,7 +52,7 @@ class TypeResolver {
   }
 
   bool _isCoreDartType(Element element) {
-    return element.source?.fullName == 'dart:core';
+    return element.library?.isDartCore ?? false;
   }
 
   List<ResolvedType> _resolveTypeArguments(DartType typeToCheck) {

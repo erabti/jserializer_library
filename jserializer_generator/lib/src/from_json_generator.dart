@@ -76,9 +76,9 @@ class FromJsonGenerator {
           refer('json'),
         ]);
       }
-    } else if (field.fieldType.isPrimitive) {
+    } else if (field.paramType.isPrimitive) {
       final isNullable = hasDefaultValue || field.paramType.isNullable;
-      final typeName = field.fieldType.name;
+      final typeName = field.paramType.name;
 
       if (typeName == 'int') {
         final numRef = TypeReference(
@@ -109,9 +109,9 @@ class FromJsonGenerator {
         exp = exp.asA(typeRef);
       }
       // dynamic: no cast needed, exp is already json['key']
-    } else if (field.fieldType.isPrimitiveList) {
+    } else if (field.paramType.isPrimitiveList) {
       final isNullable = hasDefaultValue || field.paramType.isNullable;
-      final innerType = field.fieldType.typeArguments.first;
+      final innerType = field.paramType.typeArguments.first;
       final listRef = TypeReference(
           (b) => b
             ..symbol = 'List'
@@ -127,8 +127,8 @@ class FromJsonGenerator {
             .property('cast')
             .call([], {}, [refer(innerType.name)]);
       }
-    } else if (field.fieldType.isList) {
-      final elementType = field.fieldType.typeArguments.first;
+    } else if (field.paramType.isList) {
+      final elementType = field.paramType.typeArguments.first;
       final isNullable = hasDefaultValue || field.paramType.isNullable;
       final listRef = TypeReference(
           (b) => b
@@ -159,10 +159,10 @@ class FromJsonGenerator {
             .property('toList')
             .call([]);
       }
-    } else if (field.fieldType.isMap &&
-        !field.fieldType.isPrimitiveNestedMapOrList) {
-      final keyType = field.fieldType.typeArguments[0];
-      final valueType = field.fieldType.typeArguments[1];
+    } else if (field.paramType.isMap &&
+        !field.paramType.isPrimitiveNestedMapOrList) {
+      final keyType = field.paramType.typeArguments[0];
+      final valueType = field.paramType.typeArguments[1];
       final isNullable = hasDefaultValue || field.paramType.isNullable;
       final mapRef = TypeReference(
           (b) => b

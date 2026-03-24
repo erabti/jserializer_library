@@ -23,15 +23,30 @@ import 'package:jserializer_generator/src/util.dart';
 import 'package:merging_builder/merging_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
-const customAdapterChecker = TypeChecker.fromRuntime(CustomAdapter);
-const mockerChecker = TypeChecker.fromRuntime(JMocker);
-const customModelSerializerChecker = TypeChecker.fromRuntime(CustomJSerializer);
-const customModelMockerChecker = TypeChecker.fromRuntime(CustomJMocker);
-const jUnionChecker = TypeChecker.fromRuntime(JUnion);
-const jUnionValueChecker = TypeChecker.fromRuntime(JUnionValue);
-const jEnumKeyChecker = TypeChecker.fromRuntime(JEnumKey);
-const jEnumIdentifierChecker = TypeChecker.fromRuntime(JEnumIdentifier);
-const jEnumChecker = TypeChecker.fromRuntime(JEnum);
+const _pkg = 'package:jserializer/src/core';
+
+const customAdapterChecker =
+    TypeChecker.fromUrl('$_pkg/domain/custom_adapter.dart#CustomAdapter');
+const mockerChecker =
+    TypeChecker.fromUrl('$_pkg/mocker/mocker.dart#JMocker');
+const customModelSerializerChecker =
+    TypeChecker.fromUrl('$_pkg/annotations/custom_jserializable.dart#CustomJSerializer');
+const customModelMockerChecker =
+    TypeChecker.fromUrl('$_pkg/annotations/custom_jserializable.dart#CustomJMocker');
+const jUnionChecker =
+    TypeChecker.fromUrl('$_pkg/annotations/j_union.dart#JUnion');
+const jUnionValueChecker =
+    TypeChecker.fromUrl('$_pkg/annotations/j_union.dart#JUnionValue');
+const jEnumKeyChecker =
+    TypeChecker.fromUrl('$_pkg/annotations/j_enum.dart#JEnumKey');
+const jEnumIdentifierChecker =
+    TypeChecker.fromUrl('$_pkg/annotations/j_enum.dart#JEnumIdentifier');
+const jEnumChecker =
+    TypeChecker.fromUrl('$_pkg/annotations/j_enum.dart#JEnum');
+const serializerChecker =
+    TypeChecker.fromUrl('$_pkg/domain/serializers/serializer.dart#Serializer');
+const jMockerChecker =
+    TypeChecker.fromUrl('$_pkg/mocker/mocker.dart#JMocker');
 
 class NoPrefixAllocator implements Allocator {
   final _imports = <String>{};
@@ -65,6 +80,12 @@ class JSerializerGenerator
 
   final JSerializable globalOptions;
   final bool shouldAddAnalysisOptions;
+
+  // Cached data — reused across generateStream calls within a build.
+  // Invalidated when resolver.libraries grows (as more files are loaded).
+  int _lastLibsCount = -1;
+  List<InterfaceElement>? _cachedCustomSerializers;
+  List<AnnotatedElement>? _cachedAllAnnotatedClasses;
 
   @override
   FutureOr<String> generateMergedContent(Stream<ModelConfig> stream) async {
@@ -169,7 +190,7 @@ class JSerializerGenerator
           result.add(table.render());
         }
 
-        File('./models_analysis').writeAsStringSync(result.join('\n\n'));
+        await File('./models_analysis').writeAsString(result.join('\n\n'));
       }
 
       final emitter = DartEmitter(
@@ -335,6 +356,26 @@ class JSerializerGenerator
   ) async* {
     final libs = await buildStep.resolver.libraries.toList();
     final resolver = TypeResolver(libs, null);
+
+    // Invalidate caches if the resolver has loaded more libraries since last call.
+    if (libs.length != _lastLibsCount) {
+      _lastLibsCount = libs.length;
+      _cachedCustomSerializers = libs
+          .expand((lib) =>
+              LibraryReader(lib).annotatedWith(customModelSerializerChecker))
+          .map((e) => e.element)
+          .whereType<InterfaceElement>()
+          .where((e) =>
+              e.allSupertypes.firstWhereOrNull(
+                (element) => serializerChecker.isExactly(element.element),
+              ) !=
+              null)
+          .toList();
+      _cachedAllAnnotatedClasses = libs
+          .expand((lib) => LibraryReader(lib).annotatedWith(typeChecker))
+          .toList();
+    }
+
     final allAnnotatedElements = library.annotatedWith(typeChecker);
 
     for (final annotatedElement in allAnnotatedElements) {
@@ -397,7 +438,7 @@ class JSerializerGenerator
 
           if (identifierConfig == null) {
             jsonName = "'${reCase(
-              field.name,
+              field.name!,
               nameCase: globalOptions.fieldNameCase,
             )}'";
           } else {
@@ -406,7 +447,7 @@ class JSerializerGenerator
           }
 
           final config = EnumKeyConfig(
-            fieldName: field.name,
+            fieldName: field.name!,
             jsonName: jsonName,
           );
 
@@ -446,11 +487,11 @@ class JSerializerGenerator
             continue;
           }
 
-          final subClass = redirect.enclosingElement3;
+          final subClass = redirect.enclosingElement;
           final subClassType = resolver.resolveType(redirect.returnType);
           final jsonKey = jUnionValue.name ??
               reCase(
-                c.name,
+                c.name!,
                 nameCase: globalOptions.fieldNameCase,
               );
 
@@ -475,9 +516,9 @@ class JSerializerGenerator
             jsonKey: jsonKey,
           );
 
-          if (!generatedSubTypes.contains(config.classElement.name)) {
+          if (!generatedSubTypes.contains(config.classElement.name!)) {
             yield config;
-            generatedSubTypes.add(config.classElement.name);
+            generatedSubTypes.add(config.classElement.name!);
           }
 
           subTypes.add(unionValue);
@@ -621,8 +662,8 @@ class JSerializerGenerator
 
     final isCustomMocker = customModelMockerChecker.hasAnnotationOf(clazz);
 
-    final customSerializerModel = getSuperTypeFirstTypeArg(clazz, Serializer);
-    final customMockerModel = getSuperTypeFirstTypeArg(clazz, JMocker);
+    final customSerializerModel = getSuperTypeFirstTypeArg(clazz, serializerChecker);
+    final customMockerModel = getSuperTypeFirstTypeArg(clazz, jMockerChecker);
 
     final customSerializableModelType = customSerializerModel == null
         ? null
@@ -636,19 +677,7 @@ class JSerializerGenerator
 
     final type = resolver!.resolveType(clazz.thisType);
 
-    final customSerializers = resolver.libs
-        .map((lib) =>
-            LibraryReader(lib).annotatedWith(customModelSerializerChecker))
-        .flattened
-        .map((e) => e.element)
-        .whereType<InterfaceElement>()
-        .where((e) =>
-            e.allSupertypes.firstWhereOrNull(
-              (element) => TypeChecker.fromRuntime(Serializer)
-                  .isExactly(element.element),
-            ) !=
-            null)
-        .toList();
+    final customSerializers = _cachedCustomSerializers!;
 
     final theFields = resolveFields(
       resolver,
@@ -742,11 +771,10 @@ class JSerializerGenerator
 
   InterfaceElement? getSuperTypeFirstTypeArg(
     InterfaceElement elm,
-    Type superType,
+    TypeChecker checker,
   ) {
     final interface = elm.allSupertypes.firstWhereOrNull(
-      (element) =>
-          TypeChecker.fromRuntime(superType).isExactly(element.element),
+      (element) => checker.isExactly(element.element),
     );
 
     if (interface == null) return null;
@@ -774,40 +802,39 @@ class JSerializerGenerator
     if (isClassCustomSerializer || isClassCustomMocker) return [];
 
     final sortedParams =
-        (customConstructor ?? classElement.unnamedConstructor)!.parameters;
-    final className = classElement.name;
+        (customConstructor ?? classElement.unnamedConstructor)!.formalParameters;
+    final className = classElement.name!;
     final classType = typeResolver.resolveType(classElement.thisType);
 
-    final allAnnotatedClasses = typeResolver.libs
-        .map((lib) => LibraryReader(lib).annotatedWith(typeChecker))
-        .flattened;
+    final allAnnotatedClasses = _cachedAllAnnotatedClasses!;
 
     final customSerializableModels = customSerializers
         .map(
-          (e) => getSuperTypeFirstTypeArg(e, Serializer),
+          (e) => getSuperTypeFirstTypeArg(e, serializerChecker),
         )
         .whereType<InterfaceElement>();
 
     return sortedParams.map(
       (param) {
+        final paramName = param.name!;
         final classFieldLib = typeResolver.libs.firstWhereOrNull(
           (lib) =>
               classElement.safeLookupGetter(
-                name: param.name,
+                name: paramName,
                 library: lib,
               ) !=
               null,
         );
 
         late final classFieldLib2 =
-            classElement.library.definingCompilationUnit.parts
-                .map(
-                  (e) => e.library,
-                )
+            classElement.library.fragments
+                .skip(1)
+                .map((f) => f.element.library)
+                .whereType<LibraryElement>()
                 .firstWhereOrNull(
                   (lib) =>
                       classElement.safeLookupGetter(
-                        name: param.name,
+                        name: paramName,
                         library: lib,
                       ) !=
                       null,
@@ -818,7 +845,7 @@ class JSerializerGenerator
         final classField = fieldLib == null
             ? null
             : classElement.safeLookupGetter(
-                name: param.name,
+                name: paramName,
                 library: fieldLib,
               );
 
@@ -826,7 +853,7 @@ class JSerializerGenerator
           throw Exception(
             'Error reading model ${classElement.name}!\n'
             'Param ${param.name} has no matching field name!\n'
-            'All accessors: ${classElement.accessors.map((e) => e.name).join(',')}\n'
+            'All accessors: ${classElement.getters.map((e) => e.name).join(',')}\n'
             '',
           );
         }
@@ -889,8 +916,7 @@ class JSerializerGenerator
                 (c) {
                   final serializer = c.allSupertypes.firstWhereOrNull(
                     (e) =>
-                        TypeChecker.fromRuntime(Serializer)
-                            .isExactly(e.element) &&
+                        serializerChecker.isExactly(e.element) &&
                         e.typeArguments.firstOrNull != null &&
                         e.typeArguments.first.element is InterfaceElement &&
                         (e.typeArguments.first.element as InterfaceElement)
@@ -903,9 +929,10 @@ class JSerializerGenerator
                 },
               );
 
+        const jKeyChecker = TypeChecker.fromUrl('$_pkg/annotations/jkey.dart#JKey');
         final jKeyObj =
-            TypeChecker.fromRuntime(JKey).firstAnnotationOf(param) ??
-                TypeChecker.fromRuntime(JKey).firstAnnotationOf(classField);
+            jKeyChecker.firstAnnotationOf(param) ??
+                jKeyChecker.firstAnnotationOf(classField);
 
         final jKey = jKeyObj == null ? null : JKeyConfig.fromDartObj(jKeyObj);
 
@@ -963,7 +990,7 @@ class JSerializerGenerator
         final jKeyName = jKey?.name;
         final jsonName = jKeyName ??
             reCase(
-              param.name,
+              paramName,
               nameCase: config.fieldNameCase,
             );
 
@@ -1019,7 +1046,7 @@ class JSerializerGenerator
           keyConfig: jKey ?? JKeyConfig(),
           paramType: typeResolver.resolveType(param.type),
           jsonKey: jsonName,
-          fieldName: param.name,
+          fieldName: paramName,
           isNamed: param.isNamed,
           fieldType: typeResolver.resolveType(classField.type.returnType),
         );
@@ -1065,7 +1092,7 @@ class CustomAdapterConfig {
   final ResolvedType type;
   final ResolvedType jsonType;
   final ResolvedType modelType;
-  final ParameterElement param;
+  final FormalParameterElement param;
 
   String get adapterFieldName => '_\$${param.name}_\$${type.fullName}';
 }
