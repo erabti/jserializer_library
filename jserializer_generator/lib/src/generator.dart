@@ -825,39 +825,77 @@ class JSerializerGenerator
 
     final allAnnotatedClasses = _cachedAllAnnotatedClasses!;
 
-    final customSerializableModels = customSerializers
-        .map(
-          (e) => getSuperTypeFirstTypeArg(e, serializerChecker),
-        )
-        .whereType<InterfaceElement>();
+    // Pre-compute lookup maps once before the field loop.
+    // This changes O(fields × classes) lookups to O(fields + classes).
+
+    // Map: type name → list of annotated InterfaceElements with that name
+    final annotatedByName = <String, List<InterfaceElement>>{};
+    for (final c in allAnnotatedClasses) {
+      final clazz = c.element as InterfaceElement;
+      final resolved = typeResolver.resolveType(clazz.thisType);
+      (annotatedByName[resolved.name] ??= []).add(clazz);
+    }
+
+    // Map: type name → custom serializable model InterfaceElement
+    final customSerializableByName = <String, InterfaceElement>{};
+    for (final serializer in customSerializers) {
+      final model = getSuperTypeFirstTypeArg(serializer, serializerChecker);
+      if (model != null) {
+        final resolved = typeResolver.resolveType(model.thisType);
+        customSerializableByName[resolved.name] = model;
+      }
+    }
+
+    // Map: target InterfaceType → custom serializer InterfaceElement
+    // Pre-compute so we don't traverse allSupertypes per field.
+    final serializerByTargetType = <InterfaceType, InterfaceElement>{};
+    for (final c in customSerializers) {
+      final serializer = c.allSupertypes.firstWhereOrNull(
+        (e) =>
+            serializerChecker.isExactly(e.element) &&
+            e.typeArguments.firstOrNull != null &&
+            e.typeArguments.first.element is InterfaceElement,
+      );
+      if (serializer != null) {
+        final targetType =
+            (serializer.typeArguments.first.element as InterfaceElement)
+                .thisType;
+        serializerByTargetType[targetType] = c;
+      }
+    }
+
+    // Hoist jKeyChecker out of the per-field loop (was re-created every iteration)
+    const jKeyChecker = TypeChecker.fromUrl('$_pkg/annotations/jkey.dart#JKey');
+
+    // Pre-compute field library lookups for this class.
+    // Most fields share the same library, so cache the results.
+    final _fieldLibCache = <String, LibraryElement?>{};
+    LibraryElement? _findFieldLib(String paramName) {
+      if (_fieldLibCache.containsKey(paramName)) {
+        return _fieldLibCache[paramName];
+      }
+      var lib = typeResolver.libs.firstWhereOrNull(
+        (lib) =>
+            classElement.safeLookupGetter(name: paramName, library: lib) !=
+            null,
+      );
+      lib ??= classElement.library.fragments
+          .skip(1)
+          .map((f) => f.element.library)
+          .whereType<LibraryElement>()
+          .firstWhereOrNull(
+            (lib) =>
+                classElement.safeLookupGetter(name: paramName, library: lib) !=
+                null,
+          );
+      _fieldLibCache[paramName] = lib;
+      return lib;
+    }
 
     return sortedParams.map(
       (param) {
         final paramName = param.name!;
-        final classFieldLib = typeResolver.libs.firstWhereOrNull(
-          (lib) =>
-              classElement.safeLookupGetter(
-                name: paramName,
-                library: lib,
-              ) !=
-              null,
-        );
-
-        late final classFieldLib2 =
-            classElement.library.fragments
-                .skip(1)
-                .map((f) => f.element.library)
-                .whereType<LibraryElement>()
-                .firstWhereOrNull(
-                  (lib) =>
-                      classElement.safeLookupGetter(
-                        name: paramName,
-                        library: lib,
-                      ) !=
-                      null,
-                );
-
-        late final fieldLib = classFieldLib ?? classFieldLib2;
+        final fieldLib = _findFieldLib(paramName);
 
         final classField = fieldLib == null
             ? null
@@ -894,27 +932,25 @@ class JSerializerGenerator
                 classType.typeArguments.indexOf(genericType),
               );
 
+        // Use pre-computed name map instead of iterating all models per field
         final customSerializableModelType =
-            customSerializableModels.firstWhereOrNull(
-          (element) {
-            final classType = typeResolver.resolveType(element.thisType);
+            customSerializableByName[resolvedType.name] ??
+                customSerializableByName.values.firstWhereOrNull(
+                  (element) =>
+                      resolvedType.hasDeepGenericOf(element.thisType),
+                );
 
-            return classType.name == resolvedType.name ||
-                resolvedType.hasDeepGenericOf(element.thisType);
-          },
-        );
-
+        // Use pre-computed name map instead of iterating all annotated classes per field
         late final serializableClasses = [
+          ...?annotatedByName[resolvedType.name],
           ...allAnnotatedClasses
               .where(
                 (c) {
                   final clazz = c.element as InterfaceElement;
                   final classType = typeResolver.resolveType(clazz.thisType);
-
-                  return classType.name == resolvedType.name ||
-                      resolvedType.hasDeepGenericOf(
-                        clazz.thisType,
-                      );
+                  // Only check deep generic match — name matches already handled above
+                  return classType.name != resolvedType.name &&
+                      resolvedType.hasDeepGenericOf(clazz.thisType);
                 },
               )
               .map((e) => e.element as InterfaceElement)
@@ -927,26 +963,11 @@ class JSerializerGenerator
         final serializableClass =
             customSerializableModelType ?? serializableClasses.firstOrNull;
 
+        // Use pre-computed serializer map instead of O(serializers × supertypes) per field
         final customSerializerClass = serializableClass == null
             ? null
-            : customSerializers.firstWhereOrNull(
-                (c) {
-                  final serializer = c.allSupertypes.firstWhereOrNull(
-                    (e) =>
-                        serializerChecker.isExactly(e.element) &&
-                        e.typeArguments.firstOrNull != null &&
-                        e.typeArguments.first.element is InterfaceElement &&
-                        (e.typeArguments.first.element as InterfaceElement)
-                                .thisType ==
-                            serializableClass.thisType,
-                  );
+            : serializerByTargetType[serializableClass.thisType];
 
-                  if (serializer == null) return false;
-                  return true;
-                },
-              );
-
-        const jKeyChecker = TypeChecker.fromUrl('$_pkg/annotations/jkey.dart#JKey');
         final jKeyObj =
             jKeyChecker.firstAnnotationOf(param) ??
                 jKeyChecker.firstAnnotationOf(classField);
