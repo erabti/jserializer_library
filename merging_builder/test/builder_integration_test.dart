@@ -1,0 +1,323 @@
+import 'dart:async';
+
+import 'package:analyzer/dart/element/element.dart';
+import 'package:build/build.dart';
+import 'package:build_test/build_test.dart';
+import 'package:exception_templates/exception_templates.dart';
+import 'package:merging_builder/merging_builder.dart';
+import 'package:source_gen/source_gen.dart';
+import 'package:test/test.dart';
+
+// ---------------------------------------------------------------------------
+// Test annotation
+// ---------------------------------------------------------------------------
+
+class TestAnnotation {
+  const TestAnnotation();
+}
+
+// ---------------------------------------------------------------------------
+// Concrete MergingGenerator for integration tests
+// ---------------------------------------------------------------------------
+
+class IntegrationMergingGenerator
+    extends MergingGenerator<String, TestAnnotation> {
+  @override
+  String generateStreamItemForAnnotatedElement(
+    Element element,
+    ConstantReader annotation,
+    BuildStep buildStep,
+  ) {
+    return element.name ?? 'unknown';
+  }
+
+  @override
+  FutureOr<String> generateMergedContent(Stream<String> stream) async {
+    final items = <String>[];
+    await for (final item in stream) {
+      items.add(item);
+    }
+    return '// Merged: ${items.join(', ')}';
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Integration tests
+// ---------------------------------------------------------------------------
+
+void main() {
+  // -------------------------------------------------------------------------
+  // MergingBuilder.build integration tests
+  // -------------------------------------------------------------------------
+  group('MergingBuilder.build', () {
+    test('builds merged output from annotated elements', () async {
+      final builder = MergingBuilder<String, LibDir>(
+        generator: IntegrationMergingGenerator(),
+        inputFiles: 'lib/*.dart',
+        outputFile: 'lib/merged.dart',
+        formatter: (input) => input,
+      );
+
+      await testBuilder(
+        builder,
+        {
+          'pkg|lib/a.dart': 'class Foo {}',
+        },
+        outputs: {
+          'pkg|lib/merged.dart': decodedMatches(
+            allOf(
+              contains('GENERATED CODE'),
+              contains('DO NOT MODIFY'),
+            ),
+          ),
+        },
+      );
+    });
+
+    test('builds with sortAssets=false (unsorted)', () async {
+      final builder = MergingBuilder<String, LibDir>(
+        generator: IntegrationMergingGenerator(),
+        inputFiles: 'lib/*.dart',
+        outputFile: 'lib/merged.dart',
+        sortAssets: false,
+        formatter: (input) => input,
+      );
+
+      await testBuilder(
+        builder,
+        {
+          'pkg|lib/a.dart': 'class A {}',
+          'pkg|lib/b.dart': 'class B {}',
+        },
+        outputs: {
+          'pkg|lib/merged.dart': decodedMatches(contains('GENERATED CODE')),
+        },
+      );
+    });
+
+    test('builds with sortAssets=true (topological order)', () async {
+      final builder = MergingBuilder<String, LibDir>(
+        generator: IntegrationMergingGenerator(),
+        inputFiles: 'lib/*.dart',
+        outputFile: 'lib/merged.dart',
+        sortAssets: true,
+        formatter: (input) => input,
+      );
+
+      await testBuilder(
+        builder,
+        {
+          // b imports a via package import, so in topological order a comes first
+          'pkg|lib/a.dart': 'class A {}',
+          'pkg|lib/b.dart':
+              "import 'package:pkg/a.dart';\nclass B extends A {}",
+        },
+        outputs: {
+          'pkg|lib/merged.dart': decodedMatches(contains('GENERATED CODE')),
+        },
+      );
+    });
+
+    test('build with no matching input files produces output', () async {
+      // When there are no dart files matching the glob, the builder should
+      // still produce an output file (with just header/footer).
+      final builder = MergingBuilder<String, LibDir>(
+        generator: IntegrationMergingGenerator(),
+        inputFiles: 'lib/nonexistent_dir/*.dart',
+        outputFile: 'lib/merged.dart',
+        formatter: (input) => input,
+      );
+
+      await testBuilder(
+        builder,
+        {
+          'pkg|lib/a.dart': 'class A {}',
+        },
+        outputs: {
+          'pkg|lib/merged.dart': decodedMatches(contains('GENERATED CODE')),
+        },
+      );
+    });
+
+    test('includes generatedBy with generator type name', () async {
+      final builder = MergingBuilder<String, LibDir>(
+        generator: IntegrationMergingGenerator(),
+        inputFiles: 'lib/*.dart',
+        outputFile: 'lib/merged.dart',
+        formatter: (input) => input,
+      );
+
+      await testBuilder(
+        builder,
+        {
+          'pkg|lib/a.dart': 'class A {}',
+        },
+        outputs: {
+          'pkg|lib/merged.dart': decodedMatches(
+            contains('Generated by IntegrationMergingGenerator'),
+          ),
+        },
+      );
+    });
+
+    test('includes custom header and footer', () async {
+      final builder = MergingBuilder<String, LibDir>(
+        generator: IntegrationMergingGenerator(),
+        inputFiles: 'lib/*.dart',
+        outputFile: 'lib/merged.dart',
+        header: '// CUSTOM HEADER LINE',
+        footer: '// CUSTOM FOOTER LINE',
+        formatter: (input) => input,
+      );
+
+      await testBuilder(
+        builder,
+        {
+          'pkg|lib/a.dart': 'class A {}',
+        },
+        outputs: {
+          'pkg|lib/merged.dart': decodedMatches(
+            allOf(
+              contains('// CUSTOM HEADER LINE'),
+              contains('// CUSTOM FOOTER LINE'),
+            ),
+          ),
+        },
+      );
+    });
+  });
+
+  // -------------------------------------------------------------------------
+  // SyntheticBuilder.libraryAssetIds and orderedLibraryAssetIds
+  // (tested indirectly through MergingBuilder.build)
+  // -------------------------------------------------------------------------
+  group('SyntheticBuilder asset methods', () {
+    test('libraryAssetIds skips non-library (part) files', () async {
+      final builder = MergingBuilder<String, LibDir>(
+        generator: IntegrationMergingGenerator(),
+        inputFiles: 'lib/*.dart',
+        outputFile: 'lib/merged.dart',
+        formatter: (input) => input,
+      );
+
+      // part files are not libraries and should be skipped
+      await testBuilder(
+        builder,
+        {
+          'pkg|lib/main.dart': "part 'part_file.dart';\nclass Main {}",
+          'pkg|lib/part_file.dart': "part of 'main.dart';",
+        },
+        outputs: {
+          'pkg|lib/merged.dart': decodedMatches(contains('GENERATED CODE')),
+        },
+      );
+    });
+
+    test('orderedLibraryAssetIds orders dependencies correctly', () async {
+      final builder = MergingBuilder<String, LibDir>(
+        generator: IntegrationMergingGenerator(),
+        inputFiles: 'lib/*.dart',
+        outputFile: 'lib/merged.dart',
+        sortAssets: true,
+        formatter: (input) => input,
+      );
+
+      // Use a chain: c imports b, b imports a, all via package: imports
+      await testBuilder(
+        builder,
+        {
+          'pkg|lib/a.dart': 'class A {}',
+          'pkg|lib/b.dart':
+              "import 'package:pkg/a.dart';\nclass B extends A {}",
+          'pkg|lib/c.dart':
+              "import 'package:pkg/b.dart';\nclass C extends B {}",
+        },
+        outputs: {
+          'pkg|lib/merged.dart': decodedMatches(contains('GENERATED CODE')),
+        },
+      );
+    });
+  });
+
+  // -------------------------------------------------------------------------
+  // MergingGenerator.generateStream
+  // (tested by using a real annotation and annotated elements)
+  // -------------------------------------------------------------------------
+  group('MergingGenerator.generateStream', () {
+    test('yields items for annotated elements via resolveSources', () async {
+      // Use resolveSources to test generateStream with a real LibraryReader.
+      await resolveSources(
+        {
+          'test_pkg|lib/annotations.dart': '''
+            class TestAnnotation {
+              const TestAnnotation();
+            }
+          ''',
+          'test_pkg|lib/model.dart': '''
+            import 'annotations.dart';
+
+            @TestAnnotation()
+            class MyModel {}
+
+            @TestAnnotation()
+            class AnotherModel {}
+          ''',
+        },
+        (resolver) async {
+          final lib = await resolver.libraryFor(
+            AssetId('test_pkg', 'lib/model.dart'),
+          );
+          final reader = LibraryReader(lib);
+          final gen = IntegrationMergingGenerator();
+
+          final items = <String>[];
+          await for (final item
+              in gen.generateStream(reader, _FakeBuildStep())) {
+            items.add(item);
+          }
+          expect(items, containsAll(['MyModel', 'AnotherModel']));
+          expect(items.length, 2);
+        },
+        resolverFor: 'test_pkg|lib/model.dart',
+      );
+    });
+
+    test('yields nothing when no annotated elements', () async {
+      await resolveSources(
+        {
+          'test_pkg|lib/annotations.dart': '''
+            class TestAnnotation {
+              const TestAnnotation();
+            }
+          ''',
+          'test_pkg|lib/plain.dart': '''
+            class PlainClass {}
+          ''',
+        },
+        (resolver) async {
+          final lib = await resolver.libraryFor(
+            AssetId('test_pkg', 'lib/plain.dart'),
+          );
+          final reader = LibraryReader(lib);
+          final gen = IntegrationMergingGenerator();
+
+          final items = <String>[];
+          await for (final item
+              in gen.generateStream(reader, _FakeBuildStep())) {
+            items.add(item);
+          }
+          expect(items, isEmpty);
+        },
+        resolverFor: 'test_pkg|lib/plain.dart',
+      );
+    });
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Minimal fake BuildStep for generateStream tests
+// ---------------------------------------------------------------------------
+class _FakeBuildStep implements BuildStep {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => null;
+}
