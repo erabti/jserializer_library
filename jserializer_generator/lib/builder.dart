@@ -50,5 +50,6 @@ JSerializable _getJSerializable(Map<String, dynamic> json) {
     filterToJsonNulls: json['filterToJsonNulls'] ?? false,
     fieldNameCase: fieldNameCase,
     ignoreAll: (json['ignoreAll'] as List?)?.cast<String>(),
+    safeLookup: json['safeLookup'] as bool?,
   );
 }

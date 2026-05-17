@@ -11,6 +11,7 @@ dependencies:
   type_plus:
     git:
       url: https://github.com/erabti/jserializer_library.git
+      ref: perf/serialization-optimization
       path: type_plus/
 
 dev_dependencies:

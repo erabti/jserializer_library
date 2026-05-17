@@ -29,7 +29,8 @@ const jSerializerInterfaceRefer = Reference(
   jSerializerImport,
 );
 
-const jSerializableChecker = TypeChecker.fromRuntime(JSerializable);
+const jSerializableChecker =
+    TypeChecker.fromUrl('package:jserializer/src/core/annotations/jserializable.dart#JSerializable');
 
 Reference get jsonTypeRefer => mapRefer(refer('String'), refer('dynamic'));
 
@@ -75,7 +76,7 @@ class SerializerClassGenerator extends ElementGenerator<Class> {
 
   final ModelConfig modelConfig;
 
-  String get className => classElement.name;
+  String get className => classElement.name!;
 
   Reader<ClassBuilder, ClassBuilder> appendSuffix() => Reader(
         (ClassBuilder b) => b..name = className + modelSerializerSuffix,

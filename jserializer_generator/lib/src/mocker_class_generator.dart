@@ -23,7 +23,7 @@ class MockerClassGenerator extends ElementGenerator<Class> {
 
   InterfaceElement get classElement => modelConfig.classElement;
 
-  String get className => classElement.name;
+  String get className => classElement.name!;
 
   Reader<ClassBuilder, ClassBuilder> setClassName() => Reader(
         (ClassBuilder b) => b..name = '${className}Mocker',

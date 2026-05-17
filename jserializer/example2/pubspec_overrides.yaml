@@ -1,3 +1,7 @@
 dependency_overrides:
   jserializer:
     path: ../../jserializer
+  jserializer_generator:
+    path: ../../jserializer_generator
+  merging_builder:
+    path: ../../merging_builder

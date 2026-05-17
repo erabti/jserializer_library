@@ -51,7 +51,7 @@ class ToJsonGenerator {
 
     if (f.hasCustomAdapters) {
       return MapEntry(key, _addAdaptersIfNeeded(f, exp));
-    } else if (!f.fieldType.isPrimitive) {
+    } else if (!f.fieldType.isPrimitive && !f.fieldType.isPrimitiveNestedMapOrList) {
       final jSerializerCall =
           refer('jSerializer').property('toJson').call([exp]).code;
       return MapEntry(key, jSerializerCall);
