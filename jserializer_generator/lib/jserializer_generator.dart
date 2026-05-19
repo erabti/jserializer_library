@@ -1,1 +1,1 @@
-library jserializer_generator;
+// jserializer_generator library
