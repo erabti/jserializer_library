@@ -20,13 +20,13 @@ dependencies:
   path: ^1.9.0
   jserializer:
     git:
-      url: https://github.com/erabti/jserializer_library.git
-      ref: main
+      url: https://github.com/abdalraheemKshinba/jserializer_library.git
+      ref: feat/migrate-to-dart-3.7-analyzer-9
       path: jserializer/
   merging_builder:
     git:
-      url: https://github.com/erabti/jserializer_library.git
-      ref: main
+      url: https://github.com/abdalraheemKshinba/jserializer_library.git
+      ref: feat/migrate-to-dart-3.7-analyzer-9
       path: merging_builder/
 
 dev_dependencies:
