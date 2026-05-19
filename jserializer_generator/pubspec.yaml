@@ -21,12 +21,12 @@ dependencies:
   jserializer:
     git:
       url: https://github.com/abdalraheemKshinba/jserializer_library.git
-      ref: feat/migrate-to-dart-3.7-analyzer-9
+      ref: fix/wasm-function-type-compatibility
       path: jserializer/
   merging_builder:
     git:
       url: https://github.com/abdalraheemKshinba/jserializer_library.git
-      ref: feat/migrate-to-dart-3.7-analyzer-9
+      ref: fix/wasm-function-type-compatibility
       path: merging_builder/
 
 dev_dependencies:
