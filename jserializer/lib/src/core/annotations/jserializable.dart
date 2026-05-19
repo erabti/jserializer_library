@@ -9,11 +9,9 @@ class JSerializable implements JSerializableBase {
     this.filterToJsonNulls,
     this.fieldNameCase,
     this.ignoreAll,
-    this.safeLookup,
   });
 
   final FieldNameCase? fieldNameCase;
   final bool? filterToJsonNulls;
   final List<String>? ignoreAll;
-  final bool? safeLookup;
 }

@@ -76,119 +76,6 @@ class FromJsonGenerator {
           refer('json'),
         ]);
       }
-    } else if (field.paramType.isPrimitive) {
-      final isNullable = hasDefaultValue || field.paramType.isNullable;
-      final typeName = field.paramType.name;
-
-      if (typeName == 'int') {
-        final numRef = TypeReference(
-            (b) => b
-              ..symbol = 'num'
-              ..isNullable = isNullable);
-        if (isNullable) {
-          exp = exp.asA(numRef).nullSafeProperty('toInt').call([]);
-        } else {
-          exp = exp.asA(numRef).property('toInt').call([]);
-        }
-      } else if (typeName == 'double') {
-        final numRef = TypeReference(
-            (b) => b
-              ..symbol = 'num'
-              ..isNullable = isNullable);
-        if (isNullable) {
-          exp = exp.asA(numRef).nullSafeProperty('toDouble').call([]);
-        } else {
-          exp = exp.asA(numRef).property('toDouble').call([]);
-        }
-      } else if (typeName != 'dynamic') {
-        // String, bool, num - direct cast
-        final typeRef = TypeReference(
-            (b) => b
-              ..symbol = typeName
-              ..isNullable = isNullable);
-        exp = exp.asA(typeRef);
-      }
-      // dynamic: no cast needed, exp is already json['key']
-    } else if (field.paramType.isPrimitiveList) {
-      final isNullable = hasDefaultValue || field.paramType.isNullable;
-      final innerType = field.paramType.typeArguments.first;
-      final listRef = TypeReference(
-          (b) => b
-            ..symbol = 'List'
-            ..isNullable = isNullable);
-      if (isNullable) {
-        exp = exp
-            .asA(listRef)
-            .nullSafeProperty('cast')
-            .call([], {}, [refer(innerType.name)]);
-      } else {
-        exp = exp
-            .asA(listRef)
-            .property('cast')
-            .call([], {}, [refer(innerType.name)]);
-      }
-    } else if (field.paramType.isList) {
-      final elementType = field.paramType.typeArguments.first;
-      final isNullable = hasDefaultValue || field.paramType.isNullable;
-      final listRef = TypeReference(
-          (b) => b
-            ..symbol = 'List'
-            ..isNullable = isNullable);
-      final mapCallback = Method(
-        (b) => b
-          ..lambda = true
-          ..requiredParameters.add(Parameter((b) => b..name = 'e'))
-          ..body = refer('jSerializer').property('fromJson').call(
-            [refer('e')],
-            {},
-            [elementType.refer],
-          ).code,
-      ).closure;
-      if (isNullable) {
-        exp = exp
-            .asA(listRef)
-            .nullSafeProperty('map')
-            .call([mapCallback])
-            .property('toList')
-            .call([]);
-      } else {
-        exp = exp
-            .asA(listRef)
-            .property('map')
-            .call([mapCallback])
-            .property('toList')
-            .call([]);
-      }
-    } else if (field.paramType.isMap &&
-        !field.paramType.isPrimitiveNestedMapOrList) {
-      final keyType = field.paramType.typeArguments[0];
-      final valueType = field.paramType.typeArguments[1];
-      final isNullable = hasDefaultValue || field.paramType.isNullable;
-      final mapRef = TypeReference(
-          (b) => b
-            ..symbol = 'Map'
-            ..isNullable = isNullable);
-      final mapCallback = Method(
-        (b) => b
-          ..lambda = true
-          ..requiredParameters.addAll([
-            Parameter((b) => b..name = 'k'),
-            Parameter((b) => b..name = 'v'),
-          ])
-          ..body = refer('MapEntry').call([
-            refer('k').asA(keyType.refer),
-            refer('jSerializer').property('fromJson').call(
-              [refer('v')],
-              {},
-              [valueType.refer],
-            ),
-          ]).code,
-      ).closure;
-      if (isNullable) {
-        exp = exp.asA(mapRef).nullSafeProperty('map').call([mapCallback]);
-      } else {
-        exp = exp.asA(mapRef).property('map').call([mapCallback]);
-      }
     } else {
       exp = refer('jSerializer').property('fromJson').call(
         [exp],
@@ -207,22 +94,20 @@ class FromJsonGenerator {
       exp = exp.ifNullThen(defaultValueCode);
     }
 
-    if (config.safeLookup != false) {
-      exp = refer('safeLookup').call(
-        [],
-        {
-          'call': Method(
-            (b) => b
-              ..lambda = true
-              ..body = exp.code,
-          ).closure,
-          'jsonKey': literalString(field.jsonKey),
-          if (field.jsonKey != field.fieldName)
-            'fieldName': literalString(field.fieldName),
-        },
-        [typeRefer],
-      );
-    }
+    exp = refer('safeLookup').call(
+      [],
+      {
+        'call': Method(
+          (b) => b
+            ..lambda = true
+            ..body = exp.code,
+        ).closure,
+        'jsonKey': literalString(field.jsonKey),
+        if (field.jsonKey != field.fieldName)
+          'fieldName': literalString(field.fieldName),
+      },
+      [typeRefer],
+    );
 
     return declareFinal(field.fieldNameValueSuffixed).assign(exp).statement;
   }

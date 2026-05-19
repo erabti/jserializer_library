@@ -1,4 +1,0 @@
-dependency_overrides:
-  type_plus:
-    path: ../type_plus
-  watcher: ^1.2.0

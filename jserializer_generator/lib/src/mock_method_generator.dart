@@ -109,7 +109,7 @@ class MockMethodGenerator {
                       .call(
                         [
                           refer('context'),
-                          refer(modelConfig.classElement.name!)
+                          refer(modelConfig.classElement.name)
                               .property('values'),
                         ],
                       )
@@ -190,10 +190,6 @@ class MockMethodGenerator {
       ],
     );
 
-    // Only emit prevLevel/currentLevel when at least one field uses subMock.
-    final needsLevelVars = fields.any((f) =>
-        f.customMockers.isEmpty && f.keyConfig.mockValueCode == null);
-
     final prevLevelCode =
         refer('context?').property('currentDepthLevel').ifNullThen(refer('0'));
     final prevLevelStmt =
@@ -210,10 +206,8 @@ class MockMethodGenerator {
           ..body = Block(
             (b) => b.statements.addAll(
               [
-                if (needsLevelVars) ...[
-                  prevLevelStmt,
-                  currentLevelStmt,
-                ],
+                prevLevelStmt,
+                currentLevelStmt,
                 ...statements,
                 returnedModel.returned.statement,
               ],
