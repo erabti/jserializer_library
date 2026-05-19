@@ -9,24 +9,24 @@ import 'package:source_gen/source_gen.dart';
 
 extension DartTypeJSerializerX on DartType {
   String getDisplayStringWithoutNullability() {
-    final displayString = getDisplayString(withNullability: true);
+    final ds = getDisplayString();
 
-    return displayString.replaceAll('?', '');
+    return ds.replaceAll('?', '');
   }
 }
 
 extension InterfaceElementX on InterfaceElement {
-  PropertyAccessorElement? safeLookupGetter({
+  GetterElement? safeLookupGetter({
     required String name,
     required LibraryElement library,
   }) {
-    return lookUpGetter(name, library);
+    return lookUpGetter(name: name, library: library);
   }
 
   String getDisplayStringWithoutNullability() {
-    final displayString = getDisplayString(withNullability: true);
+    final ds = displayString();
 
-    return displayString.replaceAll('?', '');
+    return ds.replaceAll('?', '');
   }
 }
 
@@ -48,11 +48,11 @@ InterfaceType? getMatchingSuperType({
 List<CustomAdapterConfig> getParamAdapters({
   required InterfaceElement parentClass,
   required TypeChecker typeChecker,
-  required ParameterElement param,
+  required FormalParameterElement param,
   required TypeResolver typeResolver,
   required String parentAdapterClassName,
 }) {
-  return param.metadata
+  return param.metadata.annotations
       .map((element) => element.computeConstantValue())
       .where(
         (element) =>
