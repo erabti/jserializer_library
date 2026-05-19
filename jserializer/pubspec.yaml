@@ -1,20 +1,19 @@
 name: jserializer
 description: A starting point for Dart libraries or applications.
-version: 1.0.0
+version: 1.1.0
 publish_to: none
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
-  meta: '>=1.0.0 <2.0.0'
+  meta: ^1.15.0
   type_plus:
     git:
       url: https://github.com/erabti/jserializer_library.git
+      ref: main
       path: type_plus/
 
 dev_dependencies:
-  lints: ^3.0.0
-  test: ^1.25.1
-
-
+  lints: ^5.0.0
+  test: ^1.25.0
