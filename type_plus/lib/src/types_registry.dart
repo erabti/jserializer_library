@@ -6,33 +6,33 @@ import 'type_plus.dart';
 import 'unresolved_type.dart';
 import 'utils.dart';
 
-Function ff<T>() => (f) => f<T>();
+Function ff<T>() => (dynamic Function<X>() f) => f<T>();
 
 MapEntry<String, Iterable<Function>?> fd(String id, [Iterable<Function>? st]) => MapEntry(id, st);
 final ffObj = ff<Object>();
 
 final _sdkTypes = <(Function, String, Iterable<Function>?)>{
-  ((f) => f<dynamic>(), 'dynamic', null),
-  ((f) => f<void>(), 'void', null),
-  ((f) => f<Null>(), 'Null', null),
-  ((f) => f<Object>(), 'Object', null),
-  ((f) => f<bool>(), 'bool', {ffObj}),
-  (<T>(f) => f<Comparable<T>>(), 'Comparable', {ffObj}),
-  ((f) => f<num>(), 'num', {ff<Comparable<num>>()}),
-  ((f) => f<int>(), 'int', {ff<num>()}),
-  ((f) => f<double>(), 'double', {ff<num>()}),
-  ((f) => f<Pattern>(), 'Pattern', {ffObj}),
-  ((f) => f<String>(), 'String', {ff<Comparable<String>>(), ff<Pattern>()}),
-  (<T>(f) => f<Iterable<T>>(), 'Iterable', {ffObj}),
-  (<T>(f) => f<List<T>>(), 'List', {<T>(f) => f<Iterable<T>>()}),
-  (<T>(f) => f<Set<T>>(), 'Set', {<T>(f) => f<Iterable<T>>()}),
-  (<K, V>(f) => f<Map<K, V>>(), 'Map', {ffObj}),
-  ((f) => f<DateTime>(), 'DateTime', {ff<Comparable<DateTime>>()}),
-  ((f) => f<Type>(), 'Type', {ffObj}),
-  ((f) => f<Runes>(), 'Runes', {ff<Iterable<int>>()}),
-  ((f) => f<Symbol>(), 'Symbol', {ffObj}),
-  (<T>(f) => f<Future<T>>(), 'Future', {ffObj}),
-  (<T>(f) => f<Stream<T>>(), 'Stream', {ffObj}),
+  ((dynamic Function<X>() f) => f<dynamic>(), 'dynamic', null),
+  ((dynamic Function<X>() f) => f<void>(), 'void', null),
+  ((dynamic Function<X>() f) => f<Null>(), 'Null', null),
+  ((dynamic Function<X>() f) => f<Object>(), 'Object', null),
+  ((dynamic Function<X>() f) => f<bool>(), 'bool', {ffObj}),
+  (<T>(dynamic Function<X>() f) => f<Comparable<T>>(), 'Comparable', {ffObj}),
+  ((dynamic Function<X>() f) => f<num>(), 'num', {ff<Comparable<num>>()}),
+  ((dynamic Function<X>() f) => f<int>(), 'int', {ff<num>()}),
+  ((dynamic Function<X>() f) => f<double>(), 'double', {ff<num>()}),
+  ((dynamic Function<X>() f) => f<Pattern>(), 'Pattern', {ffObj}),
+  ((dynamic Function<X>() f) => f<String>(), 'String', {ff<Comparable<String>>(), ff<Pattern>()}),
+  (<T>(dynamic Function<X>() f) => f<Iterable<T>>(), 'Iterable', {ffObj}),
+  (<T>(dynamic Function<X>() f) => f<List<T>>(), 'List', {<T>(dynamic Function<X>() f) => f<Iterable<T>>()}),
+  (<T>(dynamic Function<X>() f) => f<Set<T>>(), 'Set', {<T>(dynamic Function<X>() f) => f<Iterable<T>>()}),
+  (<K, V>(dynamic Function<X>() f) => f<Map<K, V>>(), 'Map', {ffObj}),
+  ((dynamic Function<X>() f) => f<DateTime>(), 'DateTime', {ff<Comparable<DateTime>>()}),
+  ((dynamic Function<X>() f) => f<Type>(), 'Type', {ffObj}),
+  ((dynamic Function<X>() f) => f<Runes>(), 'Runes', {ff<Iterable<int>>()}),
+  ((dynamic Function<X>() f) => f<Symbol>(), 'Symbol', {ffObj}),
+  (<T>(dynamic Function<X>() f) => f<Future<T>>(), 'Future', {ffObj}),
+  (<T>(dynamic Function<X>() f) => f<Stream<T>>(), 'Stream', {ffObj}),
 };
 
 class TypeRegistry {

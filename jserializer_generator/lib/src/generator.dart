@@ -287,7 +287,7 @@ class JSerializerGenerator
             Parameter(
               (b) => b
                 ..name = 'f'
-                ..type = refer('Function'),
+                ..type = refer('dynamic Function<X>()'),
             ),
           )
           ..body = refer('f').call([], {}, [typeRefer.refer]).code,
